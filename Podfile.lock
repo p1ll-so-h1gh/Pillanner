@@ -694,6 +694,7 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 7.8)
     - PromisesObjC (~> 2.1)
   - FirebaseSharedSwift (10.20.0)
+  - FSCalendar (2.8.4)
   - GoogleAppMeasurement (10.20.0):
     - GoogleAppMeasurement/AdIdSupport (= 10.20.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
@@ -822,6 +823,7 @@ DEPENDENCIES:
   - FirebaseAnalytics
   - FirebaseAuth
   - FirebaseFirestore
+  - FSCalendar
   - KakaoSDKAuth
   - KakaoSDKCommon
   - KakaoSDKUser
@@ -843,6 +845,7 @@ SPEC REPOS:
     - FirebaseFirestoreInternal
     - FirebaseInstallations
     - FirebaseSharedSwift
+    - FSCalendar
     - GoogleAppMeasurement
     - GoogleUtilities
     - "gRPC-C++"
@@ -872,6 +875,7 @@ SPEC CHECKSUMS:
   FirebaseFirestoreInternal: 0dc0762afd68192e9d45c31d3dd3017accc84333
   FirebaseInstallations: 558b1da7d65afeb996fd5c814332f013234ece4e
   FirebaseSharedSwift: 2fbf73618288b7a36b2014b957745dcdd781389e
+  FSCalendar: 2d1d0d9398f12d439f55c1fe0f01525b151b8260
   GoogleAppMeasurement: bb3c564c3efb933136af0e94899e0a46167466a8
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
   "gRPC-C++": 2df8cba576898bdacd29f0266d5236fa0e26ba6a
@@ -887,6 +891,6 @@ SPEC CHECKSUMS:
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: ba8b164048fe82fc77819b4deb80d0e4759b7a20
+PODFILE CHECKSUM: 3a70a670ea14182707268973105f01b21bdbbc81
 
-COCOAPODS: 1.15.0
+COCOAPODS: 1.15.2
