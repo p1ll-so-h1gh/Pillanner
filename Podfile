@@ -21,4 +21,7 @@ target 'Pillanner' do
     pod 'FirebaseFirestore'
     pod 'FirebaseAnalytics'
 
+    # 캘린더
+    pod 'FSCalendar'
+
 end
