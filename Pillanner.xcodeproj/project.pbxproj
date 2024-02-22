@@ -13,6 +13,10 @@
 		14D2BE6D2B84BBC20006AC51 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14D2BE6C2B84BBC20006AC51 /* Assets.xcassets */; };
 		14D2BE702B84BBC20006AC51 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14D2BE6E2B84BBC20006AC51 /* LaunchScreen.storyboard */; };
 		14D2BE7B2B8590850006AC51 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 14D2BE7A2B8590850006AC51 /* GoogleService-Info.plist */; };
+		14F2CFB72B87080E007F354B /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFB62B87080E007F354B /* CalendarViewController.swift */; };
+		14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFB82B870818007F354B /* UserMainViewController.swift */; };
+		14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */; };
+		14F2CFBD2B870831007F354B /* JoinUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFBC2B870831007F354B /* JoinUsViewController.swift */; };
 		D89BA70951FE74151DA6B42A /* Pods_Pillanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0878527364AB19D1C036D5A /* Pods_Pillanner.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +29,10 @@
 		14D2BE6F2B84BBC20006AC51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		14D2BE712B84BBC20006AC51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14D2BE7A2B8590850006AC51 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		14F2CFB62B87080E007F354B /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		14F2CFB82B870818007F354B /* UserMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMainViewController.swift; sourceTree = "<group>"; };
+		14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSetUpViewController.swift; sourceTree = "<group>"; };
+		14F2CFBC2B870831007F354B /* JoinUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinUsViewController.swift; sourceTree = "<group>"; };
 		5666B8C6C8509F8BC8E3A8EF /* Pods-Pillanner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pillanner.debug.xcconfig"; path = "Target Support Files/Pods-Pillanner/Pods-Pillanner.debug.xcconfig"; sourceTree = "<group>"; };
 		A0878527364AB19D1C036D5A /* Pods_Pillanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pillanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1A1F1389F757BF0D11A8C59 /* Pods-Pillanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pillanner.release.xcconfig"; path = "Target Support Files/Pods-Pillanner/Pods-Pillanner.release.xcconfig"; sourceTree = "<group>"; };
@@ -89,6 +97,7 @@
 		14D2BE772B84C2C10006AC51 /* JoinUs */ = {
 			isa = PBXGroup;
 			children = (
+				14F2CFBC2B870831007F354B /* JoinUsViewController.swift */,
 			);
 			path = JoinUs;
 			sourceTree = "<group>";
@@ -96,6 +105,7 @@
 		14D2BE782B84C2C40006AC51 /* InitialSetUp */ = {
 			isa = PBXGroup;
 			children = (
+				14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */,
 			);
 			path = InitialSetUp;
 			sourceTree = "<group>";
@@ -111,6 +121,7 @@
 		14F2CFB42B86E011007F354B /* UserMain */ = {
 			isa = PBXGroup;
 			children = (
+				14F2CFB82B870818007F354B /* UserMainViewController.swift */,
 			);
 			path = UserMain;
 			sourceTree = "<group>";
@@ -118,6 +129,7 @@
 		14F2CFB52B86E053007F354B /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
+				14F2CFB62B87080E007F354B /* CalendarViewController.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -246,9 +258,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14F2CFB72B87080E007F354B /* CalendarViewController.swift in Sources */,
+				14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */,
 				14D2BE612B84BBBF0006AC51 /* AppDelegate.swift in Sources */,
 				14D2BE632B84BBBF0006AC51 /* SceneDelegate.swift in Sources */,
+				14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */,
 				14D2BE6B2B84BBBF0006AC51 /* Pillanner.xcdatamodeld in Sources */,
+				14F2CFBD2B870831007F354B /* JoinUsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
