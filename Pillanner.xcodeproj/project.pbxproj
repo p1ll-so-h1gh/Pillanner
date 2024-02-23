@@ -120,7 +120,6 @@
 			children = (
 				14D2BE5F2B84BBBF0006AC51 /* Pillanner */,
 				14D2BE5E2B84BBBF0006AC51 /* Products */,
-				D6C6D0526737555CA12FAF83 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -188,13 +187,6 @@
 				14F2CFB62B87080E007F354B /* CalendarViewController.swift */,
 			);
 			path = Calendar;
-			sourceTree = "<group>";
-		};
-		D6C6D0526737555CA12FAF83 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
