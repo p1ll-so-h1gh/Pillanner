@@ -10,7 +10,7 @@ import SnapKit
 class LaunchScreenViewController: UIViewController {
     private let sidePaddingValue = 20
     private let paddingBetweenComponents = 30
-    lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(in: view.bounds)
+    lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
     private let pillannerFlagImage: UIImageView = {
         let image = UIImageView(image: UIImage(named: "PillannerFlag"))
         return image

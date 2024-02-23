@@ -49,7 +49,6 @@
 		14D2BE6B2B84BBBF0006AC51 /* Pillanner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 14D2BE692B84BBBF0006AC51 /* Pillanner.xcdatamodeld */; };
 		14D2BE6D2B84BBC20006AC51 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14D2BE6C2B84BBC20006AC51 /* Assets.xcassets */; };
 		14D2BE702B84BBC20006AC51 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14D2BE6E2B84BBC20006AC51 /* LaunchScreen.storyboard */; };
-		14D2BE7B2B8590850006AC51 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 14D2BE7A2B8590850006AC51 /* GoogleService-Info.plist */; };
 		14F2CFB72B87080E007F354B /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFB62B87080E007F354B /* CalendarViewController.swift */; };
 		14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFB82B870818007F354B /* UserMainViewController.swift */; };
 		14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */; };
@@ -69,7 +68,6 @@
 		14D2BE6C2B84BBC20006AC51 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		14D2BE6F2B84BBC20006AC51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		14D2BE712B84BBC20006AC51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		14D2BE7A2B8590850006AC51 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		14F2CFB62B87080E007F354B /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		14F2CFB82B870818007F354B /* UserMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMainViewController.swift; sourceTree = "<group>"; };
 		14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSetUpViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +77,7 @@
 		C40136A72B887DA200577C17 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C40136A92B887DBA00577C17 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		C40136AB2B887DE100577C17 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
+		C40136AF2B88998100577C17 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,7 +158,7 @@
 				14D2BE6C2B84BBC20006AC51 /* Assets.xcassets */,
 				14D2BE6E2B84BBC20006AC51 /* LaunchScreen.storyboard */,
 				14D2BE712B84BBC20006AC51 /* Info.plist */,
-				14D2BE7A2B8590850006AC51 /* GoogleService-Info.plist */,
+				C40136AF2B88998100577C17 /* GoogleService-Info.plist */,
 			);
 			path = Pillanner;
 			sourceTree = "<group>";
@@ -322,7 +321,6 @@
 			files = (
 				14D2BE702B84BBC20006AC51 /* LaunchScreen.storyboard in Resources */,
 				14D2BE6D2B84BBC20006AC51 /* Assets.xcassets in Resources */,
-				14D2BE7B2B8590850006AC51 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,6 +498,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.p1llsoh1gh.Pillanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -527,6 +526,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.p1llsoh1gh.Pillanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
