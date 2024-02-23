@@ -54,6 +54,11 @@
 		14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFB82B870818007F354B /* UserMainViewController.swift */; };
 		14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */; };
 		14F2CFBD2B870831007F354B /* JoinUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFBC2B870831007F354B /* JoinUsViewController.swift */; };
+		C40136A42B887D4500577C17 /* CAGradientLayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A32B887D4500577C17 /* CAGradientLayer+Extension.swift */; };
+		C40136A62B887D6100577C17 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A52B887D6100577C17 /* UIColor+Extension.swift */; };
+		C40136A82B887DA200577C17 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A72B887DA200577C17 /* UIFont+Extension.swift */; };
+		C40136AA2B887DBA00577C17 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A92B887DBA00577C17 /* CALayer+Extension.swift */; };
+		C40136AC2B887DE100577C17 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136AB2B887DE100577C17 /* LaunchScreenViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +74,11 @@
 		14F2CFB82B870818007F354B /* UserMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMainViewController.swift; sourceTree = "<group>"; };
 		14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSetUpViewController.swift; sourceTree = "<group>"; };
 		14F2CFBC2B870831007F354B /* JoinUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinUsViewController.swift; sourceTree = "<group>"; };
+		C40136A32B887D4500577C17 /* CAGradientLayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Extension.swift"; sourceTree = "<group>"; };
+		C40136A52B887D6100577C17 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		C40136A72B887DA200577C17 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		C40136A92B887DBA00577C17 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
+		C40136AB2B887DE100577C17 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,7 +134,6 @@
 			children = (
 				14D2BE5F2B84BBBF0006AC51 /* Pillanner */,
 				14D2BE5E2B84BBBF0006AC51 /* Products */,
-				D6C6D0526737555CA12FAF83 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -139,6 +148,7 @@
 		14D2BE5F2B84BBBF0006AC51 /* Pillanner */ = {
 			isa = PBXGroup;
 			children = (
+				C40136A22B887D2400577C17 /* Extension */,
 				14F2CFB52B86E053007F354B /* Calendar */,
 				14F2CFB42B86E011007F354B /* UserMain */,
 				14D2BE792B84C2C60006AC51 /* Model */,
@@ -158,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				14F2CFBC2B870831007F354B /* JoinUsViewController.swift */,
+				C40136AB2B887DE100577C17 /* LaunchScreenViewController.swift */,
 			);
 			path = JoinUs;
 			sourceTree = "<group>";
@@ -194,11 +205,15 @@
 			path = Calendar;
 			sourceTree = "<group>";
 		};
-		D6C6D0526737555CA12FAF83 /* Pods */ = {
+		C40136A22B887D2400577C17 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				C40136A32B887D4500577C17 /* CAGradientLayer+Extension.swift */,
+				C40136A52B887D6100577C17 /* UIColor+Extension.swift */,
+				C40136A72B887DA200577C17 /* UIFont+Extension.swift */,
+				C40136A92B887DBA00577C17 /* CALayer+Extension.swift */,
 			);
-			path = Pods;
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -319,11 +334,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				14F2CFB72B87080E007F354B /* CalendarViewController.swift in Sources */,
+				C40136A42B887D4500577C17 /* CAGradientLayer+Extension.swift in Sources */,
 				14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */,
+				C40136A62B887D6100577C17 /* UIColor+Extension.swift in Sources */,
 				14D2BE612B84BBBF0006AC51 /* AppDelegate.swift in Sources */,
 				14D2BE632B84BBBF0006AC51 /* SceneDelegate.swift in Sources */,
 				14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */,
 				14D2BE6B2B84BBBF0006AC51 /* Pillanner.xcdatamodeld in Sources */,
+				C40136A82B887DA200577C17 /* UIFont+Extension.swift in Sources */,
+				C40136AA2B887DBA00577C17 /* CALayer+Extension.swift in Sources */,
+				C40136AC2B887DE100577C17 /* LaunchScreenViewController.swift in Sources */,
 				14F2CFBD2B870831007F354B /* JoinUsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
