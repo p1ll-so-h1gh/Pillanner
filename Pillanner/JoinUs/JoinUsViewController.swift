@@ -110,12 +110,70 @@ class JoinUsViewController: UIViewController {
         return label
     }()
     
+    private let PhoneCertTextField: UITextField = {
+        let textfield = UITextField()
+        textfield.placeholder = "전화번호를 입력해주세요."
+        return textfield
+    }()
     
-    private let CertNumberLabel: UILabel = {
-        let label = UILabel()
-        label.text = "인증번호"
-        label.font = FontLiteral.body(style: .regular)
-        return label
+    private let PhoneCertTextFieldUnderLine: UIProgressView = {
+        let line = UIProgressView(progressViewStyle: .bar)
+        line.trackTintColor = .lightGray
+        line.progressTintColor = .green
+        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
+        return line
+    }()
+    
+    private let GetCertNumberButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("인증번호 받기", for: .normal) // 재전송
+        button.setTitleColor(UIColor.lightGray, for: .normal)
+        button.backgroundColor = .mainThemeColor
+        button.layer.cornerRadius = 5
+        return button
+    }()
+    
+    private let CertUIView: UIView = {
+        let uiView = UIView()
+        uiView.layer.cornerRadius = 5
+        uiView.layer.borderColor = UIColor.lightGray.cgColor
+        uiView.layer.borderWidth = 1
+        return uiView
+    }()
+
+    private let CertContentStackView: UIStackView = {
+        let stackView = UIStackView()
+        return stackView
+    }()
+    
+    private let CertNumberTextField: UITextField = {
+        let textfield = UITextField()
+        textfield.placeholder = "인증번호 6자리 입력"
+        return textfield
+    }()
+    
+    private let CertNumberDeleteButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "xmark"), for: .normal)
+        return button
+    }()
+    
+    private let ReGetCertNumberButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("확인", for: .normal)
+        button.setTitleColor(UIColor.lightGray, for: .normal)
+        button.backgroundColor = .mainThemeColor
+        button.layer.cornerRadius = 5
+        return button
+    }()
+    
+    private let NextPageButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("다음", for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.backgroundColor = .mainThemeColor
+        button.layer.cornerRadius = 5
+        return button
     }()
 
     override func viewDidLoad() {
@@ -141,7 +199,15 @@ class JoinUsViewController: UIViewController {
         view.addSubview(PassWordReTextField)
         view.addSubview(PassWordReTextFieldUnderLine)
         view.addSubview(PhoneCertLabel)
-        view.addSubview(CertNumberLabel)
+        view.addSubview(PhoneCertTextField)
+        view.addSubview(PhoneCertTextFieldUnderLine)
+        view.addSubview(GetCertNumberButton)
+        CertUIView.addSubview(CertContentStackView)
+        CertContentStackView.addArrangedSubview(CertNumberTextField)
+        CertContentStackView.addArrangedSubview(CertNumberDeleteButton)
+        CertContentStackView.addArrangedSubview(ReGetCertNumberButton)
+        view.addSubview(CertUIView)
+        view.addSubview(NextPageButton)
     }
     
     private func setUpConstraint() {
@@ -165,7 +231,7 @@ class JoinUsViewController: UIViewController {
             $0.width.equalTo(IDTextField.snp.width)
         })
         NameLabel.snp.makeConstraints({
-            $0.top.equalTo(IDTextField.snp.bottom).offset(100)
+            $0.top.equalTo(IDTextField.snp.bottom).offset(20)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(24)
         })
         NameTextField.snp.makeConstraints({
@@ -210,13 +276,44 @@ class JoinUsViewController: UIViewController {
             $0.top.equalTo(PassWordReTextFieldUnderLine.snp.bottom).offset(20)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(24)
         })
-        CertNumberLabel.snp.makeConstraints({
-            $0.top.equalTo(PhoneCertLabel.snp.bottom).offset(20)
+        PhoneCertTextField.snp.makeConstraints({
+            $0.top.equalTo(PhoneCertLabel.snp.bottom).offset(5)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(24)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-24)
+        })
+        PhoneCertTextFieldUnderLine.snp.makeConstraints({
+            $0.top.equalTo(PhoneCertTextField.snp.bottom).offset(5)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(24)
+            $0.width.equalTo(IDTextField.snp.width)
+        })
+        GetCertNumberButton.snp.makeConstraints({
+            $0.centerY.equalTo(PhoneCertTextField.snp.centerY)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-24)
+            $0.width.equalTo(100)
+        })
+        CertUIView.snp.makeConstraints({
+            $0.top.equalTo(PhoneCertTextFieldUnderLine.snp.bottom).offset(20)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(24)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-24)
+        })
+        CertNumberDeleteButton.snp.makeConstraints({
+            $0.width.equalTo(30)
+            $0.height.equalTo(30)
+        })
+        ReGetCertNumberButton.snp.makeConstraints({
+            $0.width.equalTo(50)
+        })
+        CertContentStackView.snp.makeConstraints({
+            $0.top.equalToSuperview().offset(5)
+            $0.left.equalToSuperview().offset(5)
+            $0.right.equalToSuperview().offset(-5)
+            $0.bottom.equalToSuperview().offset(-5)
+        })
+        NextPageButton.snp.makeConstraints({
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(24)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-24)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
+            $0.height.equalTo(50)
         })
     }
-}
-
-extension JoinUsViewController {
-
 }
