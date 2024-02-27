@@ -9,9 +9,11 @@ import UIKit
 import SnapKit
 
 class JoinUsViewController: UIViewController, UITextFieldDelegate {
-    let IDList: [String] = ["ykyo"] // ID 중복확인 테스트용 리스트
+    let myDB = UserData()
     
     var myPhoneNumber: String = ""
+    var availableIDFlag: Bool = false // 아이디 중복체크 결과를 저장하는 변수 true : 사용 가능, false : 사용 불가능
+    
     private let sidePaddingValue = 24
     private let topPaddingValue = 30
     
@@ -59,7 +61,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return label
     }()
     
-    private let NameTextField: UITextField = {
+    let NameTextField: UITextField = {
         let textfield = UITextField()
         textfield.placeholder = "이름을 입력해주세요."
         textfield.font = FontLiteral.subheadline(style: .regular)
@@ -81,11 +83,19 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return label
     }()
     
-    private let PassWordTextField: UITextField = {
+    let PassWordTextField: UITextField = {
         let textfield = UITextField()
-        textfield.placeholder = "8-30 자리 영 대/소문자, 숫자, 특수문자 조합"
+        textfield.isSecureTextEntry = true
+        textfield.placeholder = "8-16 자리 영 대/소문자, 숫자, 특수문자 조합"
         textfield.font = FontLiteral.subheadline(style: .regular)
         return textfield
+    }()
+    
+    let PassWordToggleButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "eyeOpen"), for: .normal)
+        button.addTarget(target, action: #selector(PassWordToggleButtonClicked), for: .touchUpInside)
+        return button
     }()
     
     private let PassWordTextFieldUnderLine: UIProgressView = {
@@ -103,11 +113,19 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return label
     }()
     
-    private let PassWordReTextField: UITextField = {
+    let PassWordReTextField: UITextField = {
         let textfield = UITextField()
-        textfield.placeholder = "8-30 자리 영 대/소문자, 숫자, 특수문자 조합"
+        textfield.isSecureTextEntry = true
+        textfield.placeholder = "8-16 자리 영 대/소문자, 숫자, 특수문자 조합"
         textfield.font = FontLiteral.subheadline(style: .regular)
         return textfield
+    }()
+    
+    let PassWordReToggleButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "eyeOpen"), for: .normal)
+        button.addTarget(target, action: #selector(PassWordReToggleButtonClicked), for: .touchUpInside)
+        return button
     }()
     
     private let PassWordReTextFieldUnderLine: UIProgressView = {
@@ -116,6 +134,11 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         line.progressTintColor = .systemBlue
         line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
         return line
+    }()
+    
+    let PassWordCorrectLabel: UILabel = {
+        let label = UILabel()
+        return label
     }()
     
     private let PhoneCertLabel: UILabel = {
@@ -191,6 +214,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         button.setTitleColor(UIColor.black, for: .normal)
         button.backgroundColor = .mainThemeColor
         button.layer.cornerRadius = 5
+        button.addTarget(target, action: #selector(NextPageButtonClicked), for: .touchUpInside)
         return button
     }()
 
@@ -198,6 +222,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        myDB.setDB()
         setUpTextFieldDelegate()
         addView()
         setUpConstraint()
@@ -246,10 +271,13 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(NameTextFieldUnderLine)
         view.addSubview(PassWordLabel)
         view.addSubview(PassWordTextField)
+        view.addSubview(PassWordToggleButton)
         view.addSubview(PassWordTextFieldUnderLine)
         view.addSubview(PassWordReLabel)
         view.addSubview(PassWordReTextField)
+        view.addSubview(PassWordReToggleButton)
         view.addSubview(PassWordReTextFieldUnderLine)
+        view.addSubview(PassWordCorrectLabel)
         view.addSubview(PhoneCertLabel)
         view.addSubview(PhoneCertTextField)
         view.addSubview(PhoneCertTextFieldUnderLine)
@@ -309,6 +337,12 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
+        PassWordToggleButton.snp.makeConstraints({
+            $0.centerY.equalTo(PassWordTextField.snp.centerY)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
+            $0.width.equalTo(20)
+            $0.height.equalTo(20)
+        })
         PassWordTextFieldUnderLine.snp.makeConstraints({
             $0.top.equalTo(PassWordTextField.snp.bottom).offset(5)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
@@ -323,10 +357,20 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
+        PassWordReToggleButton.snp.makeConstraints({
+            $0.centerY.equalTo(PassWordReTextField.snp.centerY)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
+            $0.width.equalTo(20)
+            $0.height.equalTo(20)
+        })
         PassWordReTextFieldUnderLine.snp.makeConstraints({
             $0.top.equalTo(PassWordReTextField.snp.bottom).offset(5)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.width.equalTo(IDTextField.snp.width)
+        })
+        PassWordCorrectLabel.snp.makeConstraints({
+            $0.top.equalTo(PassWordReTextFieldUnderLine.snp.bottom).offset(1)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         PhoneCertLabel.snp.makeConstraints({
             $0.top.equalTo(PassWordReTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
