@@ -19,7 +19,7 @@ extension JoinUsViewController {
             IDCheckLabel.text = "아이디를 입력해주세요."
             IDCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
             IDCheckLabel.textColor = .red
-            availableIDFlag = false
+            availableSignUpFlag = false
             return
         }
         
@@ -34,14 +34,14 @@ extension JoinUsViewController {
                     print(self.myDB.isValidID(id: self.IDTextField.text!))
                     self.IDCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                     self.IDCheckLabel.textColor = .systemBlue
-                    self.availableIDFlag = true
+                    self.availableSignUpFlag = true
                 } else {
                     // 아이디가 형식에 맞지 않는 경우
                     self.IDCheckLabel.text = "올바르지 않은 형식입니다. (영문자+숫자, 5~16자)"
                     print(self.myDB.isValidID(id: self.IDTextField.text!))
                     self.IDCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                     self.IDCheckLabel.textColor = .red
-                    self.availableIDFlag = false
+                    self.availableSignUpFlag = false
                 }
                 return
             }
@@ -50,7 +50,7 @@ extension JoinUsViewController {
             self.IDCheckLabel.text = "이미 사용중인 아이디입니다."
             self.IDCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
             self.IDCheckLabel.textColor = .red
-            self.availableIDFlag = false
+            self.availableSignUpFlag = false
         }
     }
     
@@ -76,7 +76,11 @@ extension JoinUsViewController {
     
     // 다음 페이지 넘어가는 버튼 로직 (회원가입이 되는 상태인지를 판별하고 Firestore DB 에 해당 값들 저장)
     @objc func NextPageButtonClicked() {
-        myDB.setUserData(id: IDTextField.text!, name: NameTextField.text!, password: PassWordTextField.text!, phoneNumber: PhoneCertTextField.text!)
+        if availableSignUpFlag && !IDTextField.text!.isEmpty && !NameTextField.text!.isEmpty && !PassWordTextField.text!.isEmpty && !PassWordReTextField.text!.isEmpty && !PhoneCertTextField.text!.isEmpty {
+            myDB.setUserData(id: IDTextField.text!, name: NameTextField.text!, password: PassWordTextField.text!, phoneNumber: PhoneCertTextField.text!)
+        }else {
+            print("입력 형식을 다시 확인해주세요.")
+        }
     }
     
     @objc func PassWordToggleButtonClicked() {
@@ -110,13 +114,60 @@ extension JoinUsViewController {
                 PassWordCorrectLabel.text = "비밀번호가 일치합니다."
                 PassWordCorrectLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                 PassWordCorrectLabel.textColor = .systemBlue
+                availableSignUpFlag = true
             } else {
                 PassWordCorrectLabel.text = "비밀번호가 일치하지 않습니다."
                 PassWordCorrectLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                 PassWordCorrectLabel.textColor = .red
+                availableSignUpFlag = false
+            }
+        }
+        if textField == PassWordTextField {
+            let password = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
+            if myDB.isValidPassword(password: password) {
+                PassWordCheckLabel.text = "사용가능한 비밀번호입니다."
+                PassWordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                PassWordCheckLabel.textColor = .systemBlue
+                availableSignUpFlag = true
+            }else {
+                PassWordCheckLabel.text = "올바르지 않은 형식입니다. (영문자+숫자+특수문자, 8~16자)"
+                PassWordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                PassWordCheckLabel.textColor = .red
+                availableSignUpFlag = false
             }
         }
         return true
     }
     
+    func setUpTextFieldDelegate() {
+        [IDTextField, NameTextField, PassWordTextField, PassWordReTextField, PhoneCertTextField, CertNumberTextField] .forEach({
+            $0.delegate = self
+        })
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.4) {
+            switch(textField) {
+            case self.IDTextField : self.IDTextFieldUnderLine.setProgress(1.0, animated: true)
+            case self.NameTextField : self.NameTextFieldUnderLine.setProgress(1.0, animated: true)
+            case self.PassWordTextField : self.PassWordTextFieldUnderLine.setProgress(1.0, animated: true)
+            case self.PassWordReTextField : self.PassWordReTextFieldUnderLine.setProgress(1.0, animated: true)
+            case self.PhoneCertTextField : self.PhoneCertTextFieldUnderLine.setProgress(1.0, animated: true)
+            default : break
+            }
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.3) {
+            switch(textField) {
+            case self.IDTextField : self.IDTextFieldUnderLine.setProgress(0.0, animated: true)
+            case self.NameTextField : self.NameTextFieldUnderLine.setProgress(0.0, animated: true)
+            case self.PassWordTextField : self.PassWordTextFieldUnderLine.setProgress(0.0, animated: true)
+            case self.PassWordReTextField : self.PassWordReTextFieldUnderLine.setProgress(0.0, animated: true)
+            case self.PhoneCertTextField : self.PhoneCertTextFieldUnderLine.setProgress(0.0, animated: true)
+            default : break
+            }
+        }
+    }
 }

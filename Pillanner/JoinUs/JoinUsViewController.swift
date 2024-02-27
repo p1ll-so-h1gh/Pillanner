@@ -12,12 +12,12 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
     let myDB = UserData()
     
     var myPhoneNumber: String = ""
-    var availableIDFlag: Bool = false // 아이디 중복체크 결과를 저장하는 변수 true : 사용 가능, false : 사용 불가능
+    var availableSignUpFlag: Bool = false // 아이디 중복체크 결과를 저장하는 변수 true : 사용 가능, false : 사용 불가능
     
     private let sidePaddingValue = 24
     private let topPaddingValue = 30
     
-    private let IDLabel: UILabel = {
+    let IDLabel: UILabel = {
         let label = UILabel()
         label.text = "아이디"
         label.font = FontLiteral.body(style: .bold)
@@ -31,7 +31,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return textfield
     }()
     
-    private let IDTextFieldUnderLine: UIProgressView = {
+    let IDTextFieldUnderLine: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
         line.progressTintColor = .systemBlue
@@ -39,7 +39,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return line
     }()
     
-    private let IDCheckButton: UIButton = {
+    let IDCheckButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("중복확인", for: .normal)
         button.setTitleColor(UIColor.lightGray, for: .normal)
@@ -49,12 +49,12 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return button
     }()
     
-    var IDCheckLabel: UILabel = {
+    let IDCheckLabel: UILabel = {
         let label = UILabel()
         return label
     }()
     
-    private let NameLabel: UILabel = {
+    let NameLabel: UILabel = {
         let label = UILabel()
         label.text = "이름 입력"
         label.font = FontLiteral.body(style: .bold)
@@ -68,7 +68,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return textfield
     }()
     
-    private let NameTextFieldUnderLine: UIProgressView = {
+    let NameTextFieldUnderLine: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
         line.progressTintColor = .systemBlue
@@ -76,7 +76,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return line
     }()
     
-    private let PassWordLabel: UILabel = {
+    let PassWordLabel: UILabel = {
         let label = UILabel()
         label.text = "비밀번호"
         label.font = FontLiteral.body(style: .bold)
@@ -98,7 +98,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return button
     }()
     
-    private let PassWordTextFieldUnderLine: UIProgressView = {
+    let PassWordTextFieldUnderLine: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
         line.progressTintColor = .systemBlue
@@ -106,7 +106,12 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return line
     }()
     
-    private let PassWordReLabel: UILabel = {
+    let PassWordCheckLabel: UILabel = {
+        let label = UILabel()
+        return label
+    }()
+    
+    let PassWordReLabel: UILabel = {
         let label = UILabel()
         label.text = "비밀번호 재입력"
         label.font = FontLiteral.body(style: .bold)
@@ -128,7 +133,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return button
     }()
     
-    private let PassWordReTextFieldUnderLine: UIProgressView = {
+    let PassWordReTextFieldUnderLine: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
         line.progressTintColor = .systemBlue
@@ -141,7 +146,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return label
     }()
     
-    private let PhoneCertLabel: UILabel = {
+    let PhoneCertLabel: UILabel = {
         let label = UILabel()
         label.text = "휴대전화 번호인증"
         label.font = FontLiteral.body(style: .bold)
@@ -155,7 +160,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return textfield
     }()
     
-    private let PhoneCertTextFieldUnderLine: UIProgressView = {
+    let PhoneCertTextFieldUnderLine: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
         line.progressTintColor = .systemBlue
@@ -163,7 +168,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return line
     }()
     
-    private let GetCertNumberButton: UIButton = {
+    let GetCertNumberButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("인증번호 받기", for: .normal) // 재전송
         button.setTitleColor(UIColor.lightGray, for: .normal)
@@ -173,7 +178,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return button
     }()
     
-    private let CertUIView: UIView = {
+    let CertUIView: UIView = {
         let uiView = UIView()
         uiView.layer.cornerRadius = 5
         uiView.layer.borderColor = UIColor.lightGray.cgColor
@@ -181,25 +186,25 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return uiView
     }()
 
-    private let CertContentStackView: UIStackView = {
+    let CertContentStackView: UIStackView = {
         let stackView = UIStackView()
         return stackView
     }()
     
-    private let CertNumberTextField: UITextField = {
+    let CertNumberTextField: UITextField = {
         let textfield = UITextField()
         textfield.placeholder = "인증번호 6자리 입력"
         textfield.font = FontLiteral.subheadline(style: .regular)
         return textfield
     }()
     
-    private let CertNumberDeleteButton: UIButton = {
+    let CertNumberDeleteButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "xmark"), for: .normal)
         return button
     }()
     
-    private let ReGetCertNumberButton: UIButton = {
+    let ReGetCertNumberButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("확인", for: .normal)
         button.setTitleColor(UIColor.lightGray, for: .normal)
@@ -208,7 +213,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return button
     }()
     
-    private let NextPageButton: UIButton = {
+    let NextPageButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("다음", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
@@ -221,43 +226,10 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
-        myDB.setDB()
+    
         setUpTextFieldDelegate()
         addView()
         setUpConstraint()
-    }
-    
-    private func setUpTextFieldDelegate() {
-        [IDTextField, NameTextField, PassWordTextField, PassWordReTextField, PhoneCertTextField, CertNumberTextField] .forEach({
-            $0.delegate = self
-        })
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 0.4) {
-            switch(textField) {
-            case self.IDTextField : self.IDTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.NameTextField : self.NameTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.PassWordTextField : self.PassWordTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.PassWordReTextField : self.PassWordReTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.PhoneCertTextField : self.PhoneCertTextFieldUnderLine.setProgress(1.0, animated: true)
-            default : break
-            }
-        }
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 0.3) {
-            switch(textField) {
-            case self.IDTextField : self.IDTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.NameTextField : self.NameTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.PassWordTextField : self.PassWordTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.PassWordReTextField : self.PassWordReTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.PhoneCertTextField : self.PhoneCertTextFieldUnderLine.setProgress(0.0, animated: true)
-            default : break
-            }
-        }
     }
     
     private func addView() {
@@ -266,22 +238,28 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(IDCheckButton)
         view.addSubview(IDTextFieldUnderLine)
         view.addSubview(IDCheckLabel)
+        
         view.addSubview(NameLabel)
         view.addSubview(NameTextField)
         view.addSubview(NameTextFieldUnderLine)
+        
         view.addSubview(PassWordLabel)
         view.addSubview(PassWordTextField)
         view.addSubview(PassWordToggleButton)
         view.addSubview(PassWordTextFieldUnderLine)
+        view.addSubview(PassWordCheckLabel)
+        
         view.addSubview(PassWordReLabel)
         view.addSubview(PassWordReTextField)
         view.addSubview(PassWordReToggleButton)
         view.addSubview(PassWordReTextFieldUnderLine)
         view.addSubview(PassWordCorrectLabel)
+        
         view.addSubview(PhoneCertLabel)
         view.addSubview(PhoneCertTextField)
         view.addSubview(PhoneCertTextFieldUnderLine)
         view.addSubview(GetCertNumberButton)
+        
         CertUIView.addSubview(CertContentStackView)
         CertContentStackView.addArrangedSubview(CertNumberTextField)
         CertContentStackView.addArrangedSubview(CertNumberDeleteButton)
@@ -347,6 +325,10 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
             $0.top.equalTo(PassWordTextField.snp.bottom).offset(5)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.width.equalTo(IDTextField.snp.width)
+        })
+        PassWordCheckLabel.snp.makeConstraints({
+            $0.top.equalTo(PassWordTextFieldUnderLine.snp.bottom).offset(1)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         PassWordReLabel.snp.makeConstraints({
             $0.top.equalTo(PassWordTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
