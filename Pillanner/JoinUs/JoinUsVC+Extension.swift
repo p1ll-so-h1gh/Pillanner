@@ -74,15 +74,6 @@ extension JoinUsViewController {
             }
     }
     
-    // 다음 페이지 넘어가는 버튼 로직 (회원가입이 되는 상태인지를 판별하고 Firestore DB 에 해당 값들 저장)
-    @objc func NextPageButtonClicked() {
-        if availableSignUpFlag && !IDTextField.text!.isEmpty && !NameTextField.text!.isEmpty && !PassWordTextField.text!.isEmpty && !PassWordReTextField.text!.isEmpty && !PhoneCertTextField.text!.isEmpty {
-            myDB.setUserData(id: IDTextField.text!, name: NameTextField.text!, password: PassWordTextField.text!, phoneNumber: PhoneCertTextField.text!)
-        }else {
-            print("입력 형식을 다시 확인해주세요.")
-        }
-    }
-    
     @objc func PassWordToggleButtonClicked() {
         if PassWordTextField.isSecureTextEntry == true {
             PassWordTextField.isSecureTextEntry = false
@@ -168,6 +159,15 @@ extension JoinUsViewController {
             case self.PhoneCertTextField : self.PhoneCertTextFieldUnderLine.setProgress(0.0, animated: true)
             default : break
             }
+        }
+    }
+    
+    // 다음 페이지 넘어가는 버튼 로직 (회원가입이 되는 상태인지를 판별하고 Firestore DB 에 해당 값들 저장)
+    @objc func NextPageButtonClicked() {
+        if availableSignUpFlag && !IDTextField.text!.isEmpty && !NameTextField.text!.isEmpty && !PassWordTextField.text!.isEmpty && !PassWordReTextField.text!.isEmpty && !PhoneCertTextField.text!.isEmpty {
+            myDB.setUserData(id: IDTextField.text!, name: NameTextField.text!, password: PassWordTextField.text!, phoneNumber: PhoneCertTextField.text!)
+        }else {
+            print("입력 형식을 다시 확인해주세요.")
         }
     }
 }
