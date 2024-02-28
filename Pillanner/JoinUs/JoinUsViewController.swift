@@ -9,10 +9,11 @@ import UIKit
 import SnapKit
 
 class JoinUsViewController: UIViewController, UITextFieldDelegate {
-    let myDB = UserData()
-    
-    var myPhoneNumber: String = ""
-    var availableSignUpFlag: Bool = false // 아이디 중복체크 결과를 저장하는 변수 true : 사용 가능, false : 사용 불가능
+    var myVerificationID: String = ""
+    var myIDToken: String = ""
+    var limitTime: Int = 180 // 3분
+    var availableGetCertNumberFlag: Bool = true // 인증번호 받고 나서 3분 동안만 false. false 상태에선 인증번호를 받을 수 없다.
+    var availableSignUpFlag: Bool = false // 회원가입 가능 여부를 판별하는 변수. true : 가입 가능, false : 가입 불가능
     
     private let sidePaddingValue = 24
     private let topPaddingValue = 30
@@ -26,7 +27,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
     
     let IDTextField: UITextField = {
         let textfield = UITextField()
-        textfield.placeholder = "아이디를 입력해주세요."
+        textfield.placeholder = "5-16 자리 영 대/소문자, 숫자 조합"
         textfield.font = FontLiteral.subheadline(style: .regular)
         return textfield
     }()
@@ -185,7 +186,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         uiView.layer.borderWidth = 1
         return uiView
     }()
-
+    
     let CertContentStackView: UIStackView = {
         let stackView = UIStackView()
         return stackView
@@ -198,19 +199,33 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         return textfield
     }()
     
+    let timerLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .red
+        return label
+    }()
+    
     let CertNumberDeleteButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "xmark"), for: .normal)
+        button.addTarget(target, action: #selector(CertNumberDeleteButtonClicked), for: .touchUpInside)
         return button
     }()
     
-    let ReGetCertNumberButton: UIButton = {
+    let CheckCertNumberButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("확인", for: .normal)
         button.setTitleColor(UIColor.lightGray, for: .normal)
         button.backgroundColor = .mainThemeColor
         button.layer.cornerRadius = 5
+        button.addTarget(target, action: #selector(CheckCertNumberButtonClicked), for: .touchUpInside)
         return button
+    }()
+    
+    let CertNumberAvailableLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        return label
     }()
     
     let NextPageButton: UIButton = {
@@ -262,9 +277,12 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
         
         CertUIView.addSubview(CertContentStackView)
         CertContentStackView.addArrangedSubview(CertNumberTextField)
+        CertContentStackView.addArrangedSubview(timerLabel)
         CertContentStackView.addArrangedSubview(CertNumberDeleteButton)
-        CertContentStackView.addArrangedSubview(ReGetCertNumberButton)
+        CertContentStackView.addArrangedSubview(CheckCertNumberButton)
         view.addSubview(CertUIView)
+        view.addSubview(CertNumberAvailableLabel)
+        
         view.addSubview(NextPageButton)
     }
     
@@ -378,11 +396,15 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
+        timerLabel.snp.makeConstraints({
+            $0.width.equalTo(40)
+            $0.height.equalTo(30)
+        })
         CertNumberDeleteButton.snp.makeConstraints({
             $0.width.equalTo(30)
             $0.height.equalTo(30)
         })
-        ReGetCertNumberButton.snp.makeConstraints({
+        CheckCertNumberButton.snp.makeConstraints({
             $0.width.equalTo(50)
         })
         CertContentStackView.snp.makeConstraints({
@@ -390,6 +412,10 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
             $0.left.equalToSuperview().offset(5)
             $0.right.equalToSuperview().offset(-5)
             $0.bottom.equalToSuperview().offset(-5)
+        })
+        CertNumberAvailableLabel.snp.makeConstraints({
+            $0.top.equalTo(CertUIView.snp.bottom).offset(1)
+            $0.left.equalTo(sidePaddingValue)
         })
         NextPageButton.snp.makeConstraints({
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)

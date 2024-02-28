@@ -23,22 +23,20 @@ extension JoinUsViewController {
             return
         }
         
-        let usersCollection = myDB.db.collection("Users")
+        let usersCollection = DataManager.shared.db.collection("Users")
         let query = usersCollection.whereField("ID", isEqualTo: id)
         
         query.getDocuments { (snapshot, error) in
             guard let snapshot = snapshot, !snapshot.isEmpty else {
-                if self.myDB.isValidID(id: self.IDTextField.text!){
+                if DataManager.shared.isValidID(id: self.IDTextField.text!){
                     // 아이디가 사용가능한 경우
                     self.IDCheckLabel.text = "사용 가능한 아이디입니다."
-                    print(self.myDB.isValidID(id: self.IDTextField.text!))
                     self.IDCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                     self.IDCheckLabel.textColor = .systemBlue
                     self.availableSignUpFlag = true
                 } else {
                     // 아이디가 형식에 맞지 않는 경우
                     self.IDCheckLabel.text = "올바르지 않은 형식입니다. (영문자+숫자, 5~16자)"
-                    print(self.myDB.isValidID(id: self.IDTextField.text!))
                     self.IDCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                     self.IDCheckLabel.textColor = .red
                     self.availableSignUpFlag = false
@@ -56,22 +54,89 @@ extension JoinUsViewController {
     
     // 인증번호 받기 버튼 로직
     @objc func GetCertNumberButtonClicked(_ sender: UIButton) {
-        myPhoneNumber = PhoneCertTextField.text!
+        timerLabel.isHidden = false
+        if availableGetCertNumberFlag == true {
+            getSetTime()
+            CertNumberAvailableLabel.text = "인증번호가 발송되었습니다."
+            CertNumberAvailableLabel.textColor = .systemBlue
+            CertNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+            //가상전화번호로 테스트하기 위한 코드 ---------------------------------------
+            //Auth.auth().settings?.isAppVerificationDisabledForTesting = true
+            //------------------------------------------------------------------
+            PhoneAuthProvider.provider()
+                .verifyPhoneNumber(PhoneCertTextField.text!, uiDelegate: nil) { (verificationID, error) in
+                    if let error = error {
+                        print("@@@@@@@@@@@@@@@@ 에러발생 @@@@@@@@@@@@@@@@@@")
+                        print(error.localizedDescription)
+                        return
+                    }
+                    // 에러가 없다면 사용자에게 인증코드와 verifiacationID(인증 ID) 전달
+                    print("인증성공 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                    print("사용자 veriID by String", String(verificationID!))
+                    //print("사용자 veriID Origin", verificationID)
+                    self.myVerificationID = verificationID!
+                }
+        }
+    }
+    
+    @objc func getSetTime() {
+        secToTime(sec: limitTime)
+        limitTime -= 1
+    }
+    
+    func secToTime(sec: Int) {
+        availableGetCertNumberFlag = false
+        let minute = (sec % 3600) / 60
+        let second = (sec % 3600) % 60
         
-        //가상전화번호로 테스트하기 위한 코드 ---------------------------------------
-        Auth.auth().settings?.isAppVerificationDisabledForTesting = true
-        //------------------------------------------------------------------
-        PhoneAuthProvider.provider()
-            .verifyPhoneNumber(myPhoneNumber, uiDelegate: nil) { (verificationID, error) in
+        if second < 10 {
+            timerLabel.text = String(minute) + ":" + "0"+String(second)
+        } else {
+            timerLabel.text = String(minute) + ":" + String(second)
+        }
+        
+        if limitTime != 0 {
+            perform(#selector(getSetTime), with: nil, afterDelay: 1.0)
+        } else if limitTime == 0 {
+            timerLabel.isHidden = true
+            limitTime = 180
+            availableGetCertNumberFlag = true
+            CertNumberAvailableLabel.text = "인증번호 유효시간이 초과했습니다."
+            CertNumberAvailableLabel.textColor = .red
+            CertNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+        }
+    }
+    
+    // 인증번호 확인 버튼
+    @objc func CheckCertNumberButtonClicked() {
+        let credential = PhoneAuthProvider.provider().credential(
+            withVerificationID: myVerificationID,
+            verificationCode: self.CertNumberTextField.text!
+        )
+        Auth.auth().signIn(with: credential) { authData, error in
+            if let error = error {
+                print("errorCode: \(error)")
+                print("인증번호가 일치하지 않습니다.")
+                self.CertNumberTextField.text = ""
+                // 인증번호 매칭 에러 - Alert
+                let alert = UIAlertController(title: "인증 실패", message: "인증번호가 올바르지 않습니다.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "확인", style: .default))
+                self.present(alert, animated: true)
+            }
+            // 성공시 Current IDTokenRefresh 처리
+            print("Current IDTokenRefresh 처리중...")
+            let currentUser = Auth.auth().currentUser
+            currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
                 if let error = error {
-                    print("@@@@@@@@@@@@@@@@ 에러발생 @@@@@@@@@@@@@@@@@@")
-                    print(error.localizedDescription)
+                    print(error)
                     return
                 }
-                // 에러가 없다면 사용자에게 인증코드와 verifiacationID(인증 ID) 전달
-                print("11111")
-                
+                // FirebaseidToken 받기 완료
+                self.myIDToken = idToken!
+                print("myIDToken = ", idToken!)
             }
+            
+        }
     }
     
     @objc func PassWordToggleButtonClicked() {
@@ -83,7 +148,6 @@ extension JoinUsViewController {
             PassWordToggleButton.setImage(UIImage(named: "eyeOpen"), for: .normal)
         }
     }
-    
     @objc func PassWordReToggleButtonClicked() {
         if PassWordReTextField.isSecureTextEntry == true {
             PassWordReTextField.isSecureTextEntry = false
@@ -115,7 +179,7 @@ extension JoinUsViewController {
         }
         if textField == PassWordTextField {
             let password = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
-            if myDB.isValidPassword(password: password) {
+            if DataManager.shared.isValidPassword(password: password) {
                 PassWordCheckLabel.text = "사용가능한 비밀번호입니다."
                 PassWordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                 PassWordCheckLabel.textColor = .systemBlue
@@ -148,7 +212,6 @@ extension JoinUsViewController {
             }
         }
     }
-    
     func textFieldDidEndEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.3) {
             switch(textField) {
@@ -162,10 +225,15 @@ extension JoinUsViewController {
         }
     }
     
+    // 인증번호 X 버튼
+    @objc func CertNumberDeleteButtonClicked() {
+        self.CertNumberTextField.text = ""
+    }
+    
     // 다음 페이지 넘어가는 버튼 로직 (회원가입이 되는 상태인지를 판별하고 Firestore DB 에 해당 값들 저장)
     @objc func NextPageButtonClicked() {
         if availableSignUpFlag && !IDTextField.text!.isEmpty && !NameTextField.text!.isEmpty && !PassWordTextField.text!.isEmpty && !PassWordReTextField.text!.isEmpty && !PhoneCertTextField.text!.isEmpty {
-            myDB.setUserData(id: IDTextField.text!, name: NameTextField.text!, password: PassWordTextField.text!, phoneNumber: PhoneCertTextField.text!)
+            DataManager.shared.createAccountDataInFirestore(ID: IDTextField.text!, Name: NameTextField.text!, PW: PassWordTextField.text!, phoneNumber: PhoneCertTextField.text!)
         }else {
             print("입력 형식을 다시 확인해주세요.")
         }
