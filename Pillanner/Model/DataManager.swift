@@ -18,7 +18,7 @@ final class DataManager {
     
     
     // MARK: - SignUp Functions
-    func createAccountDataInFirestore(signUpAvailableFlag: Bool, ID: String, Name: String, PW: String, PWCheck: String, phoneNumber: String) {
+    func createAccountDataInFirestore(ID: String, Name: String, PW: String, phoneNumber: String) {
         let queryForUserCollection = db.collection("Users").whereField("ID", isEqualTo: ID)
         
         queryForUserCollection.getDocuments{ (snapshot, error) in
@@ -36,5 +36,19 @@ final class DataManager {
             print("회원가입 완료")
             // 회원가입 성공 ALERT 만들기
         }
+    }
+    
+    // 아이디 형식 검사 메서드
+    func isValidID(id: String) -> Bool {
+        let idRegEx = "^(?=.*[A-Za-z])(?=.*[0-9]).{5,16}$" //영문 + 숫자 조합의 5~16 자
+        let idTest = NSPredicate(format: "SELF MATCHES %@", idRegEx)
+        return idTest.evaluate(with: id)
+    }
+    
+    // 비밀번호 형식 검사 메서드
+    func isValidPassword(password: String) -> Bool {
+        let passwordRegEx = "^(?=.*[A-Za-z])(?=.*[~!@#$%^&*])(?=.*[0-9]).{8,16}$" //영문 + 숫자 + 특수문자 조합의 8~16 자
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@", passwordRegEx)
+        return passwordTest.evaluate(with: password)
     }
 }
