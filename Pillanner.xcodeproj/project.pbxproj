@@ -67,7 +67,7 @@
 		C4346D982B8DB2D300110DEF /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = C4346D972B8DB2D300110DEF /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		C4346D9A2B8DB2D300110DEF /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = C4346D992B8DB2D300110DEF /* FirebaseAppCheck */; };
 		C4346D9C2B8DB2D300110DEF /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = C4346D9B2B8DB2D300110DEF /* FirebaseAppDistribution-Beta */; };
-		C490C88E2B8EE81900DFACD8 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C490C88D2B8EE81900DFACD8 /* DataManager.swift */; };
+		C490C8922B8EE9AB00DFACD8 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C490C8912B8EE9AB00DFACD8 /* DataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,7 +91,7 @@
 		C42DAA942B8C914A004788D3 /* JoinUsVC+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JoinUsVC+Extension.swift"; sourceTree = "<group>"; };
 		C4346D8E2B8DA90D00110DEF /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		C4346D902B8DAD1B00110DEF /* Pillanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pillanner.entitlements; sourceTree = "<group>"; };
-		C490C88D2B8EE81900DFACD8 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataManager.swift; path = ../../../../Downloads/Data/DataManager.swift; sourceTree = "<group>"; };
+		C490C8912B8EE9AB00DFACD8 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,8 +206,8 @@
 			isa = PBXGroup;
 			children = (
 				14D2BE692B84BBBF0006AC51 /* Pillanner.xcdatamodeld */,
-				C490C88D2B8EE81900DFACD8 /* DataManager.swift */,
 				C4346D8E2B8DA90D00110DEF /* UserData.swift */,
+				C490C8912B8EE9AB00DFACD8 /* DataManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -362,8 +362,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C490C8922B8EE9AB00DFACD8 /* DataManager.swift in Sources */,
 				C42DAA952B8C914A004788D3 /* JoinUsVC+Extension.swift in Sources */,
-				C490C88E2B8EE81900DFACD8 /* DataManager.swift in Sources */,
 				14F2CFB72B87080E007F354B /* CalendarViewController.swift in Sources */,
 				C4346D8F2B8DA90D00110DEF /* UserData.swift in Sources */,
 				C40136A42B887D4500577C17 /* CAGradientLayer+Extension.swift in Sources */,
