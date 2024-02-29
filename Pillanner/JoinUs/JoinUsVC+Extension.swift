@@ -59,7 +59,7 @@ extension JoinUsViewController {
         myPhoneNumber = PhoneCertTextField.text!
         
         //가상전화번호로 테스트하기 위한 코드 ---------------------------------------
-        Auth.auth().settings?.isAppVerificationDisabledForTesting = true
+//        Auth.auth().settings?.isAppVerificationDisabledForTesting = true
         //------------------------------------------------------------------
         PhoneAuthProvider.provider()
             .verifyPhoneNumber(myPhoneNumber, uiDelegate: nil) { (verificationID, error) in
