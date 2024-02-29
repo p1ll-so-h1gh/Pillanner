@@ -71,6 +71,16 @@
 		C4346D9A2B8DB2D300110DEF /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = C4346D992B8DB2D300110DEF /* FirebaseAppCheck */; };
 		C4346D9C2B8DB2D300110DEF /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = C4346D9B2B8DB2D300110DEF /* FirebaseAppDistribution-Beta */; };
 		C490C8922B8EE9AB00DFACD8 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C490C8912B8EE9AB00DFACD8 /* DataManager.swift */; };
+
+		CC16976F2B8DDA13008276B0 /* PillListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16976E2B8DDA12008276B0 /* PillListCollectionViewCell.swift */; };
+		CC1697712B8DDA30008276B0 /* PillListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC1697702B8DDA30008276B0 /* PillListCollectionViewCell.xib */; };
+		CC16979A2B9021C0008276B0 /* PillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697992B9021C0008276B0 /* PillCell.swift */; };
+		CC16979C2B9021D2008276B0 /* IntakeDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16979B2B9021D2008276B0 /* IntakeDateCell.swift */; };
+		CC16979E2B9021F2008276B0 /* IntakeSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16979D2B9021F2008276B0 /* IntakeSettingCell.swift */; };
+		CC1697A02B90221B008276B0 /* PillTyeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16979F2B90221B008276B0 /* PillTyeCell.swift */; };
+		CC1697A32B90223D008276B0 /* DeadlineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697A22B90223D008276B0 /* DeadlineCell.swift */; };
+		CC1697A52B903DAD008276B0 /* PillAddMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697A42B903DAD008276B0 /* PillAddMainViewController.swift */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,10 +103,21 @@
 		C40136A72B887DA200577C17 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C40136A92B887DBA00577C17 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		C40136AB2B887DE100577C17 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
+
 		C42DAA942B8C914A004788D3 /* JoinUsVC+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JoinUsVC+Extension.swift"; sourceTree = "<group>"; };
 		C4346D8E2B8DA90D00110DEF /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		C4346D902B8DAD1B00110DEF /* Pillanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pillanner.entitlements; sourceTree = "<group>"; };
 		C490C8912B8EE9AB00DFACD8 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+
+		CC16976E2B8DDA12008276B0 /* PillListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillListCollectionViewCell.swift; sourceTree = "<group>"; };
+		CC1697702B8DDA30008276B0 /* PillListCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PillListCollectionViewCell.xib; sourceTree = "<group>"; };
+		CC1697992B9021C0008276B0 /* PillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCell.swift; sourceTree = "<group>"; };
+		CC16979B2B9021D2008276B0 /* IntakeDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakeDateCell.swift; sourceTree = "<group>"; };
+		CC16979D2B9021F2008276B0 /* IntakeSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakeSettingCell.swift; sourceTree = "<group>"; };
+		CC16979F2B90221B008276B0 /* PillTyeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTyeCell.swift; sourceTree = "<group>"; };
+		CC1697A22B90223D008276B0 /* DeadlineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineCell.swift; sourceTree = "<group>"; };
+		CC1697A42B903DAD008276B0 /* PillAddMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillAddMainViewController.swift; sourceTree = "<group>"; };
+
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,7 +241,11 @@
 		14F2CFB42B86E011007F354B /* UserMain */ = {
 			isa = PBXGroup;
 			children = (
+				CC1697982B9020F4008276B0 /* Cell */,
 				14F2CFB82B870818007F354B /* UserMainViewController.swift */,
+				CC16976E2B8DDA12008276B0 /* PillListCollectionViewCell.swift */,
+				CC1697702B8DDA30008276B0 /* PillListCollectionViewCell.xib */,
+				CC1697A42B903DAD008276B0 /* PillAddMainViewController.swift */,
 			);
 			path = UserMain;
 			sourceTree = "<group>";
@@ -244,6 +269,18 @@
 				C40136A92B887DBA00577C17 /* CALayer+Extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		CC1697982B9020F4008276B0 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				CC1697992B9021C0008276B0 /* PillCell.swift */,
+				CC16979B2B9021D2008276B0 /* IntakeDateCell.swift */,
+				CC16979D2B9021F2008276B0 /* IntakeSettingCell.swift */,
+				CC16979F2B90221B008276B0 /* PillTyeCell.swift */,
+				CC1697A22B90223D008276B0 /* DeadlineCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -358,6 +395,10 @@
 				14D2BE702B84BBC20006AC51 /* LaunchScreen.storyboard in Resources */,
 				1438F6AC2B8F0A53006D2939 /* GoogleService-Info.plist in Resources */,
 				14D2BE6D2B84BBC20006AC51 /* Assets.xcassets in Resources */,
+
+				CC1697712B8DDA30008276B0 /* PillListCollectionViewCell.xib in Resources */,
+				14D2BE7B2B8590850006AC51 /* GoogleService-Info.plist in Resources */,
+
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,14 +413,27 @@
 				C490C8922B8EE9AB00DFACD8 /* DataManager.swift in Sources */,
 				C42DAA952B8C914A004788D3 /* JoinUsVC+Extension.swift in Sources */,
 				14F2CFB72B87080E007F354B /* CalendarViewController.swift in Sources */,
+
 				C4346D8F2B8DA90D00110DEF /* UserData.swift in Sources */,
+
+				CC16979A2B9021C0008276B0 /* PillCell.swift in Sources */,
+
 				C40136A42B887D4500577C17 /* CAGradientLayer+Extension.swift in Sources */,
+				CC1697A02B90221B008276B0 /* PillTyeCell.swift in Sources */,
+				CC1697A32B90223D008276B0 /* DeadlineCell.swift in Sources */,
 				14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */,
 				C40136A62B887D6100577C17 /* UIColor+Extension.swift in Sources */,
+				CC16976F2B8DDA13008276B0 /* PillListCollectionViewCell.swift in Sources */,
+				CC1697A52B903DAD008276B0 /* PillAddMainViewController.swift in Sources */,
 				14D2BE612B84BBBF0006AC51 /* AppDelegate.swift in Sources */,
 				14D2BE632B84BBBF0006AC51 /* SceneDelegate.swift in Sources */,
+				CC16979E2B9021F2008276B0 /* IntakeSettingCell.swift in Sources */,
 				14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */,
+
 				7C3F79862B9068A000DD1AC7 /* CalendarModel.swift in Sources */,
+
+				CC16979C2B9021D2008276B0 /* IntakeDateCell.swift in Sources */,
+
 				14D2BE6B2B84BBBF0006AC51 /* Pillanner.xcdatamodeld in Sources */,
 				C40136A82B887DA200577C17 /* UIFont+Extension.swift in Sources */,
 				C40136AA2B887DBA00577C17 /* CALayer+Extension.swift in Sources */,

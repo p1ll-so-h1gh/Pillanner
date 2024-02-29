@@ -9,9 +9,9 @@ import UIKit
 
 extension CAGradientLayer {
     static func dayBackgroundLayer(view: UIView) -> CAGradientLayer {
-        var layer = CAGradientLayer()
+        let layer = CAGradientLayer()
         layer.frame = view.bounds
-        layer.colors = [UIColor.dayBackgroundPurpleColor, UIColor.dayBackgroundPurpleColor]
+        layer.colors = [UIColor.dayBackgroundPurpleColor.cgColor, UIColor.dayBackgroundBlueColor.cgColor]
         return layer
     }
 }
