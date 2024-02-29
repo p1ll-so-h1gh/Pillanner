@@ -14,7 +14,6 @@ extension JoinUsViewController {
     
     // ID 중복체크 버튼 로직 (firestore 내부 필드 값과 비교)
     @objc func IDCheckButtonClicked(_ sender: UIButton) {
-        
         guard let id = IDTextField.text, !id.isEmpty else {
             IDCheckLabel.text = "아이디를 입력해주세요."
             IDCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
@@ -133,6 +132,12 @@ extension JoinUsViewController {
                 }
                 // FirebaseidToken 받기 완료
                 self.myIDToken = idToken!
+                self.timerLabel.isHidden = true
+                self.limitTime = 180
+                self.CertNumberTextField.text = ""
+                self.CertNumberAvailableLabel.text = "인증번호가 확인되었습니다."
+                self.CertNumberAvailableLabel.textColor = .systemBlue
+                self.CertNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                 print("myIDToken = ", idToken!)
             }
             
@@ -233,9 +238,22 @@ extension JoinUsViewController {
     // 다음 페이지 넘어가는 버튼 로직 (회원가입이 되는 상태인지를 판별하고 Firestore DB 에 해당 값들 저장)
     @objc func NextPageButtonClicked() {
         if availableSignUpFlag && !IDTextField.text!.isEmpty && !NameTextField.text!.isEmpty && !PassWordTextField.text!.isEmpty && !PassWordReTextField.text!.isEmpty && !PhoneCertTextField.text!.isEmpty {
-            DataManager.shared.createAccountDataInFirestore(ID: IDTextField.text!, Name: NameTextField.text!, PW: PassWordTextField.text!, phoneNumber: PhoneCertTextField.text!)
+            
+            DataManager.shared.createUserData(
+                user: UserData(
+                    ID: IDTextField.text!,
+                    password: PassWordTextField.text!,
+                    name: NameTextField.text!,
+                    phoneNumber: PhoneCertTextField.text!,
+                    mealTime: []
+                )
+            )
         }else {
             print("입력 형식을 다시 확인해주세요.")
+            // 인증번호 매칭 에러 - Alert
+            let alert = UIAlertController(title: "가입 실패", message: "입력 형식을 다시 확인해주세요.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "확인", style: .default))
+            self.present(alert, animated: true)
         }
     }
 }

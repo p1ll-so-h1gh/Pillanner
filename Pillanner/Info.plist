@@ -31,6 +31,8 @@
 		</dict>
 	</dict>
 	<key>UIBackgroundModes</key>
-	<array/>
+	<array>
+		<string>bluetooth-peripheral</string>
+	</array>
 </dict>
 </plist>
