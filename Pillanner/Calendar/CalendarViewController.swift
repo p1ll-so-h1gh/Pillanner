@@ -112,7 +112,7 @@ class CalendarViewController: UIViewController {
         emitter.emitterSize = CGSize(width: 10, height: 10)
 
         let cell = CAEmitterCell()
-        cell.contents = UIImage(named: "firework2")?.cgImage
+        cell.contents = UIImage(named: "firework")?.cgImage
         cell.birthRate = 10
         cell.lifetime = 3
         cell.velocity = -250
