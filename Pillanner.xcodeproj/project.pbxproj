@@ -54,6 +54,8 @@
 		14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFB82B870818007F354B /* UserMainViewController.swift */; };
 		14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */; };
 		14F2CFBD2B870831007F354B /* JoinUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFBC2B870831007F354B /* JoinUsViewController.swift */; };
+		7C3F79862B9068A000DD1AC7 /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F79852B9068A000DD1AC7 /* CalendarModel.swift */; };
+		7C3F798A2B906A7700DD1AC7 /* CheckPillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */; };
 		C40136A42B887D4500577C17 /* CAGradientLayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A32B887D4500577C17 /* CAGradientLayer+Extension.swift */; };
 		C40136A62B887D6100577C17 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A52B887D6100577C17 /* UIColor+Extension.swift */; };
 		C40136A82B887DA200577C17 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A72B887DA200577C17 /* UIFont+Extension.swift */; };
@@ -74,6 +76,8 @@
 		14F2CFB82B870818007F354B /* UserMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMainViewController.swift; sourceTree = "<group>"; };
 		14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSetUpViewController.swift; sourceTree = "<group>"; };
 		14F2CFBC2B870831007F354B /* JoinUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinUsViewController.swift; sourceTree = "<group>"; };
+		7C3F79852B9068A000DD1AC7 /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
+		7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPillCell.swift; sourceTree = "<group>"; };
 		C40136A32B887D4500577C17 /* CAGradientLayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Extension.swift"; sourceTree = "<group>"; };
 		C40136A52B887D6100577C17 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		C40136A72B887DA200577C17 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
@@ -201,6 +205,8 @@
 			isa = PBXGroup;
 			children = (
 				14F2CFB62B87080E007F354B /* CalendarViewController.swift */,
+				7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */,
+				7C3F79852B9068A000DD1AC7 /* CalendarModel.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -333,6 +339,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C3F798A2B906A7700DD1AC7 /* CheckPillCell.swift in Sources */,
 				14F2CFB72B87080E007F354B /* CalendarViewController.swift in Sources */,
 				C40136A42B887D4500577C17 /* CAGradientLayer+Extension.swift in Sources */,
 				14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */,
@@ -340,6 +347,7 @@
 				14D2BE612B84BBBF0006AC51 /* AppDelegate.swift in Sources */,
 				14D2BE632B84BBBF0006AC51 /* SceneDelegate.swift in Sources */,
 				14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */,
+				7C3F79862B9068A000DD1AC7 /* CalendarModel.swift in Sources */,
 				14D2BE6B2B84BBBF0006AC51 /* Pillanner.xcdatamodeld in Sources */,
 				C40136A82B887DA200577C17 /* UIFont+Extension.swift in Sources */,
 				C40136AA2B887DBA00577C17 /* CALayer+Extension.swift in Sources */,
@@ -500,6 +508,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.p1llsoh1gh.Pillanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -527,6 +536,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.p1llsoh1gh.Pillanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
