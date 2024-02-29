@@ -53,6 +53,8 @@
 		14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFB82B870818007F354B /* UserMainViewController.swift */; };
 		14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */; };
 		14F2CFBD2B870831007F354B /* JoinUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFBC2B870831007F354B /* JoinUsViewController.swift */; };
+		56B1D99B2B889E1C0030C6BB /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 56B1D99A2B889E1C0030C6BB /* SnapKit */; };
+		56B1D99D2B889E1C0030C6BB /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 56B1D99C2B889E1C0030C6BB /* SnapKit-Dynamic */; };
 		C40136A42B887D4500577C17 /* CAGradientLayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A32B887D4500577C17 /* CAGradientLayer+Extension.swift */; };
 		C40136A62B887D6100577C17 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A52B887D6100577C17 /* UIColor+Extension.swift */; };
 		C40136A82B887DA200577C17 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A72B887DA200577C17 /* UIFont+Extension.swift */; };
@@ -128,6 +130,7 @@
 				142BC7792B8870DD0046D8AB /* FirebaseStorageCombine-Community in Frameworks */,
 				142BC7472B8870DD0046D8AB /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				142BC75D2B8870DD0046D8AB /* FirebaseFirestore in Frameworks */,
+				56B1D99B2B889E1C0030C6BB /* SnapKit in Frameworks */,
 				142BC7692B8870DD0046D8AB /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
 				142BC7492B8870DD0046D8AB /* FirebaseAnalyticsSwift in Frameworks */,
 				142BC7652B8870DD0046D8AB /* FirebaseFunctionsCombine-Community in Frameworks */,

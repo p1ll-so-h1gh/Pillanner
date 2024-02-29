@@ -12,6 +12,7 @@ class LaunchScreenViewController: UIViewController {
     private let sidePaddingValue = 30
     private let paddingBetweenComponents = 30
 
+
     lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
 
     private let pillannerFlagImage: UIImageView = {
