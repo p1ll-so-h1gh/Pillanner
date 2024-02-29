@@ -15,7 +15,7 @@ class JoinUsViewController: UIViewController, UITextFieldDelegate {
     var availableGetCertNumberFlag: Bool = true // 인증번호 받고 나서 3분 동안만 false. false 상태에선 인증번호를 받을 수 없다.
     var availableSignUpFlag: Bool = false // 회원가입 가능 여부를 판별하는 변수. true : 가입 가능, false : 가입 불가능
     
-    private let sidePaddingValue = 24
+    private let sidePaddingValue = 20
     private let topPaddingValue = 30
     
     let IDLabel: UILabel = {
