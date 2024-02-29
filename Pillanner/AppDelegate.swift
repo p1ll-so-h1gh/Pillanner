@@ -8,6 +8,7 @@
 import UIKit
 import CoreData
 import FirebaseCore
+import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 앱 실행 시 Firebase 바로 연결
         FirebaseApp.configure()
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in
+
+        }
+        application.registerForRemoteNotifications()
         return true
     }
 
