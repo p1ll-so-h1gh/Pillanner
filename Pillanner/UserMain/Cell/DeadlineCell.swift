@@ -25,20 +25,21 @@ final class DeadlineCell: UITableViewCell {
         switchControl.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
         return switchControl
     }()
-    private let calendarView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .red
-        return view
+    private let calendarView: UILabel = {
+        let label = UILabel()
+        label.text = "짜잔"
+        return label
     }()
     @objc func switchValueChanged(_ sender: UISwitch) {
         if sender.isOn {
+            setupLayout()
             self.contentView.addSubview(calendarView)
             self.contentView.snp.makeConstraints {
                 $0.top.equalTo(titleLabel.snp.bottom).inset(-10)
                 $0.left.equalToSuperview().inset(10)
             }
         } else {
-            self.contentView.removeFromSuperview()
+            self.calendarView.removeFromSuperview()
         }
     }
     

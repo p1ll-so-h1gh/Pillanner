@@ -21,9 +21,10 @@ final class PillTyeCell: UITableViewCell {
     lazy private var typesegCon: UISegmentedControl = {
         let control = UISegmentedControl(items: array)
         control.backgroundColor = UIColor(hexCode: "E6E6E6")
-        control.tintColor = UIColor(hexCode: "EDCAB8")
+        control.selectedSegmentTintColor = UIColor.mainThemeColor
         control.addTarget(self, action: #selector(segconChanged(segcon:)), for: UIControl.Event.valueChanged)
-        control.frame = CGRect(x: 0, y: 0, width: 300, height: 45)
+        control.setWidth(150, forSegmentAt: 0)
+        control.setWidth(150, forSegmentAt: 1)
         return control
     }()
     @objc func segconChanged(segcon: UISegmentedControl) {
@@ -49,7 +50,7 @@ final class PillTyeCell: UITableViewCell {
             $0.left.equalToSuperview().inset(16)
         }
         self.typesegCon.snp.makeConstraints {
-            $0.top.equalTo(self.titleLabel.snp.bottom).inset(-10)
+            $0.top.equalTo(self.titleLabel.snp.bottom).inset(-20)
             $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview().inset(20)
         }

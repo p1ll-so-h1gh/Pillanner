@@ -16,10 +16,16 @@ final class PillCell: UITableViewCell {
         let label = UILabel()
         label.text = "제품명"
         label.font = FontLiteral.subheadline(style: .bold).withSize(18)
+        label.frame = CGRect(x: 0, y: 0, width: 50, height: 24)
         label.alpha = 0.6
         return label
     }()
-    private let pillnametext = UITextField()
+    private let pillnametext: UITextField = {
+        let field = UITextField()
+        field.placeholder = "제품명"
+        field.textAlignment = .left
+        return field
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -38,8 +44,10 @@ final class PillCell: UITableViewCell {
             $0.bottom.equalToSuperview().inset(20)
         }
         self.pillnametext.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(20)
             $0.left.equalTo(self.pillnameLabel.snp.right).offset(8)
-            $0.right.lessThanOrEqualToSuperview().inset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.centerY.equalTo(pillnameLabel.snp.centerY)
         }
     }
 }

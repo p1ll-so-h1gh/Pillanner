@@ -24,13 +24,17 @@ final class IntakeSettingCell: UITableViewCell {
         return label
     }()
     //사이에 테이블 뷰 넣어줘야 함
+    let intakeaddBtnView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 5
+        view.backgroundColor = UIColor.mainThemeColor
+        return view
+    }()
     let intakeaddBtn: UIButton = {
         let button = UIButton()
-        button.setTitle("      복용 횟수 추가하기      ", for: .normal)
+        button.setTitle("복용 횟수 추가하기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         button.frame = CGRect(x: 0, y: 0, width: 439, height: 45)
-        button.layer.cornerRadius = 5
-        button.backgroundColor = UIColor.mainThemeColor
         return button
     }()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -44,7 +48,8 @@ final class IntakeSettingCell: UITableViewCell {
     private func setupLayout() {
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(infoLabel)
-        self.contentView.addSubview(intakeaddBtn)
+        self.contentView.addSubview(intakeaddBtnView)
+        intakeaddBtnView.addSubview(intakeaddBtn)
         self.titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(20)
             $0.left.equalToSuperview().inset(16)
@@ -54,6 +59,12 @@ final class IntakeSettingCell: UITableViewCell {
             $0.right.equalToSuperview().inset(20)
         }
         self.intakeaddBtn.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(1)
+            $0.bottom.equalToSuperview().inset(1)
+            $0.left.equalToSuperview().inset(80)
+            $0.right.equalToSuperview().inset(80)
+        }
+        self.intakeaddBtnView.snp.makeConstraints {
             $0.top.equalTo(self.titleLabel.snp.bottom).inset(-20)
             $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview().inset(20)
