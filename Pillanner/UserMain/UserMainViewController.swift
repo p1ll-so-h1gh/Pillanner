@@ -7,32 +7,6 @@
 
 import UIKit
 import SnapKit
-import SwiftUI
-
-//struct PreView: PreviewProvider {
-//    static var previews: some View {
-//        UserMainViewController().toPreview()
-//    }
-//}
-//
-//#if DEBUG
-//extension UIViewController {
-//    private struct Preview: UIViewControllerRepresentable {
-//        let viewController: UIViewController
-//
-//        func makeUIViewController(context: Context) -> UIViewController {
-//            return viewController
-//        }
-//
-//        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-//        }
-//    }
-//
-//    func toPreview() -> some View {
-//        Preview(viewController: self)
-//    }
-//}
-//#endif
 
 final class UserMainViewController: UIViewController {
     
@@ -178,8 +152,7 @@ final class UserMainViewController: UIViewController {
         intakePillListCollectionView.delegate = self
         intakePillListCollectionView.dataSource = self
         
-        let pillListnib = UINib(nibName: "PillListCollectionViewCell", bundle: nil)
-        intakePillListCollectionView.register(pillListnib, forCellWithReuseIdentifier: "PillListCollectionViewCell")
+        intakePillListCollectionView.register(PillListCollectionViewCell.self, forCellWithReuseIdentifier: PillListCollectionViewCell.id)
     }
     
     override func viewWillAppear(_ animated: Bool) {
