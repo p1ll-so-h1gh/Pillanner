@@ -267,6 +267,7 @@ final class UserMainViewController: UIViewController {
         }
     }
     
+
     //MARK: - Attainmet Circle
     private func createCircle() {
         let daycircleRadius: CGFloat = 100

@@ -126,6 +126,5 @@ class PillListCollectionViewCell: UICollectionViewCell {
             $0.right.equalToSuperview().inset(5)
             $0.top.equalToSuperview().inset(7)
         }
-        
     }
 }
