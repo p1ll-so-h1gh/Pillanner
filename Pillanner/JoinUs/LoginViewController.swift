@@ -41,12 +41,6 @@ class LoginViewController: UIViewController {
         return button
     }()
     
-//    private let autoLoginImage: UIImageView = {
-//        let image = UIImageView(image: UIImage(named: "checkButtonImage"))
-//        image.layer.frame.size = CGSize(width: 20.0, height: 20.0)
-//        return image
-//    }()
-    
     private let autoLoginLabel: UILabel = {
         let label = UILabel()
         label.text = "자동 로그인"
@@ -75,21 +69,18 @@ class LoginViewController: UIViewController {
     
     private let kakaoLoginButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "kakaoLoginImage"), for: .normal)
         return button
     }()
     
     private let appleLoginButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "appleLoginImage"), for: .normal)
         return button
     }()
     
     private let naverLoginButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "naverLoginImage"), for: .normal)
         return button
     }()
@@ -120,8 +111,12 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("did load Frame:", view.bounds)
         view.backgroundColor = .white
+        
+        // 자동 로그인 기능 활성화 되어있을 때, 로그인화면 거치지 않고 바로 메인화면으로 이동할 수 있도록 하는 기능
+        if let id = UserDefaults.standard.string(forKey: "ID"), let password = UserDefaults.standard.string(forKey: "Password") {
+            
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -165,10 +160,6 @@ class LoginViewController: UIViewController {
         pwdTextfield.layer.addBorder([.bottom], color: UIColor.lightGray, width: 1.0)
         loginButton.frame.size.width = self.view.frame.width * 0.8
         loginButton.frame.size.height = self.view.frame.height * 0.08
-        // 버튼 둥글게 하는 방법 좀 공유해주셈
-        appleLoginButton.layer.cornerRadius = 5.0
-        kakaoLoginButton.layer.cornerRadius = 5.0
-        naverLoginButton.layer.cornerRadius = 5.0
     }
     
     private func setConstraints() {
@@ -194,11 +185,9 @@ class LoginViewController: UIViewController {
             $0.leading.equalToSuperview().offset(sidePaddingValue)
         }
         autoLoginLabel.snp.makeConstraints{
-//            $0.top.equalTo(pwdTextfield.snp.bottom).offset(paddingBetweenComponents)
             $0.centerY.equalTo(autoLoginButton.snp.centerY)
             $0.leading.equalTo(autoLoginButton.snp.trailing).offset(paddingBetweenComponents)
             $0.leading.equalTo(autoLoginButton.snp.trailing).offset(10)
-//            $0.trailing.equalToSuperview().offset(sidePaddingValue)
         }
         loginButton.snp.makeConstraints{
             $0.top.equalTo(autoLoginLabel.snp.bottom).offset(paddingBetweenComponents)
@@ -232,6 +221,16 @@ class LoginViewController: UIViewController {
     }
     
     //MARK: - Button Actions
+    @objc func logInButtonTapped() {
+        let id = idTextfield.text
+        let password = pwdTextfield.text
+        
+        if UserDefaults.standard.bool(forKey: "isAutoLoginActivate") {
+            UserDefaults.standard.setValue(id, forKey: "ID")
+            UserDefaults.standard.setValue(password, forKey: "Password")
+        }
+    }
+    
     @objc func signInButtonTapped() {
         
     }
@@ -240,8 +239,12 @@ class LoginViewController: UIViewController {
         sender.isSelected.toggle()
         
         if sender.isSelected {
+            // 자동 로그인 유지할 수 있는 기능
+            UserDefaults.standard.set(true, forKey: "isAutoLoginActivate")
             sender.setImage(UIImage(named: "checkButtonSelectedImage"), for: .normal)
         } else {
+            // 자동 로그인 해제
+            UserDefaults.standard.set(false, forKey: "isAutoLoginActivate")
             sender.setImage(UIImage(named: "checkButtonImage"), for: .selected)
         }
     }
