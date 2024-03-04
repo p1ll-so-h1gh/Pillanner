@@ -9,10 +9,10 @@ import Foundation
 import FirebaseFirestore
 
 struct UserData {
-    let ID: String
+    var ID: String
     let password: String
-    let name: String
-    let phoneNumber: String
+    var name: String
+    var phoneNumber: String
     var mealTime: [String]
 }
 
