@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         }
         application.registerForRemoteNotifications()
+//        Thread.sleep(forTimeInterval: 5)
         return true
     }
 
