@@ -38,7 +38,7 @@ class LoginViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(named: "checkButtonImage"), for: .normal)
         button.setImage(UIImage(named: "checkButtonSelectedImage"), for: .selected)
-        button.addTarget(self, action: #selector(autoLoginButtonTapped), for: .touchUpInside)
+        button.addTarget(target, action: #selector(autoLoginButtonTapped), for: .touchUpInside)
         return button
     }()
     

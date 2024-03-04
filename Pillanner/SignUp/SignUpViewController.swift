@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class JoinUsViewController: UIViewController, UITextFieldDelegate {
+class SignUpViewController: UIViewController, UITextFieldDelegate {
     var myVerificationID: String = ""
     var myIDToken: String = ""
     var limitTime: Int = 180 // 3분
