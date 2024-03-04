@@ -4,6 +4,7 @@
 //
 // Created by 영현 on 2/22/24.
 //
+
 import UIKit
 import SnapKit
 
@@ -69,19 +70,19 @@ class LoginViewController: UIViewController {
     
     private let kakaoLoginButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "kakaoLoginImage"), for: .normal)
+        button.setImage(UIImage(named: "KakaoLoginImage"), for: .normal)
         return button
     }()
     
     private let appleLoginButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "appleLoginImage"), for: .normal)
+        button.setImage(UIImage(named: "AppleLoginImage"), for: .normal)
         return button
     }()
     
     private let naverLoginButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "naverLoginImage"), for: .normal)
+        button.setImage(UIImage(named: "NaverLoginImage"), for: .normal)
         return button
     }()
     
@@ -200,19 +201,19 @@ class LoginViewController: UIViewController {
             $0.centerX.equalToSuperview()
         }
         appleLoginButton.snp.makeConstraints{
-            $0.width.height.equalTo(40)
+            $0.width.height.equalTo(30)
             $0.top.equalTo(socialLoginLabel.snp.bottom).offset(1.5 * Double(paddingBetweenComponents))
-            $0.trailing.equalTo(kakaoLoginButton.snp.leading).offset(-80)
+            $0.trailing.equalTo(kakaoLoginButton.snp.leading).offset(-50)
         }
         kakaoLoginButton.snp.makeConstraints{
-            $0.width.height.equalTo(40)
+            $0.width.height.equalTo(30)
             $0.top.equalTo(socialLoginLabel.snp.bottom).offset(1.5 * Double(paddingBetweenComponents))
             $0.centerX.equalToSuperview()
         }
         naverLoginButton.snp.makeConstraints{
-            $0.width.height.equalTo(40)
+            $0.width.height.equalTo(30)
             $0.top.equalTo(socialLoginLabel.snp.bottom).offset(1.5 * Double(paddingBetweenComponents))
-            $0.leading.equalTo(kakaoLoginButton.snp.trailing).offset(80)
+            $0.leading.equalTo(kakaoLoginButton.snp.trailing).offset(50)
         }
         signInStack.snp.makeConstraints{
             $0.top.equalTo(appleLoginButton.snp.bottom).offset(paddingBetweenComponents)
@@ -232,6 +233,18 @@ class LoginViewController: UIViewController {
     }
     
     @objc func signInButtonTapped() {
+        
+    }
+    
+    @objc func appleLoginButtonTapped() {
+        
+    }
+    
+    @objc func naverLoginButtonTapped() {
+        
+    }
+    
+    @objc func kakaoLoginButtonTapped() {
         
     }
     

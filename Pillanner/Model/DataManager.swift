@@ -32,6 +32,7 @@ final class DataManager {
                     "PhoneNumber": user.phoneNumber
                 ])
                 
+                // 회원가입 시 UserDefaults에 데이터가 저장되어야 하나?
                 UserDefaults.standard.set(user.ID, forKey: "ID")
                 UserDefaults.standard.set(user.password, forKey: "Password")
                 UserDefaults.standard.set(user.name, forKey: "Name")
@@ -55,9 +56,13 @@ final class DataManager {
                 return
             }
             // 데이터 있을 때
+            // 데이터 받아서 사용할 수 있도록 User 등의 구조체로 반환하는 기능 추가 필요
             print("데이터를 읽어옵니다.")
             for document in snapshot.documents {
                 print("\(document.documentID) => \(document.data())")
+                if let id = document.data()["ID"] ,let name = document.data()["Name"], let phoneNumber = document.data()["PhoneNumber"] {
+                    // 이 부분에서 변수에 id, name, phoneNumber 담아서 사용하시면 됩니다.
+                }
             }
         }
     }
@@ -116,7 +121,21 @@ final class DataManager {
     }
     
     // MARK: - Modifying Pill Data
+    func createPillData(name: String, day: [String], intake: [Intake], type: String, dueData: Date) {
+        
+    }
     
+    func readPillData() {
+        
+    }
+    
+    func updatePillData() {
+        
+    }
+    
+    func deletePillData() {
+        
+    }
     
     // MARK: - Check Format
     // 아이디 형식 검사 메서드
