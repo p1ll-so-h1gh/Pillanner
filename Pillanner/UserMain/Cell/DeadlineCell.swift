@@ -32,9 +32,8 @@ final class DeadlineCell: UITableViewCell {
     }()
     @objc func switchValueChanged(_ sender: UISwitch) {
         if sender.isOn {
-            setupLayout()
             self.contentView.addSubview(calendarView)
-            self.contentView.snp.makeConstraints {
+            self.calendarView.snp.makeConstraints {
                 $0.top.equalTo(titleLabel.snp.bottom).inset(-10)
                 $0.left.equalToSuperview().inset(10)
             }

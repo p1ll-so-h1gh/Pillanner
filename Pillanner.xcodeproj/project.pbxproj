@@ -77,6 +77,7 @@
 		CC1697A02B90221B008276B0 /* PillTyeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16979F2B90221B008276B0 /* PillTyeCell.swift */; };
 		CC1697A32B90223D008276B0 /* DeadlineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697A22B90223D008276B0 /* DeadlineCell.swift */; };
 		CC1697A52B903DAD008276B0 /* PillAddMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697A42B903DAD008276B0 /* PillAddMainViewController.swift */; };
+		CC7DB3CD2B95536C00809665 /* IntakePillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +111,7 @@
 		CC16979F2B90221B008276B0 /* PillTyeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTyeCell.swift; sourceTree = "<group>"; };
 		CC1697A22B90223D008276B0 /* DeadlineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineCell.swift; sourceTree = "<group>"; };
 		CC1697A42B903DAD008276B0 /* PillAddMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillAddMainViewController.swift; sourceTree = "<group>"; };
+		CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakePillCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +270,7 @@
 				CC1697992B9021C0008276B0 /* PillCell.swift */,
 				CC16979B2B9021D2008276B0 /* IntakeDateCell.swift */,
 				CC16979D2B9021F2008276B0 /* IntakeSettingCell.swift */,
+				CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */,
 				CC16979F2B90221B008276B0 /* PillTyeCell.swift */,
 				CC1697A22B90223D008276B0 /* DeadlineCell.swift */,
 			);
@@ -410,6 +413,7 @@
 				CC16976F2B8DDA13008276B0 /* PillListCollectionViewCell.swift in Sources */,
 				CC1697A52B903DAD008276B0 /* PillAddMainViewController.swift in Sources */,
 				14D2BE612B84BBBF0006AC51 /* AppDelegate.swift in Sources */,
+				CC7DB3CD2B95536C00809665 /* IntakePillCell.swift in Sources */,
 				14D2BE632B84BBBF0006AC51 /* SceneDelegate.swift in Sources */,
 				CC16979E2B9021F2008276B0 /* IntakeSettingCell.swift in Sources */,
 				14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */,
