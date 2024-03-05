@@ -9,8 +9,8 @@ import UIKit
 import SnapKit
 
 class CalendarView: UIView, MonthYearBarViewDelegate {
-    private let sidepaddingsizeValue = 10
-    private let betweenpadidngsizeValue = 10
+    private let sidePaddingSizeValue = 10
+    private let betweenPadidngSizeValue = 10
     var numOfDaysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31]
     var currentMonthIndex: Int = 0
     var currentYear: Int = 0
