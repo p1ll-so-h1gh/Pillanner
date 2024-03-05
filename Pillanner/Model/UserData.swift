@@ -24,7 +24,7 @@ struct Pill {
     var intake: [Intake]
 }
 
-struct Intake {
+struct Intake: Equatable {
     var time: DateFormatter
     var numberOfPills: Int
 }

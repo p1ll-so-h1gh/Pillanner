@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UINavigationController {
     
     private let sidePaddingValue = 20
     private let paddingBetweenComponents = 30
@@ -100,6 +100,7 @@ class LoginViewController: UIViewController {
         button.setTitleColor(.lightGray, for: .normal)
         button.setTitleColor(.black, for: .selected)
         button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -233,7 +234,10 @@ class LoginViewController: UIViewController {
     }
     
     @objc func signInButtonTapped() {
-        
+        print(#function)
+        // ????
+//        self.navigationController?.pushViewController(SignUpViewController(), animated: true)
+//        present(SignUpViewController(), animated: true)
     }
     
     @objc func appleLoginButtonTapped() {
