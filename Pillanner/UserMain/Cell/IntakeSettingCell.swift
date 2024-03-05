@@ -23,7 +23,12 @@ final class IntakeSettingCell: UITableViewCell {
         label.font = FontLiteral.body(style: .regular).withSize(16)
         return label
     }()
-    //사이에 테이블 뷰 넣어줘야 함
+    let pillTableView: UITableView = {
+        let tableview = UITableView()
+        tableview.register(IntakePillCell.self, forCellReuseIdentifier: IntakePillCell.id)
+        tableview.separatorStyle = .none
+        return tableview
+    }()
     let intakeaddBtnView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 5
@@ -40,6 +45,7 @@ final class IntakeSettingCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
+        self.pillTableView.dataSource = self
         self.setupLayout()
     }
     required init?(coder: NSCoder) {
@@ -48,6 +54,7 @@ final class IntakeSettingCell: UITableViewCell {
     private func setupLayout() {
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(infoLabel)
+        self.contentView.addSubview(pillTableView)
         self.contentView.addSubview(intakeaddBtnView)
         intakeaddBtnView.addSubview(intakeaddBtn)
         self.titleLabel.snp.makeConstraints {
@@ -58,6 +65,12 @@ final class IntakeSettingCell: UITableViewCell {
             $0.top.equalToSuperview().inset(20)
             $0.right.equalToSuperview().inset(20)
         }
+        self.pillTableView.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).inset(-10)
+            $0.left.equalToSuperview().inset(15)
+            $0.right.equalToSuperview().inset(15)
+            $0.height.greaterThanOrEqualTo(1)
+        }
         self.intakeaddBtn.snp.makeConstraints {
             $0.top.equalToSuperview().inset(1)
             $0.bottom.equalToSuperview().inset(1)
@@ -65,9 +78,24 @@ final class IntakeSettingCell: UITableViewCell {
             $0.right.equalToSuperview().inset(80)
         }
         self.intakeaddBtnView.snp.makeConstraints {
-            $0.top.equalTo(self.titleLabel.snp.bottom).inset(-20)
+            $0.top.equalTo(self.pillTableView.snp.bottom).inset(-20)
             $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview().inset(20)
         }
+    }
+}
+
+extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("cellnum")
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("celledit")
+        let cell = tableView.dequeueReusableCell(withIdentifier: IntakePillCell.id, for: indexPath) as! IntakePillCell
+        cell.dateLabel.text = "오전 11시 1정"
+        cell.alarmLabel.text = "알림 ON"
+        return cell
     }
 }

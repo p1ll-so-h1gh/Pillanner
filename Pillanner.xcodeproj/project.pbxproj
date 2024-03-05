@@ -77,6 +77,10 @@
 		CC1697A02B90221B008276B0 /* PillTyeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16979F2B90221B008276B0 /* PillTyeCell.swift */; };
 		CC1697A32B90223D008276B0 /* DeadlineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697A22B90223D008276B0 /* DeadlineCell.swift */; };
 		CC1697A52B903DAD008276B0 /* PillAddMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697A42B903DAD008276B0 /* PillAddMainViewController.swift */; };
+		CC7DB3CD2B95536C00809665 /* IntakePillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */; };
+		CC7DB3F62B95C3FF00809665 /* MonthYearBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3F52B95C3FF00809665 /* MonthYearBarView.swift */; };
+		CC7DB3F82B95CBFF00809665 /* WeekdaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3F72B95CBFF00809665 /* WeekdaysView.swift */; };
+		CC7DB3FC2B95CCCD00809665 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3FB2B95CCCD00809665 /* CalendarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +114,10 @@
 		CC16979F2B90221B008276B0 /* PillTyeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTyeCell.swift; sourceTree = "<group>"; };
 		CC1697A22B90223D008276B0 /* DeadlineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineCell.swift; sourceTree = "<group>"; };
 		CC1697A42B903DAD008276B0 /* PillAddMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillAddMainViewController.swift; sourceTree = "<group>"; };
+		CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakePillCell.swift; sourceTree = "<group>"; };
+		CC7DB3F52B95C3FF00809665 /* MonthYearBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthYearBarView.swift; sourceTree = "<group>"; };
+		CC7DB3F72B95CBFF00809665 /* WeekdaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdaysView.swift; sourceTree = "<group>"; };
+		CC7DB3FB2B95CCCD00809665 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,10 +276,22 @@
 				CC1697992B9021C0008276B0 /* PillCell.swift */,
 				CC16979B2B9021D2008276B0 /* IntakeDateCell.swift */,
 				CC16979D2B9021F2008276B0 /* IntakeSettingCell.swift */,
+				CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */,
 				CC16979F2B90221B008276B0 /* PillTyeCell.swift */,
 				CC1697A22B90223D008276B0 /* DeadlineCell.swift */,
+				CC7DB3F42B95C3D700809665 /* DeadlineCalendar */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		CC7DB3F42B95C3D700809665 /* DeadlineCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				CC7DB3F52B95C3FF00809665 /* MonthYearBarView.swift */,
+				CC7DB3F72B95CBFF00809665 /* WeekdaysView.swift */,
+				CC7DB3FB2B95CCCD00809665 /* CalendarView.swift */,
+			);
+			path = DeadlineCalendar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -398,6 +418,7 @@
 			files = (
 				7C3F798A2B906A7700DD1AC7 /* CheckPillCell.swift in Sources */,
 				C490C8922B8EE9AB00DFACD8 /* DataManager.swift in Sources */,
+				CC7DB3F62B95C3FF00809665 /* MonthYearBarView.swift in Sources */,
 				C42DAA952B8C914A004788D3 /* JoinUsVC+Extension.swift in Sources */,
 				14F2CFB72B87080E007F354B /* CalendarViewController.swift in Sources */,
 				C4346D8F2B8DA90D00110DEF /* UserData.swift in Sources */,
@@ -410,11 +431,14 @@
 				CC16976F2B8DDA13008276B0 /* PillListCollectionViewCell.swift in Sources */,
 				CC1697A52B903DAD008276B0 /* PillAddMainViewController.swift in Sources */,
 				14D2BE612B84BBBF0006AC51 /* AppDelegate.swift in Sources */,
+				CC7DB3CD2B95536C00809665 /* IntakePillCell.swift in Sources */,
 				14D2BE632B84BBBF0006AC51 /* SceneDelegate.swift in Sources */,
 				CC16979E2B9021F2008276B0 /* IntakeSettingCell.swift in Sources */,
 				14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */,
+				CC7DB3F82B95CBFF00809665 /* WeekdaysView.swift in Sources */,
 				7C3F79862B9068A000DD1AC7 /* CalendarModel.swift in Sources */,
 				CC16979C2B9021D2008276B0 /* IntakeDateCell.swift in Sources */,
+				CC7DB3FC2B95CCCD00809665 /* CalendarView.swift in Sources */,
 				14D2BE6B2B84BBBF0006AC51 /* Pillanner.xcdatamodeld in Sources */,
 				C40136A82B887DA200577C17 /* UIFont+Extension.swift in Sources */,
 				C40136AA2B887DBA00577C17 /* CALayer+Extension.swift in Sources */,
