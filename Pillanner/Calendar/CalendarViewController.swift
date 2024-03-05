@@ -8,18 +8,24 @@
 import UIKit
 import SnapKit
 import FSCalendar
+import UserNotifications
 
 class CalendarViewController: UIViewController {
 
     private var isWeeklyMode: Bool = true
+    private let sidePadding: CGFloat = 20
     private let cellHeight: CGFloat = 80
     private let cellSpacing: CGFloat = 10
 
     var medicationSections: [MedicationSection] = [
         MedicationSection(headerTitle: "아침 식후", medications: [
             Medicine(name: "약1", dosage: "1정", imageName: "pill"),
+            //Medicine(name: "약1", dosage: "1정", imageName: "pill"),
         ]),
         MedicationSection(headerTitle: "점심 식후", medications: [
+            Medicine(name: "약2", dosage: "1정", imageName: "pill"),
+            Medicine(name: "약2", dosage: "1정", imageName: "pill"),
+            Medicine(name: "약2", dosage: "1정", imageName: "pill"),
             Medicine(name: "약2", dosage: "1정", imageName: "pill"),
         ]),
     ]
@@ -30,19 +36,28 @@ class CalendarViewController: UIViewController {
         let calendar = FSCalendar(frame: .zero)
         calendar.translatesAutoresizingMaskIntoConstraints = false
         calendar.scope = .week
+        calendar.appearance.headerDateFormat = "YYYY년 MM월"
+        //calendar.appearance.headerTitleAlignment = .left
+        calendar.appearance.headerMinimumDissolvedAlpha = 0.0
         calendar.appearance.headerTitleColor = .black
         calendar.appearance.weekdayTextColor = .black
         calendar.locale = Locale(identifier: "ko_KR")
         calendar.appearance.todayColor = .pointThemeColor2
-        //calendar.backgroundColor = .gray
         return calendar
     }()
 
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = .clear
         return tableView
+    }()
+
+    private let refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .pointThemeColor2
+        refreshControl.addTarget(self, action: #selector(handleRefresh(_:)), for: .valueChanged)
+        return refreshControl
     }()
 
     private struct Constants {
@@ -58,10 +73,22 @@ class CalendarViewController: UIViewController {
         let gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
         view.layer.addSublayer(gradientLayer)
 
+        UNUserNotificationCenter.current().delegate = self
+
+        // 앱 시작 시 알림 권한 요청
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if granted {
+                print("알림 권한이 허용되었습니다.")
+            } else {
+                print("알림 권한이 거부되었습니다.")
+            }
+        }
+
         setupCalendar()
         setupTableView()
         setupConstraint()
         setupSwipeGesture()
+        setupRefreshControl()
     }
 
     // MARK: - Setup
@@ -91,14 +118,14 @@ class CalendarViewController: UIViewController {
     private func setupConstraint() {
         calendar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.leading.trailing.equalToSuperview().inset(sidePadding)
             $0.height.equalTo(600)
         }
 
         tableView.snp.makeConstraints {
             $0.top.equalTo(calendar.snp.bottom)
-            $0.leading.trailing.equalToSuperview().inset(24)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview().inset(sidePadding)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
         }
     }
 
@@ -112,7 +139,7 @@ class CalendarViewController: UIViewController {
         emitter.emitterSize = CGSize(width: 10, height: 10)
 
         let cell = CAEmitterCell()
-        cell.contents = UIImage(named: "firework")?.cgImage
+        cell.contents = UIImage(named: "firework2")?.cgImage
         cell.birthRate = 10
         cell.lifetime = 3
         cell.velocity = -250
@@ -149,18 +176,32 @@ class CalendarViewController: UIViewController {
 
     @objc private func handleSwipe(_ swipe: UISwipeGestureRecognizer) {
         if swipe.direction == .up {
+            calendar.appearance.headerTitleFont = .systemFont(ofSize: 17)
             calendar.setScope(.week, animated: true)
         } else if swipe.direction == .down {
+            calendar.appearance.headerTitleFont = .boldSystemFont(ofSize: 20)
             calendar.setScope(.month, animated: true)
+        }
+    }
+
+    // MARK: - Refresh Control
+
+    private func setupRefreshControl() {
+        tableView.refreshControl = refreshControl
+    }
+
+    @objc private func handleRefresh(_ sender: UIRefreshControl) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            sender.endRefreshing()
         }
     }
 }
 
 // MARK: - Extension
 
-extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITableViewDataSource, UITableViewDelegate {
+extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITableViewDataSource, UITableViewDelegate, UNUserNotificationCenterDelegate {
 
-    // MARK: FSCalendarDelegate
+    // MARK: FSCalendar Delegateㅎ
 
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         calendar.snp.updateConstraints {
@@ -170,6 +211,10 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
         UIView.animate(withDuration: 0.5) {
             self.view.layoutIfNeeded()
         }
+    }
+
+    func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
+        return false
     }
 
     // MARK: UITableView DataSource
@@ -210,6 +255,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as! CheckPillCell
         let medicine = medicationSections[indexPath.section].medications[indexPath.row]
 
+        cell.backgroundColor = .clear
         cell.selectionStyle = .none
         cell.configure(with: medicine)
 
@@ -232,15 +278,24 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
         showNotification(message: "\(medicine.name) - \(medicine.dosage)을 복용하셨습니다.")
     }
 
-    // MARK: - Notification
+    // MARK: - UserNotification
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound, .badge])
+    }
 
     private func showNotification(message: String) {
-        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+           let content = UNMutableNotificationContent()
+           content.title = "알림"
+           content.body = message
+           content.sound = UNNotificationSound.default
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            alertController.dismiss(animated: true, completion: nil)
-        }
+           let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
 
-        self.present(alertController, animated: true, completion: nil)
-    }
+           UNUserNotificationCenter.current().add(request) { error in
+               if let error = error {
+                   print("알림 요청이 실패했습니다. 오류: \(error.localizedDescription)")
+               }
+           }
+       }
 }

@@ -82,14 +82,6 @@ class CheckPillCell: UITableViewCell {
         contentView.layer.borderWidth = 2
         contentView.layer.borderColor = UIColor.pointThemeColor2.cgColor
         contentView.layer.cornerRadius = 10
-        contentView.layer.masksToBounds = true
-
-//        contentView.layer.shadowColor = UIColor.black.cgColor
-//        contentView.layer.shadowOffset = CGSize(width: 0, height: 2)
-//        contentView.layer.shadowOpacity = 0.2
-//        contentView.layer.shadowRadius = 4
-//
-//        contentView.clipsToBounds = false
 
         contentView.addSubview(pillImage)
         contentView.addSubview(nameLabel)
@@ -139,6 +131,18 @@ class CheckPillCell: UITableViewCell {
         if isSelectedCell, let medicine = medicine {
             contentView.layer.backgroundColor = UIColor.pointThemeColor2.cgColor
             pillImage.image = UIImage(named: medicine.imageName)
+
+            // 팝 효과
+            contentView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.2, options: .curveEaseInOut, animations: {
+                self.contentView.transform = .identity
+            }, completion: nil)
+
+            // 그림자
+            contentView.layer.shadowOpacity = 0.2
+            contentView.layer.shadowColor = UIColor.black.cgColor
+            contentView.layer.shadowOffset = CGSize(width: 2, height: 5)
+            contentView.layer.shadowRadius = 2
         } else {
             contentView.layer.backgroundColor = UIColor.clear.cgColor
             if let originalImage = UIImage(named: medicine?.imageName ?? "pill") {
@@ -146,6 +150,8 @@ class CheckPillCell: UITableViewCell {
                     pillImage.image = adjustedImage
                 }
             }
+
+            contentView.layer.shadowOpacity = 0
         }
     }
 
@@ -163,7 +169,10 @@ class CheckPillCell: UITableViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20))
+
+
     }
 
     // 셀 테두리 안쪽만 터치
