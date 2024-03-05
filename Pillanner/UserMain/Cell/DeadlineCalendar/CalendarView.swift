@@ -72,21 +72,21 @@ class CalendarView: UIView, MonthYearBarViewDelegate {
         self.addSubview(monthView)
         monthView.delegate = self
         monthView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(betweenpadidngsizeValue)
-            $0.left.right.equalToSuperview().inset(sidepaddingsizeValue)
+            $0.top.equalToSuperview().inset(betweenPadidngSizeValue)
+            $0.left.right.equalToSuperview().inset(sidePaddingSizeValue)
             $0.height.equalTo(37.5)
         }
         self.addSubview(weekdaysView)
         weekdaysView.snp.makeConstraints {
-            $0.top.equalTo(monthView.snp.bottom).inset(-betweenpadidngsizeValue)
-            $0.left.right.equalToSuperview().inset(sidepaddingsizeValue)
+            $0.top.equalTo(monthView.snp.bottom).inset(-betweenPadidngSizeValue)
+            $0.left.right.equalToSuperview().inset(sidePaddingSizeValue)
             $0.height.equalTo(37.5)
         }
         self.addSubview(dayCollectionView)
         dayCollectionView.snp.makeConstraints {
-            $0.top.equalTo(weekdaysView.snp.bottom).inset(-betweenpadidngsizeValue)
-            $0.left.right.equalToSuperview().inset(sidepaddingsizeValue)
-            $0.bottom.equalToSuperview().inset(betweenpadidngsizeValue)
+            $0.top.equalTo(weekdaysView.snp.bottom).inset(-betweenPadidngSizeValue)
+            $0.left.right.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.bottom.equalToSuperview().inset(betweenPadidngSizeValue)
             $0.height.equalTo(202)
         }
     }
