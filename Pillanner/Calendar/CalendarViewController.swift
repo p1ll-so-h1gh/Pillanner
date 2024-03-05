@@ -201,7 +201,7 @@ class CalendarViewController: UIViewController {
 
 extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITableViewDataSource, UITableViewDelegate, UNUserNotificationCenterDelegate {
 
-    // MARK: FSCalendar Delegateㅎ
+    // MARK: FSCalendar Delegate
 
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         calendar.snp.updateConstraints {
