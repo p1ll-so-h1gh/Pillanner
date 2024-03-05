@@ -22,7 +22,7 @@ class IntakePillCell: UITableViewCell {
         return label
     }()
     private let editBtn: UIButton = {
-        let button = UIButton ()
+        let button = UIButton()
         button.setImage(UIImage(named: "button"), for: .normal)
         return button
     }()
