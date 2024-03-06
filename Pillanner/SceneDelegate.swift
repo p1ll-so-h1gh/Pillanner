@@ -19,12 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-
-
-//        let rootVC = PillAddMainViewController() // 추후 해당 뷰컨으로 조정
-//        window?.rootViewController = rootVC
-        window?.rootViewController = TabBarController()
-
+        
+        window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
         window?.makeKeyAndVisible()
     }
 

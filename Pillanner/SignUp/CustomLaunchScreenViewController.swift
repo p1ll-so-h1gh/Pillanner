@@ -36,6 +36,17 @@ class CustomLaunchScreenViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        view.layer.addSublayer(backgroundLayer)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        addViews()
+        setConstraints()
+    }
+    
     private func addViews() {
         view.addSubview(logoFlagImage)
         view.addSubview(welcomeMessageLabel)

@@ -11,7 +11,7 @@ import SnapKit
 import AuthenticationServices
 import CryptoKit
 
-class LoginViewController: UINavigationController, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     
     fileprivate var currentNonce: String?
     private let sidePaddingValue = 20
@@ -61,6 +61,7 @@ class LoginViewController: UINavigationController, ASAuthorizationControllerDele
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.mainThemeColor
         button.layer.cornerRadius = 8
+        button.addTarget(target, action: #selector(logInButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -111,7 +112,7 @@ class LoginViewController: UINavigationController, ASAuthorizationControllerDele
     private let signInStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.spacing = 10.0
+        stack.spacing = 20.0
         return stack
     }()
     
@@ -138,7 +139,7 @@ class LoginViewController: UINavigationController, ASAuthorizationControllerDele
     private let findStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.spacing = 10.0
+        stack.spacing = 20.0
         return stack
     }()
     
@@ -253,6 +254,10 @@ class LoginViewController: UINavigationController, ASAuthorizationControllerDele
             $0.top.equalTo(appleLoginButton.snp.bottom).offset(paddingBetweenComponents)
             $0.centerX.equalToSuperview()
         }
+        findStack.snp.makeConstraints {
+            $0.top.equalTo(signInStack.snp.bottom).offset(2.0 * Double(paddingBetweenComponents))
+            $0.centerX.equalToSuperview()
+        }
     }
     
     //MARK: - Button Actions
@@ -264,12 +269,20 @@ class LoginViewController: UINavigationController, ASAuthorizationControllerDele
             UserDefaults.standard.setValue(id, forKey: "ID")
             UserDefaults.standard.setValue(password, forKey: "Password")
         }
+        
+        // 일단 메인 화면(탭바)로 넘어가는 기능 넣기
+        let mainVC = TabBarController()
+        mainVC.modalPresentationStyle = .fullScreen
+        present(mainVC, animated: true, completion: nil)
+        
     }
     
     @objc func signInButtonTapped() {
         print(#function)
         // ????
-//        self.navigationController?.pushViewController(SignUpViewController(), animated: true)
+//        let signInVC = self.storyboard?.instantiateViewController(identifier: "SignUpViewController")
+        let signUpVC = SignUpViewController()
+        self.navigationController?.pushViewController(signUpVC, animated: true)
 //        present(SignUpViewController(), animated: true)
     }
     
@@ -300,11 +313,11 @@ class LoginViewController: UINavigationController, ASAuthorizationControllerDele
     }
     
     @objc func findIDButtonTapped() {
-        
+        self.navigationController?.pushViewController(FindIDViewController(), animated: true)
     }
     
     @objc func findPasswordButtonTapped() {
-        
+        self.navigationController?.pushViewController(FindPWViewController(), animated: true)
     }
     
     // Apple Login 관련
