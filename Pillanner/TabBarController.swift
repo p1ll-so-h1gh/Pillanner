@@ -7,37 +7,46 @@
 
 import UIKit
 
-class TabBarController: UITabBarController {
+class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.delegate = self
+
         setupTabBar()
     }
 
     private func setupTabBar() {
         tabBar.backgroundColor = .clear
 
-        let userMainVC = UINavigationController(rootViewController: UserMainViewController())
-        userMainVC.tabBarItem.image = UIImage(named: "tabHome")?.withRenderingMode(.alwaysOriginal)
-        userMainVC.tabBarItem.selectedImage = UIImage(named: "tabHome.fill")?.withRenderingMode(.alwaysOriginal)
+        let userMainVC = UserMainViewController()
+        setupTabBarItem(for: userMainVC, imageName: "tabHome", selectedImageName: "tabHome.fill")
 
-        let pillAddVC = UINavigationController(rootViewController: PillAddMainViewController())
-        pillAddVC.tabBarItem.image = UIImage(named: "tabAdd")?.withRenderingMode(.alwaysOriginal)
+        let pillAddVC = PillAddMainViewController()
+        setupTabBarItem(for: pillAddVC, imageName: "tabAdd")
 
         let calendarVC = CalendarViewController()
-        calendarVC.tabBarItem.image = UIImage(named: "tabCalendar")?.withRenderingMode(.alwaysOriginal)
-        calendarVC.tabBarItem.selectedImage = UIImage(named: "tabCalendar.fill")?.withRenderingMode(.alwaysOriginal)
+        setupTabBarItem(for: calendarVC, imageName: "tabCalendar", selectedImageName: "tabCalendar.fill")
 
         viewControllers = [userMainVC, pillAddVC, calendarVC]
     }
 
-    private func createNavigationController(for viewController: UIViewController, title: String, imageName: String, tag: Int) -> UINavigationController {
-        let navController = UINavigationController(rootViewController: viewController)
+    private func setupTabBarItem(for viewController: UIViewController, imageName: String, selectedImageName: String? = nil) {
+        viewController.tabBarItem.image = UIImage(named: imageName)?.withRenderingMode(.alwaysOriginal)
 
-        // assets 이미지 사용
-        let image = UIImage(named: imageName)?.withRenderingMode(.alwaysOriginal)
+        if let selectedImageName = selectedImageName {
+            viewController.tabBarItem.selectedImage = UIImage(named: selectedImageName)?.withRenderingMode(.alwaysOriginal)
+        }
+    }
 
-        navController.tabBarItem = UITabBarItem(title: title, image: UIImage(systemName: imageName), tag: tag)
-        return navController
+    // PillAddMainVC 모달 처리
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if viewController is PillAddMainViewController {
+            let pillAddVC = PillAddMainViewController()
+            pillAddVC.modalPresentationStyle = .fullScreen
+            present(pillAddVC, animated: true, completion: nil)
+            return false
+        }
+        return true
     }
 }
