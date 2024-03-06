@@ -366,7 +366,7 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
 //    @objc func findIDButtonTapped(name: String, birth: String) {
     @objc func findIDButtonTapped() {
         // 전화번호가 회원정보(서버)에 저장되어있고, 인증이 성공했으며, 같은 문서에 이름이 정확하게 기입되어있을 떄, 아이디 알려주기
-        var idAlert = UIAlertController(title: "결과", message: "회원님의 아이디는 입니다.", preferredStyle: .alert)
+        let idAlert = UIAlertController(title: "결과", message: "회원님의 아이디는 입니다.", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default)
         idAlert.addAction(okAction)
         present(idAlert, animated: true)

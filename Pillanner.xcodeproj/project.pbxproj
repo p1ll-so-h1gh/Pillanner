@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1408A5D02B972DF2006DA21D /* CustomLaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1408A5CF2B972DF2006DA21D /* CustomLaunchScreenViewController.swift */; };
 		142BC72D2B88708A0046D8AB /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 142BC72C2B88708A0046D8AB /* FSCalendar */; };
 		142BC7302B8870960046D8AB /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 142BC72F2B8870960046D8AB /* SnapKit */; };
 		142BC7352B8870B70046D8AB /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 142BC7342B8870B70046D8AB /* KakaoSDK */; };
@@ -87,6 +88,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1408A5CF2B972DF2006DA21D /* CustomLaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLaunchScreenViewController.swift; sourceTree = "<group>"; };
 		1438F6AB2B8F0A52006D2939 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		14D2BE5D2B84BBBF0006AC51 /* Pillanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pillanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14D2BE602B84BBBF0006AC51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 				C40136AB2B887DE100577C17 /* LoginViewController.swift */,
 				C45D904A2B95B03B00676CEA /* SignUpViewController.swift */,
 				C45D904C2B95B06F00676CEA /* SignUpVC_Extension.swift */,
+				1408A5CF2B972DF2006DA21D /* CustomLaunchScreenViewController.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				C45D90502B95B0EA00676CEA /* FindIDViewController.swift in Sources */,
 				14D2BE612B84BBBF0006AC51 /* AppDelegate.swift in Sources */,
 				CC7DB3CD2B95536C00809665 /* IntakePillCell.swift in Sources */,
+				1408A5D02B972DF2006DA21D /* CustomLaunchScreenViewController.swift in Sources */,
 				14D2BE632B84BBBF0006AC51 /* SceneDelegate.swift in Sources */,
 				CC16979E2B9021F2008276B0 /* IntakeSettingCell.swift in Sources */,
 				14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */,

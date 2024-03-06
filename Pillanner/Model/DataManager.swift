@@ -130,7 +130,7 @@ final class DataManager {
     
     // MARK: - Pill Data Functions
     func createPillData(pill: Pill) {
-        var userDocumentID = ""
+        var userDocumentID = "" // UID 값으로 대체하면 좋을 것 같음...
         if let userID = UserDefaults.standard.string(forKey: "ID") {
             if let documentID = readUserData(userID: userID)["documentID"] {
                 userDocumentID = documentID
@@ -139,7 +139,7 @@ final class DataManager {
             let pillCollection = db.collection("Users").document(userDocumentID).collection("Pills")
             let query = pillCollection.whereField("Title", isEqualTo: pill.title)
             
-            let intakeRef = db.collection("Pills").document("Intake")
+//            let intakeRef = db.collection("Pills").document("Intake")
             
             query.getDocuments{ (snapshot, error) in
                 guard let captured = snapshot, !captured.isEmpty else {
@@ -158,6 +158,9 @@ final class DataManager {
         }
     }
     
+    
+    // var dict = readPillData(pillTitle: "게보린")
+    // dict["Title"] => 게보린 ....
     func readPillData(pillTitle: String) -> [String: Any] {
         var userDocumentID = ""
         var output: [String: Any] = [:]
@@ -169,7 +172,7 @@ final class DataManager {
             let pillCollection = db.collection("Users").document(userDocumentID).collection("Pills")
             let query = pillCollection.whereField("Title", isEqualTo: pillTitle)
             
-            let intakeRef = db.collection("Pills").document("Intake")
+//            let intakeRef = db.collection("Pills").document("Intake")
             
             query.getDocuments{ (snapshot, error) in
                 guard let snapshot = snapshot, !snapshot.isEmpty else {
@@ -215,31 +218,31 @@ final class DataManager {
                 let ref = pillCollection.document(oldTitle)
                 
                 // 여기서부터는 예전 값이랑 비교해서 차이가 있으면 ref.updateData 실행하면 됨
-                if newTitle == oldValue["Title"] as! String {
+                if newTitle != oldValue["Title"] as! String {
                     print("oldValue = \(oldValue["Title"] as! String)")
                     print("newValue = \(newTitle)")
                     ref.updateData(["Title": newTitle])
                 }
                 
-                if type == oldValue["Type"] as! String {
+                if type != oldValue["Type"] as! String {
                     print("oldValue = \(oldValue["Type"] as! String)")
                     print("newValue = \(type)")
                     ref.updateData(["Type": type])
                 }
                 
-                if day == oldValue["Day"] as! [Int] {
+                if day != oldValue["Day"] as! [Int] {
                     print("oldValue = \(String(describing: oldValue["Day"]))")
                     print("newValue = \(day)")
                     ref.updateData(["Day": day])
                 }
                 
-                if dueDate == oldValue["DueDate"] as! Date {
+                if dueDate != oldValue["DueDate"] as! Date {
                     print("oldValue = \(String(describing: oldValue["DueDate"]))")
                     print("newValue = \(dueDate)")
                     ref.updateData(["DueDate": dueDate])
                 }
                 
-                if intake == oldValue["Intake"] as! [Intake] {
+                if intake != oldValue["Intake"] as! [Intake] {
                     print("oldValue = \(String(describing: oldValue["Intake"]))")
                     print("newValue = \(intake)")
                     ref.updateData(["Intake": intake])
