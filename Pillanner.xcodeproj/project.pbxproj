@@ -61,7 +61,7 @@
 		C40136A62B887D6100577C17 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A52B887D6100577C17 /* UIColor+Extension.swift */; };
 		C40136A82B887DA200577C17 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A72B887DA200577C17 /* UIFont+Extension.swift */; };
 		C40136AA2B887DBA00577C17 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A92B887DBA00577C17 /* CALayer+Extension.swift */; };
-		C40136AC2B887DE100577C17 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136AB2B887DE100577C17 /* LaunchScreenViewController.swift */; };
+		C40136AC2B887DE100577C17 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136AB2B887DE100577C17 /* LoginViewController.swift */; };
 		C42DAA952B8C914A004788D3 /* JoinUsVC+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42DAA942B8C914A004788D3 /* JoinUsVC+Extension.swift */; };
 		C4346D8F2B8DA90D00110DEF /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4346D8E2B8DA90D00110DEF /* UserData.swift */; };
 		C4346D922B8DB2D300110DEF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C4346D912B8DB2D300110DEF /* FirebaseAnalytics */; };
@@ -104,7 +104,7 @@
 		C40136A52B887D6100577C17 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		C40136A72B887DA200577C17 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C40136A92B887DBA00577C17 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
-		C40136AB2B887DE100577C17 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
+		C40136AB2B887DE100577C17 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C42DAA942B8C914A004788D3 /* JoinUsVC+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JoinUsVC+Extension.swift"; sourceTree = "<group>"; };
 		C4346D8E2B8DA90D00110DEF /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		C4346D902B8DAD1B00110DEF /* Pillanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pillanner.entitlements; sourceTree = "<group>"; };
@@ -216,7 +216,7 @@
 		14D2BE772B84C2C10006AC51 /* JoinUs */ = {
 			isa = PBXGroup;
 			children = (
-				C40136AB2B887DE100577C17 /* LaunchScreenViewController.swift */,
+				C40136AB2B887DE100577C17 /* LoginViewController.swift */,
 				14F2CFBC2B870831007F354B /* JoinUsViewController.swift */,
 				C42DAA942B8C914A004788D3 /* JoinUsVC+Extension.swift */,
 			);
@@ -446,7 +446,7 @@
 				14D2BE6B2B84BBBF0006AC51 /* Pillanner.xcdatamodeld in Sources */,
 				C40136A82B887DA200577C17 /* UIFont+Extension.swift in Sources */,
 				C40136AA2B887DBA00577C17 /* CALayer+Extension.swift in Sources */,
-				C40136AC2B887DE100577C17 /* LaunchScreenViewController.swift in Sources */,
+				C40136AC2B887DE100577C17 /* LoginViewController.swift in Sources */,
 				14F2CFBD2B870831007F354B /* JoinUsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

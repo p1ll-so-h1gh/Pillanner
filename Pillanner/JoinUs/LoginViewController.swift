@@ -7,7 +7,7 @@
 import UIKit
 import SnapKit
 
-class LaunchScreenViewController: UIViewController {
+class LoginViewController: UIViewController {
     
     private let sidePaddingValue = 20
     private let paddingBetweenComponents = 30
@@ -15,7 +15,7 @@ class LaunchScreenViewController: UIViewController {
     lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
     
     private let pillannerFlagImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "PillannerFlag"))
+        let image = UIImageView(image: UIImage(named: "PillannerFlagImage"))
         return image
     }()
     
@@ -33,11 +33,19 @@ class LaunchScreenViewController: UIViewController {
         return field
     }()
     
-    private let autoLoginImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "CheckImage"))
-        image.layer.frame.size = CGSize(width: 20.0, height: 20.0)
-        return image
+    private let autoLoginButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "checkButtonImage"), for: .normal)
+        button.setImage(UIImage(named: "checkButtonSelectedImage"), for: .selected)
+        button.addTarget(self, action: #selector(autoLoginButtonTapped), for: .touchUpInside)
+        return button
     }()
+    
+//    private let autoLoginImage: UIImageView = {
+//        let image = UIImageView(image: UIImage(named: "checkButtonImage"))
+//        image.layer.frame.size = CGSize(width: 20.0, height: 20.0)
+//        return image
+//    }()
     
     private let autoLoginLabel: UILabel = {
         let label = UILabel()
@@ -57,7 +65,7 @@ class LaunchScreenViewController: UIViewController {
         return button
     }()
     
-    private let noAccountLabel: UILabel = {
+    private let socialLoginLabel: UILabel = {
         let label = UILabel()
         label.text = "SNS 계정으로 로그인 하기"
         label.font = FontLiteral.body(style: .regular)
@@ -65,9 +73,25 @@ class LaunchScreenViewController: UIViewController {
         return label
     }()
     
-    private let kakaoLoginImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "KakaoLoginImage"))
-        return image
+    private let kakaoLoginButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "kakaoLoginImage"), for: .normal)
+        return button
+    }()
+    
+    private let appleLoginButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "appleLoginImage"), for: .normal)
+        return button
+    }()
+    
+    private let naverLoginButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "naverLoginImage"), for: .normal)
+        return button
     }()
     
     private let signInLabel: UILabel = {
@@ -76,6 +100,22 @@ class LaunchScreenViewController: UIViewController {
         label.font = FontLiteral.body(style: .regular)
         label.textColor = .lightGray
         return label
+    }()
+    
+    private let signInButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("회원가입 하기", for: .normal)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.setTitleColor(.black, for: .selected)
+        button.backgroundColor = .clear
+        return button
+    }()
+    
+    private let signInStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.spacing = 10.0
+        return stack
     }()
     
     override func viewDidLoad() {
@@ -103,11 +143,15 @@ class LaunchScreenViewController: UIViewController {
         self.view.addSubview(pillannerFlagImage)
         self.view.addSubview(idTextfield)
         self.view.addSubview(pwdTextfield)
-//        self.view.addSubview(autoLoginImage)
+        self.view.addSubview(autoLoginButton)
         self.view.addSubview(autoLoginLabel)
         self.view.addSubview(loginButton)
-        self.view.addSubview(noAccountLabel)
-        self.view.addSubview(kakaoLoginImage)
+        self.view.addSubview(appleLoginButton)
+        self.view.addSubview(kakaoLoginButton)
+        self.view.addSubview(naverLoginButton)
+        self.view.addSubview(socialLoginLabel)
+        self.view.addSubview(signInStack)
+        [signInLabel, signInButton].forEach({ signInStack.addArrangedSubview($0) })
     }
     
     private func setUpSize() {
@@ -119,10 +163,12 @@ class LaunchScreenViewController: UIViewController {
         pwdTextfield.frame.size.width = self.view.frame.width * 0.8
         pwdTextfield.frame.size.height = self.view.frame.height * 0.03
         pwdTextfield.layer.addBorder([.bottom], color: UIColor.lightGray, width: 1.0)
-//        autoLoginImage.frame.size.width = self.view.frame.height * 0.03
-//        autoLoginImage.frame.size.height = self.view.frame.height * 0.03
         loginButton.frame.size.width = self.view.frame.width * 0.8
         loginButton.frame.size.height = self.view.frame.height * 0.08
+        // 버튼 둥글게 하는 방법 좀 공유해주셈
+        appleLoginButton.layer.cornerRadius = 5.0
+        kakaoLoginButton.layer.cornerRadius = 5.0
+        naverLoginButton.layer.cornerRadius = 5.0
     }
     
     private func setConstraints() {
@@ -134,23 +180,25 @@ class LaunchScreenViewController: UIViewController {
             $0.top.equalTo(pillannerFlagImage.snp.bottom).offset(paddingBetweenComponents)
             $0.leading.equalToSuperview().offset(sidePaddingValue)
             $0.trailing.equalToSuperview().offset(-sidePaddingValue)
-            $0.centerX.equalToSuperview()
+            $0.centerX.equalTo(self.view.snp.centerX)
         }
         pwdTextfield.snp.makeConstraints{
             $0.top.equalTo(idTextfield.snp.bottom).offset(paddingBetweenComponents)
             $0.leading.equalToSuperview().offset(sidePaddingValue)
             $0.trailing.equalToSuperview().offset(-sidePaddingValue)
-            $0.centerX.equalToSuperview()
+            $0.centerX.equalTo(self.view.snp.centerX)
         }
-//        autoLoginImage.snp.makeConstraints{
-//            $0.top.equalTo(pwdTextfield.snp.bottom).offset(paddingBetweenComponents)
-//            $0.leading.equalToSuperview().offset(sidePaddingValue)
-//        }
-        autoLoginLabel.snp.makeConstraints{
+        autoLoginButton.snp.makeConstraints{
+            $0.width.height.equalTo(25)
             $0.top.equalTo(pwdTextfield.snp.bottom).offset(paddingBetweenComponents)
-//            $0.leading.equalTo(autoLoginImage.snp.trailing).offset(paddingBetweenComponents)
-//            $0.trailing.equalToSuperview().offset(sidePaddingValue)
             $0.leading.equalToSuperview().offset(sidePaddingValue)
+        }
+        autoLoginLabel.snp.makeConstraints{
+//            $0.top.equalTo(pwdTextfield.snp.bottom).offset(paddingBetweenComponents)
+            $0.centerY.equalTo(autoLoginButton.snp.centerY)
+            $0.leading.equalTo(autoLoginButton.snp.trailing).offset(paddingBetweenComponents)
+            $0.leading.equalTo(autoLoginButton.snp.trailing).offset(10)
+//            $0.trailing.equalToSuperview().offset(sidePaddingValue)
         }
         loginButton.snp.makeConstraints{
             $0.top.equalTo(autoLoginLabel.snp.bottom).offset(paddingBetweenComponents)
@@ -158,13 +206,44 @@ class LaunchScreenViewController: UIViewController {
             $0.leading.equalToSuperview().offset(sidePaddingValue)
             $0.trailing.equalToSuperview().offset(-sidePaddingValue)
         }
-        noAccountLabel.snp.makeConstraints{
+        socialLoginLabel.snp.makeConstraints{
             $0.top.equalTo(loginButton.snp.bottom).offset(paddingBetweenComponents)
             $0.centerX.equalToSuperview()
         }
-        kakaoLoginImage.snp.makeConstraints{
-            $0.top.equalTo(noAccountLabel.snp.bottom).offset(1.5 * Double(paddingBetweenComponents))
+        appleLoginButton.snp.makeConstraints{
+            $0.width.height.equalTo(40)
+            $0.top.equalTo(socialLoginLabel.snp.bottom).offset(1.5 * Double(paddingBetweenComponents))
+            $0.trailing.equalTo(kakaoLoginButton.snp.leading).offset(-80)
+        }
+        kakaoLoginButton.snp.makeConstraints{
+            $0.width.height.equalTo(40)
+            $0.top.equalTo(socialLoginLabel.snp.bottom).offset(1.5 * Double(paddingBetweenComponents))
+            $0.centerX.equalToSuperview()
+        }
+        naverLoginButton.snp.makeConstraints{
+            $0.width.height.equalTo(40)
+            $0.top.equalTo(socialLoginLabel.snp.bottom).offset(1.5 * Double(paddingBetweenComponents))
+            $0.leading.equalTo(kakaoLoginButton.snp.trailing).offset(80)
+        }
+        signInStack.snp.makeConstraints{
+            $0.top.equalTo(appleLoginButton.snp.bottom).offset(paddingBetweenComponents)
             $0.centerX.equalToSuperview()
         }
     }
+    
+    //MARK: - Button Actions
+    @objc func signInButtonTapped() {
+        
+    }
+    
+    @objc func autoLoginButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        
+        if sender.isSelected {
+            sender.setImage(UIImage(named: "checkButtonSelectedImage"), for: .normal)
+        } else {
+            sender.setImage(UIImage(named: "checkButtonImage"), for: .selected)
+        }
+    }
 }
+
