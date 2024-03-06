@@ -10,6 +10,7 @@ import SnapKit
 
 final class IntakeDateCell: UITableViewCell {
     static let id = "IntakeDateCell"
+    private let sidePaddingSizeValue = 20
     
     private let intakedateLabel: UILabel = {
         let label = UILabel()
@@ -186,17 +187,17 @@ final class IntakeDateCell: UITableViewCell {
             $0.right.equalToSuperview().inset(10)
         }
         self.intakedateLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(20)
-            $0.left.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.left.equalToSuperview().inset(sidePaddingSizeValue)
         }
         self.detailBtn.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(20)
-            $0.right.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.right.equalToSuperview().inset(sidePaddingSizeValue)
         }
         self.HStackView.snp.makeConstraints {
-            $0.top.equalTo(intakedateLabel.snp.bottom).inset(-20)
+            $0.top.equalTo(intakedateLabel.snp.bottom).inset(-sidePaddingSizeValue)
             $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
         }
     }
 }

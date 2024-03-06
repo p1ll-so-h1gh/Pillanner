@@ -11,6 +11,7 @@ import FSCalendar
 
 final class DeadlineCell: UITableViewCell {
     static let id = "DeadlineCell"
+    private let sidePaddingSizeValue = 20
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -19,10 +20,9 @@ final class DeadlineCell: UITableViewCell {
         label.alpha = 0.6
         return label
     }()
-    private let popswitch: UISwitch = {
+    private lazy var popswitch: UISwitch = {
         let switchControl = UISwitch()
-        switchControl.thumbTintColor = UIColor.mainThemeColor
-        switchControl.onTintColor = UIColor(hexCode: "F0EFEF")
+        switchControl.onTintColor = UIColor.mainThemeColor
         switchControl.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
         return switchControl
     }()
@@ -37,7 +37,6 @@ final class DeadlineCell: UITableViewCell {
             self.calendarView.isHidden = true
         }
     }
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
@@ -52,18 +51,18 @@ final class DeadlineCell: UITableViewCell {
         self.contentView.addSubview(popswitch)
         self.contentView.addSubview(calendarView)
         self.titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(20)
-            $0.left.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.left.equalToSuperview().inset(sidePaddingSizeValue)
         }
         self.popswitch.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(20)
-            $0.right.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.right.equalToSuperview().inset(sidePaddingSizeValue)
         }
         self.calendarView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).inset(-20)
-            $0.left.bottom.equalToSuperview().inset(20)
+            $0.top.equalTo(titleLabel.snp.bottom).inset(-sidePaddingSizeValue)
+            $0.left.bottom.equalToSuperview().inset(sidePaddingSizeValue)
             $0.width.equalTo(351)
-            $0.height.equalTo(318)
+            $0.height.equalTo(320)
         }
     }
 }

@@ -8,8 +8,14 @@
 import UIKit
 import SnapKit
 
+protocol PillListViewDelegate: AnyObject {
+    func deletePill(pilldata: String)
+    func editPill(pilldata: String)
+}
+
 class PillListCollectionViewCell: UICollectionViewCell {
     static let id = "PillListCollectionViewCell"
+    weak var delegate: PillListViewDelegate?
     
     let typeLabelView: UIView = {
         let view = UIView()
@@ -65,23 +71,26 @@ class PillListCollectionViewCell: UICollectionViewCell {
     private let editBtn: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "dots"), for: .normal)
-        
-        let edit = UIAction(title: "수정", state: .off) { _ in
-            print("수정")
-        }
-        let delete = UIAction(title: "삭제", state: .off) { _ in
-            print("삭제")
-        }
-        let menu = UIMenu(title: "", options: .displayInline, children: [edit, delete])
-        button.menu = menu
-        button.showsMenuAsPrimaryAction = true
-        button.changesSelectionAsPrimaryAction = false
         return button
     }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
+        configeBtn()
+    }
+    private func configeBtn() {
+        let edit = UIAction(title: "수정", state: .off) { _ in
+            guard let pillname = self.nameLabel.text else { return }
+            self.delegate?.editPill(pilldata: pillname)
+        }
+        let delete = UIAction(title: "삭제", state: .off) { _ in
+            guard let pillname = self.nameLabel.text else { return }
+            self.delegate?.deletePill(pilldata: pillname)
+        }
+        let menu = UIMenu(title: "", options: .displayInline, children: [edit, delete])
+        editBtn.menu = menu
+        editBtn.showsMenuAsPrimaryAction = true
+        editBtn.changesSelectionAsPrimaryAction = false
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

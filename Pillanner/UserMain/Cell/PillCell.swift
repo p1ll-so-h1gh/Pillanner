@@ -11,6 +11,7 @@ import SwiftUI
 
 final class PillCell: UITableViewCell {
     static let id = "PillCell"
+    private let sidePaddingSizeValue = 20
     
     private let pillnameLabel: UILabel = {
         let label = UILabel()
@@ -39,15 +40,13 @@ final class PillCell: UITableViewCell {
         self.contentView.addSubview(self.pillnameLabel)
         self.contentView.addSubview(self.pillnametext)
         self.pillnameLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(20)
-            $0.left.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().inset(20)
+            $0.top.left.bottom.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.width.equalTo(50)
         }
         self.pillnametext.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(20)
-            $0.left.equalTo(self.pillnameLabel.snp.right).offset(8)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.centerY.equalTo(pillnameLabel.snp.centerY)
+            $0.top.bottom.equalToSuperview().inset(20)
+            $0.left.equalTo(self.pillnameLabel.snp.right).inset(-8)
+            $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
         }
     }
 }

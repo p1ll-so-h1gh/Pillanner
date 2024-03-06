@@ -9,9 +9,9 @@ import UIKit
 import SnapKit
 
 final class UserMainViewController: UIViewController {
-    
     //배경 깔아주기
     private lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
+    private let sidePaddingSizeValue = 20
     
     //MARK: - UI Properties
     private let scrollView: UIScrollView = {
@@ -23,7 +23,6 @@ final class UserMainViewController: UIViewController {
         var view = UIView()
         return view
     }()
-    
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "김영현님"
@@ -37,12 +36,18 @@ final class UserMainViewController: UIViewController {
         label.alpha = 0.5
         return label
     }()
-    private let settingBtn: UIButton = {
+    private lazy var settingBtn: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
         button.tintColor = UIColor.black
+        button.addTarget(self, action: #selector(goSettingVC), for: .touchUpInside)
         return button
     }()
+    @objc func goSettingVC() {
+        let settingVC = UserSettingViewController()
+        settingVC.modalPresentationStyle = .fullScreen
+        present(settingVC, animated: false, completion: nil)
+    }
     private let attainmentRateLabel: UILabel = {
         let label = UILabel()
         label.text = "달성률"
@@ -71,7 +76,7 @@ final class UserMainViewController: UIViewController {
     private let daytextLabel: UILabel = {
         let label = UILabel()
         label.text = "하루"
-        label.font = FontLiteral.body(style: .regular).withSize(14)
+        label.font = FontLiteral.body(style: .regular).withSize(18)
         return label
     }()
     private let dayView: UIView = {
@@ -89,7 +94,7 @@ final class UserMainViewController: UIViewController {
     private let weektextLabel: UILabel = {
         let label = UILabel()
         label.text = "일주일"
-        label.font = FontLiteral.body(style: .regular).withSize(14)
+        label.font = FontLiteral.body(style: .regular).withSize(18)
         return label
     }()
     private let weekView: UIView = {
@@ -107,7 +112,7 @@ final class UserMainViewController: UIViewController {
     private let monthtextLabel: UILabel = {
         let label = UILabel()
         label.text = "월별"
-        label.font = FontLiteral.body(style: .regular).withSize(14)
+        label.font = FontLiteral.body(style: .regular).withSize(18)
         return label
     }()
     private let monthView: UIView = {
@@ -148,10 +153,8 @@ final class UserMainViewController: UIViewController {
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         intakePillListCollectionView.delegate = self
         intakePillListCollectionView.dataSource = self
-        
         intakePillListCollectionView.register(PillListCollectionViewCell.self, forCellWithReuseIdentifier: PillListCollectionViewCell.id)
     }
     
@@ -200,31 +203,31 @@ final class UserMainViewController: UIViewController {
             $0.height.equalTo(self.view.safeAreaLayoutGuide.snp.height)
         }
         nameLabel.snp.makeConstraints {
-            $0.leading.equalTo(contentView.snp.leading).inset(27)
-            $0.top.equalTo(contentView).inset(50)
+            $0.leading.equalTo(contentView.snp.leading).inset(sidePaddingSizeValue)
+            $0.top.equalTo(contentView).inset(sidePaddingSizeValue)
         }
         infoLabel.snp.makeConstraints {
-            $0.leading.equalTo(contentView.snp.leading).inset(30)
+            $0.leading.equalTo(contentView.snp.leading).inset(sidePaddingSizeValue)
             $0.top.equalTo(nameLabel.snp.bottom).inset(-5)
         }
         settingBtn.snp.makeConstraints {
-            $0.trailing.equalTo(contentView.snp.trailing).inset(20)
-            $0.top.equalTo(contentView.snp.top).inset(50)
+            $0.trailing.equalTo(contentView.snp.trailing).inset(sidePaddingSizeValue)
+            $0.top.equalTo(contentView.snp.top).inset(sidePaddingSizeValue)
         }
         attainmentRateLabel.snp.makeConstraints {
-            $0.leading.equalTo(contentView.snp.leading).inset(37)
+            $0.leading.equalTo(contentView.snp.leading).inset(sidePaddingSizeValue)
             $0.top.equalTo(infoLabel.snp.bottom).inset(-25)
         }
         circleContainerView.snp.makeConstraints {
             $0.size.equalTo(220)
-            $0.leading.equalTo(contentView).inset(30)
+            $0.leading.equalTo(contentView.snp.leading).inset(30)
             $0.top.equalTo(attainmentRateLabel.snp.bottom).inset(-30)
             $0.bottom.equalTo(sectionSeparatorLine.snp.top).inset(-20)
         }
         labelVStackView.snp.makeConstraints {
             $0.leading.equalTo(circleContainerView.snp.trailing).inset(-30)
-            $0.trailing.equalTo(contentView.snp.trailing).inset(10)
-            $0.top.equalTo(contentView.snp.top).offset(200)
+            $0.trailing.equalTo(contentView.snp.trailing).inset(sidePaddingSizeValue)
+            $0.top.equalTo(contentView.snp.top).offset(180)
         }
         dayLabel.snp.makeConstraints {
             $0.size.equalTo(12)
@@ -253,15 +256,15 @@ final class UserMainViewController: UIViewController {
             $0.leadingMargin.trailingMargin.equalTo(contentView).inset(20)
         }
         intakePillLabel.snp.makeConstraints {
-            $0.leading.equalTo(contentView.snp.leading).inset(37)
+            $0.leading.equalTo(contentView.snp.leading).inset(sidePaddingSizeValue)
             $0.top.equalTo(sectionSeparatorLine.snp.bottom).inset(-15)
         }
         intakedescriptionLabel.snp.makeConstraints {
-            $0.leading.equalTo(contentView.snp.leading).inset(40)
+            $0.leading.equalTo(contentView.snp.leading).inset(30)
             $0.top.equalTo(intakePillLabel.snp.bottom).inset(-5)
         }
         intakePillListCollectionView.snp.makeConstraints {
-            $0.leading.trailing.equalTo(contentView).inset(37)
+            $0.leading.trailing.equalTo(contentView).inset(sidePaddingSizeValue)
             $0.top.equalTo(intakedescriptionLabel.snp.bottom).inset(-10)
             $0.bottom.equalTo(contentView.snp.bottom).inset(30)
         }
@@ -329,6 +332,7 @@ extension UserMainViewController: UICollectionViewDelegate, UICollectionViewData
         cell.backgroundColor = .white
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = true
+        cell.delegate = self
 
         cell.typeLabel.text = "일반"
         cell.nameLabel.text = "유산균"
@@ -348,8 +352,33 @@ extension UserMainViewController: UICollectionViewDelegate, UICollectionViewData
     }
 }
 
+//MARK: - UIStackView Extension
 extension UIStackView {
     func addArrangedSubviews(_ views: UIView...) {
         views.forEach { addArrangedSubview($0) }
     }
 }
+
+//MARK: - PillListViewDelegate
+extension UserMainViewController: PillListViewDelegate {
+    func deletePill(pilldata: String) {
+        let title = "\(pilldata) 진짜 삭제할꺼에요?!"
+        let alert = UIAlertController(title: title, message: "", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "아니용", style: .default)
+        let delete = UIAlertAction(title: "넹", style: .default) {_ in
+            print("삭제하겠습니다~~~")
+        }
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func editPill(pilldata: String) {
+        let VC = PillEditViewController()
+        VC.modalPresentationStyle = .fullScreen
+        present(VC, animated: true, completion: nil)
+    }
+}
+
+
+

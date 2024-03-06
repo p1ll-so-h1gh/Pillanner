@@ -9,12 +9,12 @@ import UIKit
 import SnapKit
 import SwiftUI
 
-final class PillAddMainViewController: UIViewController {
+final class PillEditViewController: UIViewController {
     private let sidePaddingSizeValue = 20
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "내 영양제 추가하기"
+        label.text = "내 영양제 수정하기"
         label.font = FontLiteral.title3(style: .bold).withSize(20)
         return label
     }()
@@ -32,19 +32,18 @@ final class PillAddMainViewController: UIViewController {
         tableView.register(DeadlineCell.self, forCellReuseIdentifier: DeadlineCell.id)
         return tableView
     }()
-    private let addBtnView: UIView = {
+    private let editBtnView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.mainThemeColor
         view.layer.cornerRadius = 5
         return view
     }()
-    private let addBtn: UIButton = {
+    private let editBtn: UIButton = {
         let button = UIButton()
-        button.setTitle("등록하기", for: .normal)
+        button.setTitle("수정하기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         return button
     }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -57,11 +56,11 @@ final class PillAddMainViewController: UIViewController {
         dismiss(animated: true)
     }
     private func setupView() {
-        addBtnView.addSubview(addBtn)
-        addBtn.snp.makeConstraints {
+        editBtnView.addSubview(editBtn)
+        editBtn.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()
         }
-        [backBtn, titleLabel, totalTableView, addBtnView].forEach {
+        [backBtn, titleLabel, totalTableView, editBtnView].forEach {
             view.addSubview($0)
         }
         backBtn.snp.makeConstraints {
@@ -75,9 +74,9 @@ final class PillAddMainViewController: UIViewController {
         totalTableView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).inset(-sidePaddingSizeValue)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(addBtnView.snp.top).inset(-sidePaddingSizeValue)
+            $0.bottom.equalTo(editBtnView.snp.top).inset(-sidePaddingSizeValue)
         }
-        addBtnView.snp.makeConstraints {
+        editBtnView.snp.makeConstraints {
             $0.width.equalTo(301)
             $0.height.equalTo(53)
             $0.centerX.equalToSuperview()
@@ -86,7 +85,7 @@ final class PillAddMainViewController: UIViewController {
     }
 }
 
-extension PillAddMainViewController: UITableViewDataSource {
+extension PillEditViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
