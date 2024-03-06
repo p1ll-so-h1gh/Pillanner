@@ -9,6 +9,14 @@ import UIKit
 import SnapKit
 
 class SignUpViewController: UIViewController, UITextFieldDelegate {
+
+    var idTextFieldFlag: Bool = false
+    var nameTextFieldFlag: Bool = false
+    var passwordTextFieldFlag: Bool = false
+    var passwordReTextFieldFlag: Bool = false
+    var phoneCertTextFieldFlag: Bool = false
+    var certNumberTextFieldFlag: Bool = false
+    
     var myVerificationID: String = ""
     var myIDToken: String = ""
     var limitTime: Int = 180 // 3분
@@ -18,21 +26,21 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     private let sidePaddingValue = 20
     private let topPaddingValue = 30
     
-    let IDLabel: UILabel = {
+    let idLabel: UILabel = {
         let label = UILabel()
         label.text = "아이디"
         label.font = FontLiteral.body(style: .bold)
         return label
     }()
     
-    let IDTextField: UITextField = {
+    let idTextField: UITextField = {
         let textfield = UITextField()
         textfield.placeholder = "5-16 자리 영 대/소문자, 숫자 조합"
         textfield.font = FontLiteral.subheadline(style: .regular)
         return textfield
     }()
     
-    let IDTextFieldUnderLine: UIProgressView = {
+    let idTextFieldUnderLine: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
         line.progressTintColor = .systemBlue
@@ -40,36 +48,36 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         return line
     }()
     
-    let IDCheckButton: UIButton = {
+    let idCheckButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("중복확인", for: .normal)
-        button.setTitleColor(UIColor.lightGray, for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
         button.backgroundColor = .mainThemeColor
         button.layer.cornerRadius = 5
         button.addTarget(target, action: #selector(IDCheckButtonClicked), for: .touchUpInside)
         return button
     }()
     
-    let IDCheckLabel: UILabel = {
+    let idCheckLabel: UILabel = {
         let label = UILabel()
         return label
     }()
     
-    let NameLabel: UILabel = {
+    let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "이름 입력"
         label.font = FontLiteral.body(style: .bold)
         return label
     }()
     
-    let NameTextField: UITextField = {
+    let nameTextField: UITextField = {
         let textfield = UITextField()
         textfield.placeholder = "이름을 입력해주세요."
         textfield.font = FontLiteral.subheadline(style: .regular)
         return textfield
     }()
     
-    let NameTextFieldUnderLine: UIProgressView = {
+    let nameTextFieldUnderLine: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
         line.progressTintColor = .systemBlue
@@ -77,14 +85,14 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         return line
     }()
     
-    let PassWordLabel: UILabel = {
+    let passwordLabel: UILabel = {
         let label = UILabel()
         label.text = "비밀번호"
         label.font = FontLiteral.body(style: .bold)
         return label
     }()
     
-    let PassWordTextField: UITextField = {
+    let passwordTextField: UITextField = {
         let textfield = UITextField()
         textfield.isSecureTextEntry = true
         textfield.placeholder = "8-16 자리 영 대/소문자, 숫자, 특수문자 조합"
@@ -92,14 +100,14 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         return textfield
     }()
     
-    let PassWordToggleButton: UIButton = {
+    let passwordToggleButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "eyeOpen"), for: .normal)
         button.addTarget(target, action: #selector(PassWordToggleButtonClicked), for: .touchUpInside)
         return button
     }()
     
-    let PassWordTextFieldUnderLine: UIProgressView = {
+    let passwordTextFieldUnderLine: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
         line.progressTintColor = .systemBlue
@@ -107,19 +115,19 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         return line
     }()
     
-    let PassWordCheckLabel: UILabel = {
+    let passwordCheckLabel: UILabel = {
         let label = UILabel()
         return label
     }()
     
-    let PassWordReLabel: UILabel = {
+    let passwordReLabel: UILabel = {
         let label = UILabel()
         label.text = "비밀번호 재입력"
         label.font = FontLiteral.body(style: .bold)
         return label
     }()
     
-    let PassWordReTextField: UITextField = {
+    let passwordReTextField: UITextField = {
         let textfield = UITextField()
         textfield.isSecureTextEntry = true
         textfield.placeholder = "8-16 자리 영 대/소문자, 숫자, 특수문자 조합"
@@ -127,14 +135,14 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         return textfield
     }()
     
-    let PassWordReToggleButton: UIButton = {
+    let passwordReToggleButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "eyeOpen"), for: .normal)
         button.addTarget(target, action: #selector(PassWordReToggleButtonClicked), for: .touchUpInside)
         return button
     }()
     
-    let PassWordReTextFieldUnderLine: UIProgressView = {
+    let passwordReTextFieldUnderLine: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
         line.progressTintColor = .systemBlue
@@ -142,26 +150,26 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         return line
     }()
     
-    let PassWordCorrectLabel: UILabel = {
+    let passwordCorrectLabel: UILabel = {
         let label = UILabel()
         return label
     }()
     
-    let PhoneCertLabel: UILabel = {
+    let phoneCertLabel: UILabel = {
         let label = UILabel()
         label.text = "휴대전화 번호인증"
         label.font = FontLiteral.body(style: .bold)
         return label
     }()
     
-    let PhoneCertTextField: UITextField = {
+    let phoneCertTextField: UITextField = {
         let textfield = UITextField()
         textfield.placeholder = "전화번호를 입력해주세요."
         textfield.font = FontLiteral.subheadline(style: .regular)
         return textfield
     }()
     
-    let PhoneCertTextFieldUnderLine: UIProgressView = {
+    let phoneCertTextFieldUnderLine: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
         line.progressTintColor = .systemBlue
@@ -169,17 +177,22 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         return line
     }()
     
-    let GetCertNumberButton: UIButton = {
+    let getCertNumberButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("인증번호 받기", for: .normal) // 재전송
-        button.setTitleColor(UIColor.lightGray, for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
         button.backgroundColor = .mainThemeColor
         button.layer.cornerRadius = 5
         button.addTarget(target, action: #selector(GetCertNumberButtonClicked), for: .touchUpInside)
         return button
     }()
     
-    let CertUIView: UIView = {
+    let ifPhoneNumberIsEmptyLabel: UILabel = {
+        let label = UILabel()
+        return label
+    }()
+    
+    let certUIView: UIView = {
         let uiView = UIView()
         uiView.layer.cornerRadius = 5
         uiView.layer.borderColor = UIColor.lightGray.cgColor
@@ -187,12 +200,12 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         return uiView
     }()
     
-    let CertContentStackView: UIStackView = {
+    let certContentStackView: UIStackView = {
         let stackView = UIStackView()
         return stackView
     }()
     
-    let CertNumberTextField: UITextField = {
+    let certNumberTextField: UITextField = {
         let textfield = UITextField()
         textfield.placeholder = "인증번호 6자리 입력"
         textfield.font = FontLiteral.subheadline(style: .regular)
@@ -205,36 +218,36 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         return label
     }()
     
-    let CertNumberDeleteButton: UIButton = {
+    let certNumberDeleteButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "xmark"), for: .normal)
         button.addTarget(target, action: #selector(CertNumberDeleteButtonClicked), for: .touchUpInside)
         return button
     }()
     
-    let CheckCertNumberButton: UIButton = {
+    let checkCertNumberButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("확인", for: .normal)
-        button.setTitleColor(UIColor.lightGray, for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
         button.backgroundColor = .mainThemeColor
         button.layer.cornerRadius = 5
         button.addTarget(target, action: #selector(CheckCertNumberButtonClicked), for: .touchUpInside)
         return button
     }()
     
-    let CertNumberAvailableLabel: UILabel = {
+    let certNumberAvailableLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
         return label
     }()
     
-    let NextPageButton: UIButton = {
+    let signUpButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("다음", for: .normal)
+        button.setTitle("가입 하기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         button.backgroundColor = .mainThemeColor
         button.layer.cornerRadius = 5
-        button.addTarget(target, action: #selector(NextPageButtonClicked), for: .touchUpInside)
+        button.addTarget(target, action: #selector(SignUpButtonClicked), for: .touchUpInside)
         return button
     }()
 
@@ -248,151 +261,154 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func addView() {
-        view.addSubview(IDLabel)
-        view.addSubview(IDTextField)
-        view.addSubview(IDCheckButton)
-        view.addSubview(IDTextFieldUnderLine)
-        view.addSubview(IDCheckLabel)
+        view.addSubview(idLabel)
+        view.addSubview(idTextField)
+        view.addSubview(idCheckButton)
+        view.addSubview(idTextFieldUnderLine)
+        view.addSubview(idCheckLabel)
         
-        view.addSubview(NameLabel)
-        view.addSubview(NameTextField)
-        view.addSubview(NameTextFieldUnderLine)
+        view.addSubview(nameLabel)
+        view.addSubview(nameTextField)
+        view.addSubview(nameTextFieldUnderLine)
         
-        view.addSubview(PassWordLabel)
-        view.addSubview(PassWordTextField)
-        view.addSubview(PassWordToggleButton)
-        view.addSubview(PassWordTextFieldUnderLine)
-        view.addSubview(PassWordCheckLabel)
+        view.addSubview(passwordLabel)
+        view.addSubview(passwordTextField)
+        view.addSubview(passwordToggleButton)
+        view.addSubview(passwordTextFieldUnderLine)
+        view.addSubview(passwordCheckLabel)
         
-        view.addSubview(PassWordReLabel)
-        view.addSubview(PassWordReTextField)
-        view.addSubview(PassWordReToggleButton)
-        view.addSubview(PassWordReTextFieldUnderLine)
-        view.addSubview(PassWordCorrectLabel)
+        view.addSubview(passwordReLabel)
+        view.addSubview(passwordReTextField)
+        view.addSubview(passwordReToggleButton)
+        view.addSubview(passwordReTextFieldUnderLine)
+        view.addSubview(passwordCorrectLabel)
         
-        view.addSubview(PhoneCertLabel)
-        view.addSubview(PhoneCertTextField)
-        view.addSubview(PhoneCertTextFieldUnderLine)
-        view.addSubview(GetCertNumberButton)
+        view.addSubview(phoneCertLabel)
+        view.addSubview(phoneCertTextField)
+        view.addSubview(phoneCertTextFieldUnderLine)
+        view.addSubview(getCertNumberButton)
+        view.addSubview(ifPhoneNumberIsEmptyLabel)
         
-        CertUIView.addSubview(CertContentStackView)
-        CertContentStackView.addArrangedSubview(CertNumberTextField)
-        CertContentStackView.addArrangedSubview(timerLabel)
-        CertContentStackView.addArrangedSubview(CertNumberDeleteButton)
-        CertContentStackView.addArrangedSubview(CheckCertNumberButton)
-        view.addSubview(CertUIView)
-        view.addSubview(CertNumberAvailableLabel)
+        certUIView.addSubview(certContentStackView)
+        certContentStackView.addArrangedSubview(certNumberTextField)
+        certContentStackView.addArrangedSubview(timerLabel)
+        certContentStackView.addArrangedSubview(certNumberDeleteButton)
+        certContentStackView.addArrangedSubview(checkCertNumberButton)
+        view.addSubview(certUIView)
+        view.addSubview(certNumberAvailableLabel)
         
-        view.addSubview(NextPageButton)
+        view.addSubview(signUpButton)
     }
     
     private func setUpConstraint() {
-        IDLabel.snp.makeConstraints({
+        idLabel.snp.makeConstraints({
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(topPaddingValue)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
-        IDTextField.snp.makeConstraints({
-            $0.top.equalTo(IDLabel.snp.bottom).offset(5)
+        idTextField.snp.makeConstraints({
+            $0.top.equalTo(idLabel.snp.bottom).offset(5)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
+            $0.right.equalTo(idCheckButton.snp.left).offset(-10)
         })
-        IDCheckButton.snp.makeConstraints({
-            $0.centerY.equalTo(IDTextField.snp.centerY)
-            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
-            $0.width.equalTo(100)
-        })
-        IDTextFieldUnderLine.snp.makeConstraints({
-            $0.top.equalTo(IDTextField.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.width.equalTo(IDTextField.snp.width)
-        })
-        IDCheckLabel.snp.makeConstraints({
-            $0.top.equalTo(IDTextFieldUnderLine.snp.bottom).offset(1)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-        })
-        NameLabel.snp.makeConstraints({
-            $0.top.equalTo(IDTextField.snp.bottom).offset(topPaddingValue)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-        })
-        NameTextField.snp.makeConstraints({
-            $0.top.equalTo(NameLabel.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
-        })
-        NameTextFieldUnderLine.snp.makeConstraints({
-            $0.top.equalTo(NameTextField.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.width.equalTo(IDTextField.snp.width)
-        })
-        PassWordLabel.snp.makeConstraints({
-            $0.top.equalTo(NameTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-        })
-        PassWordTextField.snp.makeConstraints({
-            $0.top.equalTo(PassWordLabel.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
-        })
-        PassWordToggleButton.snp.makeConstraints({
-            $0.centerY.equalTo(PassWordTextField.snp.centerY)
-            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
-            $0.width.equalTo(20)
-            $0.height.equalTo(20)
-        })
-        PassWordTextFieldUnderLine.snp.makeConstraints({
-            $0.top.equalTo(PassWordTextField.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.width.equalTo(IDTextField.snp.width)
-        })
-        PassWordCheckLabel.snp.makeConstraints({
-            $0.top.equalTo(PassWordTextFieldUnderLine.snp.bottom).offset(1)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-        })
-        PassWordReLabel.snp.makeConstraints({
-            $0.top.equalTo(PassWordTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-        })
-        PassWordReTextField.snp.makeConstraints({
-            $0.top.equalTo(PassWordReLabel.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
-        })
-        PassWordReToggleButton.snp.makeConstraints({
-            $0.centerY.equalTo(PassWordReTextField.snp.centerY)
-            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
-            $0.width.equalTo(20)
-            $0.height.equalTo(20)
-        })
-        PassWordReTextFieldUnderLine.snp.makeConstraints({
-            $0.top.equalTo(PassWordReTextField.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.width.equalTo(IDTextField.snp.width)
-        })
-        PassWordCorrectLabel.snp.makeConstraints({
-            $0.top.equalTo(PassWordReTextFieldUnderLine.snp.bottom).offset(1)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-        })
-        PhoneCertLabel.snp.makeConstraints({
-            $0.top.equalTo(PassWordReTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-        })
-        PhoneCertTextField.snp.makeConstraints({
-            $0.top.equalTo(PhoneCertLabel.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
-        })
-        PhoneCertTextFieldUnderLine.snp.makeConstraints({
-            $0.top.equalTo(PhoneCertTextField.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.width.equalTo(IDTextField.snp.width)
-        })
-        GetCertNumberButton.snp.makeConstraints({
-            $0.centerY.equalTo(PhoneCertTextField.snp.centerY)
+        idCheckButton.snp.makeConstraints({
+            $0.centerY.equalTo(idTextField.snp.centerY).offset(-5)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
             $0.width.equalTo(100)
         })
-        CertUIView.snp.makeConstraints({
-            $0.top.equalTo(PhoneCertTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
+        idTextFieldUnderLine.snp.makeConstraints({
+            $0.top.equalTo(idTextField.snp.bottom).offset(5)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+            $0.width.equalTo(idTextField.snp.width)
+        })
+        idCheckLabel.snp.makeConstraints({
+            $0.top.equalTo(idTextFieldUnderLine.snp.bottom).offset(1)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+        })
+        nameLabel.snp.makeConstraints({
+            $0.top.equalTo(idTextField.snp.bottom).offset(topPaddingValue)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+        })
+        nameTextField.snp.makeConstraints({
+            $0.top.equalTo(nameLabel.snp.bottom).offset(5)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
+        })
+        nameTextFieldUnderLine.snp.makeConstraints({
+            $0.top.equalTo(nameTextField.snp.bottom).offset(5)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
+        })
+        passwordLabel.snp.makeConstraints({
+            $0.top.equalTo(nameTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+        })
+        passwordTextField.snp.makeConstraints({
+            $0.top.equalTo(passwordLabel.snp.bottom).offset(5)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
+        })
+        passwordToggleButton.snp.makeConstraints({
+            $0.centerY.equalTo(passwordTextField.snp.centerY)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
+            $0.width.height.equalTo(20)
+        })
+        passwordTextFieldUnderLine.snp.makeConstraints({
+            $0.top.equalTo(passwordTextField.snp.bottom).offset(5)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
+        })
+        passwordCheckLabel.snp.makeConstraints({
+            $0.top.equalTo(passwordTextFieldUnderLine.snp.bottom).offset(1)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+        })
+        passwordReLabel.snp.makeConstraints({
+            $0.top.equalTo(passwordTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+        })
+        passwordReTextField.snp.makeConstraints({
+            $0.top.equalTo(passwordReLabel.snp.bottom).offset(5)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
+        })
+        passwordReToggleButton.snp.makeConstraints({
+            $0.centerY.equalTo(passwordReTextField.snp.centerY)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
+            $0.width.height.equalTo(20)
+        })
+        passwordReTextFieldUnderLine.snp.makeConstraints({
+            $0.top.equalTo(passwordReTextField.snp.bottom).offset(5)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
+        })
+        passwordCorrectLabel.snp.makeConstraints({
+            $0.top.equalTo(passwordReTextFieldUnderLine.snp.bottom).offset(1)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+        })
+        phoneCertLabel.snp.makeConstraints({
+            $0.top.equalTo(passwordReTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+        })
+        phoneCertTextField.snp.makeConstraints({
+            $0.top.equalTo(phoneCertLabel.snp.bottom).offset(5)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+            $0.right.equalTo(getCertNumberButton.snp.left).offset(-10)
+        })
+        phoneCertTextFieldUnderLine.snp.makeConstraints({
+            $0.top.equalTo(phoneCertTextField.snp.bottom).offset(5)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+            $0.width.equalTo(phoneCertTextField.snp.width)
+        })
+        getCertNumberButton.snp.makeConstraints({
+            $0.centerY.equalTo(phoneCertTextField.snp.centerY)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
+            $0.width.equalTo(100)
+        })
+        ifPhoneNumberIsEmptyLabel.snp.makeConstraints({
+            $0.top.equalTo(phoneCertTextFieldUnderLine.snp.bottom).offset(1)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+        })
+        certUIView.snp.makeConstraints({
+            $0.top.equalTo(phoneCertTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
@@ -400,24 +416,21 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             $0.width.equalTo(40)
             $0.height.equalTo(30)
         })
-        CertNumberDeleteButton.snp.makeConstraints({
-            $0.width.equalTo(30)
-            $0.height.equalTo(30)
+        certNumberDeleteButton.snp.makeConstraints({
+            $0.width.height.equalTo(30)
         })
-        CheckCertNumberButton.snp.makeConstraints({
+        checkCertNumberButton.snp.makeConstraints({
             $0.width.equalTo(50)
         })
-        CertContentStackView.snp.makeConstraints({
-            $0.top.equalToSuperview().offset(5)
-            $0.left.equalToSuperview().offset(5)
-            $0.right.equalToSuperview().offset(-5)
-            $0.bottom.equalToSuperview().offset(-5)
+        certContentStackView.snp.makeConstraints({
+            $0.top.left.equalToSuperview().offset(5)
+            $0.right.bottom.equalToSuperview().offset(-5)
         })
-        CertNumberAvailableLabel.snp.makeConstraints({
-            $0.top.equalTo(CertUIView.snp.bottom).offset(1)
+        certNumberAvailableLabel.snp.makeConstraints({
+            $0.top.equalTo(certUIView.snp.bottom).offset(1)
             $0.left.equalTo(sidePaddingValue)
         })
-        NextPageButton.snp.makeConstraints({
+        signUpButton.snp.makeConstraints({
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)

@@ -1,17 +1,29 @@
 {
   "images" : [
     {
+<<<<<<< HEAD
       "filename" : "Pillanner.png",
+=======
+      "filename" : "PillannerFlag.png",
+>>>>>>> feature/#24-SNS-Login
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+<<<<<<< HEAD
       "filename" : "Pillanner@2x.png",
+=======
+      "filename" : "PillannerFlag@2x.png",
+>>>>>>> feature/#24-SNS-Login
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+<<<<<<< HEAD
       "filename" : "Pillanner@3x.png",
+=======
+      "filename" : "PillannerFlag@3x.png",
+>>>>>>> feature/#24-SNS-Login
       "idiom" : "universal",
       "scale" : "3x"
     }

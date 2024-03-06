@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import FirebaseAuth
 import SnapKit
 import AuthenticationServices
@@ -411,6 +412,5 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return self.view.window!
     }
-    
 }
 

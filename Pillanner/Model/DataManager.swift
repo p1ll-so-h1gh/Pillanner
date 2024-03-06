@@ -158,7 +158,6 @@ final class DataManager {
         }
     }
     
-    
     // var dict = readPillData(pillTitle: "게보린")
     // dict["Title"] => 게보린 ....
     func readPillData(pillTitle: String) -> [String: Any] {
