@@ -61,9 +61,8 @@ extension SignUpViewController {
         return formattedPhoneNumber
     }
     
-    // 인증번호 받기 버튼 메서드
+    // 인증번호 받기/재전송 버튼 메서드
     @objc func GetCertNumberButtonClicked(_ sender: UIButton) {
-        print(formatPhoneNumberForFirebase(phoneCertTextField.text!))
         if !phoneCertTextField.text!.isEmpty && availableGetCertNumberFlag == true {
             getCertNumberButton.setTitle("재전송", for: .normal)
             timerLabel.isHidden = false
@@ -101,6 +100,11 @@ extension SignUpViewController {
     @objc func getSetTime() {
         secToTime(sec: limitTime)
         limitTime -= 1
+    }
+    
+    // 타이머 중지 메서드
+    func stopTimer() {
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(getSetTime), object: nil)
     }
     
     // 인증번호 타이머 세팅 메서드
@@ -152,6 +156,7 @@ extension SignUpViewController {
                         return
                     }
                     // FirebaseidToken 받기 완료 (Authentication)
+                    self.stopTimer()
                     self.myIDToken = idToken!
                     self.timerLabel.isHidden = true
                     self.limitTime = 180

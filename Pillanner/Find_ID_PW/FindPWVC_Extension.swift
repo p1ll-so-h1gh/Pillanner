@@ -11,37 +11,54 @@ import FirebaseFirestore
 import FirebaseAuth
 
 extension FindPWViewController {
+    // Firebase 인증용 번호로 전환하는 메서드 (ex, 01012341234 -> +821012341234)
+    func formatPhoneNumberForFirebase(_ phoneNumber: String) -> String {
+        var formattedPhoneNumber = phoneNumber
+        // 번호가 010으로 시작하는지 확인
+        if formattedPhoneNumber.hasPrefix("010") {
+            formattedPhoneNumber.insert(contentsOf: "+82", at: formattedPhoneNumber.startIndex)
+        }
+        return formattedPhoneNumber
+    }
     
-    // 인증번호 받기 버튼 메서드
+    // 인증번호 받기/재전송 버튼 메서드
     @objc func GetCertNumberButtonClicked(_ sender: UIButton) {
-        timerLabel.isHidden = false
-        if availableGetCertNumberFlag == true {
-            getSetTime()
-            CertNumberAvailableLabel.text = "인증번호가 발송되었습니다."
-            CertNumberAvailableLabel.textColor = .systemBlue
-            CertNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-            //가상전화번호로 테스트하기 위한 코드 ---------------------------------------
-            //Auth.auth().settings?.isAppVerificationDisabledForTesting = true
-            //------------------------------------------------------------------
-            PhoneAuthProvider.provider()
-                .verifyPhoneNumber(PhoneCertTextField.text!, uiDelegate: nil) { (verificationID, error) in
-                    if let error = error {
-                        print("@@@@@@@@@@@@@@@@ 에러발생 @@@@@@@@@@@@@@@@@@")
-                        print(error.localizedDescription)
-                        return
+        if !phoneCertTextField.text!.isEmpty && availableGetCertNumberFlag == true {
+            getCertNumberButton.setTitle("재전송", for: .normal)
+            timerLabel.isHidden = false
+            if availableGetCertNumberFlag == true {
+                //가상전화번호로 테스트하기 위한 코드 ---------------------------------------
+                Auth.auth().settings?.isAppVerificationDisabledForTesting = true
+                //------------------------------------------------------------------
+                PhoneAuthProvider.provider()
+                    .verifyPhoneNumber(formatPhoneNumberForFirebase(phoneCertTextField.text!), uiDelegate: nil) { (verificationID, error) in
+                        if let error = error {
+                            print("@@@@@@@@@@@@@@@@ 에러발생 @@@@@@@@@@@@@@@@@@")
+                            self.ifPhoneNumberIsEmptyLabel.text = "전화번호를 다시 입력해주세요."
+                            print(error.localizedDescription)
+                            return
+                        }
+                        // 에러가 없다면 사용자에게 인증코드와 verifiacationID(인증 ID) 전달
+                        print("@@@@@@@@@@@@@@@@@@@ 인증번호 발송 @@@@@@@@@@@@@@@@@@")
+                        self.getSetTime()
+                        self.ifPhoneNumberIsEmptyLabel.text = ""
+                        self.certNumberAvailableLabel.text = "인증번호가 발송되었습니다."
+                        self.certNumberAvailableLabel.textColor = .systemBlue
+                        self.certNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                        self.myVerificationID = verificationID!
                     }
-                    // 에러가 없다면 사용자에게 인증코드와 verifiacationID(인증 ID) 전달
-                    print("인증성공 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-                    print("사용자 veriID by String", String(verificationID!))
-                    //print("사용자 veriID Origin", verificationID)
-                    self.myVerificationID = verificationID!
-                }
+            }
+        }else {
+            ifPhoneNumberIsEmptyLabel.text = "번호가 입력되지 않았습니다."
+            ifPhoneNumberIsEmptyLabel.textColor = .red
+            ifPhoneNumberIsEmptyLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+            
         }
     }
     
     // 인증번호 X 버튼
     @objc func CertNumberDeleteButtonClicked() {
-        self.CertNumberTextField.text = ""
+        self.certNumberTextField.text = ""
     }
     
     // 인증번호 타이머 감소 메서드
@@ -50,9 +67,13 @@ extension FindPWViewController {
         limitTime -= 1
     }
     
+    // 타이머 중지 메서드
+    func stopTimer() {
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(getSetTime), object: nil)
+    }
+    
     // 인증번호 타이머 세팅 메서드
     func secToTime(sec: Int) {
-        availableGetCertNumberFlag = false
         let minute = (sec % 3600) / 60
         let second = (sec % 3600) % 60
         
@@ -68,9 +89,9 @@ extension FindPWViewController {
             timerLabel.isHidden = true
             limitTime = 180
             availableGetCertNumberFlag = true
-            CertNumberAvailableLabel.text = "인증번호 유효시간이 초과했습니다."
-            CertNumberAvailableLabel.textColor = .red
-            CertNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+            certNumberAvailableLabel.text = "인증번호 유효시간이 초과했습니다."
+            certNumberAvailableLabel.textColor = .red
+            certNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
         }
     }
     
@@ -78,90 +99,90 @@ extension FindPWViewController {
     @objc func CheckCertNumberButtonClicked() {
         let credential = PhoneAuthProvider.provider().credential(
             withVerificationID: myVerificationID,
-            verificationCode: self.CertNumberTextField.text!
+            verificationCode: self.certNumberTextField.text!
         )
         Auth.auth().signIn(with: credential) { authData, error in
             if let error = error {
                 print("errorCode: \(error)")
                 print("인증번호가 일치하지 않습니다.")
-                self.CertNumberTextField.text = ""
+                self.certNumberTextField.text = ""
                 // 인증번호 매칭 에러 - Alert
                 let alert = UIAlertController(title: "인증 실패", message: "인증번호가 올바르지 않습니다.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "확인", style: .default))
                 self.present(alert, animated: true)
-            }
-            // 성공시 Current IDTokenRefresh 처리
-            print("Current IDTokenRefresh 처리중...")
-            let currentUser = Auth.auth().currentUser
-            currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
-                if let error = error {
-                    print(error)
-                    return
+            }else {
+                // 성공시 Current IDTokenRefresh 처리
+                print("Current IDTokenRefresh 처리중...")
+                let currentUser = Auth.auth().currentUser
+                currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+                    if let error = error {
+                        print(error)
+                        return
+                    }
+                    // FirebaseidToken 받기 완료 (Authentication)
+                    self.stopTimer()
+                    self.myIDToken = idToken!
+                    self.timerLabel.isHidden = true
+                    self.limitTime = 10
+                    self.availableGetCertNumberFlag = false
+                    self.certNumberAvailableLabel.text = "인증번호가 확인되었습니다."
+                    self.certNumberAvailableLabel.textColor = .systemBlue
+                    self.certNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                 }
-                // FirebaseidToken 받기 완료
-                self.myIDToken = idToken!
-                self.timerLabel.isHidden = true
-                self.limitTime = 180
-                self.CertNumberTextField.text = ""
-                self.CertNumberAvailableLabel.text = "인증번호가 확인되었습니다."
-                self.CertNumberAvailableLabel.textColor = .systemBlue
-                self.CertNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                
-                self.availableSetUpNewPassWordFlag = true
-                print("myIDToken = ", idToken!)
             }
+            
         }
     }
     
     // 새로운 비밀번호 토글 버튼
     @objc func NewPassWordToggleButtonClicked() {
-        if NewPassWordTextField.isSecureTextEntry == true {
-            NewPassWordTextField.isSecureTextEntry = false
-            NewPassWordToggleButton.setImage(UIImage(named: "eyeClose"), for: .normal)
+        if newPassWordTextField.isSecureTextEntry == true {
+            newPassWordTextField.isSecureTextEntry = false
+            newPassWordToggleButton.setImage(UIImage(named: "eyeClose"), for: .normal)
         } else {
-            NewPassWordTextField.isSecureTextEntry = true
-            NewPassWordToggleButton.setImage(UIImage(named: "eyeOpen"), for: .normal)
+            newPassWordTextField.isSecureTextEntry = true
+            newPassWordToggleButton.setImage(UIImage(named: "eyeOpen"), for: .normal)
         }
     }
     
     // 새로운 비밀번호 재입력 토글 버튼
     @objc func NewPassWordReToggleButtonClicked() {
-        if NewPassWordReTextField.isSecureTextEntry == true {
-            NewPassWordReTextField.isSecureTextEntry = false
-            NewPassWordReToggleButton.setImage(UIImage(named: "eyeClose"), for: .normal)
+        if newPassWordReTextField.isSecureTextEntry == true {
+            newPassWordReTextField.isSecureTextEntry = false
+            newPassWordReToggleButton.setImage(UIImage(named: "eyeClose"), for: .normal)
         } else {
-            NewPassWordReTextField.isSecureTextEntry = true
-            NewPassWordReToggleButton.setImage(UIImage(named: "eyeOpen"), for: .normal)
+            newPassWordReTextField.isSecureTextEntry = true
+            newPassWordReToggleButton.setImage(UIImage(named: "eyeOpen"), for: .normal)
         }
     }
     
     // 새로운 비밀번호 재입력 필드의 텍스트가 변경될 때마다 호출되는 메서드
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == NewPassWordReTextField {
+        if textField == newPassWordReTextField {
             // 변경된 텍스트를 포함하여 비밀번호가 일치하는지 확인
             let updatedString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
-            let fullPassword = NewPassWordTextField.text ?? ""
+            let fullPassword = newPassWordTextField.text ?? ""
             let reenteredPassword = updatedString
             if fullPassword == reenteredPassword {
-                NewPassWordCorrectLabel.text = "비밀번호가 일치합니다."
-                NewPassWordCorrectLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                NewPassWordCorrectLabel.textColor = .systemBlue
+                newPassWordCorrectLabel.text = "비밀번호가 일치합니다."
+                newPassWordCorrectLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                newPassWordCorrectLabel.textColor = .systemBlue
             } else {
-                NewPassWordCorrectLabel.text = "비밀번호가 일치하지 않습니다."
-                NewPassWordCorrectLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                NewPassWordCorrectLabel.textColor = .red
+                newPassWordCorrectLabel.text = "비밀번호가 일치하지 않습니다."
+                newPassWordCorrectLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                newPassWordCorrectLabel.textColor = .red
             }
         }
-        if textField == NewPassWordTextField {
+        if textField == newPassWordTextField {
             let password = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
             if DataManager.shared.isValidPassword(password: password) {
-                NewPassWordCheckLabel.text = "사용가능한 비밀번호입니다."
-                NewPassWordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                NewPassWordCheckLabel.textColor = .systemBlue
+                newPassWordCheckLabel.text = "사용가능한 비밀번호입니다."
+                newPassWordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                newPassWordCheckLabel.textColor = .systemBlue
             }else {
-                NewPassWordCheckLabel.text = "올바르지 않은 형식입니다. (영문자+숫자+특수문자, 8~16자)"
-                NewPassWordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                NewPassWordCheckLabel.textColor = .red
+                newPassWordCheckLabel.text = "올바르지 않은 형식입니다. (영문자+숫자+특수문자, 8~16자)"
+                newPassWordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                newPassWordCheckLabel.textColor = .red
             }
         }
         return true
@@ -169,7 +190,7 @@ extension FindPWViewController {
     
     // 텍스트필드 위임자 선언
     func setUpTextFieldDelegate() {
-        [IDTextField, NameTextField, NewPassWordTextField, NewPassWordReTextField, PhoneCertTextField, CertNumberTextField] .forEach({
+        [idTextField, nameTextField, newPassWordTextField, newPassWordReTextField, phoneCertTextField, certNumberTextField] .forEach({
             $0.delegate = self
         })
     }
@@ -178,11 +199,11 @@ extension FindPWViewController {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.4) {
             switch(textField) {
-            case self.IDTextField : self.IDTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.NameTextField : self.NameTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.NewPassWordTextField : self.NewPassWordTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.NewPassWordReTextField : self.NewPassWordReTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.PhoneCertTextField : self.PhoneCertTextFieldUnderLine.setProgress(1.0, animated: true)
+            case self.idTextField : self.idTextFieldUnderLine.setProgress(1.0, animated: true)
+            case self.nameTextField : self.nameTextFieldUnderLine.setProgress(1.0, animated: true)
+            case self.newPassWordTextField : self.newPassWordTextFieldUnderLine.setProgress(1.0, animated: true)
+            case self.newPassWordReTextField : self.newPassWordReTextFieldUnderLine.setProgress(1.0, animated: true)
+            case self.phoneCertTextField : self.phoneCertTextFieldUnderLine.setProgress(1.0, animated: true)
             default : break
             }
         }
@@ -192,11 +213,11 @@ extension FindPWViewController {
     func textFieldDidEndEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.3) {
             switch(textField) {
-            case self.IDTextField : self.IDTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.NameTextField : self.NameTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.NewPassWordTextField : self.NewPassWordTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.NewPassWordReTextField : self.NewPassWordReTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.PhoneCertTextField : self.PhoneCertTextFieldUnderLine.setProgress(0.0, animated: true)
+            case self.idTextField : self.idTextFieldUnderLine.setProgress(0.0, animated: true)
+            case self.nameTextField : self.nameTextFieldUnderLine.setProgress(0.0, animated: true)
+            case self.newPassWordTextField : self.newPassWordTextFieldUnderLine.setProgress(0.0, animated: true)
+            case self.newPassWordReTextField : self.newPassWordReTextFieldUnderLine.setProgress(0.0, animated: true)
+            case self.phoneCertTextField : self.phoneCertTextFieldUnderLine.setProgress(0.0, animated: true)
             default : break
             }
         }
@@ -206,7 +227,12 @@ extension FindPWViewController {
     @objc func SetUpNewPassWordButtonClicked() {
         if availableSetUpNewPassWordFlag == true {
             // 비밀번호 재설정
-            DataManager.shared.updateUserData(userID: IDTextField.text!, newPassword: NewPassWordTextField.text!, newName: NameTextField.text!)
+            DataManager.shared.updateUserData(userID: idTextField.text!, newPassword: newPassWordTextField.text!, newName: nameTextField.text!)
+        }else {
+            // 인증번호 매칭 에러 - Alert
+            let alert = UIAlertController(title: "비밀번호 재설정 실패", message: "입력 형식을 다시 확인해주세요.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "확인", style: .default))
+            self.present(alert, animated: true)
         }
     }
 }
