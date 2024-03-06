@@ -68,7 +68,4 @@ extension PillAddMainViewController: UITableViewDataSource {
             fatalError("Invalid index path")
         }
     }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return tableView.rowHeight
-        }
 }

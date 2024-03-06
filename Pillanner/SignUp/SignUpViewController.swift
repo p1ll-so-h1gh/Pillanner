@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 class SignUpViewController: UIViewController, UITextFieldDelegate {
+
     var idTextFieldFlag: Bool = false
     var nameTextFieldFlag: Bool = false
     var passwordTextFieldFlag: Bool = false

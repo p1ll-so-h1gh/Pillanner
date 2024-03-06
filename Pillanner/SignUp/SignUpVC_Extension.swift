@@ -97,6 +97,7 @@ extension SignUpViewController {
     }
     
     // 인증번호 타이머 감소 메서드
+
     @objc func getSetTime() {
         secToTime(sec: limitTime)
         limitTime -= 1
@@ -146,7 +147,7 @@ extension SignUpViewController {
                 let alert = UIAlertController(title: "인증 실패", message: "인증번호가 올바르지 않습니다.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "확인", style: .default))
                 self.present(alert, animated: true)
-            }else {
+            } else {
                 // 성공시 Current IDTokenRefresh 처리
                 print("Current IDTokenRefresh 처리중...")
                 let currentUser = Auth.auth().currentUser
@@ -165,6 +166,7 @@ extension SignUpViewController {
                     self.certNumberAvailableLabel.textColor = .systemBlue
                     self.certNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                 }
+
             }
             
         }
