@@ -12,12 +12,12 @@ import FirebaseAuth
 
 extension SignUpViewController {
     
-    // ID 중복체크 버튼 로직 (firestore 내부 필드 값과 비교)
+    // ID 중복체크 버튼 메서드 (firestore 내부 필드 값과 비교)
     @objc func IDCheckButtonClicked(_ sender: UIButton) {
-        guard let id = IDTextField.text, !id.isEmpty else {
-            IDCheckLabel.text = "아이디를 입력해주세요."
-            IDCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-            IDCheckLabel.textColor = .red
+        guard let id = idTextField.text, !id.isEmpty else {
+            idCheckLabel.text = "아이디를 입력해주세요."
+            idCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+            idCheckLabel.textColor = .red
             availableSignUpFlag = false
             return
         }
@@ -27,62 +27,83 @@ extension SignUpViewController {
         
         query.getDocuments { (snapshot, error) in
             guard let snapshot = snapshot, !snapshot.isEmpty else {
-                if DataManager.shared.isValidID(id: self.IDTextField.text!){
+                if DataManager.shared.isValidID(id: self.idTextField.text!){
                     // 아이디가 사용가능한 경우
-                    self.IDCheckLabel.text = "사용 가능한 아이디입니다."
-                    self.IDCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                    self.IDCheckLabel.textColor = .systemBlue
+                    self.idCheckLabel.text = "사용 가능한 아이디입니다."
+                    self.idCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                    self.idCheckLabel.textColor = .systemBlue
                     self.availableSignUpFlag = true
                 } else {
                     // 아이디가 형식에 맞지 않는 경우
-                    self.IDCheckLabel.text = "올바르지 않은 형식입니다. (영문자+숫자, 5~16자)"
-                    self.IDCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                    self.IDCheckLabel.textColor = .red
+                    self.idCheckLabel.text = "올바르지 않은 형식입니다. (영문자+숫자, 5~16자)"
+                    self.idCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                    self.idCheckLabel.textColor = .red
                     self.availableSignUpFlag = false
                 }
                 return
             }
             
             // 아이디가 이미 존재하는 경우,
-            self.IDCheckLabel.text = "이미 사용중인 아이디입니다."
-            self.IDCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-            self.IDCheckLabel.textColor = .red
+            self.idCheckLabel.text = "이미 사용중인 아이디입니다."
+            self.idCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+            self.idCheckLabel.textColor = .red
             self.availableSignUpFlag = false
         }
     }
     
-    // 인증번호 받기 버튼 로직
+    // Firebase 인증용 번호로 전환하는 메서드 (ex, 01012341234 -> +821012341234)
+    func formatPhoneNumberForFirebase(_ phoneNumber: String) -> String {
+        var formattedPhoneNumber = phoneNumber
+        // 번호가 010으로 시작하는지 확인
+        if formattedPhoneNumber.hasPrefix("010") {
+            formattedPhoneNumber.insert(contentsOf: "+82", at: formattedPhoneNumber.startIndex)
+        }
+        return formattedPhoneNumber
+    }
+    
+    // 인증번호 받기 버튼 메서드
     @objc func GetCertNumberButtonClicked(_ sender: UIButton) {
-        timerLabel.isHidden = false
-        if availableGetCertNumberFlag == true {
-            getSetTime()
-            CertNumberAvailableLabel.text = "인증번호가 발송되었습니다."
-            CertNumberAvailableLabel.textColor = .systemBlue
-            CertNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-            //가상전화번호로 테스트하기 위한 코드 ---------------------------------------
-            //Auth.auth().settings?.isAppVerificationDisabledForTesting = true
-            //------------------------------------------------------------------
-            PhoneAuthProvider.provider()
-                .verifyPhoneNumber(PhoneCertTextField.text!, uiDelegate: nil) { (verificationID, error) in
-                    if let error = error {
-                        print("@@@@@@@@@@@@@@@@ 에러발생 @@@@@@@@@@@@@@@@@@")
-                        print(error.localizedDescription)
-                        return
+        print(formatPhoneNumberForFirebase(phoneCertTextField.text!))
+        if !phoneCertTextField.text!.isEmpty && availableGetCertNumberFlag == true {
+            getCertNumberButton.setTitle("재전송", for: .normal)
+            timerLabel.isHidden = false
+            if availableGetCertNumberFlag == true {
+                //가상전화번호로 테스트하기 위한 코드 ---------------------------------------
+                Auth.auth().settings?.isAppVerificationDisabledForTesting = true
+                //------------------------------------------------------------------
+                PhoneAuthProvider.provider()
+                    .verifyPhoneNumber(formatPhoneNumberForFirebase(phoneCertTextField.text!), uiDelegate: nil) { (verificationID, error) in
+                        if let error = error {
+                            print("@@@@@@@@@@@@@@@@ 에러발생 @@@@@@@@@@@@@@@@@@")
+                            self.ifPhoneNumberIsEmptyLabel.text = "전화번호를 다시 입력해주세요."
+                            print(error.localizedDescription)
+                            return
+                        }
+                        // 에러가 없다면 사용자에게 인증코드와 verifiacationID(인증 ID) 전달
+                        print("@@@@@@@@@@@@@@@@@@@ 인증번호 발송 @@@@@@@@@@@@@@@@@@")
+                        self.getSetTime()
+                        self.ifPhoneNumberIsEmptyLabel.text = ""
+                        self.certNumberAvailableLabel.text = "인증번호가 발송되었습니다."
+                        self.certNumberAvailableLabel.textColor = .systemBlue
+                        self.certNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                        self.myVerificationID = verificationID!
                     }
-                    // 에러가 없다면 사용자에게 인증코드와 verifiacationID(인증 ID) 전달
-                    print("인증성공 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-                    print("사용자 veriID by String", String(verificationID!))
-                    //print("사용자 veriID Origin", verificationID)
-                    self.myVerificationID = verificationID!
-                }
+            }
+        } else {
+            ifPhoneNumberIsEmptyLabel.text = "번호가 입력되지 않았습니다."
+            ifPhoneNumberIsEmptyLabel.textColor = .red
+            ifPhoneNumberIsEmptyLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+            
         }
     }
     
+    // 인증번호 타이머 감소 메서드
     @objc func getSetTime() {
         secToTime(sec: limitTime)
         limitTime -= 1
     }
     
+    // 인증번호 타이머 세팅 메서드
     func secToTime(sec: Int) {
         availableGetCertNumberFlag = false
         let minute = (sec % 3600) / 60
@@ -100,9 +121,9 @@ extension SignUpViewController {
             timerLabel.isHidden = true
             limitTime = 180
             availableGetCertNumberFlag = true
-            CertNumberAvailableLabel.text = "인증번호 유효시간이 초과했습니다."
-            CertNumberAvailableLabel.textColor = .red
-            CertNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+            certNumberAvailableLabel.text = "인증번호 유효시간이 초과했습니다."
+            certNumberAvailableLabel.textColor = .red
+            certNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
         }
     }
     
@@ -110,121 +131,128 @@ extension SignUpViewController {
     @objc func CheckCertNumberButtonClicked() {
         let credential = PhoneAuthProvider.provider().credential(
             withVerificationID: myVerificationID,
-            verificationCode: self.CertNumberTextField.text!
+            verificationCode: self.certNumberTextField.text!
         )
         Auth.auth().signIn(with: credential) { authData, error in
             if let error = error {
                 print("errorCode: \(error)")
                 print("인증번호가 일치하지 않습니다.")
-                self.CertNumberTextField.text = ""
+                self.certNumberTextField.text = ""
                 // 인증번호 매칭 에러 - Alert
                 let alert = UIAlertController(title: "인증 실패", message: "인증번호가 올바르지 않습니다.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "확인", style: .default))
                 self.present(alert, animated: true)
-            }
-            // 성공시 Current IDTokenRefresh 처리
-            print("Current IDTokenRefresh 처리중...")
-            let currentUser = Auth.auth().currentUser
-            currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
-                if let error = error {
-                    print(error)
-                    return
+            }else {
+                // 성공시 Current IDTokenRefresh 처리
+                print("Current IDTokenRefresh 처리중...")
+                let currentUser = Auth.auth().currentUser
+                currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+                    if let error = error {
+                        print(error)
+                        return
+                    }
+                    // FirebaseidToken 받기 완료 (Authentication)
+                    self.myIDToken = idToken!
+                    self.timerLabel.isHidden = true
+                    self.limitTime = 180
+                    self.availableGetCertNumberFlag = false
+                    self.certNumberAvailableLabel.text = "인증번호가 확인되었습니다."
+                    self.certNumberAvailableLabel.textColor = .systemBlue
+                    self.certNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                 }
-                // FirebaseidToken 받기 완료
-                self.myIDToken = idToken!
-                self.timerLabel.isHidden = true
-                self.limitTime = 180
-                self.CertNumberTextField.text = ""
-                self.CertNumberAvailableLabel.text = "인증번호가 확인되었습니다."
-                self.CertNumberAvailableLabel.textColor = .systemBlue
-                self.CertNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                print("myIDToken = ", idToken!)
             }
             
         }
     }
     
+    // 비밀번호 토글 버튼
     @objc func PassWordToggleButtonClicked() {
-        if PassWordTextField.isSecureTextEntry == true {
-            PassWordTextField.isSecureTextEntry = false
-            PassWordToggleButton.setImage(UIImage(named: "eyeClose"), for: .normal)
+        if passwordTextField.isSecureTextEntry == true {
+            passwordTextField.isSecureTextEntry = false
+            passwordToggleButton.setImage(UIImage(named: "eyeClose"), for: .normal)
         } else {
-            PassWordTextField.isSecureTextEntry = true
-            PassWordToggleButton.setImage(UIImage(named: "eyeOpen"), for: .normal)
+            passwordTextField.isSecureTextEntry = true
+            passwordToggleButton.setImage(UIImage(named: "eyeOpen"), for: .normal)
         }
     }
+    
+    // 비밀번호 재입력 토글 버튼
     @objc func PassWordReToggleButtonClicked() {
-        if PassWordReTextField.isSecureTextEntry == true {
-            PassWordReTextField.isSecureTextEntry = false
-            PassWordReToggleButton.setImage(UIImage(named: "eyeClose"), for: .normal)
+        if passwordReTextField.isSecureTextEntry == true {
+            passwordReTextField.isSecureTextEntry = false
+            passwordReToggleButton.setImage(UIImage(named: "eyeClose"), for: .normal)
         } else {
-            PassWordReTextField.isSecureTextEntry = true
-            PassWordReToggleButton.setImage(UIImage(named: "eyeOpen"), for: .normal)
+            passwordReTextField.isSecureTextEntry = true
+            passwordReToggleButton.setImage(UIImage(named: "eyeOpen"), for: .normal)
         }
     }
     
     // 비밀번호 재입력 필드의 텍스트가 변경될 때마다 호출되는 메서드
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == PassWordReTextField {
+        if textField == passwordReTextField {
             // 변경된 텍스트를 포함하여 비밀번호가 일치하는지 확인
             let updatedString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
-            let fullPassword = PassWordTextField.text ?? ""
+            let fullPassword = passwordTextField.text ?? ""
             let reenteredPassword = updatedString
             if fullPassword == reenteredPassword {
-                PassWordCorrectLabel.text = "비밀번호가 일치합니다."
-                PassWordCorrectLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                PassWordCorrectLabel.textColor = .systemBlue
+                passwordCorrectLabel.text = "비밀번호가 일치합니다."
+                passwordCorrectLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                passwordCorrectLabel.textColor = .systemBlue
                 availableSignUpFlag = true
             } else {
-                PassWordCorrectLabel.text = "비밀번호가 일치하지 않습니다."
-                PassWordCorrectLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                PassWordCorrectLabel.textColor = .red
+                passwordCorrectLabel.text = "비밀번호가 일치하지 않습니다."
+                passwordCorrectLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                passwordCorrectLabel.textColor = .red
                 availableSignUpFlag = false
             }
         }
-        if textField == PassWordTextField {
+        if textField == passwordTextField {
             let password = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
             if DataManager.shared.isValidPassword(password: password) {
-                PassWordCheckLabel.text = "사용가능한 비밀번호입니다."
-                PassWordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                PassWordCheckLabel.textColor = .systemBlue
+                passwordCheckLabel.text = "사용가능한 비밀번호입니다."
+                passwordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                passwordCheckLabel.textColor = .systemBlue
                 availableSignUpFlag = true
             }else {
-                PassWordCheckLabel.text = "올바르지 않은 형식입니다. (영문자+숫자+특수문자, 8~16자)"
-                PassWordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                PassWordCheckLabel.textColor = .red
+                passwordCheckLabel.text = "올바르지 않은 형식입니다. (영문자+숫자+특수문자, 8~16자)"
+                passwordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                passwordCheckLabel.textColor = .red
                 availableSignUpFlag = false
             }
         }
         return true
     }
     
+    // 텍스트필드 위임자 선언
     func setUpTextFieldDelegate() {
-        [IDTextField, NameTextField, PassWordTextField, PassWordReTextField, PhoneCertTextField, CertNumberTextField] .forEach({
+        [idTextField, nameTextField, passwordTextField, passwordReTextField, phoneCertTextField, certNumberTextField] .forEach({
             $0.delegate = self
         })
     }
     
+    // 텍스트필드 언더라인 활성화 메서드
     func textFieldDidBeginEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.4) {
             switch(textField) {
-            case self.IDTextField : self.IDTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.NameTextField : self.NameTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.PassWordTextField : self.PassWordTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.PassWordReTextField : self.PassWordReTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.PhoneCertTextField : self.PhoneCertTextFieldUnderLine.setProgress(1.0, animated: true)
+            case self.idTextField : self.idTextFieldUnderLine.setProgress(1.0, animated: true)
+            case self.nameTextField : self.nameTextFieldUnderLine.setProgress(1.0, animated: true)
+            case self.passwordTextField : self.passwordTextFieldUnderLine.setProgress(1.0, animated: true)
+            case self.passwordReTextField : self.passwordReTextFieldUnderLine.setProgress(1.0, animated: true)
+            case self.phoneCertTextField : self.phoneCertTextFieldUnderLine.setProgress(1.0, animated: true)
             default : break
             }
         }
     }
+    
+    // 텍스트필드 언더라인 비활성화 메서드
     func textFieldDidEndEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.3) {
             switch(textField) {
-            case self.IDTextField : self.IDTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.NameTextField : self.NameTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.PassWordTextField : self.PassWordTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.PassWordReTextField : self.PassWordReTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.PhoneCertTextField : self.PhoneCertTextFieldUnderLine.setProgress(0.0, animated: true)
+            case self.idTextField : self.idTextFieldUnderLine.setProgress(0.0, animated: true)
+            case self.nameTextField : self.nameTextFieldUnderLine.setProgress(0.0, animated: true)
+            case self.passwordTextField : self.passwordTextFieldUnderLine.setProgress(0.0, animated: true)
+            case self.passwordReTextField : self.passwordReTextFieldUnderLine.setProgress(0.0, animated: true)
+            case self.phoneCertTextField : self.phoneCertTextFieldUnderLine.setProgress(0.0, animated: true)
             default : break
             }
         }
@@ -232,24 +260,86 @@ extension SignUpViewController {
     
     // 인증번호 X 버튼
     @objc func CertNumberDeleteButtonClicked() {
-        self.CertNumberTextField.text = ""
+        self.certNumberTextField.text = ""
     }
     
-    // 다음 페이지 넘어가는 버튼 로직 (회원가입이 되는 상태인지를 판별하고 Firestore DB 에 해당 값들 저장)
-    @objc func NextPageButtonClicked() {
-        if availableSignUpFlag && !IDTextField.text!.isEmpty && !NameTextField.text!.isEmpty && !PassWordTextField.text!.isEmpty && !PassWordReTextField.text!.isEmpty && !PhoneCertTextField.text!.isEmpty {
+    // 텍스트필드가 값이 입력되어 있는지를 검사하는 메서드. (true 조건 : 텍스트필드가 비어있지 않고 공백을 포함하지 않을 경우)
+    func updateFlagsBasedOnTextFields() {
+        idTextFieldFlag = !idTextField.text!.isEmpty
+        nameTextFieldFlag = !nameTextField.text!.isEmpty
+        passwordTextFieldFlag = !passwordTextField.text!.isEmpty
+        passwordReTextFieldFlag = !passwordReTextField.text!.isEmpty
+        phoneCertTextFieldFlag = !phoneCertTextField.text!.isEmpty
+        certNumberTextFieldFlag = !certNumberTextField.text!.isEmpty
+    }
+    
+    func unavailableSignUp() {
+        if !idTextFieldFlag {
+            idLabel.textColor = .red
+            idTextField.backgroundColor = .yellow
+        }else {
+            idLabel.textColor = .black
+            idTextField.backgroundColor = .clear
+        }
+        if !nameTextFieldFlag {
+            nameLabel.textColor = .red
+            nameTextField.backgroundColor = .yellow
+        }else {
+            nameLabel.textColor = .black
+            nameTextField.backgroundColor = .yellow
+        }
+        if !passwordTextFieldFlag {
+            passwordLabel.textColor = .red
+            passwordTextField.backgroundColor = .yellow
+        }else {
+            passwordLabel.textColor = .black
+            passwordTextField.backgroundColor = .yellow
+        }
+        if !passwordReTextFieldFlag {
+            passwordReLabel.textColor = .red
+            passwordReTextField.backgroundColor = .yellow
+        }else {
+            passwordReLabel.textColor = .black
+            passwordReTextField.backgroundColor = .yellow
+        }
+        if !phoneCertTextFieldFlag {
+            phoneCertLabel.textColor = .red
+            phoneCertTextField.backgroundColor = .yellow
+        }else {
+            phoneCertLabel.textColor = .black
+            phoneCertTextField.backgroundColor = .yellow
+        }
+        if !certNumberTextFieldFlag {
+            certNumberTextField.backgroundColor = .yellow
+        }else {
+            certNumberTextField.backgroundColor = .yellow
+        }
+    }
+
+    
+    // 가입 하기 버튼 로직 (회원가입이 되는 상태인지를 판별하고 Firestore DB 에 해당 값들 저장)
+    @objc func SignUpButtonClicked() {
+        // 각각의 flag 변수 값 업데이트
+        updateFlagsBasedOnTextFields()
+        
+        if availableSignUpFlag && !idTextField.text!.isEmpty && !nameTextField.text!.isEmpty && !passwordTextField.text!.isEmpty && !passwordReTextField.text!.isEmpty && !phoneCertTextField.text!.isEmpty {
             
+            // Firestore DB에 회원 정보 저장
             DataManager.shared.createUserData(
                 user: UserData(
-                    ID: IDTextField.text!,
-                    password: PassWordTextField.text!,
-                    name: NameTextField.text!,
-                    phoneNumber: PhoneCertTextField.text!,
+                    ID: idTextField.text!,
+                    password: passwordTextField.text!,
+                    name: nameTextField.text!,
+                    phoneNumber: phoneCertTextField.text!,
                     mealTime: []
                 )
             )
+            // 회원가입 완료 - Alert
+            let alert = UIAlertController(title: "가입 성공", message: "회원가입이 완료되었습니다 !", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "확인", style: .default))
+            self.present(alert, animated: true)
         }else {
-            print("입력 형식을 다시 확인해주세요.")
+            unavailableSignUp()
             // 인증번호 매칭 에러 - Alert
             let alert = UIAlertController(title: "가입 실패", message: "입력 형식을 다시 확인해주세요.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "확인", style: .default))

@@ -71,6 +71,7 @@
 		C45D904D2B95B06F00676CEA /* SignUpVC_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45D904C2B95B06F00676CEA /* SignUpVC_Extension.swift */; };
 		C45D90502B95B0EA00676CEA /* FindIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45D904F2B95B0EA00676CEA /* FindIDViewController.swift */; };
 		C45D90522B95B0F700676CEA /* FindPWViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45D90512B95B0F700676CEA /* FindPWViewController.swift */; };
+		C45D90542B95BB7200676CEA /* FindPWVC_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45D90532B95BB7200676CEA /* FindPWVC_Extension.swift */; };
 		C490C8922B8EE9AB00DFACD8 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C490C8912B8EE9AB00DFACD8 /* DataManager.swift */; };
 		CC16976F2B8DDA13008276B0 /* PillListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16976E2B8DDA12008276B0 /* PillListCollectionViewCell.swift */; };
 		CC16979A2B9021C0008276B0 /* PillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697992B9021C0008276B0 /* PillCell.swift */; };
@@ -106,6 +107,7 @@
 		C45D904C2B95B06F00676CEA /* SignUpVC_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC_Extension.swift; sourceTree = "<group>"; };
 		C45D904F2B95B0EA00676CEA /* FindIDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDViewController.swift; sourceTree = "<group>"; };
 		C45D90512B95B0F700676CEA /* FindPWViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPWViewController.swift; sourceTree = "<group>"; };
+		C45D90532B95BB7200676CEA /* FindPWVC_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPWVC_Extension.swift; sourceTree = "<group>"; };
 		C490C8912B8EE9AB00DFACD8 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		CC16976E2B8DDA12008276B0 /* PillListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillListCollectionViewCell.swift; sourceTree = "<group>"; };
 		CC1697992B9021C0008276B0 /* PillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCell.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 			children = (
 				C45D904F2B95B0EA00676CEA /* FindIDViewController.swift */,
 				C45D90512B95B0F700676CEA /* FindPWViewController.swift */,
+				C45D90532B95BB7200676CEA /* FindPWVC_Extension.swift */,
 			);
 			path = Find_ID_PW;
 			sourceTree = "<group>";
@@ -423,6 +426,7 @@
 				CC1697A32B90223D008276B0 /* DeadlineCell.swift in Sources */,
 				14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */,
 				C40136A62B887D6100577C17 /* UIColor+Extension.swift in Sources */,
+				C45D90542B95BB7200676CEA /* FindPWVC_Extension.swift in Sources */,
 				CC16976F2B8DDA13008276B0 /* PillListCollectionViewCell.swift in Sources */,
 				CC1697A52B903DAD008276B0 /* PillAddMainViewController.swift in Sources */,
 				C45D90502B95B0EA00676CEA /* FindIDViewController.swift in Sources */,
