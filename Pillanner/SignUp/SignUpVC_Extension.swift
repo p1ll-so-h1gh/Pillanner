@@ -10,7 +10,7 @@ import Firebase
 import FirebaseFirestore
 import FirebaseAuth
 
-extension JoinUsViewController {
+extension SignUpViewController {
     
     // ID 중복체크 버튼 로직 (firestore 내부 필드 값과 비교)
     @objc func IDCheckButtonClicked(_ sender: UIButton) {
