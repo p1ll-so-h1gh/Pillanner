@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1408A5D02B972DF2006DA21D /* CustomLaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1408A5CF2B972DF2006DA21D /* CustomLaunchScreenViewController.swift */; };
 		142BC72D2B88708A0046D8AB /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 142BC72C2B88708A0046D8AB /* FSCalendar */; };
 		142BC7302B8870960046D8AB /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 142BC72F2B8870960046D8AB /* SnapKit */; };
 		142BC7352B8870B70046D8AB /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 142BC7342B8870B70046D8AB /* KakaoSDK */; };
@@ -48,11 +49,9 @@
 		14D2BE632B84BBBF0006AC51 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2BE622B84BBBF0006AC51 /* SceneDelegate.swift */; };
 		14D2BE6B2B84BBBF0006AC51 /* Pillanner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 14D2BE692B84BBBF0006AC51 /* Pillanner.xcdatamodeld */; };
 		14D2BE6D2B84BBC20006AC51 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14D2BE6C2B84BBC20006AC51 /* Assets.xcassets */; };
-		14D2BE702B84BBC20006AC51 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14D2BE6E2B84BBC20006AC51 /* LaunchScreen.storyboard */; };
 		14F2CFB72B87080E007F354B /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFB62B87080E007F354B /* CalendarViewController.swift */; };
 		14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFB82B870818007F354B /* UserMainViewController.swift */; };
 		14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */; };
-		14F2CFBD2B870831007F354B /* JoinUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFBC2B870831007F354B /* JoinUsViewController.swift */; };
 		56B1D99B2B889E1C0030C6BB /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		7C3F79862B9068A000DD1AC7 /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F79852B9068A000DD1AC7 /* CalendarModel.swift */; };
 		7C3F798A2B906A7700DD1AC7 /* CheckPillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */; };
@@ -61,8 +60,7 @@
 		C40136A62B887D6100577C17 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A52B887D6100577C17 /* UIColor+Extension.swift */; };
 		C40136A82B887DA200577C17 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A72B887DA200577C17 /* UIFont+Extension.swift */; };
 		C40136AA2B887DBA00577C17 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A92B887DBA00577C17 /* CALayer+Extension.swift */; };
-		C40136AC2B887DE100577C17 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136AB2B887DE100577C17 /* LaunchScreenViewController.swift */; };
-		C42DAA952B8C914A004788D3 /* JoinUsVC+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42DAA942B8C914A004788D3 /* JoinUsVC+Extension.swift */; };
+		C40136AC2B887DE100577C17 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136AB2B887DE100577C17 /* LoginViewController.swift */; };
 		C4346D8F2B8DA90D00110DEF /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4346D8E2B8DA90D00110DEF /* UserData.swift */; };
 		C4346D922B8DB2D300110DEF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C4346D912B8DB2D300110DEF /* FirebaseAnalytics */; };
 		C4346D942B8DB2D300110DEF /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = C4346D932B8DB2D300110DEF /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -70,6 +68,11 @@
 		C4346D982B8DB2D300110DEF /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = C4346D972B8DB2D300110DEF /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		C4346D9A2B8DB2D300110DEF /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = C4346D992B8DB2D300110DEF /* FirebaseAppCheck */; };
 		C4346D9C2B8DB2D300110DEF /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = C4346D9B2B8DB2D300110DEF /* FirebaseAppDistribution-Beta */; };
+		C45D904B2B95B03B00676CEA /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45D904A2B95B03B00676CEA /* SignUpViewController.swift */; };
+		C45D904D2B95B06F00676CEA /* SignUpVC_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45D904C2B95B06F00676CEA /* SignUpVC_Extension.swift */; };
+		C45D90502B95B0EA00676CEA /* FindIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45D904F2B95B0EA00676CEA /* FindIDViewController.swift */; };
+		C45D90522B95B0F700676CEA /* FindPWViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45D90512B95B0F700676CEA /* FindPWViewController.swift */; };
+		C45D90542B95BB7200676CEA /* FindPWVC_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45D90532B95BB7200676CEA /* FindPWVC_Extension.swift */; };
 		C490C8922B8EE9AB00DFACD8 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C490C8912B8EE9AB00DFACD8 /* DataManager.swift */; };
 		CC16976F2B8DDA13008276B0 /* PillListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16976E2B8DDA12008276B0 /* PillListCollectionViewCell.swift */; };
 		CC16979A2B9021C0008276B0 /* PillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697992B9021C0008276B0 /* PillCell.swift */; };
@@ -85,18 +88,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1408A5CF2B972DF2006DA21D /* CustomLaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLaunchScreenViewController.swift; sourceTree = "<group>"; };
 		1438F6AB2B8F0A52006D2939 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		14D2BE5D2B84BBBF0006AC51 /* Pillanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pillanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14D2BE602B84BBBF0006AC51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14D2BE622B84BBBF0006AC51 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		14D2BE6A2B84BBBF0006AC51 /* Pillanner.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Pillanner.xcdatamodel; sourceTree = "<group>"; };
 		14D2BE6C2B84BBC20006AC51 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		14D2BE6F2B84BBC20006AC51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		14D2BE712B84BBC20006AC51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14F2CFB62B87080E007F354B /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		14F2CFB82B870818007F354B /* UserMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMainViewController.swift; sourceTree = "<group>"; };
 		14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSetUpViewController.swift; sourceTree = "<group>"; };
-		14F2CFBC2B870831007F354B /* JoinUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinUsViewController.swift; sourceTree = "<group>"; };
 		7C3F79852B9068A000DD1AC7 /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPillCell.swift; sourceTree = "<group>"; };
 		7CEBD66D2B96A8BC00F63F78 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -104,10 +106,14 @@
 		C40136A52B887D6100577C17 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		C40136A72B887DA200577C17 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C40136A92B887DBA00577C17 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
-		C40136AB2B887DE100577C17 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
-		C42DAA942B8C914A004788D3 /* JoinUsVC+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JoinUsVC+Extension.swift"; sourceTree = "<group>"; };
+		C40136AB2B887DE100577C17 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C4346D8E2B8DA90D00110DEF /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		C4346D902B8DAD1B00110DEF /* Pillanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pillanner.entitlements; sourceTree = "<group>"; };
+		C45D904A2B95B03B00676CEA /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		C45D904C2B95B06F00676CEA /* SignUpVC_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC_Extension.swift; sourceTree = "<group>"; };
+		C45D904F2B95B0EA00676CEA /* FindIDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDViewController.swift; sourceTree = "<group>"; };
+		C45D90512B95B0F700676CEA /* FindPWViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPWViewController.swift; sourceTree = "<group>"; };
+		C45D90532B95BB7200676CEA /* FindPWVC_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPWVC_Extension.swift; sourceTree = "<group>"; };
 		C490C8912B8EE9AB00DFACD8 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		CC16976E2B8DDA12008276B0 /* PillListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillListCollectionViewCell.swift; sourceTree = "<group>"; };
 		CC1697992B9021C0008276B0 /* PillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCell.swift; sourceTree = "<group>"; };
@@ -195,32 +201,22 @@
 		14D2BE5F2B84BBBF0006AC51 /* Pillanner */ = {
 			isa = PBXGroup;
 			children = (
+				C45D904E2B95B0A600676CEA /* Find_ID_PW */,
+				C45D90492B95AF7A00676CEA /* SignUp */,
 				C4346D902B8DAD1B00110DEF /* Pillanner.entitlements */,
 				C40136A22B887D2400577C17 /* Extension */,
 				14F2CFB52B86E053007F354B /* Calendar */,
 				14F2CFB42B86E011007F354B /* UserMain */,
 				14D2BE792B84C2C60006AC51 /* Model */,
 				14D2BE782B84C2C40006AC51 /* InitialSetUp */,
-				14D2BE772B84C2C10006AC51 /* JoinUs */,
 				14D2BE602B84BBBF0006AC51 /* AppDelegate.swift */,
 				14D2BE622B84BBBF0006AC51 /* SceneDelegate.swift */,
 				7CEBD66D2B96A8BC00F63F78 /* TabBarController.swift */,
 				14D2BE6C2B84BBC20006AC51 /* Assets.xcassets */,
-				14D2BE6E2B84BBC20006AC51 /* LaunchScreen.storyboard */,
 				1438F6AB2B8F0A52006D2939 /* GoogleService-Info.plist */,
 				14D2BE712B84BBC20006AC51 /* Info.plist */,
 			);
 			path = Pillanner;
-			sourceTree = "<group>";
-		};
-		14D2BE772B84C2C10006AC51 /* JoinUs */ = {
-			isa = PBXGroup;
-			children = (
-				C40136AB2B887DE100577C17 /* LaunchScreenViewController.swift */,
-				14F2CFBC2B870831007F354B /* JoinUsViewController.swift */,
-				C42DAA942B8C914A004788D3 /* JoinUsVC+Extension.swift */,
-			);
-			path = JoinUs;
 			sourceTree = "<group>";
 		};
 		14D2BE782B84C2C40006AC51 /* InitialSetUp */ = {
@@ -271,6 +267,27 @@
 				C40136A92B887DBA00577C17 /* CALayer+Extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		C45D90492B95AF7A00676CEA /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				C40136AB2B887DE100577C17 /* LoginViewController.swift */,
+				C45D904A2B95B03B00676CEA /* SignUpViewController.swift */,
+				C45D904C2B95B06F00676CEA /* SignUpVC_Extension.swift */,
+				1408A5CF2B972DF2006DA21D /* CustomLaunchScreenViewController.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		C45D904E2B95B0A600676CEA /* Find_ID_PW */ = {
+			isa = PBXGroup;
+			children = (
+				C45D904F2B95B0EA00676CEA /* FindIDViewController.swift */,
+				C45D90512B95B0F700676CEA /* FindPWViewController.swift */,
+				C45D90532B95BB7200676CEA /* FindPWVC_Extension.swift */,
+			);
+			path = Find_ID_PW;
 			sourceTree = "<group>";
 		};
 		CC1697982B9020F4008276B0 /* Cell */ = {
@@ -406,7 +423,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14D2BE702B84BBC20006AC51 /* LaunchScreen.storyboard in Resources */,
 				1438F6AC2B8F0A53006D2939 /* GoogleService-Info.plist in Resources */,
 				14D2BE6D2B84BBC20006AC51 /* Assets.xcassets in Resources */,
 			);
@@ -419,11 +435,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C45D90522B95B0F700676CEA /* FindPWViewController.swift in Sources */,
+				C45D904D2B95B06F00676CEA /* SignUpVC_Extension.swift in Sources */,
 				7C3F798A2B906A7700DD1AC7 /* CheckPillCell.swift in Sources */,
 				C490C8922B8EE9AB00DFACD8 /* DataManager.swift in Sources */,
 				CC7DB3F62B95C3FF00809665 /* MonthYearBarView.swift in Sources */,
-				C42DAA952B8C914A004788D3 /* JoinUsVC+Extension.swift in Sources */,
 				14F2CFB72B87080E007F354B /* CalendarViewController.swift in Sources */,
+				C45D904B2B95B03B00676CEA /* SignUpViewController.swift in Sources */,
 				C4346D8F2B8DA90D00110DEF /* UserData.swift in Sources */,
 				CC16979A2B9021C0008276B0 /* PillCell.swift in Sources */,
 				C40136A42B887D4500577C17 /* CAGradientLayer+Extension.swift in Sources */,
@@ -431,10 +449,13 @@
 				CC1697A32B90223D008276B0 /* DeadlineCell.swift in Sources */,
 				14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */,
 				C40136A62B887D6100577C17 /* UIColor+Extension.swift in Sources */,
+				C45D90542B95BB7200676CEA /* FindPWVC_Extension.swift in Sources */,
 				CC16976F2B8DDA13008276B0 /* PillListCollectionViewCell.swift in Sources */,
 				CC1697A52B903DAD008276B0 /* PillAddMainViewController.swift in Sources */,
+				C45D90502B95B0EA00676CEA /* FindIDViewController.swift in Sources */,
 				14D2BE612B84BBBF0006AC51 /* AppDelegate.swift in Sources */,
 				CC7DB3CD2B95536C00809665 /* IntakePillCell.swift in Sources */,
+				1408A5D02B972DF2006DA21D /* CustomLaunchScreenViewController.swift in Sources */,
 				14D2BE632B84BBBF0006AC51 /* SceneDelegate.swift in Sources */,
 				CC16979E2B9021F2008276B0 /* IntakeSettingCell.swift in Sources */,
 				14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */,
@@ -446,23 +467,11 @@
 				14D2BE6B2B84BBBF0006AC51 /* Pillanner.xcdatamodeld in Sources */,
 				C40136A82B887DA200577C17 /* UIFont+Extension.swift in Sources */,
 				C40136AA2B887DBA00577C17 /* CALayer+Extension.swift in Sources */,
-				C40136AC2B887DE100577C17 /* LaunchScreenViewController.swift in Sources */,
-				14F2CFBD2B870831007F354B /* JoinUsViewController.swift in Sources */,
+				C40136AC2B887DE100577C17 /* LoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		14D2BE6E2B84BBC20006AC51 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				14D2BE6F2B84BBC20006AC51 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		14D2BE722B84BBC20006AC51 /* Debug */ = {
@@ -612,7 +621,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.p1llsoh1gh.Pillanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_pill;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_pillanner;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -647,7 +656,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.p1llsoh1gh.Pillanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_pill;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_pillanner;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
