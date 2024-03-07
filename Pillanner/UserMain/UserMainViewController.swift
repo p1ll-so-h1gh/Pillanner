@@ -45,8 +45,9 @@ final class UserMainViewController: UIViewController {
     }()
     @objc func goSettingVC() {
         let settingVC = UserSettingViewController()
-        settingVC.modalPresentationStyle = .fullScreen
-        present(settingVC, animated: false, completion: nil)
+        let nav = UINavigationController(rootViewController: settingVC)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
     }
     private let attainmentRateLabel: UILabel = {
         let label = UILabel()
@@ -153,22 +154,13 @@ final class UserMainViewController: UIViewController {
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        intakePillListCollectionView.delegate = self
-        intakePillListCollectionView.dataSource = self
-        intakePillListCollectionView.register(PillListCollectionViewCell.self, forCellWithReuseIdentifier: PillListCollectionViewCell.id)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         view.layer.addSublayer(gradientLayer)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         addSubView()
         setUpLayout()
         createCircle()
-        
+        intakePillListCollectionView.delegate = self
+        intakePillListCollectionView.dataSource = self
+        intakePillListCollectionView.register(PillListCollectionViewCell.self, forCellWithReuseIdentifier: PillListCollectionViewCell.id)
     }
     
     //MARK: - AddSubView
@@ -234,21 +226,24 @@ final class UserMainViewController: UIViewController {
             $0.leading.equalTo(dayView.snp.leading)
         }
         daytextLabel.snp.makeConstraints {
-            $0.leading.equalTo(dayLabel.snp.trailing).inset(5)
+            $0.leading.equalTo(dayLabel.snp.trailing).inset(-10)
+            $0.centerY.equalTo(dayLabel.snp.centerY)
         }
         weekLabel.snp.makeConstraints {
             $0.size.equalTo(12)
             $0.leading.equalTo(weekView.snp.leading)
         }
         weektextLabel.snp.makeConstraints {
-            $0.leading.equalTo(weekLabel.snp.trailing).inset(5)
+            $0.leading.equalTo(weekLabel.snp.trailing).inset(-10)
+            $0.centerY.equalTo(weekLabel.snp.centerY)
         }
         monthLabel.snp.makeConstraints {
             $0.size.equalTo(12)
             $0.leading.equalTo(monthView.snp.leading)
         }
         monthtextLabel.snp.makeConstraints {
-            $0.leading.equalTo(monthLabel.snp.trailing).inset(5)
+            $0.leading.equalTo(monthLabel.snp.trailing).inset(-10)
+            $0.centerY.equalTo(monthLabel.snp.centerY)
         }
         sectionSeparatorLine.snp.makeConstraints {
             $0.height.equalTo(1)

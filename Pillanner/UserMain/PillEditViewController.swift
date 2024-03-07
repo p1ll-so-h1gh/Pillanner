@@ -20,7 +20,7 @@ final class PillEditViewController: UIViewController {
     }()
     private let backBtn: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "backBtn"), for: .normal)
+        button.setImage(UIImage(systemName: "xmark")?.withRenderingMode(.alwaysOriginal).withTintColor(.black), for: .normal)
         return button
     }()
     private let totalTableView: UITableView = {

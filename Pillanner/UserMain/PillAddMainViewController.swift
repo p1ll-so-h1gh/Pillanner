@@ -11,6 +11,7 @@ import SwiftUI
 
 final class PillAddMainViewController: UIViewController {
     private let sidePaddingSizeValue = 20
+    private let cornerRadiusValue: CGFloat = 13
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -20,7 +21,7 @@ final class PillAddMainViewController: UIViewController {
     }()
     private let backBtn: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "backBtn"), for: .normal)
+        button.setImage(UIImage(systemName: "xmark")?.withRenderingMode(.alwaysOriginal).withTintColor(.black), for: .normal)
         return button
     }()
     private let totalTableView: UITableView = {
@@ -32,10 +33,10 @@ final class PillAddMainViewController: UIViewController {
         tableView.register(DeadlineCell.self, forCellReuseIdentifier: DeadlineCell.id)
         return tableView
     }()
-    private let addBtnView: UIView = {
+    private lazy var addBtnView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.mainThemeColor
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     private let addBtn: UIButton = {
@@ -59,7 +60,7 @@ final class PillAddMainViewController: UIViewController {
     private func setupView() {
         addBtnView.addSubview(addBtn)
         addBtn.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
+            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
         [backBtn, titleLabel, totalTableView, addBtnView].forEach {
             view.addSubview($0)

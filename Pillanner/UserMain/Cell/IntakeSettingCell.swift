@@ -24,6 +24,7 @@ class PillTableView: UITableView {
 final class IntakeSettingCell: UITableViewCell {
     static let id = "IntakeSettingCell"
     private let sidePaddingSizeValue = 20
+    private let cornerRadiusValue: CGFloat = 13
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -45,9 +46,9 @@ final class IntakeSettingCell: UITableViewCell {
         tableview.isScrollEnabled = true
         return tableview
     }()
-    let intakeaddBtnView: UIView = {
+    lazy var intakeaddBtnView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = cornerRadiusValue
         view.backgroundColor = UIColor.mainThemeColor
         return view
     }()
@@ -110,7 +111,7 @@ extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IntakePillCell.id, for: indexPath) as! IntakePillCell
-        cell.dateLabel.text = "오전 11시 1정"
+        cell.timeLabel.text = "오전 11시 1정"
         cell.alarmLabel.text = "알림 ON"
         return cell
     }

@@ -11,6 +11,7 @@ import SnapKit
 final class IntakeDateCell: UITableViewCell {
     static let id = "IntakeDateCell"
     private let sidePaddingSizeValue = 20
+    private let cornerRadiusValue: CGFloat = 13
     
     private let intakedateLabel: UILabel = {
         let label = UILabel()
@@ -30,10 +31,10 @@ final class IntakeDateCell: UITableViewCell {
         stackView.spacing = 15
         return stackView
     }()
-    private let MonView: UIView = {
+    private lazy var MonView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
-        view.layer.cornerRadius = 13
+        view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     private let MonLabel: UILabel = {
@@ -43,10 +44,10 @@ final class IntakeDateCell: UITableViewCell {
         label.frame = CGRect(x: 0, y: 0, width: 33, height: 33)
         return label
     }()
-    private let TueView: UIView = {
+    private lazy var TueView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
-        view.layer.cornerRadius = 13
+        view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     private let TueLabel: UILabel = {
@@ -56,10 +57,10 @@ final class IntakeDateCell: UITableViewCell {
         label.frame = CGRect(x: 0, y: 0, width: 33, height: 33)
         return label
     }()
-    private let WedView: UIView = {
+    private lazy var WedView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
-        view.layer.cornerRadius = 13
+        view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     private let WedLabel: UILabel = {
@@ -69,10 +70,10 @@ final class IntakeDateCell: UITableViewCell {
         label.frame = CGRect(x: 0, y: 0, width: 33, height: 33)
         return label
     }()
-    private let ThuView: UIView = {
+    private lazy var ThuView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
-        view.layer.cornerRadius = 13
+        view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     private let ThuLabel: UILabel = {
@@ -82,10 +83,10 @@ final class IntakeDateCell: UITableViewCell {
         label.frame = CGRect(x: 0, y: 0, width: 33, height: 33)
         return label
     }()
-    private let FriView: UIView = {
+    private lazy var FriView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
-        view.layer.cornerRadius = 13
+        view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     private let FriLabel: UILabel = {
@@ -95,10 +96,10 @@ final class IntakeDateCell: UITableViewCell {
         label.frame = CGRect(x: 0, y: 0, width: 33, height: 33)
         return label
     }()
-    private let SatView: UIView = {
+    private lazy var SatView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
-        view.layer.cornerRadius = 13
+        view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     private let SatLabel: UILabel = {
@@ -108,10 +109,10 @@ final class IntakeDateCell: UITableViewCell {
         label.frame = CGRect(x: 0, y: 0, width: 33, height: 33)
         return label
     }()
-    private let SunView: UIView = {
+    private lazy var SunView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
-        view.layer.cornerRadius = 13
+        view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     private let SunLabel: UILabel = {

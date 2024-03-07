@@ -1,14 +1,12 @@
 //
-//  UserSettingViewController.swift
+//  UserInfoView.swift
 //  Pillanner
 //
-//  Created by 박민정 on 3/5/24.
+//  Created by 박민정 on 3/6/24.
 //
-
 import UIKit
-import SnapKit
 
-class UserSettingViewController: UIViewController {
+class UserInfoView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()

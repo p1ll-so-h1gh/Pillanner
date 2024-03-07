@@ -90,6 +90,7 @@
 		CC7DB3FC2B95CCCD00809665 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3FB2B95CCCD00809665 /* CalendarView.swift */; };
 		CC7DB3FE2B96F72C00809665 /* PillEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3FD2B96F72C00809665 /* PillEditViewController.swift */; };
 		CC7DB4002B96FD0E00809665 /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3FF2B96FD0E00809665 /* UserSettingViewController.swift */; };
+		CC7DB4052B981DFE00809665 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB4042B981DFE00809665 /* UserInfoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -136,6 +137,7 @@
 		CC7DB3FB2B95CCCD00809665 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		CC7DB3FD2B96F72C00809665 /* PillEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillEditViewController.swift; sourceTree = "<group>"; };
 		CC7DB3FF2B96FD0E00809665 /* UserSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
+		CC7DB4042B981DFE00809665 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,12 +253,12 @@
 		14F2CFB42B86E011007F354B /* UserMain */ = {
 			isa = PBXGroup;
 			children = (
+				CC7DB4032B981DD300809665 /* Setting */,
 				CC1697982B9020F4008276B0 /* Cell */,
 				14F2CFB82B870818007F354B /* UserMainViewController.swift */,
 				CC16976E2B8DDA12008276B0 /* PillListCollectionViewCell.swift */,
 				CC1697A42B903DAD008276B0 /* PillAddMainViewController.swift */,
 				CC7DB3FD2B96F72C00809665 /* PillEditViewController.swift */,
-				CC7DB3FF2B96FD0E00809665 /* UserSettingViewController.swift */,
 			);
 			path = UserMain;
 			sourceTree = "<group>";
@@ -335,6 +337,15 @@
 				CC7DB3FB2B95CCCD00809665 /* CalendarView.swift */,
 			);
 			path = DeadlineCalendar;
+			sourceTree = "<group>";
+		};
+		CC7DB4032B981DD300809665 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				CC7DB3FF2B96FD0E00809665 /* UserSettingViewController.swift */,
+				CC7DB4042B981DFE00809665 /* UserInfoView.swift */,
+			);
+			path = Setting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -485,6 +496,7 @@
 				14D2BE632B84BBBF0006AC51 /* SceneDelegate.swift in Sources */,
 				560EC5BD2B98995100FF0D37 /* InitialSetupStartViewController.swift in Sources */,
 				CC16979E2B9021F2008276B0 /* IntakeSettingCell.swift in Sources */,
+				CC7DB4052B981DFE00809665 /* UserInfoView.swift in Sources */,
 				14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */,
 				CC7DB3FE2B96F72C00809665 /* PillEditViewController.swift in Sources */,
 				CC7DB3F82B95CBFF00809665 /* WeekdaysView.swift in Sources */,

@@ -116,13 +116,11 @@ class MonthYearBarView: UIView {
     func setupView() {
         btnLeftView.addSubview(btnLeft)
         btnLeft.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
         btnRightView.addSubview(btnRight)
         btnRight.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
         monthLabelView.addSubview(monthLabel)
         monthLabelView.addSubview(labelBtn1)
