@@ -12,21 +12,20 @@ import UserNotifications
 
 class CalendarViewController: UIViewController {
 
+    private lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
+
     private var isWeeklyMode: Bool = true
     private let sidePadding: CGFloat = 20
     private let cellHeight: CGFloat = 80
     private let cellSpacing: CGFloat = 10
 
     var medicationSections: [MedicationSection] = [
-        MedicationSection(headerTitle: "아침 식후", medications: [
-            Medicine(name: "약1", dosage: "1정", imageName: "pill"),
-            //Medicine(name: "약1", dosage: "1정", imageName: "pill"),
+        MedicationSection(headerTitle: "오전", medications: [
+            Medicine(name: "오메가 3", dosage: "1정", time: "10:30"),
         ]),
-        MedicationSection(headerTitle: "점심 식후", medications: [
-            Medicine(name: "약2", dosage: "1정", imageName: "pill"),
-            Medicine(name: "약2", dosage: "1정", imageName: "pill"),
-            Medicine(name: "약2", dosage: "1정", imageName: "pill"),
-            Medicine(name: "약2", dosage: "1정", imageName: "pill"),
+        MedicationSection(headerTitle: "오후", medications: [
+            Medicine(name: "유산균", dosage: "1정", time: "13:30"),
+            Medicine(name: "종합 비타민", dosage: "1정", time: "13:40"),
         ]),
     ]
 
@@ -35,15 +34,23 @@ class CalendarViewController: UIViewController {
     private let calendar: FSCalendar = {
         let calendar = FSCalendar(frame: .zero)
         calendar.translatesAutoresizingMaskIntoConstraints = false
-        calendar.scope = .week
         calendar.appearance.headerDateFormat = "YYYY년 MM월"
-        //calendar.appearance.headerTitleAlignment = .left
+        calendar.scope = .week
         calendar.appearance.headerMinimumDissolvedAlpha = 0.0
         calendar.appearance.headerTitleColor = .black
         calendar.appearance.weekdayTextColor = .black
         calendar.locale = Locale(identifier: "ko_KR")
         calendar.appearance.todayColor = .pointThemeColor2
         return calendar
+    }()
+
+    private let chevronImage: UIImageView = {
+        let imageView = UIImageView(image: UIImage(systemName: "chevron.down"))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.tintColor = .pointThemeColor2
+        imageView.contentMode = .scaleAspectFit
+        imageView.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+        return imageView
     }()
 
     private let tableView: UITableView = {
@@ -70,9 +77,6 @@ class CalendarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
-        view.layer.addSublayer(gradientLayer)
-
         UNUserNotificationCenter.current().delegate = self
 
         // 앱 시작 시 알림 권한 요청
@@ -83,7 +87,15 @@ class CalendarViewController: UIViewController {
                 print("알림 권한이 거부되었습니다.")
             }
         }
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        view.layer.addSublayer(gradientLayer)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         setupCalendar()
         setupTableView()
         setupConstraint()
@@ -95,6 +107,7 @@ class CalendarViewController: UIViewController {
 
     private func setupCalendar() {
         view.addSubview(calendar)
+        view.addSubview(chevronImage)
         calendar.delegate = self
         calendar.dataSource = self
     }
@@ -104,11 +117,9 @@ class CalendarViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
 
-        tableView.allowsMultipleSelection = true
-        //tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.register(CheckPillCell.self, forCellReuseIdentifier: Constants.cellIdentifier)
+        tableView.allowsMultipleSelection = true
         tableView.separatorStyle = .none
-
         tableView.layer.cornerRadius = 20
         tableView.layer.masksToBounds = true
     }
@@ -119,17 +130,22 @@ class CalendarViewController: UIViewController {
         calendar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview().inset(sidePadding)
-            $0.height.equalTo(600)
+            $0.height.equalTo(550)
+        }
+
+        chevronImage.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(calendar.snp.bottom)
         }
 
         tableView.snp.makeConstraints {
-            $0.top.equalTo(calendar.snp.bottom)
+            $0.top.equalTo(chevronImage.snp.bottom)
             $0.leading.trailing.equalToSuperview().inset(sidePadding)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
         }
     }
 
-    // MARK: - Animation
+    // MARK: - 모두 선택 완료 시 Animation
 
     private func showFireworkAnimation(at position: CGPoint) {
         let emitter = CAEmitterLayer()
@@ -162,7 +178,7 @@ class CalendarViewController: UIViewController {
         }
     }
 
-    // MARK: - Swipe Gesture
+    // MARK: - 캘린더 스와이프
 
     private func setupSwipeGesture() {
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
@@ -182,9 +198,33 @@ class CalendarViewController: UIViewController {
             calendar.appearance.headerTitleFont = .boldSystemFont(ofSize: 20)
             calendar.setScope(.month, animated: true)
         }
+
+        // chevron 뒤집는 애니메이션
+        UIView.transition(with: chevronImage, duration: 0.5, options: .transitionFlipFromBottom, animations: {
+            self.chevronImage.transform = self.chevronImage.transform.scaledBy(x: 1, y: -1)
+        }, completion: nil)
     }
 
-    // MARK: - Refresh Control
+    // MARK: - 테이블 뷰 헤더
+
+    private func createHeaderView(for section: Int) -> UIView {
+        let headerView = UIView()
+        headerView.backgroundColor = .clear
+
+        let headerTitle = UILabel()
+        headerTitle.text = medicationSections[section].headerTitle
+        headerTitle.textColor = .black
+        headerTitle.font = FontLiteral.title3(style: .bold)
+
+        headerView.addSubview(headerTitle)
+        headerTitle.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(20)
+            $0.top.equalToSuperview().offset(20)
+        }
+        return headerView
+    }
+
+    // MARK: - 새로고침
 
     private func setupRefreshControl() {
         tableView.refreshControl = refreshControl
@@ -227,23 +267,8 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
         return medicationSections[section].medications.count
     }
 
-    // 테이블 뷰 헤더
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = .clear
-
-        let titleLabel = UILabel()
-        titleLabel.text = medicationSections[section].headerTitle
-        titleLabel.textColor = .black
-        titleLabel.font = FontLiteral.title3(style: .bold)
-
-        headerView.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(20)
-            $0.top.equalToSuperview().offset(20)
-        }
-
-        return headerView
+        return createHeaderView(for: section)
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -269,6 +294,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
     // MARK: - UITableView Delegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // 모두 선택 시
         if let selectedIndexPaths = tableView.indexPathsForSelectedRows, selectedIndexPaths.count == medicationSections.flatMap({ $0.medications }).count {
             showFireworkAnimation(at: tableView.center)
         }
@@ -285,17 +311,17 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
     }
 
     private func showNotification(message: String) {
-           let content = UNMutableNotificationContent()
-           content.title = "알림"
-           content.body = message
-           content.sound = UNNotificationSound.default
+        let content = UNMutableNotificationContent()
+        content.title = "알림"
+        content.body = message
+        content.sound = UNNotificationSound.default
 
-           let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
 
-           UNUserNotificationCenter.current().add(request) { error in
-               if let error = error {
-                   print("알림 요청이 실패했습니다. 오류: \(error.localizedDescription)")
-               }
-           }
-       }
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("알림 요청이 실패했습니다. 오류: \(error.localizedDescription)")
+            }
+        }
+    }
 }

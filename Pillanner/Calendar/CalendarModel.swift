@@ -15,5 +15,5 @@ struct MedicationSection {
 struct Medicine {
     var name: String
     var dosage: String
-    let imageName: String
+    var time: String
 }
