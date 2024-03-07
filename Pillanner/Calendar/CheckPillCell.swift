@@ -12,6 +12,8 @@ class CheckPillCell: UITableViewCell {
     private var isSelectedCell: Bool = false
     private var medicine: Medicine?
 
+    // MARK: - Properties
+
     private let pillImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -27,7 +29,23 @@ class CheckPillCell: UITableViewCell {
         return label
     }()
 
+    private let pinImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(named: "Pin")
+        imageView.tintColor = .black
+        return imageView
+    }()
+
     private let dosageLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 14)
+        return label
+    }()
+
+    private let timeLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
@@ -85,11 +103,20 @@ class CheckPillCell: UITableViewCell {
 
         contentView.addSubview(pillImage)
         contentView.addSubview(nameLabel)
+        contentView.addSubview(pinImage)
         contentView.addSubview(dosageLabel)
+        contentView.addSubview(timeLabel)
         contentView.addSubview(prescriptionImage)
         contentView.addSubview(checkmarkImage)
 
         setupConstraint()
+    }
+
+    func configure(with medicine: Medicine) {
+        self.medicine = medicine
+        nameLabel.text = medicine.name
+        dosageLabel.text = medicine.dosage
+        timeLabel.text = medicine.time
     }
 
     // MARK: - Constraint
@@ -106,14 +133,25 @@ class CheckPillCell: UITableViewCell {
             $0.leading.equalTo(pillImage.snp.trailing).offset(20)
         }
 
-        dosageLabel.snp.makeConstraints {
+        pinImage.snp.makeConstraints {
             $0.centerY.equalToSuperview().offset(10)
             $0.leading.equalTo(pillImage.snp.trailing).offset(20)
         }
 
+        dosageLabel.snp.makeConstraints {
+            $0.centerY.equalTo(pinImage)
+            $0.leading.equalTo(pinImage.snp.trailing).offset(10)
+        }
+
+        timeLabel.snp.makeConstraints {
+            $0.centerY.equalTo(pinImage)
+            $0.leading.equalTo(dosageLabel.snp.trailing).offset(10)
+        }
+
         prescriptionImage.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalTo(nameLabel.snp.trailing).offset(25)
+            //$0.leading.equalTo(nameLabel.snp.trailing).offset(40)
+            $0.trailing.equalTo(checkmarkImage.snp.leading).offset(-10)
             $0.width.equalTo(35)
             $0.height.equalTo(25)
         }
@@ -125,12 +163,15 @@ class CheckPillCell: UITableViewCell {
         }
     }
 
-    // MARK: - Cell Selection
+    // MARK: - 셀 선택
 
     private func updateCellSelection() {
         if isSelectedCell, let medicine = medicine {
-            contentView.layer.backgroundColor = UIColor.pointThemeColor2.cgColor
-            pillImage.image = UIImage(named: medicine.imageName)
+            contentView.layer.backgroundColor = UIColor.white.cgColor
+            if let originalImage = UIImage(named: "pill"),
+               let adjustedImage = originalImage.withSaturation(0.1) {
+                pillImage.image = adjustedImage
+            }
 
             // 팝 효과
             contentView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
@@ -138,20 +179,17 @@ class CheckPillCell: UITableViewCell {
                 self.contentView.transform = .identity
             }, completion: nil)
 
+            contentView.layer.shadowOpacity = 0
+
+        } else {
+            contentView.layer.backgroundColor = UIColor.pointThemeColor2.cgColor
+            pillImage.image = UIImage(named: "pill")
+
             // 그림자
             contentView.layer.shadowOpacity = 0.2
             contentView.layer.shadowColor = UIColor.black.cgColor
             contentView.layer.shadowOffset = CGSize(width: 2, height: 5)
             contentView.layer.shadowRadius = 2
-        } else {
-            contentView.layer.backgroundColor = UIColor.clear.cgColor
-            if let originalImage = UIImage(named: medicine?.imageName ?? "pill") {
-                if let adjustedImage = originalImage.withSaturation(0.1) {
-                    pillImage.image = adjustedImage
-                }
-            }
-
-            contentView.layer.shadowOpacity = 0
         }
     }
 
@@ -160,19 +198,9 @@ class CheckPillCell: UITableViewCell {
         checkmarkImage.isHidden = !isSelectedCell
     }
 
-    func configure(with medicine: Medicine) {
-        self.medicine = medicine
-        pillImage.image = UIImage(named: medicine.imageName)
-        nameLabel.text = medicine.name
-        dosageLabel.text = medicine.dosage
-    }
-
     override func layoutSubviews() {
         super.layoutSubviews()
-
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20))
-
-
     }
 
     // 셀 테두리 안쪽만 터치
