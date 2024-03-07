@@ -241,6 +241,11 @@ extension SignUpViewController {
         })
     }
     
+    // 키보드 외부 터치할 경우 키보드 숨김처리
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     // 텍스트필드 언더라인 활성화 메서드
     func textFieldDidBeginEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.4) {

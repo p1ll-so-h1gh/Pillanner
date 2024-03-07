@@ -9,6 +9,7 @@ import UIKit
 import CoreData
 import FirebaseCore
 import UserNotifications
+import KakaoSDKCommon
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,6 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         application.registerForRemoteNotifications()
 //        Thread.sleep(forTimeInterval: 5)
+        
+        // KAKAO Native App KEY
+        let kakaoAppKey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] ?? ""
+        KakaoSDK.initSDK(appKey: kakaoAppKey as! String)
+        
         return true
     }
 
