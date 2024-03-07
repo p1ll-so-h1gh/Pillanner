@@ -16,28 +16,34 @@ class IntakePillCell: UITableViewCell {
         label.font = FontLiteral.body(style: .regular).withSize(18)
         return label
     }()
+    
     let alarmLabel: UILabel = {
         let label = UILabel()
         label.font = FontLiteral.body(style: .bold).withSize(14)
         return label
     }()
+    
     private let editBtn: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "button"), for: .normal)
         return button
     }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
         self.setupLayout()
     }
+    
     required init?(coder: NSCoder) {
         fatalError()
     }
+    
     private func setupLayout() {
         self.contentView.addSubview(timeLabel)
         self.contentView.addSubview(alarmLabel)
         self.contentView.addSubview(editBtn)
+        
         timeLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(10)
             $0.left.equalToSuperview().inset(6)

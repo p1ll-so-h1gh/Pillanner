@@ -11,18 +11,21 @@ import SwiftUI
 
 final class PillEditViewController: UIViewController {
     private let sidePaddingSizeValue = 20
-    
+    private let cornerRadiusValue: CGFloat = 13
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "내 영양제 수정하기"
         label.font = FontLiteral.title3(style: .bold).withSize(20)
         return label
     }()
+    
     private let backBtn: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "xmark")?.withRenderingMode(.alwaysOriginal).withTintColor(.black), for: .normal)
         return button
     }()
+    
     private let totalTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.id)
@@ -32,29 +35,42 @@ final class PillEditViewController: UIViewController {
         tableView.register(DeadlineCell.self, forCellReuseIdentifier: DeadlineCell.id)
         return tableView
     }()
-    private let editBtnView: UIView = {
+    
+    private lazy var editBtnView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.mainThemeColor
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
+    
     private let editBtn: UIButton = {
         let button = UIButton()
         button.setTitle("수정하기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         return button
     }()
+    
+    private lazy var navBackBtn = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
         self.totalTableView.dataSource = self
         self.totalTableView.rowHeight = UITableView.automaticDimension
+        
         backBtn.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
+        
+        navBackBtn.tintColor = .black
+        self.navigationItem.backBarButtonItem = navBackBtn
+        
         setupView()
     }
+    
     @objc func dismissView() {
         dismiss(animated: true)
     }
+    
     private func setupView() {
         editBtnView.addSubview(editBtn)
         editBtn.snp.makeConstraints {
@@ -101,6 +117,7 @@ extension PillEditViewController: UITableViewDataSource {
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
+            cell.delegate = self
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillTyeCell", for: indexPath) as! PillTyeCell
@@ -111,5 +128,21 @@ extension PillEditViewController: UITableViewDataSource {
         default:
             fatalError("Invalid index path")
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 1 {
+            let weekSelectVC = WeekdaySelectionViewController()
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.pushViewController(weekSelectVC, animated: true)
+        }
+    }
+}
+
+extension PillEditViewController: IntakeSettingDelegate {
+    func addDosage() {
+        let dosageAddVC = DosageAddViewController()
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.pushViewController(dosageAddVC, animated: true)
     }
 }

@@ -37,43 +37,49 @@ class UserSettingViewController: UIViewController {
         view.backgroundColor = .white
         return view
     }()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "앱 설정"
         label.font = FontLiteral.title2(style: .bold).withSize(20)
         return label
     }()
+    
     private lazy var backBtn: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "xmark")?.withRenderingMode(.alwaysOriginal).withTintColor(.black), for: .normal)
         button.addTarget(self, action: #selector(goBackPage), for: .touchUpInside)
         return button
     }()
+    
     @objc func goBackPage() {
         dismiss(animated: true)
     }
+    
     private let seperateLine1: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "F0EFEF")
         return view
     }()
+    
     private let topAlarmView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         return view
     }()
+    
     private let alarmactivateLabel: UILabel = {
         let label = UILabel()
         label.text = "푸시 알람 수신 활성화"
         label.font = FontLiteral.body(style: .regular).withSize(16)
         return label
     }()
+    
     private let alarmActivateSwitch: UISwitch = {
         let switchControl = UISwitch()
         switchControl.onTintColor = UIColor.mainThemeColor
         return switchControl
     }()
-    
     
     private let alarmDetailImage: UIImageView = {
         let image = UIImageView()
@@ -81,12 +87,14 @@ class UserSettingViewController: UIViewController {
         image.tintColor = .black
         return image
     }()
+    
     private let alarmDetailLabel1: UILabel = {
         let label = UILabel()
         label.text = "어플로 받는 푸시 알림의 수신여부를 선택합니다."
         label.font = FontLiteral.body(style: .bold).withSize(15)
         return label
     }()
+    
     private let alarmDetailLabel2: UILabel = {
         let label = UILabel()
         label.text = "정기구독, 결제, 배송, 계정보안, 약관변경, 공지사항 등과 같은 중요 정보는 앱 푸시 알림 설정여부와 상관없이 이메일, 문자메시지 등으로 발송됩니다."
@@ -95,6 +103,7 @@ class UserSettingViewController: UIViewController {
         label.alpha = 0.8
         return label
     }()
+    
     private let alarmDetailInfoView: UIView = {
         let view = UIView()
         return view
@@ -105,28 +114,33 @@ class UserSettingViewController: UIViewController {
         view.backgroundColor = UIColor(hexCode: "F0EFEF")
         return view
     }()
+    
     private let bottomView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         return view
     }()
+    
     private let userInfoLabel: UILabel = {
         let label = UILabel()
         label.text = "회원 정보 관리"
         label.font = FontLiteral.title3(style: .bold).withSize(18)
         return label
     }()
+    
     private lazy var userInfoBtn: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "button"), for: .normal)
         button.addTarget(self, action: #selector(goUserInfoPage), for: .touchUpInside)
         return button
     }()
+    
     @objc func goUserInfoPage() {
         let userview = UserInfoView()
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(userview, animated: true)
     }
+    
     private let bottomTableView: UITableView = {
         let tableview = UITableView()
         tableview.register(SettingSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: SettingSectionHeaderView.reuseIdentifier)
@@ -136,13 +150,19 @@ class UserSettingViewController: UIViewController {
     }()
     
     private var sectionList: [SettingSection] = SettingSection.allCases
+    private lazy var navBackBtn = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
+        navBackBtn.tintColor = .black
+        self.navigationItem.backBarButtonItem = navBackBtn
+        
         bottomTableView.delegate = self
         bottomTableView.dataSource = self
         bottomTableView.rowHeight = UITableView.automaticDimension
+        
         setupView()
     }
     
@@ -154,6 +174,7 @@ class UserSettingViewController: UIViewController {
         [backBtn, titleLabel].forEach {
             topView.addSubview($0)
         }
+        
         backBtn.snp.makeConstraints {
             $0.top.leading.equalToSuperview().inset(sidePaddingSizeValue)
         }
@@ -161,9 +182,11 @@ class UserSettingViewController: UIViewController {
             $0.top.equalToSuperview().inset(sidePaddingSizeValue)
             $0.centerX.equalToSuperview()
         }
+        
         [alarmDetailImage, alarmDetailLabel1, alarmDetailLabel2].forEach {
             alarmDetailInfoView.addSubview($0)
         }
+        
         alarmDetailImage.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(3)
             $0.top.equalToSuperview()
@@ -177,9 +200,11 @@ class UserSettingViewController: UIViewController {
             $0.top.equalTo(alarmDetailImage.snp.bottom).inset(-3)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+        
         [alarmactivateLabel, alarmActivateSwitch, alarmDetailInfoView].forEach {
             topAlarmView.addSubview($0)
         }
+        
         alarmactivateLabel.snp.makeConstraints {
             $0.top.leading.equalToSuperview().inset(sidePaddingSizeValue)
         }
@@ -192,9 +217,11 @@ class UserSettingViewController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(sidePaddingSizeValue)
             $0.bottom.equalToSuperview().inset(10)
         }
+        
         [userInfoLabel, userInfoBtn, bottomTableView].forEach {
             bottomView.addSubview($0)
         }
+        
         userInfoLabel.snp.makeConstraints {
             $0.leading.top.equalToSuperview().inset(sidePaddingSizeValue)
         }
@@ -205,9 +232,11 @@ class UserSettingViewController: UIViewController {
             $0.top.equalTo(userInfoLabel.snp.bottom).inset(-sidePaddingSizeValue)
             $0.leading.trailing.bottom.equalToSuperview().inset(12)
         }
+        
         [topView, seperateLine1, topAlarmView, seperateLine2, bottomView].forEach {
             view.addSubview($0)
         }
+        
         topView.snp.makeConstraints {
             $0.leading.top.trailing.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(60)
@@ -276,6 +305,46 @@ extension UserSettingViewController: UITableViewDataSource, UITableViewDelegate 
             return cell
         }
     }
+    
+    //셀 선택시 액션 넣는 곳
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch sectionList[indexPath.section] {
+        case .support:
+            switch indexPath.row {
+            case 0:
+                print("공지사항")
+            case 1:
+                print("1:1문의")
+            default:
+                return
+            }
+        case .policy:
+            switch indexPath.row {
+            case 0:
+                print("이용약관")
+            case 1:
+                print("개인 정보 처리 방침")
+            case 2:
+                print("마케팅 수신 동의")
+            default:
+                return
+            }
+        case .appInfo:
+            switch indexPath.row {
+            case 0:
+                print("버전 정보")
+            case 1:
+                print("사업자 정보")
+            case 2:
+                print("로그아웃")
+            case 3:
+                print("회원탈퇴")
+            default:
+                return
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }

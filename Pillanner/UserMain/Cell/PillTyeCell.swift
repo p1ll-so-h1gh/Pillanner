@@ -20,30 +20,35 @@ final class PillTyeCell: UITableViewCell {
         label.alpha = 0.6
         return label
     }()
+    
     private lazy var generalPillView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = cornerRadiusValue
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         return view
     }()
+    
     private let generalPillBtn: UIButton = {
         let button = UIButton()
         button.setTitle("일반약", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         return button
     }()
+    
     private lazy var prescriptionPillView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = cornerRadiusValue
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         return view
     }()
+    
     private let prescriptionPillBtn: UIButton = {
         let button = UIButton()
         button.setTitle("처방약", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         return button
     }()
+    
     private let HStackView: UIStackView = {
         let stackview = UIStackView()
         stackview.axis = .horizontal
@@ -58,10 +63,12 @@ final class PillTyeCell: UITableViewCell {
         generalPillBtn.addTarget(self, action: #selector(tappedgeneralPillBtn), for: .touchUpInside)
         prescriptionPillBtn.addTarget(self, action: #selector(tappedprescriptionPillBtn), for: .touchUpInside)
     }
+    
     @objc func tappedgeneralPillBtn() {
         generalPillView.backgroundColor = UIColor.mainThemeColor
         prescriptionPillView.backgroundColor = UIColor(hexCode: "E6E6E6")
     }
+    
     @objc func tappedprescriptionPillBtn() {
         prescriptionPillView.backgroundColor = UIColor.mainThemeColor
         generalPillView.backgroundColor = UIColor(hexCode: "E6E6E6")
@@ -73,18 +80,24 @@ final class PillTyeCell: UITableViewCell {
     
     private func setupLayout() {
         generalPillView.addSubview(generalPillBtn)
+        
         generalPillBtn.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
+        
         prescriptionPillView.addSubview(prescriptionPillBtn)
+        
         prescriptionPillBtn.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
+        
         HStackView.addArrangedSubview(generalPillView)
         HStackView.addArrangedSubview(prescriptionPillView)
+        
         [titleLabel, HStackView].forEach {
             contentView.addSubview($0)
         }
+        
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(sidePaddingSizeValue)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)

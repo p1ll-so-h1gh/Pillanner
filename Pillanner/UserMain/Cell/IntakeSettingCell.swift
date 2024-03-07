@@ -8,7 +8,11 @@
 import UIKit
 import SnapKit
 
-class PillTableView: UITableView {
+protocol IntakeSettingDelegate: AnyObject {
+    func addDosage()
+}
+
+final class PillTableView: UITableView {
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
     }
@@ -25,40 +29,51 @@ final class IntakeSettingCell: UITableViewCell {
     static let id = "IntakeSettingCell"
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
+    weak var delegate: IntakeSettingDelegate?
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "섭취 설정"
         label.font = FontLiteral.subheadline(style: .bold).withSize(18)
         label.alpha = 0.6
         return label
     }()
-    let infoLabel: UILabel = {
+    
+    private let infoLabel: UILabel = {
         let label = UILabel()
         label.text = "섭취횟수 3회"
         label.font = FontLiteral.body(style: .regular).withSize(16)
         return label
     }()
-    let pillTableView: PillTableView = {
+    
+    private let pillTableView: PillTableView = {
         let tableview = PillTableView()
         tableview.register(IntakePillCell.self, forCellReuseIdentifier: IntakePillCell.id)
         tableview.separatorStyle = .none
         tableview.isScrollEnabled = true
         return tableview
     }()
-    lazy var intakeaddBtnView: UIView = {
+    
+    private lazy var intakeaddBtnView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = cornerRadiusValue
         view.backgroundColor = UIColor.mainThemeColor
         return view
     }()
-    let intakeaddBtn: UIButton = {
+    
+    private lazy var intakeaddBtn: UIButton = {
         let button = UIButton()
         button.setTitle("복용 횟수 추가하기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         button.frame = CGRect(x: 0, y: 0, width: 439, height: 45)
+        button.addTarget(self, action: #selector(goDosageAddVC), for: .touchUpInside)
         return button
     }()
+    
+    @objc func goDosageAddVC() {
+        self.delegate?.addDosage()
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
@@ -67,9 +82,11 @@ final class IntakeSettingCell: UITableViewCell {
         self.pillTableView.rowHeight = UITableView.automaticDimension
         self.setupLayout()
     }
+    
     required init?(coder: NSCoder) {
         fatalError()
     }
+    
     private func setupLayout() {
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(infoLabel)

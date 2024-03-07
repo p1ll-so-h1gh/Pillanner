@@ -10,6 +10,7 @@ class UserInfoView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = "회원 정보 관리"
         view.backgroundColor = .yellow
     }
 }

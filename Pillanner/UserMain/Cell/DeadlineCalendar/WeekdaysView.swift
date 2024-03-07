@@ -10,7 +10,7 @@ import SnapKit
 
 class WeekdaysView: UIView {
     
-    let weekStackView: UIStackView = {
+    private let weekStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.distribution = .fillEqually
         return stackView
@@ -21,11 +21,12 @@ class WeekdaysView: UIView {
         self.backgroundColor = UIColor.clear
         setupViews()
     }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupViews() {
+    private func setupViews() {
         addSubview(weekStackView)
         weekStackView.snp.makeConstraints {
             $0.top.left.right.bottom.equalToSuperview()

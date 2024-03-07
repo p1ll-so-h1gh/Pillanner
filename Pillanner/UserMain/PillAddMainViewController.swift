@@ -19,11 +19,13 @@ final class PillAddMainViewController: UIViewController {
         label.font = FontLiteral.title3(style: .bold).withSize(20)
         return label
     }()
+    
     private let backBtn: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "xmark")?.withRenderingMode(.alwaysOriginal).withTintColor(.black), for: .normal)
         return button
     }()
+    
     private let totalTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.id)
@@ -33,12 +35,14 @@ final class PillAddMainViewController: UIViewController {
         tableView.register(DeadlineCell.self, forCellReuseIdentifier: DeadlineCell.id)
         return tableView
     }()
+    
     private lazy var addBtnView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.mainThemeColor
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
+    
     private let addBtn: UIButton = {
         let button = UIButton()
         button.setTitle("등록하기", for: .normal)
@@ -46,16 +50,30 @@ final class PillAddMainViewController: UIViewController {
         return button
     }()
     
+    private lazy var navBackBtn = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
         self.totalTableView.dataSource = self
+        self.totalTableView.delegate = self
         self.totalTableView.rowHeight = UITableView.automaticDimension
+        
         backBtn.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
+        
+        navBackBtn.tintColor = .black
+        self.navigationItem.backBarButtonItem = navBackBtn
+        
         setupView()
     }
+    
     @objc func dismissView() {
         dismiss(animated: true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
     }
     private func setupView() {
         addBtnView.addSubview(addBtn)
@@ -87,7 +105,7 @@ final class PillAddMainViewController: UIViewController {
     }
 }
 
-extension PillAddMainViewController: UITableViewDataSource {
+extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
@@ -103,6 +121,7 @@ extension PillAddMainViewController: UITableViewDataSource {
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
+            cell.delegate = self
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillTyeCell", for: indexPath) as! PillTyeCell
@@ -113,5 +132,21 @@ extension PillAddMainViewController: UITableViewDataSource {
         default:
             fatalError("Invalid index path")
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 1 {
+            let weekSelectVC = WeekdaySelectionViewController()
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.pushViewController(weekSelectVC, animated: true)
+        }
+    }
+}
+
+extension PillAddMainViewController: IntakeSettingDelegate {
+    func addDosage() {
+        let dosageAddVC = DosageAddViewController()
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.pushViewController(dosageAddVC, animated: true)
     }
 }

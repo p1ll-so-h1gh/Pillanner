@@ -20,23 +20,27 @@ final class IntakeDateCell: UITableViewCell {
         label.alpha = 0.6
         return label
     }()
-    private let detailBtn: UIButton = {
+    
+    private let editBtn: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "button"), for: .normal)
         return button
     }()
+    
     private let HStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 15
         return stackView
     }()
+    
     private lazy var MonView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
+    
     private let MonLabel: UILabel = {
         let label = UILabel()
         label.text = "월"
@@ -44,12 +48,14 @@ final class IntakeDateCell: UITableViewCell {
         label.frame = CGRect(x: 0, y: 0, width: 33, height: 33)
         return label
     }()
+    
     private lazy var TueView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
+    
     private let TueLabel: UILabel = {
         let label = UILabel()
         label.text = "화"
@@ -57,12 +63,14 @@ final class IntakeDateCell: UITableViewCell {
         label.frame = CGRect(x: 0, y: 0, width: 33, height: 33)
         return label
     }()
+    
     private lazy var WedView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
+    
     private let WedLabel: UILabel = {
         let label = UILabel()
         label.text = "수"
@@ -70,12 +78,14 @@ final class IntakeDateCell: UITableViewCell {
         label.frame = CGRect(x: 0, y: 0, width: 33, height: 33)
         return label
     }()
+    
     private lazy var ThuView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
+    
     private let ThuLabel: UILabel = {
         let label = UILabel()
         label.text = "목"
@@ -83,12 +93,14 @@ final class IntakeDateCell: UITableViewCell {
         label.frame = CGRect(x: 0, y: 0, width: 33, height: 33)
         return label
     }()
+    
     private lazy var FriView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
+    
     private let FriLabel: UILabel = {
         let label = UILabel()
         label.text = "금"
@@ -96,12 +108,14 @@ final class IntakeDateCell: UITableViewCell {
         label.frame = CGRect(x: 0, y: 0, width: 33, height: 33)
         return label
     }()
+    
     private lazy var SatView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
+    
     private let SatLabel: UILabel = {
         let label = UILabel()
         label.text = "토"
@@ -109,12 +123,14 @@ final class IntakeDateCell: UITableViewCell {
         label.frame = CGRect(x: 0, y: 0, width: 33, height: 33)
         return label
     }()
+    
     private lazy var SunView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
+    
     private let SunLabel: UILabel = {
         let label = UILabel()
         label.text = "일"
@@ -128,13 +144,16 @@ final class IntakeDateCell: UITableViewCell {
         self.selectionStyle = .none
         self.setupLayout()
     }
+    
     required init?(coder: NSCoder) {
         fatalError()
     }
+    
     private func setupLayout() {
-        [intakedateLabel, detailBtn, HStackView].forEach {
+        [intakedateLabel, editBtn, HStackView].forEach {
             self.contentView.addSubview($0)
         }
+        
         MonView.addSubview(MonLabel)
         TueView.addSubview(TueLabel)
         WedView.addSubview(WedLabel)
@@ -142,9 +161,11 @@ final class IntakeDateCell: UITableViewCell {
         FriView.addSubview(FriLabel)
         SatView.addSubview(SatLabel)
         SunView.addSubview(SunLabel)
+        
         [MonView, TueView, WedView, ThuView, FriView, SatView, SunView].forEach {
             self.HStackView.addArrangedSubview($0)
         }
+        
         self.MonLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(8)
             $0.bottom.equalToSuperview().inset(8)
@@ -191,7 +212,7 @@ final class IntakeDateCell: UITableViewCell {
             $0.top.equalToSuperview().inset(sidePaddingSizeValue)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)
         }
-        self.detailBtn.snp.makeConstraints {
+        self.editBtn.snp.makeConstraints {
             $0.top.equalToSuperview().inset(sidePaddingSizeValue)
             $0.right.equalToSuperview().inset(sidePaddingSizeValue)
         }

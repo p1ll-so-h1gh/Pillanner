@@ -19,16 +19,19 @@ final class UserMainViewController: UIViewController {
         view.showsVerticalScrollIndicator = false
         return view
     }()
+    
     private let contentView: UIView = {
         var view = UIView()
         return view
     }()
+    
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "김영현님"
         label.font = FontLiteral.title2(style: .bold).withSize(24)
         return label
     }()
+    
     private let infoLabel: UILabel = {
         let label = UILabel()
         label.text = "영현님! 오늘 알약 섭취를 70% 완료 하셨어요 :)"
@@ -36,6 +39,7 @@ final class UserMainViewController: UIViewController {
         label.alpha = 0.5
         return label
     }()
+    
     private lazy var settingBtn: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
@@ -43,29 +47,34 @@ final class UserMainViewController: UIViewController {
         button.addTarget(self, action: #selector(goSettingVC), for: .touchUpInside)
         return button
     }()
+    
     @objc func goSettingVC() {
         let settingVC = UserSettingViewController()
         let nav = UINavigationController(rootViewController: settingVC)
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true, completion: nil)
     }
+    
     private let attainmentRateLabel: UILabel = {
         let label = UILabel()
         label.text = "달성률"
         label.font = FontLiteral.title2(style: .bold).withSize(20)
         return label
     }()
+    
     private let circleContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
     }()
+    
     private let labelVStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 50
         return stackView
     }()
+    
     private let dayLabel: UILabel = {
         let label = UILabel()
         label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
@@ -74,16 +83,19 @@ final class UserMainViewController: UIViewController {
         label.backgroundColor = UIColor(hexCode: "9BDCFD")
         return label
     }()
+    
     private let daytextLabel: UILabel = {
         let label = UILabel()
         label.text = "하루"
         label.font = FontLiteral.body(style: .regular).withSize(18)
         return label
     }()
+    
     private let dayView: UIView = {
         let view = UIView()
         return view
     }()
+    
     private let weekLabel: UILabel = {
         let label = UILabel()
         label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
@@ -92,16 +104,19 @@ final class UserMainViewController: UIViewController {
         label.backgroundColor = UIColor(hexCode: "FF9898")
         return label
     }()
+    
     private let weektextLabel: UILabel = {
         let label = UILabel()
         label.text = "일주일"
         label.font = FontLiteral.body(style: .regular).withSize(18)
         return label
     }()
+    
     private let weekView: UIView = {
         let view = UIView()
         return view
     }()
+    
     private let monthLabel: UILabel = {
         let label = UILabel()
         label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
@@ -110,16 +125,19 @@ final class UserMainViewController: UIViewController {
         label.backgroundColor = UIColor(hexCode: "FFD188")
         return label
     }()
+    
     private let monthtextLabel: UILabel = {
         let label = UILabel()
         label.text = "월별"
         label.font = FontLiteral.body(style: .regular).withSize(18)
         return label
     }()
+    
     private let monthView: UIView = {
         let view = UIView()
         return view
     }()
+    
     private let sectionSeparatorLine: UIView = {
         let view = UIView()
         view.backgroundColor = .black
@@ -127,12 +145,14 @@ final class UserMainViewController: UIViewController {
         view.frame = CGRect(x: 0, y: 0, width: 0, height: 1)
         return view
     }()
+    
     private let intakePillLabel: UILabel = {
         let label = UILabel()
         label.text = "복용중인 약"
         label.font = FontLiteral.title2(style: .bold).withSize(20)
         return label
     }()
+    
     private let intakedescriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "영현님이 복용중인 약은 00 개 입니다"
@@ -140,6 +160,7 @@ final class UserMainViewController: UIViewController {
         label.alpha = 0.5
         return label
     }()
+    
     private let intakePillListCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 10

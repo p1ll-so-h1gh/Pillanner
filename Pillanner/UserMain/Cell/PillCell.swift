@@ -21,6 +21,7 @@ final class PillCell: UITableViewCell {
         label.alpha = 0.6
         return label
     }()
+    
     private let pillnametext: UITextField = {
         let field = UITextField()
         field.placeholder = "제품명"
@@ -33,9 +34,11 @@ final class PillCell: UITableViewCell {
         self.selectionStyle = .none
         self.setupLayout()
     }
+    
     required init?(coder: NSCoder) {
         fatalError()
     }
+    
     private func setupLayout() {
         self.contentView.addSubview(self.pillnameLabel)
         self.contentView.addSubview(self.pillnametext)

@@ -20,16 +20,19 @@ final class DeadlineCell: UITableViewCell {
         label.alpha = 0.6
         return label
     }()
+    
     private lazy var popswitch: UISwitch = {
         let switchControl = UISwitch()
         switchControl.onTintColor = UIColor.mainThemeColor
         switchControl.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
         return switchControl
     }()
+    
     private let calendarView: CalendarView = {
         let view = CalendarView()
         return view
     }()
+    
     @objc func switchValueChanged(_ sender: UISwitch) {
         if sender.isOn {
             self.calendarView.isHidden = false
@@ -37,15 +40,18 @@ final class DeadlineCell: UITableViewCell {
             self.calendarView.isHidden = true
         }
     }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
         self.setupLayout()
         self.calendarView.isHidden = true
     }
+    
     required init?(coder: NSCoder) {
         fatalError()
     }
+    
     private func setupLayout() {
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(popswitch)
