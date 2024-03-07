@@ -52,6 +52,9 @@
 		14F2CFB72B87080E007F354B /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFB62B87080E007F354B /* CalendarViewController.swift */; };
 		14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFB82B870818007F354B /* UserMainViewController.swift */; };
 		14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */; };
+		560EC5B92B9898F400FF0D37 /* DosageAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560EC5B82B9898F400FF0D37 /* DosageAddViewController.swift */; };
+		560EC5BB2B98991800FF0D37 /* WeekdaySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560EC5BA2B98991800FF0D37 /* WeekdaySelectionViewController.swift */; };
+		560EC5BD2B98995100FF0D37 /* InitialSetupStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560EC5BC2B98995100FF0D37 /* InitialSetupStartViewController.swift */; };
 		56B1D99B2B889E1C0030C6BB /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		7C3F79862B9068A000DD1AC7 /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F79852B9068A000DD1AC7 /* CalendarModel.swift */; };
 		7C3F798A2B906A7700DD1AC7 /* CheckPillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */; };
@@ -99,6 +102,9 @@
 		14F2CFB62B87080E007F354B /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		14F2CFB82B870818007F354B /* UserMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMainViewController.swift; sourceTree = "<group>"; };
 		14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSetUpViewController.swift; sourceTree = "<group>"; };
+		560EC5B82B9898F400FF0D37 /* DosageAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DosageAddViewController.swift; sourceTree = "<group>"; };
+		560EC5BA2B98991800FF0D37 /* WeekdaySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdaySelectionViewController.swift; sourceTree = "<group>"; };
+		560EC5BC2B98995100FF0D37 /* InitialSetupStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSetupStartViewController.swift; sourceTree = "<group>"; };
 		7C3F79852B9068A000DD1AC7 /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPillCell.swift; sourceTree = "<group>"; };
 		7CEBD66D2B96A8BC00F63F78 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -201,6 +207,7 @@
 		14D2BE5F2B84BBBF0006AC51 /* Pillanner */ = {
 			isa = PBXGroup;
 			children = (
+				560EC5B52B9898C300FF0D37 /* AddPillCell */,
 				C45D904E2B95B0A600676CEA /* Find_ID_PW */,
 				C45D90492B95AF7A00676CEA /* SignUp */,
 				C4346D902B8DAD1B00110DEF /* Pillanner.entitlements */,
@@ -256,6 +263,16 @@
 				7C3F79852B9068A000DD1AC7 /* CalendarModel.swift */,
 			);
 			path = Calendar;
+			sourceTree = "<group>";
+		};
+		560EC5B52B9898C300FF0D37 /* AddPillCell */ = {
+			isa = PBXGroup;
+			children = (
+				560EC5B82B9898F400FF0D37 /* DosageAddViewController.swift */,
+				560EC5BA2B98991800FF0D37 /* WeekdaySelectionViewController.swift */,
+				560EC5BC2B98995100FF0D37 /* InitialSetupStartViewController.swift */,
+			);
+			name = AddPillCell;
 			sourceTree = "<group>";
 		};
 		C40136A22B887D2400577C17 /* Extension */ = {
@@ -454,9 +471,12 @@
 				CC1697A52B903DAD008276B0 /* PillAddMainViewController.swift in Sources */,
 				C45D90502B95B0EA00676CEA /* FindIDViewController.swift in Sources */,
 				14D2BE612B84BBBF0006AC51 /* AppDelegate.swift in Sources */,
+				560EC5BB2B98991800FF0D37 /* WeekdaySelectionViewController.swift in Sources */,
+				560EC5B92B9898F400FF0D37 /* DosageAddViewController.swift in Sources */,
 				CC7DB3CD2B95536C00809665 /* IntakePillCell.swift in Sources */,
 				1408A5D02B972DF2006DA21D /* CustomLaunchScreenViewController.swift in Sources */,
 				14D2BE632B84BBBF0006AC51 /* SceneDelegate.swift in Sources */,
+				560EC5BD2B98995100FF0D37 /* InitialSetupStartViewController.swift in Sources */,
 				CC16979E2B9021F2008276B0 /* IntakeSettingCell.swift in Sources */,
 				14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */,
 				CC7DB3F82B95CBFF00809665 /* WeekdaysView.swift in Sources */,
