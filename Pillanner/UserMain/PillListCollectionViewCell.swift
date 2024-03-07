@@ -59,7 +59,7 @@ class PillListCollectionViewCell: UICollectionViewCell {
     
     private let pillnumImg: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "Pin")
+        image.image = UIImage(named: "pill_gray")
         return image
     }()
     

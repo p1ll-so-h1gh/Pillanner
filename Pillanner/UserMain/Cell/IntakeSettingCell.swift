@@ -57,7 +57,7 @@ final class IntakeSettingCell: UITableViewCell {
     private lazy var intakeaddBtnView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = cornerRadiusValue
-        view.backgroundColor = UIColor.mainThemeColor
+        view.backgroundColor = UIColor.pointThemeColor2
         return view
     }()
     

@@ -38,7 +38,7 @@ final class PillAddMainViewController: UIViewController {
     
     private lazy var addBtnView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.mainThemeColor
+        view.backgroundColor = UIColor.pointThemeColor2
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()

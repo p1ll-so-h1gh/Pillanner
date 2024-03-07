@@ -65,12 +65,12 @@ final class PillTyeCell: UITableViewCell {
     }
     
     @objc func tappedgeneralPillBtn() {
-        generalPillView.backgroundColor = UIColor.mainThemeColor
+        generalPillView.backgroundColor = UIColor.pointThemeColor2
         prescriptionPillView.backgroundColor = UIColor(hexCode: "E6E6E6")
     }
     
     @objc func tappedprescriptionPillBtn() {
-        prescriptionPillView.backgroundColor = UIColor.mainThemeColor
+        prescriptionPillView.backgroundColor = UIColor.pointThemeColor2
         generalPillView.backgroundColor = UIColor(hexCode: "E6E6E6")
     }
     

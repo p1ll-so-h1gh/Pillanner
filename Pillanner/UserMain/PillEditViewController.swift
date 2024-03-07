@@ -38,7 +38,7 @@ final class PillEditViewController: UIViewController {
     
     private lazy var editBtnView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.mainThemeColor
+        view.backgroundColor = UIColor.pointThemeColor2
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()

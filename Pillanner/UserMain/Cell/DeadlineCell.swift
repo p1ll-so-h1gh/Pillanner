@@ -23,7 +23,7 @@ final class DeadlineCell: UITableViewCell {
     
     private lazy var popswitch: UISwitch = {
         let switchControl = UISwitch()
-        switchControl.onTintColor = UIColor.mainThemeColor
+        switchControl.onTintColor = UIColor.pointThemeColor2
         switchControl.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
         return switchControl
     }()
