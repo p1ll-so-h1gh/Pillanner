@@ -198,6 +198,11 @@ final class DataManager {
         }
     }
     
+    // 약 복용 로그를 저장할 수 있는 메서드 구현 필요
+    // func createPillRecordData
+    // func readPillRecordData
+    
+    
     // MARK: - Check Format
     // 아이디 형식 검사 메서드
     func isValidID(id: String) -> Bool {

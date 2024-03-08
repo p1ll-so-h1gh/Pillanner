@@ -60,8 +60,7 @@ extension LoginViewController {
                         ID: authResult!.user.email!,
                         password: "APPLE 소셜 로그인으로 비밀번호가 없습니다.",
                         name: "이름을 새로 받거나 해야될 듯,,",
-                        phoneNumber: "APPLE 소셜 로그인으로 전화번호가 없습니다.",
-                        mealTime: []
+                        phoneNumber: "APPLE 소셜 로그인으로 전화번호가 없습니다."
                     )
                 )
             }
