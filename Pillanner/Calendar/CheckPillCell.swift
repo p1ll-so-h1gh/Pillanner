@@ -32,7 +32,7 @@ class CheckPillCell: UITableViewCell {
     private let countDosageLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "섭취갯수"
+        label.text = "복용량"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 13)
         return label
@@ -72,7 +72,7 @@ class CheckPillCell: UITableViewCell {
 
     private let typeLabel: UILabel = {
         let label = UILabel()
-        label.font = FontLiteral.body(style: .bold).withSize(12)
+        label.font = FontLiteral.body(style: .bold).withSize(14)
         return label
     }()
 
@@ -176,7 +176,7 @@ class CheckPillCell: UITableViewCell {
             $0.centerY.equalTo(nameLabel)
             $0.leading.equalTo(nameLabel.snp.trailing).offset(15)
             $0.width.equalTo(50)
-            $0.height.equalTo(15)
+            $0.height.equalTo(nameLabel)
         }
 
         typeLabel.snp.makeConstraints {
