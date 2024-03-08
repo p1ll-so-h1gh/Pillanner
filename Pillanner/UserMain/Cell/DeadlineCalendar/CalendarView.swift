@@ -11,22 +11,24 @@ import SnapKit
 class CalendarView: UIView, MonthYearBarViewDelegate {
     private let sidePaddingSizeValue = 10
     private let betweenPadidngSizeValue = 10
-    var numOfDaysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31]
-    var currentMonthIndex: Int = 0
-    var currentYear: Int = 0
-    var presentMonthIndex = 0
-    var presentYear = 0
-    var todaysDate = 0
-    var firstWeekDayOfMonth = 0
+    private var numOfDaysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31]
+    private var currentMonthIndex: Int = 0
+    private var currentYear: Int = 0
+    private var presentMonthIndex = 0
+    private var presentYear = 0
+    private var todaysDate = 0
+    private var firstWeekDayOfMonth = 0
     
     private let monthView: MonthYearBarView = {
         let view = MonthYearBarView()
         return view
     }()
+    
     private let weekdaysView: WeekdaysView = {
         let view = WeekdaysView()
         return view
     }()
+    
     private let dayCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -44,11 +46,12 @@ class CalendarView: UIView, MonthYearBarViewDelegate {
         self.layer.cornerRadius = 15
         initializeView()
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func initializeView() {
+    private func initializeView() {
         currentMonthIndex = Calendar.current.component(.month, from: Date())
         currentYear = Calendar.current.component(.year, from: Date())
         todaysDate = Calendar.current.component(.day, from: Date())

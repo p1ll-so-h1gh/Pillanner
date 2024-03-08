@@ -12,17 +12,19 @@ protocol MonthYearBarViewDelegate: AnyObject {
     func didChangeMonth(monthIndex: Int, year: Int)
 }
 
-class MonthYearBarView: UIView {
+final class MonthYearBarView: UIView {
     private let labelBtn1: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Down"), for: .normal)
         return button
     }()
+    
     private let labelBtn2: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Down"), for: .normal)
         return button
     }()
+    
     private let monthLabelView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 5
@@ -30,12 +32,14 @@ class MonthYearBarView: UIView {
         view.backgroundColor = .white
         return view
     }()
+    
     let monthLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = FontLiteral.title3(style: .bold).withSize(20)
         return label
     }()
+    
     private let yearLabelView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 5
@@ -43,30 +47,35 @@ class MonthYearBarView: UIView {
         view.backgroundColor = .white
         return view
     }()
+    
     let yearLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = FontLiteral.title3(style: .bold).withSize(20)
         return label
     }()
+    
     private let btnRightView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 19
         return view
     }()
+    
     lazy var btnRight: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "rightmove"), for: .normal)
         button.addTarget(self, action: #selector(btnLeftRightAction(sender:)), for: .touchUpInside)
         return button
     }()
+    
     private let btnLeftView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 19
         return view
     }()
+    
     lazy var btnLeft: UIButton = {
         let button=UIButton()
         button.setImage(UIImage(named: "leftmove"), for: .normal)
@@ -74,9 +83,10 @@ class MonthYearBarView: UIView {
         button.setTitleColor(UIColor.lightGray, for: .disabled)
         return button
     }()
-    var monthsArr = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
-    var currentMonthIndex = 0
-    var currentYear: Int = 0
+    
+    private var monthsArr = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+    private var currentMonthIndex = 0
+    private var currentYear: Int = 0
     var delegate: MonthYearBarViewDelegate?
     
     override init(frame: CGRect) {
@@ -116,13 +126,11 @@ class MonthYearBarView: UIView {
     func setupView() {
         btnLeftView.addSubview(btnLeft)
         btnLeft.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
         btnRightView.addSubview(btnRight)
         btnRight.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
         monthLabelView.addSubview(monthLabel)
         monthLabelView.addSubview(labelBtn1)
@@ -165,8 +173,6 @@ class MonthYearBarView: UIView {
             $0.size.equalTo(38)
             $0.trailing.top.bottom.equalToSuperview()
         }
-        
     }
-
 }
 

@@ -43,8 +43,9 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController is PillAddMainViewController {
             let pillAddVC = PillAddMainViewController()
-            pillAddVC.modalPresentationStyle = .fullScreen
-            present(pillAddVC, animated: true, completion: nil)
+            let navPillAddVC = UINavigationController(rootViewController: pillAddVC)
+            navPillAddVC.modalPresentationStyle = .fullScreen
+            present(navPillAddVC, animated: true, completion: nil)
             return false
         }
         return true

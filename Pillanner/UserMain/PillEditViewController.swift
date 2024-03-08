@@ -9,13 +9,13 @@ import UIKit
 import SnapKit
 import SwiftUI
 
-final class PillAddMainViewController: UIViewController {
+final class PillEditViewController: UIViewController {
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "내 영양제 추가하기"
+        label.text = "내 영양제 수정하기"
         label.font = FontLiteral.title3(style: .bold).withSize(20)
         return label
     }()
@@ -36,16 +36,16 @@ final class PillAddMainViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var addBtnView: UIView = {
+    private lazy var editBtnView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.pointThemeColor2
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     
-    private let addBtn: UIButton = {
+    private let editBtn: UIButton = {
         let button = UIButton()
-        button.setTitle("등록하기", for: .normal)
+        button.setTitle("수정하기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         return button
     }()
@@ -57,7 +57,6 @@ final class PillAddMainViewController: UIViewController {
         view.backgroundColor = .white
         
         self.totalTableView.dataSource = self
-        self.totalTableView.delegate = self
         self.totalTableView.rowHeight = UITableView.automaticDimension
         
         backBtn.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
@@ -72,15 +71,12 @@ final class PillAddMainViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = true
-    }
     private func setupView() {
-        addBtnView.addSubview(addBtn)
-        addBtn.snp.makeConstraints {
-            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
+        editBtnView.addSubview(editBtn)
+        editBtn.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
         }
-        [backBtn, titleLabel, totalTableView, addBtnView].forEach {
+        [backBtn, titleLabel, totalTableView, editBtnView].forEach {
             view.addSubview($0)
         }
         backBtn.snp.makeConstraints {
@@ -94,9 +90,9 @@ final class PillAddMainViewController: UIViewController {
         totalTableView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).inset(-sidePaddingSizeValue)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(addBtnView.snp.top).inset(-sidePaddingSizeValue)
+            $0.bottom.equalTo(editBtnView.snp.top).inset(-sidePaddingSizeValue)
         }
-        addBtnView.snp.makeConstraints {
+        editBtnView.snp.makeConstraints {
             $0.width.equalTo(301)
             $0.height.equalTo(53)
             $0.centerX.equalToSuperview()
@@ -105,7 +101,7 @@ final class PillAddMainViewController: UIViewController {
     }
 }
 
-extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate {
+extension PillEditViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
@@ -143,7 +139,7 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
     }
 }
 
-extension PillAddMainViewController: IntakeSettingDelegate {
+extension PillEditViewController: IntakeSettingDelegate {
     func addDosage() {
         let dosageAddVC = DosageAddViewController()
         self.navigationController?.isNavigationBarHidden = false
