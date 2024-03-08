@@ -20,11 +20,7 @@ struct Pill {
     let title: String
     let type: String // 일반 or 처방
     var day: [Int] // 일요일 ->0, 월요일 ->0 고려해봐야됨 [0~6]
-    var dueDate: Date // 데이터 타입 변화할 가능성이 있음...
-    var intake: [Intake]
-}
-
-struct Intake: Equatable {
-    var time: DateFormatter
-    var numberOfPills: Int
+    var dueDate: String // 데이터 타입 변화할 가능성이 있음...
+    var intake: [String]
+    var dosage: Double
 }
