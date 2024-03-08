@@ -19,7 +19,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     var myVerificationID: String = ""
     var myIDToken: String = ""
-    var limitTime: Int = 10 // 3분
+    var limitTime: Int = 180 // 3분
     var availableGetCertNumberFlag: Bool = true // 인증번호 받고 나서 3분 동안만 false. false 상태에선 인증번호를 받을 수 없다.
     var availableSignUpFlag: Bool = false // 회원가입 가능 여부를 판별하는 변수. true : 가입 가능, false : 가입 불가능
     

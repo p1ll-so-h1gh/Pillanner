@@ -127,7 +127,7 @@ extension SignUpViewController {
             perform(#selector(getSetTime), with: nil, afterDelay: 1.0)
         } else if limitTime == 0 {
             timerLabel.isHidden = true
-            limitTime = 10
+            limitTime = 180
             availableGetCertNumberFlag = true
             getCertNumberButton.setTitleColor(UIColor.black, for: .normal)
             certNumberAvailableLabel.text = "인증번호 유효시간이 초과했습니다."
@@ -164,7 +164,7 @@ extension SignUpViewController {
                     self.stopTimer()
                     self.myIDToken = idToken!
                     self.timerLabel.isHidden = true
-                    self.limitTime = 10
+                    self.limitTime = 180
                     self.availableGetCertNumberFlag = false
                     self.certNumberAvailableLabel.text = "인증번호가 확인되었습니다."
                     self.certNumberAvailableLabel.textColor = .systemBlue
@@ -346,8 +346,7 @@ extension SignUpViewController {
                     ID: idTextField.text!,
                     password: passwordTextField.text!,
                     name: nameTextField.text!,
-                    phoneNumber: phoneCertTextField.text!,
-                    mealTime: []
+                    phoneNumber: phoneCertTextField.text!
                 )
             )
             // 회원가입 완료 - Alert
