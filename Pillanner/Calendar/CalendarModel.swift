@@ -16,4 +16,5 @@ struct Medicine {
     var name: String
     var dosage: String
     var time: String
+    var type: String
 }
