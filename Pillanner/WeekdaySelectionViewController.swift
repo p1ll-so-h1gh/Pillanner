@@ -20,52 +20,42 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .primaryBackgroundColor
-        setupPageTitleLabel()
+        self.navigationItem.title = "반복"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: FontLiteral.title3(style: .bold)]
         setupTableView()
     }
-    
-    private func setupPageTitleLabel() {
-        pageTitleLabel = UILabel()
-        pageTitleLabel.text = "반복"
-        pageTitleLabel.font = FontLiteral.title3(style: .bold)
-        view.addSubview(pageTitleLabel)
-        
-        pageTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
-            make.centerX.equalToSuperview()
-        }
-    }
+
     
     func setupTableView() {
-            tableView = UITableView()
-            tableView.delegate = self
-            tableView.dataSource = self
-            tableView.register(WeekdayTableViewCell.self, forCellReuseIdentifier: "WeekdayTableViewCell")
-            tableView.separatorStyle = .none // 구분선 제거
-            view.addSubview(tableView)
-            
-            tableView.snp.makeConstraints { make in
-                make.top.equalTo(pageTitleLabel.snp.bottom).offset(40)
-                make.left.right.equalToSuperview().inset(20)
-                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            }
+        tableView = UITableView()
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(WeekdayTableViewCell.self, forCellReuseIdentifier: "WeekdayTableViewCell")
+        tableView.separatorStyle = .none // 구분선 제거
+        view.addSubview(tableView)
+        
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(40)
+            make.left.right.equalToSuperview().inset(20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
+    }
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return weekdays.count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60 // 셀 높이 설정
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "WeekdayTableViewCell", for: indexPath) as? WeekdayTableViewCell else {
-            return UITableViewCell()
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "WeekdayTableViewCell", for: indexPath) as! WeekdayTableViewCell
         cell.configure(with: weekdays[indexPath.row], isSelected: selectedWeekdays.contains(indexPath.row))
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 58 // 셀 높이 설정 (50 + 8 간격)
-    }
+
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectedWeekdays.contains(indexPath.row) {
@@ -81,11 +71,24 @@ class WeekdayTableViewCell: UITableViewCell {
     
     let containerView = UIView()
     let weekdayLabel = UILabel()
-    
+    let paddingView = UIView()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupLayout()
-    }
+            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            setupLayout()
+
+            contentView.addSubview(paddingView)
+            paddingView.snp.makeConstraints { make in
+                make.top.equalToSuperview().offset(50)
+                make.bottom.equalToSuperview().offset(50)
+                make.left.right.equalToSuperview()
+            }
+
+            paddingView.addSubview(containerView)
+            containerView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+        }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
