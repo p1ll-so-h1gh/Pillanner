@@ -30,12 +30,14 @@ extension SignUpViewController {
                 if DataManager.shared.isValidID(id: self.idTextField.text!){
                     // 아이디가 사용가능한 경우
                     self.idCheckLabel.text = "사용 가능한 아이디입니다."
+                    self.idCheckButton.setTitleColor(UIColor.lightGray, for: .normal)
                     self.idCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                     self.idCheckLabel.textColor = .systemBlue
                     self.availableSignUpFlag = true
                 } else {
                     // 아이디가 형식에 맞지 않는 경우
                     self.idCheckLabel.text = "올바르지 않은 형식입니다. (영문자+숫자, 5~16자)"
+                    self.idCheckButton.setTitleColor(UIColor.black, for: .normal)
                     self.idCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                     self.idCheckLabel.textColor = .red
                     self.availableSignUpFlag = false
@@ -64,7 +66,6 @@ extension SignUpViewController {
     // 인증번호 받기/재전송 버튼 메서드
     @objc func GetCertNumberButtonClicked(_ sender: UIButton) {
         if !phoneCertTextField.text!.isEmpty && availableGetCertNumberFlag == true {
-            getCertNumberButton.setTitle("재전송", for: .normal)
             timerLabel.isHidden = false
             if availableGetCertNumberFlag == true {
                 //가상전화번호로 테스트하기 위한 코드 ---------------------------------------
@@ -75,6 +76,7 @@ extension SignUpViewController {
                         if let error = error {
                             print("@@@@@@@@@@@@@@@@ 에러발생 @@@@@@@@@@@@@@@@@@")
                             self.ifPhoneNumberIsEmptyLabel.text = "전화번호를 다시 입력해주세요."
+                            self.ifPhoneNumberIsEmptyLabel.textColor = .red
                             print(error.localizedDescription)
                             return
                         }
@@ -83,16 +85,17 @@ extension SignUpViewController {
                         self.getSetTime()
                         self.ifPhoneNumberIsEmptyLabel.text = ""
                         self.certNumberAvailableLabel.text = "인증번호가 발송되었습니다."
+                        self.getCertNumberButton.setTitle("재전송", for: .normal)
+                        self.getCertNumberButton.setTitleColor(UIColor.lightGray, for: .normal)
                         self.certNumberAvailableLabel.textColor = .systemBlue
                         self.certNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                         self.myVerificationID = verificationID!
                     }
             }
-        } else {
+        } else if phoneCertTextField.text!.isEmpty {
             ifPhoneNumberIsEmptyLabel.text = "번호가 입력되지 않았습니다."
             ifPhoneNumberIsEmptyLabel.textColor = .red
             ifPhoneNumberIsEmptyLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-            
         }
     }
     
@@ -126,6 +129,7 @@ extension SignUpViewController {
             timerLabel.isHidden = true
             limitTime = 180
             availableGetCertNumberFlag = true
+            getCertNumberButton.setTitleColor(UIColor.black, for: .normal)
             certNumberAvailableLabel.text = "인증번호 유효시간이 초과했습니다."
             certNumberAvailableLabel.textColor = .red
             certNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
@@ -237,6 +241,11 @@ extension SignUpViewController {
         })
     }
     
+    // 키보드 외부 터치할 경우 키보드 숨김처리
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     // 텍스트필드 언더라인 활성화 메서드
     func textFieldDidBeginEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.4) {
@@ -283,43 +292,43 @@ extension SignUpViewController {
     func unavailableSignUp() {
         if !idTextFieldFlag {
             idLabel.textColor = .red
-            idTextField.backgroundColor = .yellow
+            
         }else {
             idLabel.textColor = .black
-            idTextField.backgroundColor = .clear
+            
         }
         if !nameTextFieldFlag {
             nameLabel.textColor = .red
-            nameTextField.backgroundColor = .yellow
+            
         }else {
             nameLabel.textColor = .black
-            nameTextField.backgroundColor = .yellow
+            
         }
         if !passwordTextFieldFlag {
             passwordLabel.textColor = .red
-            passwordTextField.backgroundColor = .yellow
+            
         }else {
             passwordLabel.textColor = .black
-            passwordTextField.backgroundColor = .yellow
+            
         }
         if !passwordReTextFieldFlag {
             passwordReLabel.textColor = .red
-            passwordReTextField.backgroundColor = .yellow
+            
         }else {
             passwordReLabel.textColor = .black
-            passwordReTextField.backgroundColor = .yellow
+            
         }
         if !phoneCertTextFieldFlag {
             phoneCertLabel.textColor = .red
-            phoneCertTextField.backgroundColor = .yellow
+            
         }else {
             phoneCertLabel.textColor = .black
-            phoneCertTextField.backgroundColor = .yellow
+            
         }
         if !certNumberTextFieldFlag {
-            certNumberTextField.backgroundColor = .yellow
+            
         }else {
-            certNumberTextField.backgroundColor = .yellow
+            
         }
     }
 
@@ -337,14 +346,16 @@ extension SignUpViewController {
                     ID: idTextField.text!,
                     password: passwordTextField.text!,
                     name: nameTextField.text!,
-                    phoneNumber: phoneCertTextField.text!,
-                    mealTime: []
+                    phoneNumber: phoneCertTextField.text!
                 )
             )
             // 회원가입 완료 - Alert
             let alert = UIAlertController(title: "가입 성공", message: "회원가입이 완료되었습니다 !", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "확인", style: .default))
+            alert.addAction(UIAlertAction(title: "확인", style: .default) { _ in
+                self.navigationController?.popToRootViewController(animated: true)
+            })
             self.present(alert, animated: true)
+            
         }else {
             unavailableSignUp()
             // 인증번호 매칭 에러 - Alert

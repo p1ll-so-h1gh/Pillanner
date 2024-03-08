@@ -24,7 +24,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     var availableSignUpFlag: Bool = false // 회원가입 가능 여부를 판별하는 변수. true : 가입 가능, false : 가입 불가능
     
     private let sidePaddingValue = 20
-    private let topPaddingValue = 30
+    private let topPaddingValue = 40
+    private let buttonHeightValue = 35
     
     let idLabel: UILabel = {
         let label = UILabel()
@@ -243,7 +244,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     let signUpButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("가입 하기", for: .normal)
+        button.setTitle("회원가입 하기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         button.backgroundColor = .mainThemeColor
         button.layer.cornerRadius = 5
@@ -254,6 +255,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        title = "회원 가입"
     
         setUpTextFieldDelegate()
         addView()
@@ -314,6 +316,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             $0.centerY.equalTo(idTextField.snp.centerY).offset(-5)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
             $0.width.equalTo(100)
+            $0.height.equalTo(buttonHeightValue)
         })
         idTextFieldUnderLine.snp.makeConstraints({
             $0.top.equalTo(idTextField.snp.bottom).offset(5)
@@ -402,6 +405,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             $0.centerY.equalTo(phoneCertTextField.snp.centerY)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
             $0.width.equalTo(100)
+            $0.height.equalTo(buttonHeightValue)
         })
         ifPhoneNumberIsEmptyLabel.snp.makeConstraints({
             $0.top.equalTo(phoneCertTextFieldUnderLine.snp.bottom).offset(1)
@@ -421,6 +425,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         })
         checkCertNumberButton.snp.makeConstraints({
             $0.width.equalTo(50)
+            $0.height.equalTo(buttonHeightValue)
         })
         certContentStackView.snp.makeConstraints({
             $0.top.left.equalToSuperview().offset(5)

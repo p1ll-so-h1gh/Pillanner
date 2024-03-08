@@ -46,6 +46,10 @@ extension UIColor {
         return UIColor(hexCode: "F6EFFF")
     }
     
+    static var pointThemeColor4: UIColor {
+        return UIColor(hexCode: "FF9898")
+    }
+    
     static var primaryLabelColor: UIColor {
         return UIColor(hexCode: "000000")
     }
