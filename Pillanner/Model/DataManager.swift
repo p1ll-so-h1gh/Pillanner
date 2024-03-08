@@ -43,7 +43,7 @@ final class DataManager {
             print("이미 같은 ID로 회원가입이 되어있음")
         }
     }
-  
+    
     func readUserData(userID: String, completion: @escaping ([String: Any]?) -> Void){
         var output = ["": ""]
         let query = db.collection("Users").whereField("ID", isEqualTo: userID)

@@ -13,7 +13,6 @@ struct UserData {
     let password: String
     var name: String
     var phoneNumber: String
-    var mealTime: [String]
 }
 
 struct Pill {

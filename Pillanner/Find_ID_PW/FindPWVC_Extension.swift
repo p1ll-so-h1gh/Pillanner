@@ -227,7 +227,7 @@ extension FindPWViewController {
     @objc func SetUpNewPassWordButtonClicked() {
         if availableSetUpNewPassWordFlag == true {
             // 비밀번호 재설정
-            DataManager.shared.updateUserData(userID: idTextField.text!, newPassword: newPassWordTextField.text!, newName: nameTextField.text!)
+            DataManager.shared.updateUserData(userID: idTextField.text!, changedPassword: newPassWordTextField.text!, changedName: nameTextField.text!)
         }else {
             // 인증번호 매칭 에러 - Alert
             let alert = UIAlertController(title: "비밀번호 재설정 실패", message: "입력 형식을 다시 확인해주세요.", preferredStyle: .alert)
