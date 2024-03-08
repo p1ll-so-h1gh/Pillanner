@@ -7,6 +7,7 @@
 
 import Foundation
 import KakaoSDKUser
+import FirebaseAuth
 
 extension LoginViewController {
     @objc func kakaoLoginButtonTapped() {
@@ -58,6 +59,17 @@ extension LoginViewController {
                 print("카카오 닉네임 : ", user?.kakaoAccount?.profile?.nickname)
                 print("카카오 이메일 : ", user?.kakaoAccount?.email)
                 print("카카오 UserData : ", user?.kakaoAccount)
+                
+                Auth.auth().createUser(withEmail: (user?.kakaoAccount?.email)!, password: "123123") { result, error in
+                    if let error = error {
+                        print(error)
+                    }
+                    
+                    if let result = result {
+                        print(result)
+                        print(result.user.uid)
+                    }
+                }
             }
         }
     }
