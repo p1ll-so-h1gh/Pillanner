@@ -16,16 +16,16 @@ class CalendarViewController: UIViewController {
 
     private var isWeeklyMode: Bool = true
     private let sidePadding: CGFloat = 20
-    private let cellHeight: CGFloat = 80
+    private let cellHeight: CGFloat = 90
     private let cellSpacing: CGFloat = 10
 
     var medicationSections: [MedicationSection] = [
         MedicationSection(headerTitle: "오전", medications: [
-            Medicine(name: "오메가 3", dosage: "1정", time: "10:30"),
+            Medicine(name: "오메가 3", dosage: "1정", time: "10:30", type: "일반"),
         ]),
         MedicationSection(headerTitle: "오후", medications: [
-            Medicine(name: "유산균", dosage: "1정", time: "13:30"),
-            Medicine(name: "종합 비타민", dosage: "1정", time: "13:40"),
+            Medicine(name: "유산균", dosage: "1정", time: "13:30", type: "처방"),
+            Medicine(name: "종합 비타민", dosage: "1정", time: "13:40", type: "처방"),
         ]),
     ]
 
@@ -39,6 +39,7 @@ class CalendarViewController: UIViewController {
         calendar.appearance.headerMinimumDissolvedAlpha = 0.0
         calendar.appearance.headerTitleColor = .black
         calendar.appearance.weekdayTextColor = .black
+        calendar.appearance.weekdayFont = .boldSystemFont(ofSize: 15)
         calendar.locale = Locale(identifier: "ko_KR")
         calendar.appearance.todayColor = .pointThemeColor2
         return calendar
@@ -110,6 +111,8 @@ class CalendarViewController: UIViewController {
         view.addSubview(chevronImage)
         calendar.delegate = self
         calendar.dataSource = self
+
+        setupChevronTap()
     }
 
     private func setupTableView() {
@@ -155,7 +158,7 @@ class CalendarViewController: UIViewController {
         emitter.emitterSize = CGSize(width: 10, height: 10)
 
         let cell = CAEmitterCell()
-        cell.contents = UIImage(named: "firework2")?.cgImage
+        cell.contents = UIImage(named: "firework")?.cgImage
         cell.birthRate = 10
         cell.lifetime = 3
         cell.velocity = -250
@@ -190,6 +193,7 @@ class CalendarViewController: UIViewController {
         view.addGestureRecognizer(swipeDown)
     }
 
+    // 달력 스와이프
     @objc private func handleSwipe(_ swipe: UISwipeGestureRecognizer) {
         if swipe.direction == .up {
             calendar.appearance.headerTitleFont = .systemFont(ofSize: 17)
@@ -199,7 +203,31 @@ class CalendarViewController: UIViewController {
             calendar.setScope(.month, animated: true)
         }
 
-        // chevron 뒤집는 애니메이션
+        flipChevronImage()
+    }
+
+    // chevron 탭
+    @objc private func handleChevronTap() {
+        if isWeeklyMode {
+            calendar.setScope(.month, animated: true)
+        } else {
+            calendar.setScope(.week, animated: true)
+        }
+
+        flipChevronImage()
+        isWeeklyMode = !isWeeklyMode
+    }
+
+    // MARK: - Chevron
+
+    private func setupChevronTap() {
+        let chevronTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleChevronTap))
+        chevronImage.isUserInteractionEnabled = true
+        chevronImage.addGestureRecognizer(chevronTapGesture)
+    }
+
+    // chevron 뒤집는 애니메이션
+    private func flipChevronImage() {
         UIView.transition(with: chevronImage, duration: 0.5, options: .transitionFlipFromBottom, animations: {
             self.chevronImage.transform = self.chevronImage.transform.scaledBy(x: 1, y: -1)
         }, completion: nil)
@@ -301,7 +329,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
 
         // 알림
         let medicine = medicationSections[indexPath.section].medications[indexPath.row]
-        showNotification(message: "\(medicine.name) - \(medicine.dosage)을 복용하셨습니다.")
+        showNotification(message: "'\(medicine.name) - \(medicine.dosage)'을 복용하셨습니다.")
     }
 
     // MARK: - UserNotification
@@ -312,7 +340,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
 
     private func showNotification(message: String) {
         let content = UNMutableNotificationContent()
-        content.title = "알림"
+        //content.title = "알림"
         content.body = message
         content.sound = UNNotificationSound.default
 

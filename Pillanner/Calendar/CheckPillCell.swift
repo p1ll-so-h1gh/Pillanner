@@ -25,23 +25,33 @@ class CheckPillCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         return label
     }()
 
-    private let pinImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "Pin")
-        imageView.tintColor = .black
-        return imageView
+    private let countDosageLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "섭취갯수"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 13)
+        return label
     }()
 
     private let dosageLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        return label
+    }()
+
+    private let takingTimeLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "복용시간"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()
 
@@ -49,15 +59,21 @@ class CheckPillCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         return label
     }()
 
-    private let prescriptionImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "prescription")
-        return imageView
+    private let typeLabelView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 7
+        view.backgroundColor = UIColor.pointThemeColor3
+        return view
+    }()
+
+    private let typeLabel: UILabel = {
+        let label = UILabel()
+        label.font = FontLiteral.body(style: .bold).withSize(12)
+        return label
     }()
 
     private let checkmarkImage: UIImageView = {
@@ -103,10 +119,12 @@ class CheckPillCell: UITableViewCell {
 
         contentView.addSubview(pillImage)
         contentView.addSubview(nameLabel)
-        contentView.addSubview(pinImage)
+        contentView.addSubview(countDosageLabel)
         contentView.addSubview(dosageLabel)
+        contentView.addSubview(takingTimeLabel)
         contentView.addSubview(timeLabel)
-        contentView.addSubview(prescriptionImage)
+        contentView.addSubview(typeLabelView)
+        typeLabelView.addSubview(typeLabel)
         contentView.addSubview(checkmarkImage)
 
         setupConstraint()
@@ -117,6 +135,7 @@ class CheckPillCell: UITableViewCell {
         nameLabel.text = medicine.name
         dosageLabel.text = medicine.dosage
         timeLabel.text = medicine.time
+        typeLabel.text = medicine.type
     }
 
     // MARK: - Constraint
@@ -129,31 +148,39 @@ class CheckPillCell: UITableViewCell {
         }
 
         nameLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview().offset(-10)
+            $0.centerY.equalToSuperview().offset(-13)
             $0.leading.equalTo(pillImage.snp.trailing).offset(20)
         }
 
-        pinImage.snp.makeConstraints {
-            $0.centerY.equalToSuperview().offset(10)
+        countDosageLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview().offset(13)
             $0.leading.equalTo(pillImage.snp.trailing).offset(20)
         }
 
         dosageLabel.snp.makeConstraints {
-            $0.centerY.equalTo(pinImage)
-            $0.leading.equalTo(pinImage.snp.trailing).offset(10)
+            $0.centerY.equalTo(countDosageLabel)
+            $0.leading.equalTo(countDosageLabel.snp.trailing).offset(10)
+        }
+
+        takingTimeLabel.snp.makeConstraints {
+            $0.centerY.equalTo(countDosageLabel)
+            $0.leading.equalTo(dosageLabel.snp.trailing).offset(15)
         }
 
         timeLabel.snp.makeConstraints {
-            $0.centerY.equalTo(pinImage)
-            $0.leading.equalTo(dosageLabel.snp.trailing).offset(10)
+            $0.centerY.equalTo(countDosageLabel)
+            $0.leading.equalTo(takingTimeLabel.snp.trailing).offset(10)
         }
 
-        prescriptionImage.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            //$0.leading.equalTo(nameLabel.snp.trailing).offset(40)
-            $0.trailing.equalTo(checkmarkImage.snp.leading).offset(-10)
-            $0.width.equalTo(35)
-            $0.height.equalTo(25)
+        typeLabelView.snp.makeConstraints {
+            $0.centerY.equalTo(nameLabel)
+            $0.leading.equalTo(nameLabel.snp.trailing).offset(15)
+            $0.width.equalTo(50)
+            $0.height.equalTo(15)
+        }
+
+        typeLabel.snp.makeConstraints {
+            $0.center.equalTo(typeLabelView)
         }
 
         checkmarkImage.snp.makeConstraints {
@@ -173,23 +200,21 @@ class CheckPillCell: UITableViewCell {
                 pillImage.image = adjustedImage
             }
 
-            // 팝 효과
-            contentView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+            // 팝 효과 및 크기 조절
+            let shrinkTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.2, options: .curveEaseInOut, animations: {
-                self.contentView.transform = .identity
-            }, completion: nil)
+                self.contentView.transform = shrinkTransform
+                self.typeLabelView.backgroundColor = .systemGray5
 
-            contentView.layer.shadowOpacity = 0
-
+            }) { animationCompleted in
+                // 줄어든 상태 유지
+                self.contentView.transform = shrinkTransform
+            }
         } else {
             contentView.layer.backgroundColor = UIColor.pointThemeColor2.cgColor
+            typeLabelView.backgroundColor = UIColor.pointThemeColor3
             pillImage.image = UIImage(named: "pill")
-
-            // 그림자
-            contentView.layer.shadowOpacity = 0.2
-            contentView.layer.shadowColor = UIColor.black.cgColor
-            contentView.layer.shadowOffset = CGSize(width: 2, height: 5)
-            contentView.layer.shadowRadius = 2
+            contentView.transform = .identity
         }
     }
 
@@ -200,12 +225,13 @@ class CheckPillCell: UITableViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20))
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20))
+        contentView.layer.cornerRadius = 15
     }
 
     // 셀 테두리 안쪽만 터치
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let hitFrame = bounds.inset(by: UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20))
+        let hitFrame = bounds.inset(by: UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20))
         return hitFrame.contains(point) ? self : nil
     }
 }
