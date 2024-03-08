@@ -31,7 +31,6 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     private var dosageConfirmButton: UIButton!
     
     private var dosageInputContainer: UIView!
-//    private var dosageUnitPickerView: UIPickerView!
     
     
     let meridiem = ["오전", "오후"]
@@ -41,20 +40,23 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     
     //mark-test dropdown
     private var dosageUnitSelectionButton: UIButton!
-     private var dosageUnitTableView: UITableView!
-     private let dosageUnits = ["캡슐", "정", "개", "포", "병", "g", "ml"]
-     private var isDropdownVisible = false
+    private var dosageUnitTableView: UITableView!
+    private let dosageUnits = ["캡슐", "정", "개", "포", "병", "g", "ml"]
+    private var isDropdownVisible = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupUI()
         dosageCountTextField.delegate = self
+        self.navigationItem.title = "복용횟수추가"
+        let textAttributes = [NSAttributedString.Key.font: FontLiteral.title3(style: .bold)]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
     }
     
     private func setupUI() {
         
-        setupPageTitleLabel()
+//        setupPageTitleLabel()
         setupAlarmSetting()
         setupTimeSetting()
         setupDosageCount()
@@ -65,10 +67,10 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         setupSaveButton()
         setupAlarmStatusLabel()
         setupDosageUnitSelectionButton()
-                setupDosageUnitTableView()
+        setupDosageUnitTableView()
     }
     
-
+    
     private func setupDosageUnitSelectionButton() {
         dosageUnitSelectionButton = UIButton(type: .system)
         dosageUnitSelectionButton.setTitle("단위 선택", for: .normal)
@@ -80,7 +82,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         dosageUnitSelectionButton.backgroundColor = .white
         dosageUnitSelectionButton.addTarget(self, action: #selector(toggleDropdown), for: .touchUpInside)
         view.addSubview(dosageUnitSelectionButton)
-
+        
         dosageUnitSelectionButton.snp.makeConstraints { make in
             make.top.equalTo(dosageInputContainer.snp.top)
             make.left.equalTo(dosageInputContainer.snp.right).offset(20)
@@ -88,41 +90,41 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
             make.height.equalTo(dosageInputContainer.snp.height)
         }
     }
-
-        private func setupDosageUnitTableView() {
-            dosageUnitTableView = UITableView()
-            dosageUnitTableView.delegate = self
-            dosageUnitTableView.dataSource = self
-            dosageUnitTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-            dosageUnitTableView.isHidden = true
-            view.addSubview(dosageUnitTableView)
-            
-            dosageUnitTableView.snp.makeConstraints { make in
-                make.top.equalTo(dosageUnitSelectionButton.snp.bottom)
-                make.left.right.equalTo(dosageUnitSelectionButton)
-                make.height.equalTo(200) // Adjust as needed
-            }
-        }
+    
+    private func setupDosageUnitTableView() {
+        dosageUnitTableView = UITableView()
+        dosageUnitTableView.delegate = self
+        dosageUnitTableView.dataSource = self
+        dosageUnitTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        dosageUnitTableView.isHidden = true
+        view.addSubview(dosageUnitTableView)
         
-        @objc private func toggleDropdown() {
-            isDropdownVisible.toggle()
-            dosageUnitTableView.isHidden = !isDropdownVisible
+        dosageUnitTableView.snp.makeConstraints { make in
+            make.top.equalTo(dosageUnitSelectionButton.snp.bottom)
+            make.left.right.equalTo(dosageUnitSelectionButton)
+            make.height.equalTo(200) // Adjust as needed
         }
-        
-        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return dosageUnits.count
-        }
-        
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = dosageUnits[indexPath.row]
-            return cell
-        }
-        
-        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            dosageUnitSelectionButton.setTitle(dosageUnits[indexPath.row], for: .normal)
-            toggleDropdown()
-        }
+    }
+    
+    @objc private func toggleDropdown() {
+        isDropdownVisible.toggle()
+        dosageUnitTableView.isHidden = !isDropdownVisible
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dosageUnits.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = dosageUnits[indexPath.row]
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        dosageUnitSelectionButton.setTitle(dosageUnits[indexPath.row], for: .normal)
+        toggleDropdown()
+    }
     
     //test
     
@@ -130,39 +132,17 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         dosageInputTextField.becomeFirstResponder()
     }
     
-    
-    
-    private func setupPageTitleLabel() {
-        pageTitleLabel = UILabel()
-        pageTitleLabel.text = "복용횟수추가"
-        pageTitleLabel.font = FontLiteral.title3(style: .bold)
-        view.addSubview(pageTitleLabel)
-        
-        pageTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
-            make.centerX.equalToSuperview()
-        }
-    }
-    
     private func setupSaveButton() {
-        let saveButton = UIButton(type: .system)
-        saveButton.setTitle("저장", for: .normal)
-        saveButton.titleLabel?.font = FontLiteral.title3(style: .bold)
-        saveButton.setTitleColor(UIColor.pointThemeColor, for: .normal)
-        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
-        
-        view.addSubview(saveButton)
-        
-        saveButton.snp.makeConstraints { make in
-            make.centerY.equalTo(pageTitleLabel.snp.centerY)
-            make.right.equalToSuperview().inset(20)
-        }
+        let saveButtonItem = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveButtonTapped))
+        saveButtonItem.setTitleTextAttributes([NSAttributedString.Key.font: FontLiteral.title3(style: .bold)], for: .normal)
+        saveButtonItem.tintColor = UIColor.pointThemeColor
+        self.navigationItem.rightBarButtonItem = saveButtonItem
     }
-    
+
     @objc private func saveButtonTapped() {
-        // "저장" 버튼이 탭되었을 때 실행할 코드
         print("저장 버튼이 탭되었습니다.")
     }
+
     
     private func setupAlarmSetting() {
         alarmSettingLabel = UILabel()
@@ -170,16 +150,15 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         alarmSettingLabel.font = FontLiteral.body(style: .bold)
         view.addSubview(alarmSettingLabel)
         
-        // UISwitch 초기화를 addTarget 호출 전으로 이동
         alarmToggle = UISwitch()
         alarmToggle.onTintColor = UIColor.pointThemeColor2
         view.addSubview(alarmToggle)
         
-        // addTarget 호출
         alarmToggle.addTarget(self, action: #selector(alarmToggleChanged), for: .valueChanged)
         
+        // 네비게이션 바 아래 40포인트 위치 조정
         alarmSettingLabel.snp.makeConstraints { make in
-            make.top.equalTo(pageTitleLabel.snp.bottom).offset(40)
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(40)
             make.left.equalToSuperview().offset(20)
         }
         
@@ -188,6 +167,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
             make.right.equalToSuperview().offset(-20)
         }
     }
+
     
     
     private func setupAlarmStatusLabel() {
@@ -246,7 +226,6 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
             make.height.equalTo(260)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-100)
         }
-        
         
         setupTimePickerView()
     }
@@ -355,8 +334,6 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         dosageInputTextField.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(10)
         }
-        
-
     }
     
     private func setupTimePickerView() {
@@ -394,11 +371,11 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     }
     
     
-        func numberOfComponents(in pickerView: UIPickerView) -> Int {
-            return 3
-        }
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 3
+    }
     
-
+    
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch component {
@@ -427,73 +404,73 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-
-            let meridiemIndex = pickerView.selectedRow(inComponent: 0)
-            let hourIndex = pickerView.selectedRow(inComponent: 1)
-            let minuteIndex = pickerView.selectedRow(inComponent: 2)
-            
-            if meridiemIndex < meridiem.count,
-               hourIndex < hours.count,
-               minuteIndex < minutes.count {
-                tempSelectedMeridiem = meridiem[meridiemIndex]
-                tempSelectedHour = hours[hourIndex]
-                tempSelectedMinute = minutes[minuteIndex]
-            }
+        
+        let meridiemIndex = pickerView.selectedRow(inComponent: 0)
+        let hourIndex = pickerView.selectedRow(inComponent: 1)
+        let minuteIndex = pickerView.selectedRow(inComponent: 2)
+        
+        if meridiemIndex < meridiem.count,
+           hourIndex < hours.count,
+           minuteIndex < minutes.count {
+            tempSelectedMeridiem = meridiem[meridiemIndex]
+            tempSelectedHour = hours[hourIndex]
+            tempSelectedMinute = minutes[minuteIndex]
         }
-    
-        
-        private func setupDosageInputField() {
-            dosageInputTextField = UITextField()
-            dosageInputTextField.keyboardType = .numberPad
-            dosageInputTextField.placeholder = "개수 입력"
-            dosageInputTextField.borderStyle = .roundedRect
-            dosageInputTextField.textAlignment = .right
-            view.addSubview(dosageInputTextField)
-            
-            dosageInputTextField.snp.makeConstraints { make in
-                make.right.equalToSuperview().offset(-20)
-                make.centerY.equalTo(dosageCountLabel.snp.centerY)
-                make.width.equalTo(100)
-            }
-            
-            dosageConfirmButton = UIButton(type: .system)
-            dosageConfirmButton.setTitle("확인", for: .normal)
-            dosageConfirmButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3).withTraits(.traitBold)
-            dosageConfirmButton.setTitleColor(.white, for: .normal)
-            dosageConfirmButton.backgroundColor = UIColor.pointThemeColor
-            dosageConfirmButton.layer.cornerRadius = 10
-            
-            view.addSubview(dosageConfirmButton)
-            
-            dosageConfirmButton.snp.makeConstraints { make in
-                make.top.equalTo(dosageInputTextField.snp.bottom).offset(20)
-                make.centerX.equalTo(dosageInputTextField.snp.centerX)
-                make.width.equalTo(dosageInputTextField.snp.width)
-                make.height.equalTo(50)
-            }
-            
-            dosageInputTextField.isHidden = true
-            dosageConfirmButton.isHidden = true
-        }
-        
-        private func setupDosageCountTapGesture() {
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dosageCountLabelTapped))
-            dosageCountLabel.isUserInteractionEnabled = true
-            dosageCountLabel.addGestureRecognizer(tapGesture)
-        }
-        
-        @objc private func dosageCountLabelTapped() {
-            dosageInputTextField.isHidden = false
-            dosageConfirmButton.isHidden = false
-            UIView.animate(withDuration: 0.3) {
-                self.dosageInputTextField.alpha = 1.0
-                self.dosageConfirmButton.alpha = 1.0
-            }
-            dosageInputTextField.becomeFirstResponder()
-        }
-        
-        
-        
-        
     }
+    
+    
+    private func setupDosageInputField() {
+        dosageInputTextField = UITextField()
+        dosageInputTextField.keyboardType = .numberPad
+        dosageInputTextField.placeholder = "개수 입력"
+        dosageInputTextField.borderStyle = .roundedRect
+        dosageInputTextField.textAlignment = .right
+        view.addSubview(dosageInputTextField)
+        
+        dosageInputTextField.snp.makeConstraints { make in
+            make.right.equalToSuperview().offset(-20)
+            make.centerY.equalTo(dosageCountLabel.snp.centerY)
+            make.width.equalTo(100)
+        }
+        
+        dosageConfirmButton = UIButton(type: .system)
+        dosageConfirmButton.setTitle("확인", for: .normal)
+        dosageConfirmButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3).withTraits(.traitBold)
+        dosageConfirmButton.setTitleColor(.white, for: .normal)
+        dosageConfirmButton.backgroundColor = UIColor.pointThemeColor
+        dosageConfirmButton.layer.cornerRadius = 10
+        
+        view.addSubview(dosageConfirmButton)
+        
+        dosageConfirmButton.snp.makeConstraints { make in
+            make.top.equalTo(dosageInputTextField.snp.bottom).offset(20)
+            make.centerX.equalTo(dosageInputTextField.snp.centerX)
+            make.width.equalTo(dosageInputTextField.snp.width)
+            make.height.equalTo(50)
+        }
+        
+        dosageInputTextField.isHidden = true
+        dosageConfirmButton.isHidden = true
+    }
+    
+    private func setupDosageCountTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dosageCountLabelTapped))
+        dosageCountLabel.isUserInteractionEnabled = true
+        dosageCountLabel.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func dosageCountLabelTapped() {
+        dosageInputTextField.isHidden = false
+        dosageConfirmButton.isHidden = false
+        UIView.animate(withDuration: 0.3) {
+            self.dosageInputTextField.alpha = 1.0
+            self.dosageConfirmButton.alpha = 1.0
+        }
+        dosageInputTextField.becomeFirstResponder()
+    }
+    
+    
+    
+    
+}
 
