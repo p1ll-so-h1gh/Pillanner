@@ -170,6 +170,20 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
         setConstraints()
     }
     
+    
+    //MARK: - Annoying Keyboard Good Bye
+    // 키보드 외부 터치할 경우 키보드 숨김처리
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    // 키보드 리턴 버튼 누를경우 키보드 숨김처리
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+      textField.resignFirstResponder()
+      return true
+    }
+
+    
     //MARK: - UI Settings
     private func addViews() {
         self.view.addSubview(pillannerFlagImage)
@@ -198,7 +212,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
         pwdTextfield.frame.size.height = self.view.frame.height * 0.03
         pwdTextfield.layer.addBorder([.bottom], color: UIColor.lightGray, width: 1.0)
         loginButton.frame.size.width = self.view.frame.width * 0.8
-        loginButton.frame.size.height = self.view.frame.height * 0.08
+        loginButton.frame.size.height = self.view.frame.height * 0.15
     }
     
     private func setConstraints() {

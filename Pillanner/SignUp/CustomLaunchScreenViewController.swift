@@ -21,7 +21,7 @@ class CustomLaunchScreenViewController: UIViewController {
         let label = UILabel()
         label.text = "알약, 달력 넘기듯 간편하게"
         label.font = FontLiteral.subheadline(style: .regular)
-        label.textColor = .lightGray
+//        label.textColor = .lightGray
         return label
     }()
     
@@ -39,12 +39,16 @@ class CustomLaunchScreenViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.layer.addSublayer(backgroundLayer)
+        addViews()
+        setConstraints()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        addViews()
-        setConstraints()
+        sleep(3)
+        let navVC = UINavigationController(rootViewController: LoginViewController())
+        navVC.modalPresentationStyle = .fullScreen
+        present(navVC, animated: true)
     }
     
     private func addViews() {
@@ -60,10 +64,12 @@ class CustomLaunchScreenViewController: UIViewController {
         }
         welcomeMessageLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(logoFlagImage.snp.bottom)
+            $0.top.equalTo(logoFlagImage.snp.bottom).offset(20)
         }
         logoImage.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()
+            $0.width.equalTo(250)
+            $0.height.equalTo(180)
         }
     }
     /*
