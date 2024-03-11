@@ -18,8 +18,13 @@ struct UserData {
 struct Pill {
     let title: String
     let type: String // 일반 or 처방
-    var day: [Int] // 일요일 ->0, 월요일 ->0 고려해봐야됨 [0~6]
+    var day: [Int] // 일요일 -> 0
     var dueDate: String // 데이터 타입 변화할 가능성이 있음...
     var intake: [String]
     var dosage: Double
+}
+
+struct PillCategory {
+    var meridiem: String
+    var pills: [Pill]
 }

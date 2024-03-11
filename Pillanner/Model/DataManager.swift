@@ -137,6 +137,8 @@ final class DataManager {
         }
     }
     
+    // func readPillListData 구현 필요
+    
     func readPillData(pillTitle: String, completion: @escaping ([String: Any]?) -> Void) {
         var output = [String: Any]()
         if let documentID = UserDefaults.standard.string(forKey: "DocumentID") {
