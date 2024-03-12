@@ -20,23 +20,22 @@ final class DataManager {
     // Users Collection 내부의 document id는 현재 기기에 로그인되어있는 정보의 UID값으로 변환이 필요할 듯
     
     // create함수는 UserDefaults에 ID, PW값을 저장하게 됩니다.
+    // MARK: - Functions about User Data
     func createUserData(user: UserData) {
         let userCollection = db.collection("Users")
         let query = userCollection.whereField("ID", isEqualTo: user.ID)
         
         query.getDocuments{ (snapshot, error) in
             guard let captured = snapshot, !captured.isEmpty else {
-                self.db.collection("Users").document(user.ID).setData([
+                self.db.collection("Users").document(user.UID).setData([
                     "ID": user.ID,
                     "Password": user.password,
-                    "Name": user.name,
-                    "PhoneNumber": user.phoneNumber
+                    "Nickname": user.nickname
                 ])
-                UserDefaults.standard.set(user.ID, forKey: "DocumentID")
+                UserDefaults.standard.set(user.UID, forKey: "UID")
                 UserDefaults.standard.set(user.ID, forKey: "ID")
                 UserDefaults.standard.set(user.password, forKey: "Password")
-                UserDefaults.standard.set(user.name, forKey: "Name")
-                UserDefaults.standard.set(user.phoneNumber, forKey: "PhoneNumber")
+                UserDefaults.standard.set(user.nickname, forKey: "Nickname")
                 print("회원가입 완료")
                 return
             }
@@ -56,7 +55,9 @@ final class DataManager {
             }
             // 데이터 있을 때
             for document in snapshot.documents {
-                let dict = ["DocumentID": document.documentID ,"ID": document.data()["ID"] as! String, "Name": document.data()["Name"] as! String, "PhoneNumber": document.data()["PhoneNumber"] as! String]
+                let dict = ["UID": document.documentID,
+                            "ID": document.data()["ID"] as! String,
+                            "Name": document.data()["Name"] as! String]
                 output = dict
             }
             completion(output)
@@ -82,9 +83,9 @@ final class DataManager {
                 ref.updateData(["Password": changedPassword])
             }
             if changedName != "" {
-                print("oldValue = \(userDefaults.string(forKey: "Name")!)")
+                print("oldValue = \(userDefaults.string(forKey: "Nickname")!)")
                 print("newValue = \(changedName)")
-                ref.updateData(["Name": changedName])
+                ref.updateData(["Nickname": changedName])
             }
             print("데이터 수정 완료")
         }
@@ -106,13 +107,13 @@ final class DataManager {
         }
     }
     
-    // MARK: - Pill Data Functions
+    // MARK: - Functions about Pill Data
     func createPillData(pill: Pill) {
         // UID 값으로 대체하면 좋을 것 같음...
         if let userID = UserDefaults.standard.string(forKey: "ID") {
             readUserData(userID: userID) { userData in
                 if let userData = userData {
-                    let userDocumentID = userData["DocumentID"]
+                    let userDocumentID = userData["UID"]
                     let pillCollection = self.db.collection("Users").document(userDocumentID as! String).collection("Pills")
                     let query = pillCollection.whereField("Title", isEqualTo: pill.title)
                     
@@ -139,7 +140,7 @@ final class DataManager {
     
     func readPillData(pillTitle: String, completion: @escaping ([String: Any]?) -> Void) {
         var output = [String: Any]()
-        if let documentID = UserDefaults.standard.string(forKey: "DocumentID") {
+        if let documentID = UserDefaults.standard.string(forKey: "UID") {
             let pillCollection = self.db.collection("Users").document(documentID).collection("Pills")
             let query = pillCollection.whereField("Title", isEqualTo: pillTitle)
             
@@ -149,7 +150,12 @@ final class DataManager {
                     return
                 }
                 for document in snapshot.documents {
-                    if let title = document.data()["Title"] ,let type = document.data()["Type"], let day = document.data()["Day"], let dueDate = document.data()["DueDate"], let intake = document.data()["Intake"], let dosage = document.data()["Dosage"] {
+                    if let title = document.data()["Title"],
+                        let type = document.data()["Type"],
+                        let day = document.data()["Day"],
+                        let dueDate = document.data()["DueDate"],
+                        let intake = document.data()["Intake"],
+                        let dosage = document.data()["Dosage"] {
                         let dict = ["Title": title ,"Type": type, "Day": day, "DueDate": dueDate, "Intake": intake, "Dosage": dosage]
                         output = dict
                     }
@@ -159,10 +165,33 @@ final class DataManager {
         }
     }
     
+    func readPillListData(UID: String, completion: @escaping ([[String: Any]]?) -> Void) {
+        var result = [[String: Any]]()
+        if let userDocumentID = UserDefaults.standard.string(forKey: "UID") {
+            let pillCollection = self.db.collection("Users").document(userDocumentID).collection("Pills")
+            
+            pillCollection.getDocuments{ (snapshot, error) in
+                guard let snapshot = snapshot, !snapshot.isEmpty else {
+                    print("데이터가 없습니다.")
+                    return
+                }
+                for document in snapshot.documents {
+                    let docs = ["Title": document.data()["Title"],
+                                "Type": document.data()["Type"],
+                                "Day": document.data()["Day"],
+                                "DueDate": document.data()["DueDate"],
+                                "Intake": document.data()["Intake"],
+                                "Dosage": document.data()["Dosage"]]
+                    result.append(docs as [String : Any])
+                }
+                completion(result)
+            }
+        }
+    }
     
     // 약 이름 받아서 -> 그거랑 같은 데이터 먼저 찾고 -> 접근해서 새로운 데이터로 바꾸기
     func updatePillData(oldTitle: String, newTitle: String, type: String, day: [Int], dueDate: String, intake: [String], dosage: Double) {
-        if let userDocumentID = UserDefaults.standard.string(forKey: "DocumentID") {
+        if let userDocumentID = UserDefaults.standard.string(forKey: "UID") {
             
             let pillCollection = db.collection("Users").document(userDocumentID).collection("Pills")
             let query = pillCollection.whereField("Title", isEqualTo: oldTitle)
@@ -189,7 +218,7 @@ final class DataManager {
     
     
     func deletePillData(title: String) {
-        if let userDocumentID = UserDefaults.standard.string(forKey: "DocumentID") {
+        if let userDocumentID = UserDefaults.standard.string(forKey: "UID") {
             let pillCollection = db.collection("Users").document(userDocumentID).collection("Pills")
             
             let ref = pillCollection.document(title)
@@ -198,10 +227,60 @@ final class DataManager {
         }
     }
     
+    // MARK: - Functions about Pill Record
     // 약 복용 로그를 저장할 수 있는 메서드 구현 필요
-    // func createPillRecordData
-    // func readPillRecordData
+    func createPillRecordData(pill: Pill) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let userID = UserDefaults.standard.string(forKey: "ID") {
+            readUserData(userID: userID) { userData in
+                if let userData = userData {
+                    let userDocumentID = userData["UID"]
+                    let takenPillsCollection = self.db.collection("Users").document(userDocumentID as! String).collection("TakenPills")
+                    let query = takenPillsCollection.whereField("Title", isEqualTo: pill.title)
+                    
+                    query.getDocuments{ (snapshot, error) in
+                        guard let captured = snapshot, !captured.isEmpty else {
+                            takenPillsCollection.document("\(pill.title)").setData([
+                                "Title": pill.title,
+                                "Type": pill.type,
+                                "TakenDate": dateFormatter.string(from: Date()),
+                                "Intake": pill.intake,
+                                "Dosage": pill.dosage,
+                                "Dosed": true
+                            ])
+                            print("복용 기록 등록 완료")
+                            return
+                        }
+                        print("이미 같은 복용 기록으로 등록이 되어있어요.")
+                    }
+                }
+            }
+        }
+    }
     
+    func readPillRecordData(UID: String, completion: @escaping ([[String: Any]]?) -> Void) {
+        var result = [[String: Any]]()
+        let takenPillsCollection = self.db.collection("Users").document(UID).collection("TakenPills")
+        
+        takenPillsCollection.getDocuments{ (snapshot, error) in
+            guard let snapshot = snapshot, !snapshot.isEmpty else {
+                print("데이터가 없습니다.")
+                return
+            }
+            for document in snapshot.documents {
+                let docs = ["Title": document.data()["Title"],
+                            "Type": document.data()["Type"],
+                            "DueDate": document.data()["DueDate"],
+                            "Intake": document.data()["Intake"],
+                            "Dosage": document.data()["Dosage"],
+                            "Dosed": document.data()["Dosed"]
+                ]
+                result.append(docs as [String : Any])
+            }
+            completion(result)
+        }
+    }
     
     // MARK: - Check Format
     // 아이디 형식 검사 메서드

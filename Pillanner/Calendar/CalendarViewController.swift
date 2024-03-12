@@ -14,10 +14,18 @@ class CalendarViewController: UIViewController {
 
     private lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
 
+    private let dateFormatter = DateFormatter()
     private var isWeeklyMode: Bool = true
     private let sidePadding: CGFloat = 20
     private let cellHeight: CGFloat = 90
     private let cellSpacing: CGFloat = 10
+    
+    
+    // PillCategory TableViewCell 탭했을 때, 변수 추가한 Pill 데이터를 Firestore에 저장할 것임
+    // 1.
+    
+    // TableViewCell 한 번 탭해서 약을 먹은 상태로 바꾸면 다시 돌아오지 못하도록 만들어야 함
+    // 대신 한 번 먹는거 체크할 때 확실하게 할 수 있도록 하는 방법 고안해야 할 듯
 
     var medicationSections: [MedicationSection] = [
         MedicationSection(headerTitle: "오전", medications: [
@@ -28,6 +36,8 @@ class CalendarViewController: UIViewController {
             Medicine(name: "종합 비타민", dosage: "1정", time: "13:40", type: "처방"),
         ]),
     ]
+    
+    private var listOfPills = [PillCategory]()
 
     // MARK: - Properties
 
@@ -76,6 +86,7 @@ class CalendarViewController: UIViewController {
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         super.viewDidLoad()
 
         UNUserNotificationCenter.current().delegate = self
@@ -105,6 +116,39 @@ class CalendarViewController: UIViewController {
     }
 
     // MARK: - Setup
+    
+    // Pill List 만드는 순서 (viewWillAppear 함수 내부에 구현하기)
+    // 1. Firestore에 저장된 Pill Data들 싹다 불러오기
+    // 2. Pill -> duedate가 가지고 있는 날짜 데이터를 현재 날짜와 비교해서 유효한 데이터만 구별해내기
+    // 3. Pill -> intake 정보에 따라 오전에 먹는 약인지, 오후에 먹는 약인지 분류
+    // 4. 분류된 결과를 가지고, PillCategories 변수에 담아내기 ( PillCategories = [PillCategory] 타입의 배열 )
+    // 5. 정의된 PillCategories 변수로 테이블 셀을 그려내기
+    private func setUpPillData() {
+        let todaysDate = dateFormatter.date(from: Date().toString())
+        let dayFormatter = DateFormatter()
+        dayFormatter.dateFormat = "EEE"
+        if let userID = UserDefaults.standard.string(forKey: "ID") {
+            DataManager.shared.readPillListData(userID: userID) { list in
+                guard let list = list else { 
+                    print("받아올 약의 데이터가 없습니다.")
+                    return
+                }
+                // 오늘의 요일을 걸러내서 값을 만들어두고
+                // 필터로 새 배열 만들고 그 안에서 루프돌리기
+                for pill in list {
+                    if let dueDate = self.dateFormatter.date(from: pill["DueDate"] as! String) {
+                        if todaysDate?.compare(dueDate).rawValue == 1 {
+                            print("복용 기한이 지난 약의 데이터입니다.")
+                        } else {
+                            if 
+                                
+                        }
+                    }
+                    // 날짜비교할건데 우쨰야됨
+                }
+            }
+        }
+    }
 
     private func setupCalendar() {
         view.addSubview(calendar)
