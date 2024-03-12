@@ -57,43 +57,35 @@ extension LoginViewController: NaverThirdPartyLoginConnectionDelegate {
         req.responseJSON { response in
             guard let result = response.value as? [String: Any],
                   let object = result["response"] as? [String: Any],
-                  let name = object["name"] as? String,
-                  let email = object["email"] as? String,
-                  let id = object["id"] as? String else {
+                  let email = object["email"] as? String 
+            else {
                 return
             }
-            let contentText = """
-                                user name : \(name)
-                                userEmail : \(email)
-                                userGender : \(id)
-                                tokenType : \(tokenType)
-                                accessToken : \(accessToken)
-                                refreshToken : \(refreshToken)
-                            """
-
-            print(contentText)
-
             // Firebase에 사용자 등록
-            self.signUpWithNaverEmail(email: email, accessToken: accessToken)
+            Auth.auth().createUser(withEmail: email, password: "123456") { result, error in
+                if let error = error {
+                    print("Firebase 사용자 등록 오류: \(error)")
+                    return
+                }
+
+                if let result = result {
+                    print("Firebase 사용자 등록 성공: \(result.user.uid)")
+                    
+                    self.mySNSLoginViewController.myUID = result.user.uid
+                    // Firestore DB에 회원 정보 저장
+                    DataManager.shared.createUserData(
+                        user: UserData(
+                            ID: email,
+                            password: "sns",
+                            name: "아직 설정 전",
+                            phoneNumber: "추후 삭제될 필드(저장 불필요)"
+                        )
+                    )
+                    self.navigationController?.pushViewController(SNSLoginViewController(), animated: true)
+                }
+            }
         }
     }
-
-    // Firebase에 사용자 등록
-    func signUpWithNaverEmail(email: String, accessToken: String) {
-        Auth.auth().createUser(withEmail: email, password: "123123") { result, error in
-            if let error = error {
-                print("Firebase 사용자 등록 오류: \(error)")
-                return
-            }
-
-            if let result = result {
-                print("Firebase 사용자 등록 성공: \(result.user.uid)")
-
-                // Firebase 등록 후 추가 작업?
-            }
-        }
-    }
-
 
 
     // 로그인 버튼을 눌렀을 경우 열게 될 브라우저

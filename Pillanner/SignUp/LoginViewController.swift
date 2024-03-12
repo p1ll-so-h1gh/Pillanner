@@ -13,7 +13,7 @@ import AuthenticationServices
 import CryptoKit
 
 class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
-    
+    var mySNSLoginViewController = SNSLoginViewController()
     var currentNonce: String?
     private let sidePaddingValue = 20
     private let paddingBetweenComponents = 30
@@ -60,9 +60,9 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
         button.setTitle("로그인", for: .normal)
         button.titleLabel?.font = FontLiteral.body(style: .bold)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor.mainThemeColor
+        button.backgroundColor = UIColor.pointThemeColor2
         button.layer.cornerRadius = 8
-        button.addTarget(target, action: #selector(logInButtonTapped), for: .touchUpInside)
+        button.addTarget(target, action: #selector(naverDisconnectButtonTapped), for: .touchUpInside)
         return button
     }()
     

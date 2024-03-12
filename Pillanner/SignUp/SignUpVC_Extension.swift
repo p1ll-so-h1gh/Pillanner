@@ -246,6 +246,12 @@ extension SignUpViewController {
         self.view.endEditing(true)
     }
     
+    // 키보드 리턴 버튼 누를경우 키보드 숨김처리
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     // 텍스트필드 언더라인 활성화 메서드
     func textFieldDidBeginEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.4) {
