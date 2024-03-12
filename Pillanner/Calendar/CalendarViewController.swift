@@ -125,6 +125,8 @@ class CalendarViewController: UIViewController {
     // 5. 정의된 PillCategories 변수로 테이블 셀을 그려내기
     private func setUpPillData() {
         let todaysDate = dateFormatter.date(from: Date().toString())
+        let dayFormatter = DateFormatter()
+        dayFormatter.dateFormat = "EEE"
         if let userID = UserDefaults.standard.string(forKey: "ID") {
             DataManager.shared.readPillListData(userID: userID) { list in
                 guard let list = list else { 
@@ -138,7 +140,7 @@ class CalendarViewController: UIViewController {
                         if todaysDate?.compare(dueDate).rawValue == 1 {
                             print("복용 기한이 지난 약의 데이터입니다.")
                         } else {
-//                            if 
+                            if 
                                 
                         }
                     }
