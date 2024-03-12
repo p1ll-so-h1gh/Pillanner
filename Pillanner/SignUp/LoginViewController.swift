@@ -91,6 +91,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     private let naverLoginButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "NaverLoginImage"), for: .normal)
+        button.addTarget(target, action: #selector(naverLoginButtonTapped), for: .touchUpInside)
         return button
     }()
     
