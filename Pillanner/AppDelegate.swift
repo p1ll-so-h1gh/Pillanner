@@ -10,6 +10,7 @@ import CoreData
 import FirebaseCore
 import UserNotifications
 import KakaoSDKCommon
+import NaverThirdPartyLogin
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,9 +31,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // KAKAO Native App KEY
         let kakaoAppKey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] ?? ""
         KakaoSDK.initSDK(appKey: kakaoAppKey as! String)
-        
+
+        // NAVER 세팅
+        settingNaverSNSLogin()
+
         return true
     }
+
+    // 네이버 로그인 세팅
+    func settingNaverSNSLogin() {
+        let instance = NaverThirdPartyLoginConnection.getSharedInstance()
+
+        if let secretsPath = Bundle.main.path(forResource: "Secrets", ofType: "plist"),
+           let secrets = NSDictionary(contentsOfFile: secretsPath) as? [String: Any] {
+
+            // 네이버 클라이언트 아이디 및 시크릿
+            instance?.consumerKey = secrets["NaverConsumerKey"] as? String ?? ""
+            instance?.consumerSecret = secrets["NaverConsumerSecret"] as? String ?? ""
+        }
+
+        instance?.isNaverAppOauthEnable = true
+        instance?.isInAppOauthEnable = true
+        instance?.isOnlyPortraitSupportedInIphone()
+        instance?.serviceUrlScheme = "naverLogin"
+        instance?.appName = "Pillanner"
+    }
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        NaverThirdPartyLoginConnection.getSharedInstance()?.application(app, open: url, options: options)
+        return true
+    }
+
 
     // MARK: UISceneSession Lifecycle
 

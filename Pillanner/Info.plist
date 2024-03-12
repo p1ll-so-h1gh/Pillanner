@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>KAKAO_NATIVE_APP_KEY</key>
-	<string>60d9f983d2eb902984073b1401cb6a70</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -22,9 +20,23 @@
 				<string>kakao60d9f983d2eb902984073b1401cb6a70</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>naverLogin</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>naverLogin</string>
+			</array>
+		</dict>
 	</array>
+	<key>KAKAO_NATIVE_APP_KEY</key>
+	<string>60d9f983d2eb902984073b1401cb6a70</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>naversearchthirdlogin</string>
+		<string>naversearchapp</string>
 		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
 	</array>
