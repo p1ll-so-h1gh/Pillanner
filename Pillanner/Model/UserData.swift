@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
+// 아래 구조체를 사용해서 회원 정보 함수에 입력할 수 있도록 만들어 두었습니다...
 struct UserData {
     let UID: String
     var ID: String
@@ -41,4 +42,14 @@ struct TakenPill {
 struct TakenPillsCategory {
     var meridiem: String
     var pills: [TakenPill]
+}
+
+enum Weekday: String {
+    case Mon = "Mon"
+    case Tue = "Tue"
+    case Wed = "Wed"
+    case Thu = "Thu"
+    case Fri = "Fri"
+    case Sat = "Sat"
+    case Sun = "Sun"
 }

@@ -138,7 +138,8 @@ class CalendarViewController: UIViewController {
                         if todaysDate?.compare(dueDate).rawValue == 1 {
                             print("복용 기한이 지난 약의 데이터입니다.")
                         } else {
-                            
+//                            if 
+                                
                         }
                     }
                     // 날짜비교할건데 우쨰야됨

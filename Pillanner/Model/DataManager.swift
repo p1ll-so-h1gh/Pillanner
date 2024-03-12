@@ -27,7 +27,7 @@ final class DataManager {
         
         query.getDocuments{ (snapshot, error) in
             guard let captured = snapshot, !captured.isEmpty else {
-                self.db.collection("Users").document(user.ID).setData([
+                self.db.collection("Users").document(user.UID).setData([
                     "ID": user.ID,
                     "Password": user.password,
                     "Nickname": user.nickname
@@ -55,7 +55,9 @@ final class DataManager {
             }
             // 데이터 있을 때
             for document in snapshot.documents {
-                let dict = ["DocumentID": document.documentID ,"ID": document.data()["ID"] as! String, "Name": document.data()["Name"] as! String, "PhoneNumber": document.data()["PhoneNumber"] as! String]
+                let dict = ["UID": document.documentID,
+                            "ID": document.data()["ID"] as! String,
+                            "Name": document.data()["Name"] as! String]
                 output = dict
             }
             completion(output)
