@@ -229,6 +229,7 @@ final class DataManager {
     
     // MARK: - Functions about Pill Record
     // 약 복용 로그를 저장할 수 있는 메서드 구현 필요
+    // Pill에 bool값 하나 더 넣어두는게...
     func createPillRecordData(pill: Pill) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
