@@ -13,6 +13,9 @@ final class UserMainViewController: UIViewController {
     private lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
     private let sidePaddingSizeValue = 20
     
+    // MARK: - TO DO
+    // CollectionView에 뿌려줄 데이터 타입 정의 필요
+    
     //MARK: - UI Properties
     private let scrollView: UIScrollView = {
         var view = UIScrollView()
@@ -293,51 +296,51 @@ final class UserMainViewController: UIViewController {
 
     //MARK: - Attainmet Circle
     private func createCircle() {
-        let daycircleRadius: CGFloat = 100
-        let weekcircleRadius: CGFloat = 67
-        let monthcircleRadius: CGFloat = 40
+        let dayCircleRadius: CGFloat = 100
+        let weekCircleRadius: CGFloat = 67
+        let monthCircleRadius: CGFloat = 40
         let circleLineWidth: CGFloat = 15.0
         
         //원경로
-        let daycircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: daycircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi , clockwise: true)
-        let weekcircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: weekcircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 2 , clockwise: true)
-        let monthcircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: monthcircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 3, clockwise: true)
+        let dayCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: dayCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi , clockwise: true)
+        let weekCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: weekCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 2 , clockwise: true)
+        let monthCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: monthCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 3, clockwise: true)
         //정답률 테두리
-        let dayborderLine = CAShapeLayer()
-        dayborderLine.path = daycircularPath.cgPath
-        dayborderLine.strokeColor = UIColor(hexCode: "9BDCFD").cgColor
-        dayborderLine.lineWidth = circleLineWidth
-        dayborderLine.fillColor = UIColor.clear.cgColor
-        dayborderLine.lineCap = CAShapeLayerLineCap.round
+        let dayBorderLine = CAShapeLayer()
+        dayBorderLine.path = dayCircularPath.cgPath
+        dayBorderLine.strokeColor = UIColor(hexCode: "9BDCFD").cgColor
+        dayBorderLine.lineWidth = circleLineWidth
+        dayBorderLine.fillColor = UIColor.clear.cgColor
+        dayBorderLine.lineCap = CAShapeLayerLineCap.round
         
-        circleContainerView.layer.addSublayer(dayborderLine)
+        circleContainerView.layer.addSublayer(dayBorderLine)
         
-        let weekborderLine = CAShapeLayer()
-        weekborderLine.path = weekcircularPath.cgPath
-        weekborderLine.strokeColor = UIColor(hexCode: "FF9898").cgColor
-        weekborderLine.lineWidth = circleLineWidth
-        weekborderLine.fillColor = UIColor.clear.cgColor
-        weekborderLine.lineCap = CAShapeLayerLineCap.round
+        let weekBorderLine = CAShapeLayer()
+        weekBorderLine.path = weekCircularPath.cgPath
+        weekBorderLine.strokeColor = UIColor(hexCode: "FF9898").cgColor
+        weekBorderLine.lineWidth = circleLineWidth
+        weekBorderLine.fillColor = UIColor.clear.cgColor
+        weekBorderLine.lineCap = CAShapeLayerLineCap.round
         
-        circleContainerView.layer.addSublayer(weekborderLine)
+        circleContainerView.layer.addSublayer(weekBorderLine)
         
-        let monthborderLine = CAShapeLayer()
-        monthborderLine.path = monthcircularPath.cgPath
-        monthborderLine.strokeColor = UIColor(hexCode: "FFD188").cgColor
-        monthborderLine.lineWidth = circleLineWidth
-        monthborderLine.fillColor = UIColor.clear.cgColor
-        monthborderLine.lineCap = CAShapeLayerLineCap.round
+        let monthBorderLine = CAShapeLayer()
+        monthBorderLine.path = monthCircularPath.cgPath
+        monthBorderLine.strokeColor = UIColor(hexCode: "FFD188").cgColor
+        monthBorderLine.lineWidth = circleLineWidth
+        monthBorderLine.fillColor = UIColor.clear.cgColor
+        monthBorderLine.lineCap = CAShapeLayerLineCap.round
         
-        circleContainerView.layer.addSublayer(monthborderLine)
+        circleContainerView.layer.addSublayer(monthBorderLine)
         
         //테두리 애니메이션
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = 0
         animation.toValue = 1
         animation.duration = 1.5
-        dayborderLine.add(animation,forKey: "progressAnimation")
-        weekborderLine.add(animation,forKey: "progressAnimation")
-        monthborderLine.add(animation,forKey: "progressAnimation")
+        dayBorderLine.add(animation,forKey: "progressAnimation")
+        weekBorderLine.add(animation,forKey: "progressAnimation")
+        monthBorderLine.add(animation,forKey: "progressAnimation")
     }
 }
 
@@ -352,7 +355,7 @@ extension UserMainViewController: UICollectionViewDelegate, UICollectionViewData
         cell.backgroundColor = .white
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = true
-        cell.delegate = self
+        cell.pillListViewDelegate = self
 
         cell.typeLabel.text = "일반"
         cell.nameLabel.text = "유산균"
@@ -381,8 +384,8 @@ extension UIStackView {
 
 //MARK: - PillListViewDelegate
 extension UserMainViewController: PillListViewDelegate {
-    func deletePill(pilldata: String) {
-        let title = "\(pilldata)을 정말 삭제하시겠습니까?"
+    func deletePill(pillData: String) {
+        let title = "\(pillData)을 정말 삭제하시겠습니까?"
         let alert = UIAlertController(title: title, message: "", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "아니요", style: .default)
         let delete = UIAlertAction(title: "네", style: .default)
@@ -391,7 +394,7 @@ extension UserMainViewController: PillListViewDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func editPill(pilldata: String) {
+    func editPill(pillData: String) {
         let VC = PillEditViewController()
         VC.modalPresentationStyle = .fullScreen
         present(VC, animated: true, completion: nil)

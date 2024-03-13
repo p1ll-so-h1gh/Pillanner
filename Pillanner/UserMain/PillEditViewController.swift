@@ -20,7 +20,7 @@ final class PillEditViewController: UIViewController {
         return label
     }()
     
-    private let backBtn: UIButton = {
+    private let backButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "xmark")?.withRenderingMode(.alwaysOriginal).withTintColor(.black), for: .normal)
         return button
@@ -36,21 +36,21 @@ final class PillEditViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var editBtnView: UIView = {
+    private lazy var editButtonView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.pointThemeColor2
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     
-    private let editBtn: UIButton = {
+    private let editButton: UIButton = {
         let button = UIButton()
         button.setTitle("수정하기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         return button
     }()
     
-    private lazy var navBackBtn = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    private lazy var navBackButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,10 +59,10 @@ final class PillEditViewController: UIViewController {
         self.totalTableView.dataSource = self
         self.totalTableView.rowHeight = UITableView.automaticDimension
         
-        backBtn.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
         
-        navBackBtn.tintColor = .black
-        self.navigationItem.backBarButtonItem = navBackBtn
+        navBackButton.tintColor = .black
+        self.navigationItem.backBarButtonItem = navBackButton
         
         setupView()
     }
@@ -84,14 +84,14 @@ final class PillEditViewController: UIViewController {
      }
     
     private func setupView() {
-        editBtnView.addSubview(editBtn)
-        editBtn.snp.makeConstraints {
+        editButtonView.addSubview(editButton)
+        editButton.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
-        [backBtn, titleLabel, totalTableView, editBtnView].forEach {
+        [backButton, titleLabel, totalTableView, editButtonView].forEach {
             view.addSubview($0)
         }
-        backBtn.snp.makeConstraints {
+        backButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
@@ -102,9 +102,9 @@ final class PillEditViewController: UIViewController {
         totalTableView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).inset(-sidePaddingSizeValue)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(editBtnView.snp.top).inset(-sidePaddingSizeValue)
+            $0.bottom.equalTo(editButtonView.snp.top).inset(-sidePaddingSizeValue)
         }
-        editBtnView.snp.makeConstraints {
+        editButtonView.snp.makeConstraints {
             $0.width.equalTo(339)
             $0.height.equalTo(53)
             $0.centerX.equalToSuperview()
