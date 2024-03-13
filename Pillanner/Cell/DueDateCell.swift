@@ -26,7 +26,7 @@ final class DueDateCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "복용기한"
+        label.text = "복용 기한"
         label.font = FontLiteral.subheadline(style: .bold).withSize(18)
         label.alpha = 0.6
         return label
