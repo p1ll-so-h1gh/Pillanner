@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class CustomLaunchScreenViewController: UIViewController {
-    
+    var loginStatus: Bool = false // false : LoginVC 로 전환, true : (회원가입을 방금한 상태) CustomLaunchVC - 유저메인으로 이동
     private lazy var backgroundLayer = CAGradientLayer.dayBackgroundLayer(view: self.view)
     
     let logoFlagImage: UIImageView = {
@@ -19,9 +19,10 @@ class CustomLaunchScreenViewController: UIViewController {
     
     let welcomeMessageLabel : UILabel = {
         let label = UILabel()
-        label.text = "알약, 달력 넘기듯 간편하게"
-        label.font = FontLiteral.subheadline(style: .regular)
-//        label.textColor = .lightGray
+        label.textColor = .black
+        label.textAlignment = .center
+        label.numberOfLines = 2
+        label.font = FontLiteral.subheadline(style: .bold)
         return label
     }()
     
@@ -30,6 +31,16 @@ class CustomLaunchScreenViewController: UIViewController {
         return image
     }()
 
+    init(message: String, status: Bool) {
+        super.init(nibName: nil, bundle: nil)
+        welcomeMessageLabel.text = message
+        loginStatus = status
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,9 +57,15 @@ class CustomLaunchScreenViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         sleep(3)
-        let navVC = UINavigationController(rootViewController: LoginViewController())
-        navVC.modalPresentationStyle = .fullScreen
-        present(navVC, animated: true)
+        
+        switch(loginStatus){
+        case false : let navVC = UINavigationController(rootViewController: LoginViewController())
+            navVC.modalPresentationStyle = .fullScreen
+            present(navVC, animated: true)
+        case true : let nextVC = TabBarController()
+            nextVC.modalPresentationStyle = .fullScreen
+            present(nextVC, animated: true)
+        }
     }
     
     private func addViews() {
