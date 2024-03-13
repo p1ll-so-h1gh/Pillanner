@@ -1,18 +1,23 @@
 //
-//  InitialSetupStartViewController.swift
+//  InitialSetupEndViewController.swift
 //  Pillanner
 //
-//  Created by 김가빈 on 2/29/24.
+//  Created by 박민정 on 3/12/24.
 //
 
 import UIKit
 import SnapKit
 
-class InitialSetupStartViewController: UIViewController {
+class InitialSetupEndViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+    }
+    
+    //뷰가 나타날 때 네비게이션 바 숨김
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     private func setupUI() {
@@ -55,14 +60,14 @@ class InitialSetupStartViewController: UIViewController {
     private func setupTitleAndDescription() {
         let titleLabel = UILabel()
         titleLabel.numberOfLines = 0
-        titleLabel.text = "건강한 루틴을 위한\n알약 플래너 만들기"
+        titleLabel.text = "감사합니다! 알약 플래너가\n완성되었어요 :)"
         titleLabel.textAlignment = .center
         titleLabel.font = FontLiteral.title2(style: .bold)
         view.addSubview(titleLabel)
         
         let descriptionLabel = UILabel()
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.text = "지금부터 Pillanner가 약을\n챙겨드리기 위한 정보를 요청드리려 해요!"
+        descriptionLabel.text = "앞으로 Pillanner가 OOO님의 약을 챙겨드릴 준비가 모두 끝났어요."
         descriptionLabel.textAlignment = .center
         descriptionLabel.font = FontLiteral.body(style: .regular)
         view.addSubview(descriptionLabel)
@@ -79,24 +84,24 @@ class InitialSetupStartViewController: UIViewController {
     }
     
     private func setupStartButton() {
-        let startButton = UIButton(type: .system)
-        startButton.setTitle("바로 시작하기", for: .normal)
-        startButton.titleLabel?.font = FontLiteral.title2(style: .bold)
-        startButton.backgroundColor = UIColor.pointThemeColor2
-        startButton.setTitleColor(.white, for: .normal)
-        startButton.layer.cornerRadius = 20
-        startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
-        view.addSubview(startButton)
+        let endButton = UIButton(type: .system)
+        endButton.setTitle("약 먹으러 가기", for: .normal)
+        endButton.titleLabel?.font = FontLiteral.title2(style: .bold)
+        endButton.backgroundColor = UIColor.pointThemeColor2
+        endButton.setTitleColor(.white, for: .normal)
+        endButton.layer.cornerRadius = 20
+        endButton.addTarget(self, action: #selector(endButtonTapped), for: .touchUpInside)
+        view.addSubview(endButton)
         
-        startButton.snp.makeConstraints { make in
+        endButton.snp.makeConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-40)
             make.left.right.equalTo(view).inset(20)
             make.height.equalTo(50)
         }
     }
     
-    @objc private func startButtonTapped() {
-        let initialSetupVC = InitialSetupViewController()
-        navigationController?.pushViewController(initialSetupVC, animated: true)
+    @objc private func endButtonTapped() {
+        let mainVC = TabBarController()
+        navigationController?.pushViewController(mainVC, animated: true)
     }
 }

@@ -31,8 +31,8 @@ final class PillAddMainViewController: UIViewController {
         tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.id)
         tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.id)
         tableView.register(IntakeSettingCell.self, forCellReuseIdentifier: IntakeSettingCell.id)
-        tableView.register(PillTyeCell.self, forCellReuseIdentifier: PillTyeCell.id)
-        tableView.register(DeadlineCell.self, forCellReuseIdentifier: DeadlineCell.id)
+        tableView.register(PillTypeCell.self, forCellReuseIdentifier: PillTypeCell.id)
+        tableView.register(DueDateCell.self, forCellReuseIdentifier: DueDateCell.id)
         return tableView
     }()
     
@@ -52,6 +52,7 @@ final class PillAddMainViewController: UIViewController {
     
     private lazy var navBackBtn = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -72,17 +73,33 @@ final class PillAddMainViewController: UIViewController {
         dismiss(animated: true)
     }
     
+    //키보드 외부 터치 시 키보드 숨김처리
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+       self.view.endEditing(true)
+     }
+    
+     // 키보드 리턴 버튼 누를경우 키보드 숨김처리
+     func textFieldShouldReturn(_ textField: UITextField) {
+         if let pillCell = self.totalTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PillCell {
+             pillCell.hideKeyboard()
+         }
+     }
+    
+    //뷰가 나타날 때 네비게이션 바 숨김
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
     }
+    
     private func setupView() {
         addBtnView.addSubview(addBtn)
         addBtn.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
+        
         [backBtn, titleLabel, totalTableView, addBtnView].forEach {
             view.addSubview($0)
         }
+        
         backBtn.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
@@ -97,7 +114,7 @@ final class PillAddMainViewController: UIViewController {
             $0.bottom.equalTo(addBtnView.snp.top).inset(-sidePaddingSizeValue)
         }
         addBtnView.snp.makeConstraints {
-            $0.width.equalTo(301)
+            $0.width.equalTo(339)
             $0.height.equalTo(53)
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
@@ -105,6 +122,7 @@ final class PillAddMainViewController: UIViewController {
     }
 }
 
+//MARK: - TableView DataSource, Delegate
 extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
@@ -124,10 +142,11 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
             cell.delegate = self
             return cell
         case 3:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PillTyeCell", for: indexPath) as! PillTyeCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PillTypeCell", for: indexPath) as! PillTypeCell
             return cell
         case 4:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DeadlineCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DueDateCell
+            cell.delegate = self
             return cell
         default:
             fatalError("Invalid index path")
@@ -148,5 +167,12 @@ extension PillAddMainViewController: IntakeSettingDelegate {
         let dosageAddVC = DosageAddViewController()
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(dosageAddVC, animated: true)
+    }
+}
+
+extension PillAddMainViewController: DueDateCellDelegate {
+    func updateCellHeight() {
+        self.totalTableView.reloadData()
+        self.totalTableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
     }
 }

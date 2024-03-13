@@ -8,8 +8,9 @@
 import UIKit
 import SnapKit
 
-class SignUpViewController: UIViewController, UITextFieldDelegate {
-
+class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent {
+    var transformView: UIView { return self.view }
+    
     var idTextFieldFlag: Bool = false
     var nameTextFieldFlag: Bool = false
     var passwordTextFieldFlag: Bool = false
@@ -66,7 +67,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "이름 입력"
+        label.text = "닉네임(이름)"
         label.font = FontLiteral.body(style: .bold)
         return label
     }()
@@ -251,15 +252,23 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         button.addTarget(target, action: #selector(SignUpButtonClicked), for: .touchUpInside)
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         title = "회원 가입"
-    
+        
         setUpTextFieldDelegate()
         addView()
         setUpConstraint()
+        setupKeyboardEvent()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // KeyboardEvent의 removeKeyboardObserver
+        removeKeyboardObserver()
     }
     
     private func addView() {

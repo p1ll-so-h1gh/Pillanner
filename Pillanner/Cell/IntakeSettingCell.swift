@@ -22,7 +22,7 @@ final class PillTableView: UITableView {
     override var intrinsicContentSize: CGSize {
         let height = self.contentSize.height + self.contentInset.top + self.contentInset.bottom
         return CGSize(width: self.contentSize.width, height: height)
-      }
+    }
 }
 
 final class IntakeSettingCell: UITableViewCell {
@@ -57,7 +57,9 @@ final class IntakeSettingCell: UITableViewCell {
     private lazy var intakeaddBtnView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = cornerRadiusValue
-        view.backgroundColor = UIColor.pointThemeColor2
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.gray.cgColor
+        view.backgroundColor = UIColor.white
         return view
     }()
     
@@ -109,7 +111,7 @@ final class IntakeSettingCell: UITableViewCell {
             $0.height.greaterThanOrEqualTo(1)
         }
         self.intakeaddBtn.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
+            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
         self.intakeaddBtnView.snp.makeConstraints {
             $0.top.equalTo(self.pillTableView.snp.bottom).inset(-15)
@@ -118,6 +120,10 @@ final class IntakeSettingCell: UITableViewCell {
             $0.width.equalTo(339)
             $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
         }
+    }
+    
+    //cell 초기화 함수 - 테이블에 추가된 항목들 삭제하고 섭취횟수 0회로 초기화
+    internal func reset() {
     }
 }
 

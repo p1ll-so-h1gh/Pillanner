@@ -31,8 +31,8 @@ final class PillEditViewController: UIViewController {
         tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.id)
         tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.id)
         tableView.register(IntakeSettingCell.self, forCellReuseIdentifier: IntakeSettingCell.id)
-        tableView.register(PillTyeCell.self, forCellReuseIdentifier: PillTyeCell.id)
-        tableView.register(DeadlineCell.self, forCellReuseIdentifier: DeadlineCell.id)
+        tableView.register(PillTypeCell.self, forCellReuseIdentifier: PillTypeCell.id)
+        tableView.register(DueDateCell.self, forCellReuseIdentifier: DueDateCell.id)
         return tableView
     }()
     
@@ -71,10 +71,22 @@ final class PillEditViewController: UIViewController {
         dismiss(animated: true)
     }
     
+    //키보드 외부 터치 시 키보드 숨김처리
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+       self.view.endEditing(true)
+     }
+    
+     // 키보드 리턴 버튼 누를경우 키보드 숨김처리
+     func textFieldShouldReturn(_ textField: UITextField) {
+         if let pillCell = self.totalTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PillCell {
+             pillCell.hideKeyboard()
+         }
+     }
+    
     private func setupView() {
         editBtnView.addSubview(editBtn)
         editBtn.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
+            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
         [backBtn, titleLabel, totalTableView, editBtnView].forEach {
             view.addSubview($0)
@@ -93,7 +105,7 @@ final class PillEditViewController: UIViewController {
             $0.bottom.equalTo(editBtnView.snp.top).inset(-sidePaddingSizeValue)
         }
         editBtnView.snp.makeConstraints {
-            $0.width.equalTo(301)
+            $0.width.equalTo(339)
             $0.height.equalTo(53)
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
@@ -120,10 +132,11 @@ extension PillEditViewController: UITableViewDataSource {
             cell.delegate = self
             return cell
         case 3:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PillTyeCell", for: indexPath) as! PillTyeCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PillTypeCell", for: indexPath) as! PillTypeCell
             return cell
         case 4:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DeadlineCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DueDateCell
+            cell.delegate = self
             return cell
         default:
             fatalError("Invalid index path")
@@ -144,5 +157,12 @@ extension PillEditViewController: IntakeSettingDelegate {
         let dosageAddVC = DosageAddViewController()
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(dosageAddVC, animated: true)
+    }
+}
+
+extension PillEditViewController: DueDateCellDelegate {
+    func updateCellHeight() {
+        self.totalTableView.reloadData()
+        self.totalTableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
     }
 }

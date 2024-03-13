@@ -14,12 +14,14 @@ class IntakePillCell: UITableViewCell {
     let timeLabel: UILabel = {
         let label = UILabel()
         label.font = FontLiteral.body(style: .regular).withSize(18)
+        label.alpha = 0.7
         return label
     }()
     
     let alarmLabel: UILabel = {
         let label = UILabel()
         label.font = FontLiteral.body(style: .bold).withSize(14)
+        label.alpha = 0.6
         return label
     }()
     
@@ -43,7 +45,6 @@ class IntakePillCell: UITableViewCell {
         self.contentView.addSubview(timeLabel)
         self.contentView.addSubview(alarmLabel)
         self.contentView.addSubview(editBtn)
-        
         timeLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(10)
             $0.left.equalToSuperview().inset(6)

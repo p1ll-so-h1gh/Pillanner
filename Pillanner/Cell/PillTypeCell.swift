@@ -8,8 +8,8 @@
 import UIKit
 import SnapKit
 
-final class PillTyeCell: UITableViewCell {
-    static let id = "PillTyeCell"
+final class PillTypeCell: UITableViewCell {
+    static let id = "PillTypeCell"
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
     
@@ -65,12 +65,18 @@ final class PillTyeCell: UITableViewCell {
     }
     
     @objc func tappedgeneralPillBtn() {
-        generalPillView.backgroundColor = UIColor.pointThemeColor2
+        generalPillView.layer.borderWidth = 2
+        generalPillView.backgroundColor = .white
+        generalPillView.layer.borderColor = UIColor.pointThemeColor2.cgColor
+        prescriptionPillView.layer.borderColor = UIColor(hexCode: "E6E6E6").cgColor
         prescriptionPillView.backgroundColor = UIColor(hexCode: "E6E6E6")
     }
     
     @objc func tappedprescriptionPillBtn() {
-        prescriptionPillView.backgroundColor = UIColor.pointThemeColor2
+        prescriptionPillView.layer.borderWidth = 2
+        prescriptionPillView.backgroundColor = .white
+        prescriptionPillView.layer.borderColor = UIColor.pointThemeColor2.cgColor
+        generalPillView.layer.borderColor = UIColor(hexCode: "E6E6E6").cgColor
         generalPillView.backgroundColor = UIColor(hexCode: "E6E6E6")
     }
     
@@ -80,24 +86,18 @@ final class PillTyeCell: UITableViewCell {
     
     private func setupLayout() {
         generalPillView.addSubview(generalPillBtn)
-        
         generalPillBtn.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
-        
         prescriptionPillView.addSubview(prescriptionPillBtn)
-        
         prescriptionPillBtn.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
-        
         HStackView.addArrangedSubview(generalPillView)
         HStackView.addArrangedSubview(prescriptionPillView)
-        
         [titleLabel, HStackView].forEach {
             contentView.addSubview($0)
         }
-        
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(sidePaddingSizeValue)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)
@@ -115,5 +115,9 @@ final class PillTyeCell: UITableViewCell {
             $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
         }
+    }
+    
+    //cell 초기화 함수 - 선택된 버튼 없도록
+    internal func reset() {
     }
 }
