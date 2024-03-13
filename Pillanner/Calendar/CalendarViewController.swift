@@ -128,7 +128,7 @@ class CalendarViewController: UIViewController {
         let dayFormatter = DateFormatter()
         dayFormatter.dateFormat = "EEE"
         if let userID = UserDefaults.standard.string(forKey: "ID") {
-            DataManager.shared.readPillListData(userID: userID) { list in
+            DataManager.shared.readPillListData(UID: userID) { list in
                 guard let list = list else { 
                     print("받아올 약의 데이터가 없습니다.")
                     return
@@ -140,7 +140,7 @@ class CalendarViewController: UIViewController {
                         if todaysDate?.compare(dueDate).rawValue == 1 {
                             print("복용 기한이 지난 약의 데이터입니다.")
                         } else {
-                            if 
+                            //if
                                 
                         }
                     }

@@ -56,11 +56,8 @@ extension LoginViewController {
                 print("me() success.")
                 //do something
                 _ = user
-                print("카카오 닉네임 : ", user?.kakaoAccount?.profile?.nickname)
-                print("카카오 이메일 : ", user?.kakaoAccount?.email)
-                print("카카오 UserData : ", user?.kakaoAccount)
                 
-                Auth.auth().createUser(withEmail: (user?.kakaoAccount?.email)!, password: "123123") { result, error in
+                Auth.auth().createUser(withEmail: (user?.kakaoAccount?.email)!, password: "123456") { result, error in
                     if let error = error {
                         print(error)
                     }
@@ -68,6 +65,17 @@ extension LoginViewController {
                     if let result = result {
                         print(result)
                         print(result.user.uid)
+                        
+                        // Firestore DB에 회원 정보 저장
+                        DataManager.shared.createUserData(
+                            user: UserData(
+                                UID: result.user.uid,
+                                ID: (user?.kakaoAccount?.email)!,
+                                password: "sns",
+                                nickname: "아직 설정 전"
+                            )
+                        )
+                        self.navigationController?.pushViewController(SNSLoginViewController(), animated: true)
                     }
                 }
             }
