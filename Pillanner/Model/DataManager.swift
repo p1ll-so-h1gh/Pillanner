@@ -43,7 +43,7 @@ final class DataManager {
         }
     }
     
-    func readUserData(userID: String, completion: @escaping ([String: Any]?) -> Void){
+    func readUserData(userID: String, completion: @escaping ([String: Any]?) -> Void) {
         var output = ["": ""]
         let query = db.collection("Users").whereField("ID", isEqualTo: userID)
         
