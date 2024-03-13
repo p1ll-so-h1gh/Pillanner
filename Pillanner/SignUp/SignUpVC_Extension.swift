@@ -152,6 +152,9 @@ extension SignUpViewController {
                 alert.addAction(UIAlertAction(title: "확인", style: .default))
                 self.present(alert, animated: true)
             } else {
+                guard let authData = authData else { return }
+                self.myUID = authData.user.uid // 가입하기 버튼 눌렀을 때 넣어줄 UID값 미리 받는 부분
+                
                 // 성공시 Current IDTokenRefresh 처리
                 print("Current IDTokenRefresh 처리중...")
                 let currentUser = Auth.auth().currentUser
@@ -345,9 +348,8 @@ extension SignUpViewController {
         if availableSignUpFlag && !idTextField.text!.isEmpty && !nameTextField.text!.isEmpty && !passwordTextField.text!.isEmpty && !passwordReTextField.text!.isEmpty && !phoneCertTextField.text!.isEmpty {
             
             // Firestore DB에 회원 정보 저장
-            DataManager.shared.createUserData(
-                user: UserData(
-                    UID: UserDefaults.standard.string(forKey: "UID")!,
+            DataManager.shared.createUserData(user: UserData(
+                    UID: self.myUID,
                     ID: idTextField.text!,
                     password: passwordTextField.text!,
                     nickname: nameTextField.text!
