@@ -10,7 +10,7 @@ import UIKit
 class CheckPillCell: UITableViewCell {
 
     private var isSelectedCell: Bool = false
-    private var medicine: Medicine?
+    private var pill: Pill?
 
     // MARK: - Properties
 
@@ -130,12 +130,12 @@ class CheckPillCell: UITableViewCell {
         setupConstraint()
     }
 
-    func configure(with medicine: Medicine) {
-        self.medicine = medicine
-        nameLabel.text = medicine.name
-        dosageLabel.text = medicine.dosage
-        timeLabel.text = medicine.time
-        typeLabel.text = medicine.type
+    func configure(with pill: Pill) {
+        self.pill = pill
+        nameLabel.text = pill.title
+        dosageLabel.text = String(pill.dosage)
+        timeLabel.text = pill.intake[0]
+        typeLabel.text = pill.type
     }
 
     // MARK: - Constraint
@@ -193,7 +193,7 @@ class CheckPillCell: UITableViewCell {
     // MARK: - 셀 선택
 
     private func updateCellSelection() {
-        if isSelectedCell, let medicine = medicine {
+        if isSelectedCell, let medicine = pill {
             contentView.layer.backgroundColor = UIColor.white.cgColor
             if let originalImage = UIImage(named: "pill"),
                let adjustedImage = originalImage.withSaturation(0.1) {

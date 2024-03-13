@@ -14,7 +14,6 @@ class CalendarViewController: UIViewController {
 
     private lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
 
-    private let dateFormatter = DateFormatter()
     private var isWeeklyMode: Bool = true
     private let sidePadding: CGFloat = 20
     private let cellHeight: CGFloat = 90
@@ -37,7 +36,8 @@ class CalendarViewController: UIViewController {
         ]),
     ]
     
-    private var listOfPills = [PillCategory]()
+    private var listOfPills = [Pill]()
+    private var categoryOfPills = [PillCategory]()
 
     // MARK: - Properties
 
@@ -86,7 +86,6 @@ class CalendarViewController: UIViewController {
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
-        dateFormatter.dateFormat = "yyyy-MM-dd"
         super.viewDidLoad()
 
         UNUserNotificationCenter.current().delegate = self
@@ -120,34 +119,94 @@ class CalendarViewController: UIViewController {
     // Pill List 만드는 순서 (viewWillAppear 함수 내부에 구현하기)
     // 1. Firestore에 저장된 Pill Data들 싹다 불러오기
     // 2. Pill -> duedate가 가지고 있는 날짜 데이터를 현재 날짜와 비교해서 유효한 데이터만 구별해내기
-    // 3. Pill -> intake 정보에 따라 오전에 먹는 약인지, 오후에 먹는 약인지 분류
-    // 4. 분류된 결과를 가지고, PillCategories 변수에 담아내기 ( PillCategories = [PillCategory] 타입의 배열 )
-    // 5. 정의된 PillCategories 변수로 테이블 셀을 그려내기
     private func setUpPillData() {
+        
+        let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            return formatter
+        }()
+        
         let todaysDate = dateFormatter.date(from: Date().toString())
-        let dayFormatter = DateFormatter()
-        dayFormatter.dateFormat = "EEE"
-        if let userID = UserDefaults.standard.string(forKey: "ID") {
-            DataManager.shared.readPillListData(UID: userID) { list in
-                guard let list = list else { 
+        let dayFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "EEE"
+            formatter.locale = Locale(identifier: "en")
+            return formatter
+        }()
+        
+        let todaysday = dayFormatter.string(from: Date())
+        var todaysPill = [Pill]()
+        if let UID = UserDefaults.standard.string(forKey: "UID") {
+            DataManager.shared.readPillListData(UID: UID) { list in
+                guard let list = list else {
                     print("받아올 약의 데이터가 없습니다.")
                     return
                 }
-                // 오늘의 요일을 걸러내서 값을 만들어두고
-                // 필터로 새 배열 만들고 그 안에서 루프돌리기
+                
+                // 복용 기한 지난 약들 거름망
                 for pill in list {
-                    if let dueDate = self.dateFormatter.date(from: pill["DueDate"] as! String) {
+                    if let dueDate = dateFormatter.date(from: pill["DueDate"] as! String) {
                         if todaysDate?.compare(dueDate).rawValue == 1 {
                             print("복용 기한이 지난 약의 데이터입니다.")
                         } else {
-                            //if
-                                
+                            let data = Pill(title: pill["Title"] as! String,
+                                            type: pill["Type"] as! String,
+                                            day: pill["Day"] as! [String],
+                                            dueDate: pill["DueDate"] as! String,
+                                            intake: pill["Intake"] as! [String],
+                                            dosage: pill["Dosage"] as! Double)
+                            todaysPill.append(data)
                         }
                     }
-                    // 날짜비교할건데 우쨰야됨
+                }
+                
+                for pill in todaysPill {
+                    if pill.day.contains(todaysday) {
+                        self.listOfPills.append(pill)
+                    }
                 }
             }
         }
+    }
+    
+    // 3. Pill -> intake 정보에 따라 오전에 먹는 약인지, 오후에 먹는 약인지 분류
+    // 4. 분류된 결과를 가지고, PillCategories 변수에 담아내기 ( PillCategories = [PillCategory] 타입의 배열 )
+    // 5. 정의된 PillCategories 변수로 테이블 셀을 그려내기
+    private func categorizePillData() {
+        // 시간 변환하는 포매터 설정
+        var pillsListAM = PillCategory(meridiem: "AM", pills: [])
+        var pillsListPM = PillCategory(meridiem: "PM", pills: [])
+        let timeFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm"
+            formatter.locale = Locale(identifier: "ko-KR")
+            return formatter
+        }()
+        // 이중 for 문 없이 할 수 있는 방법이 있을까요
+        // map, filter, reduce 로 간략하게 정리해볼 수도
+        // reduce -> 반복문 돌리면서 append할 때 편리함
+        for pill in listOfPills {
+            for time in pill.intake {
+                if timeFormatter.date(from: time)?.compare(timeFormatter.date(from: "12:00")!).rawValue == 1 {
+                    pillsListPM.pills.append(Pill(title: pill.title,
+                                                  type: pill.type,
+                                                  day: [""],
+                                                  dueDate: "",
+                                                  intake: [timeFormatter.date(from: time)!.toString()],
+                                                  dosage: pill.dosage))
+                } else {
+                    pillsListAM.pills.append(Pill(title: pill.title,
+                                                  type: pill.type,
+                                                  day: [""],
+                                                  dueDate: "",
+                                                  intake: [timeFormatter.date(from: time)!.toString()],
+                                                  dosage: pill.dosage))
+                }
+            }
+        }
+        categoryOfPills.append(pillsListAM)
+        categoryOfPills.append(pillsListPM)
     }
 
     private func setupCalendar() {
@@ -332,11 +391,11 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
     // MARK: UITableView DataSource
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return medicationSections.count
+        return categoryOfPills.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return medicationSections[section].medications.count
+        return categoryOfPills[section].pills.count
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -350,7 +409,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
     // 셀
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as! CheckPillCell
-        let medicine = medicationSections[indexPath.section].medications[indexPath.row]
+        let medicine = categoryOfPills[indexPath.section].pills[indexPath.row]
 
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
