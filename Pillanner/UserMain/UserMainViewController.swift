@@ -178,10 +178,14 @@ final class UserMainViewController: UIViewController {
         view.layer.addSublayer(gradientLayer)
         addSubView()
         setUpLayout()
-        createCircle()
         intakePillListCollectionView.delegate = self
         intakePillListCollectionView.dataSource = self
         intakePillListCollectionView.register(PillListCollectionViewCell.self, forCellWithReuseIdentifier: PillListCollectionViewCell.id)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //뷰가 나타날때마다 애니메이션 효과 주기 위해
+        createCircle()
     }
     
     //MARK: - AddSubView
@@ -378,12 +382,10 @@ extension UIStackView {
 //MARK: - PillListViewDelegate
 extension UserMainViewController: PillListViewDelegate {
     func deletePill(pilldata: String) {
-        let title = "\(pilldata) 진짜 삭제할꺼에요?!"
+        let title = "\(pilldata)을 정말 삭제하시겠습니까?"
         let alert = UIAlertController(title: title, message: "", preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "아니용", style: .default)
-        let delete = UIAlertAction(title: "넹", style: .default) {_ in
-            print("삭제하겠습니다~~~")
-        }
+        let cancel = UIAlertAction(title: "아니요", style: .default)
+        let delete = UIAlertAction(title: "네", style: .default)
         alert.addAction(delete)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)

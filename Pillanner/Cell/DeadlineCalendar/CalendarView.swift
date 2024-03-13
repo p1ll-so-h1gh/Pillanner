@@ -8,6 +8,21 @@
 import UIKit
 import SnapKit
 
+final class CalendarCollectionView: UICollectionView {
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: frame, collectionViewLayout: layout)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        let height = self.contentSize.height + self.contentInset.top + self.contentInset.bottom
+        return CGSize(width: self.contentSize.width, height: height)
+    }
+}
+
 class CalendarView: UIView, MonthYearBarViewDelegate {
     private let sidePaddingSizeValue = 10
     private let betweenPadidngSizeValue = 10
@@ -90,7 +105,7 @@ class CalendarView: UIView, MonthYearBarViewDelegate {
             $0.top.equalTo(weekdaysView.snp.bottom).inset(-betweenPadidngSizeValue)
             $0.left.right.equalToSuperview().inset(sidePaddingSizeValue)
             $0.bottom.equalToSuperview().inset(betweenPadidngSizeValue)
-            $0.height.equalTo(202)
+            $0.height.equalTo(212)
         }
     }
 }
@@ -168,6 +183,11 @@ extension CalendarView: UICollectionViewDelegateFlowLayout, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        collectionView.invalidateIntrinsicContentSize()
+        collectionView.layoutIfNeeded()
     }
 }
 

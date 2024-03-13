@@ -153,7 +153,6 @@ final class IntakeDateCell: UITableViewCell {
         [intakedateLabel, editBtn, HStackView].forEach {
             self.contentView.addSubview($0)
         }
-        
         MonView.addSubview(MonLabel)
         TueView.addSubview(TueLabel)
         WedView.addSubview(WedLabel)
@@ -161,11 +160,9 @@ final class IntakeDateCell: UITableViewCell {
         FriView.addSubview(FriLabel)
         SatView.addSubview(SatLabel)
         SunView.addSubview(SunLabel)
-        
         [MonView, TueView, WedView, ThuView, FriView, SatView, SunView].forEach {
             self.HStackView.addArrangedSubview($0)
         }
-        
         self.MonLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(8)
             $0.bottom.equalToSuperview().inset(8)
@@ -221,5 +218,9 @@ final class IntakeDateCell: UITableViewCell {
             $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
         }
+    }
+    
+    //cell 초기화 함수 - 색깔이 변한 섭취요일 다시 원상복구
+    internal func reset() {
     }
 }

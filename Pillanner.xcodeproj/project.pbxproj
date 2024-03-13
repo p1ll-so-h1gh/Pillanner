@@ -88,8 +88,8 @@
 		CC16979A2B9021C0008276B0 /* PillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697992B9021C0008276B0 /* PillCell.swift */; };
 		CC16979C2B9021D2008276B0 /* IntakeDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16979B2B9021D2008276B0 /* IntakeDateCell.swift */; };
 		CC16979E2B9021F2008276B0 /* IntakeSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16979D2B9021F2008276B0 /* IntakeSettingCell.swift */; };
-		CC1697A02B90221B008276B0 /* PillTyeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16979F2B90221B008276B0 /* PillTyeCell.swift */; };
-		CC1697A32B90223D008276B0 /* DeadlineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697A22B90223D008276B0 /* DeadlineCell.swift */; };
+		CC1697A02B90221B008276B0 /* PillTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16979F2B90221B008276B0 /* PillTypeCell.swift */; };
+		CC1697A32B90223D008276B0 /* DueDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697A22B90223D008276B0 /* DueDateCell.swift */; };
 		CC1697A52B903DAD008276B0 /* PillAddMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697A42B903DAD008276B0 /* PillAddMainViewController.swift */; };
 		CC7DB3CD2B95536C00809665 /* IntakePillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */; };
 		CC7DB3F62B95C3FF00809665 /* MonthYearBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3F52B95C3FF00809665 /* MonthYearBarView.swift */; };
@@ -98,6 +98,8 @@
 		CC7DB3FE2B96F72C00809665 /* PillEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3FD2B96F72C00809665 /* PillEditViewController.swift */; };
 		CC7DB4002B96FD0E00809665 /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3FF2B96FD0E00809665 /* UserSettingViewController.swift */; };
 		CC7DB4052B981DFE00809665 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB4042B981DFE00809665 /* UserInfoView.swift */; };
+		CCD759352B9F183500878CEF /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD759342B9F183400878CEF /* Keyboard.swift */; };
+		CCD759372BA00DE300878CEF /* InitialSetupEndViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD759362BA00DE300878CEF /* InitialSetupEndViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -141,8 +143,8 @@
 		CC1697992B9021C0008276B0 /* PillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCell.swift; sourceTree = "<group>"; };
 		CC16979B2B9021D2008276B0 /* IntakeDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakeDateCell.swift; sourceTree = "<group>"; };
 		CC16979D2B9021F2008276B0 /* IntakeSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakeSettingCell.swift; sourceTree = "<group>"; };
-		CC16979F2B90221B008276B0 /* PillTyeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTyeCell.swift; sourceTree = "<group>"; };
-		CC1697A22B90223D008276B0 /* DeadlineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineCell.swift; sourceTree = "<group>"; };
+		CC16979F2B90221B008276B0 /* PillTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTypeCell.swift; sourceTree = "<group>"; };
+		CC1697A22B90223D008276B0 /* DueDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DueDateCell.swift; sourceTree = "<group>"; };
 		CC1697A42B903DAD008276B0 /* PillAddMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillAddMainViewController.swift; sourceTree = "<group>"; };
 		CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakePillCell.swift; sourceTree = "<group>"; };
 		CC7DB3F52B95C3FF00809665 /* MonthYearBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthYearBarView.swift; sourceTree = "<group>"; };
@@ -151,6 +153,8 @@
 		CC7DB3FD2B96F72C00809665 /* PillEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillEditViewController.swift; sourceTree = "<group>"; };
 		CC7DB3FF2B96FD0E00809665 /* UserSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
 		CC7DB4042B981DFE00809665 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
+		CCD759342B9F183400878CEF /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
+		CCD759362BA00DE300878CEF /* InitialSetupEndViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSetupEndViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,7 +235,6 @@
 		14D2BE5F2B84BBBF0006AC51 /* Pillanner */ = {
 			isa = PBXGroup;
 			children = (
-				560EC5B52B9898C300FF0D37 /* AddPillCell */,
 				C45D904E2B95B0A600676CEA /* Find_ID_PW */,
 				C45D90492B95AF7A00676CEA /* SignUp */,
 				C4346D902B8DAD1B00110DEF /* Pillanner.entitlements */,
@@ -240,9 +243,11 @@
 				14F2CFB42B86E011007F354B /* UserMain */,
 				14D2BE792B84C2C60006AC51 /* Model */,
 				14D2BE782B84C2C40006AC51 /* InitialSetUp */,
+				560EC5B52B9898C300FF0D37 /* AddPill */,
 				14D2BE602B84BBBF0006AC51 /* AppDelegate.swift */,
 				14D2BE622B84BBBF0006AC51 /* SceneDelegate.swift */,
 				7CEBD66D2B96A8BC00F63F78 /* TabBarController.swift */,
+				CCD759342B9F183400878CEF /* Keyboard.swift */,
 				14D2BE6C2B84BBC20006AC51 /* Assets.xcassets */,
 				1438F6AB2B8F0A52006D2939 /* GoogleService-Info.plist */,
 				14D2BE712B84BBC20006AC51 /* Info.plist */,
@@ -253,7 +258,9 @@
 		14D2BE782B84C2C40006AC51 /* InitialSetUp */ = {
 			isa = PBXGroup;
 			children = (
+				560EC5BC2B98995100FF0D37 /* InitialSetupStartViewController.swift */,
 				14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */,
+				CCD759362BA00DE300878CEF /* InitialSetupEndViewController.swift */,
 			);
 			path = InitialSetUp;
 			sourceTree = "<group>";
@@ -272,7 +279,6 @@
 			isa = PBXGroup;
 			children = (
 				CC7DB4032B981DD300809665 /* Setting */,
-				CC1697982B9020F4008276B0 /* Cell */,
 				14F2CFB82B870818007F354B /* UserMainViewController.swift */,
 				CC16976E2B8DDA12008276B0 /* PillListCollectionViewCell.swift */,
 				CC1697A42B903DAD008276B0 /* PillAddMainViewController.swift */,
@@ -291,14 +297,14 @@
 			path = Calendar;
 			sourceTree = "<group>";
 		};
-		560EC5B52B9898C300FF0D37 /* AddPillCell */ = {
+		560EC5B52B9898C300FF0D37 /* AddPill */ = {
 			isa = PBXGroup;
 			children = (
 				560EC5B82B9898F400FF0D37 /* DosageAddViewController.swift */,
 				560EC5BA2B98991800FF0D37 /* WeekdaySelectionViewController.swift */,
-				560EC5BC2B98995100FF0D37 /* InitialSetupStartViewController.swift */,
+				CC1697982B9020F4008276B0 /* Cell */,
 			);
-			name = AddPillCell;
+			name = AddPill;
 			sourceTree = "<group>";
 		};
 		7C365CA72B9F21D8003C8CF8 /* Frameworks */ = {
@@ -351,8 +357,8 @@
 				CC16979B2B9021D2008276B0 /* IntakeDateCell.swift */,
 				CC16979D2B9021F2008276B0 /* IntakeSettingCell.swift */,
 				CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */,
-				CC16979F2B90221B008276B0 /* PillTyeCell.swift */,
-				CC1697A22B90223D008276B0 /* DeadlineCell.swift */,
+				CC16979F2B90221B008276B0 /* PillTypeCell.swift */,
+				CC1697A22B90223D008276B0 /* DueDateCell.swift */,
 				CC7DB3F42B95C3D700809665 /* DeadlineCalendar */,
 			);
 			path = Cell;
@@ -514,11 +520,12 @@
 				C4346D8F2B8DA90D00110DEF /* UserData.swift in Sources */,
 				CC16979A2B9021C0008276B0 /* PillCell.swift in Sources */,
 				C40136A42B887D4500577C17 /* CAGradientLayer+Extension.swift in Sources */,
-				CC1697A02B90221B008276B0 /* PillTyeCell.swift in Sources */,
-				CC1697A32B90223D008276B0 /* DeadlineCell.swift in Sources */,
+				CC1697A02B90221B008276B0 /* PillTypeCell.swift in Sources */,
+				CC1697A32B90223D008276B0 /* DueDateCell.swift in Sources */,
 				14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */,
 				C40136A62B887D6100577C17 /* UIColor+Extension.swift in Sources */,
 				C45D90542B95BB7200676CEA /* FindPWVC_Extension.swift in Sources */,
+				CCD759352B9F183500878CEF /* Keyboard.swift in Sources */,
 				C4A55A072B99B9E40084AF16 /* LoginVC_APPLE_Login.swift in Sources */,
 				CC16976F2B8DDA13008276B0 /* PillListCollectionViewCell.swift in Sources */,
 				CC1697A52B903DAD008276B0 /* PillAddMainViewController.swift in Sources */,
@@ -537,6 +544,7 @@
 				CC7DB3FE2B96F72C00809665 /* PillEditViewController.swift in Sources */,
 				CC7DB3F82B95CBFF00809665 /* WeekdaysView.swift in Sources */,
 				7C3F79862B9068A000DD1AC7 /* CalendarModel.swift in Sources */,
+				CCD759372BA00DE300878CEF /* InitialSetupEndViewController.swift in Sources */,
 				7CEBD66E2B96A8BC00F63F78 /* TabBarController.swift in Sources */,
 				CC16979C2B9021D2008276B0 /* IntakeDateCell.swift in Sources */,
 				CC7DB3FC2B95CCCD00809665 /* CalendarView.swift in Sources */,

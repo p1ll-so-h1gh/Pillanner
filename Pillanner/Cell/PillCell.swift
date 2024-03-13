@@ -52,4 +52,14 @@ final class PillCell: UITableViewCell {
             $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
         }
     }
+    
+    //cell 초기화 함수 - 제품명 사라지게 하기
+    internal func reset() {
+        self.pillnametext.text = ""
+    }
+    
+    //키보드 사라지게 하는 함수
+    internal func hideKeyboard() {
+        self.pillnametext.resignFirstResponder()
+    }
 }

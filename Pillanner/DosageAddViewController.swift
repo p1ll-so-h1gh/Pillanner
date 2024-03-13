@@ -56,7 +56,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     
     private func setupUI() {
         
-//        setupPageTitleLabel()
+        //        setupPageTitleLabel()
         setupAlarmSetting()
         setupTimeSetting()
         setupDosageCount()
@@ -138,11 +138,11 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         saveButtonItem.tintColor = UIColor.pointThemeColor
         self.navigationItem.rightBarButtonItem = saveButtonItem
     }
-
+    
     @objc private func saveButtonTapped() {
         print("저장 버튼이 탭되었습니다.")
     }
-
+    
     
     private func setupAlarmSetting() {
         alarmSettingLabel = UILabel()
@@ -167,7 +167,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
             make.right.equalToSuperview().offset(-20)
         }
     }
-
+    
     
     
     private func setupAlarmStatusLabel() {
@@ -468,9 +468,17 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         }
         dosageInputTextField.becomeFirstResponder()
     }
-    
-    
-    
-    
 }
 
+extension DosageAddViewController {
+    // 키보드 외부 터치할 경우 키보드 숨김처리
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    // 키보드 리턴 버튼 누를경우 키보드 숨김처리
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}

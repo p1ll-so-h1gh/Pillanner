@@ -140,6 +140,7 @@ final class MonthYearBarView: UIView {
         labelBtn1.snp.makeConstraints {
             $0.left.equalTo(monthLabel.snp.right).inset(1)
             $0.top.bottom.right.equalToSuperview().inset(3)
+            $0.size.equalTo(6)
         }
         yearLabelView.addSubview(yearLabel)
         yearLabelView.addSubview(labelBtn2)
@@ -149,6 +150,7 @@ final class MonthYearBarView: UIView {
         labelBtn2.snp.makeConstraints {
             $0.left.equalTo(yearLabel.snp.right).inset(-1)
             $0.top.bottom.right.equalToSuperview().inset(3)
+            $0.size.equalTo(6)
         }
         [btnLeftView, monthLabelView, yearLabelView, btnRightView].forEach {
             self.addSubview($0)
