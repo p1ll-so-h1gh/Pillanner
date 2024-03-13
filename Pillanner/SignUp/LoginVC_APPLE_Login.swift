@@ -47,22 +47,24 @@ extension LoginViewController {
                                                            rawNonce: nonce,
                                                            fullName: appleIDCredential.fullName)
             // Sign in with Firebase.
-            Auth.auth().signIn(with: credential) { (authResult, error) in
+            Auth.auth().signIn(with: credential) { (result, error) in
                 if let error = error {
                     print(error.localizedDescription)
                     return
                 }
                 print("애플 로그인에 성공했습니다.")
                 print("appleIDCredential : ", appleIDCredential)
+                
                 // Firestore DB에 회원 정보 저장
                 DataManager.shared.createUserData(
                     user: UserData(
-                        ID: authResult!.user.email!,
-                        password: "APPLE 소셜 로그인으로 비밀번호가 없습니다.",
-                        name: "이름을 새로 받거나 해야될 듯,,",
-                        phoneNumber: "APPLE 소셜 로그인으로 전화번호가 없습니다."
+                        UID: result!.user.uid,
+                        ID: result!.user.email!,
+                        password: "sns",
+                        nickname: "아직 설정 전"
                     )
                 )
+                self.navigationController?.pushViewController(SNSLoginViewController(), animated: true)
             }
         }
     }

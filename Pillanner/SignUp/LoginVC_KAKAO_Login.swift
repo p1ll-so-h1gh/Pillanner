@@ -65,14 +65,14 @@ extension LoginViewController {
                     if let result = result {
                         print(result)
                         print(result.user.uid)
-                        self.mySNSLoginViewController.myUID = result.user.uid
+                        
                         // Firestore DB에 회원 정보 저장
                         DataManager.shared.createUserData(
                             user: UserData(
+                                UID: result.user.uid,
                                 ID: (user?.kakaoAccount?.email)!,
                                 password: "sns",
-                                name: "아직 설정 전",
-                                phoneNumber: "추후 삭제될 필드(저장 불필요)"
+                                nickname: "아직 설정 전"
                             )
                         )
                         self.navigationController?.pushViewController(SNSLoginViewController(), animated: true)

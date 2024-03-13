@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class SNSLoginViewController: UIViewController, UITextFieldDelegate {
-    var myUID:String = ""
+    
     lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
     
     private let sidePaddingValue = 20
@@ -125,10 +125,11 @@ class SNSLoginViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - Button Action
     @objc func setNameButtonTapped() {
+        let userID = UserDefaults.standard.string(forKey: "ID")!
         let alert = UIAlertController(title: "닉네임 설정", message: "'\(self.setNameTextField.text!)'로 설정하시겠습니까?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
-        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: {_ in 
-            DataManager.shared.updateUserData(userID: self.myUID, changedPassword: "sns", changedName: self.setNameTextField.text!)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
+            DataManager.shared.updateUserData(userID: userID, changedPassword: "sns", changedName: self.setNameTextField.text!)
             self.navigationController?.popToRootViewController(animated: true)
         }))
         self.present(alert, animated: true)

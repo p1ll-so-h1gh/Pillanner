@@ -170,9 +170,7 @@ extension SignUpViewController {
                     self.certNumberAvailableLabel.textColor = .systemBlue
                     self.certNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                 }
-
             }
-            
         }
     }
     
@@ -349,10 +347,10 @@ extension SignUpViewController {
             // Firestore DB에 회원 정보 저장
             DataManager.shared.createUserData(
                 user: UserData(
+                    UID: UserDefaults.standard.string(forKey: "UID")!,
                     ID: idTextField.text!,
                     password: passwordTextField.text!,
-                    name: nameTextField.text!,
-                    phoneNumber: phoneCertTextField.text!
+                    nickname: nameTextField.text!
                 )
             )
             // 회원가입 완료 - Alert
