@@ -35,6 +35,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     private let pwdTextfield: UITextField = {
         let field = UITextField()
         field.placeholder = "비밀번호 입력"
+        field.isSecureTextEntry = true
         field.textAlignment = .left
         return field
     }()
@@ -104,10 +105,14 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     }()
     
     private lazy var signInButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("회원가입 하기", for: .normal)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
+            .underlineColor: UIColor.lightGray
+        ]
+        let attributedTitle = NSAttributedString(string: "회원가입 하기", attributes: attributes)
+        let button = UIButton(type: .system)
+        button.setAttributedTitle(attributedTitle, for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
-        button.setTitleColor(.black, for: .selected)
         button.backgroundColor = .clear
         button.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         return button
@@ -121,20 +126,28 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     }()
     
     private lazy var findIDButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("ID 찾기", for: .normal)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
+            .underlineColor: UIColor.lightGray
+        ]
+        let attributedTitle = NSAttributedString(string: "ID 찾기", attributes: attributes)
+        let button = UIButton(type: .system)
+        button.setAttributedTitle(attributedTitle, for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
-        button.setTitleColor(.black, for: .selected)
         button.backgroundColor = .clear
         button.addTarget(self, action: #selector(findIDButtonTapped), for: .touchUpInside)
         return button
     }()
     
     private lazy var findPasswordButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("PW 찾기", for: .normal)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
+            .underlineColor: UIColor.lightGray
+        ]
+        let attributedTitle = NSAttributedString(string: "PW 찾기", attributes: attributes)
+        let button = UIButton(type: .system)
+        button.setAttributedTitle(attributedTitle, for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
-        button.setTitleColor(.black, for: .selected)
         button.backgroundColor = .clear
         button.addTarget(self, action: #selector(findPasswordButtonTapped), for: .touchUpInside)
         return button
@@ -248,6 +261,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             $0.centerX.equalToSuperview()
             $0.leading.equalToSuperview().offset(sidePaddingValue)
             $0.trailing.equalToSuperview().offset(-sidePaddingValue)
+            $0.height.equalTo(50)
         }
         socialLoginLabel.snp.makeConstraints{
             $0.top.equalTo(loginButton.snp.bottom).offset(paddingBetweenComponents)
