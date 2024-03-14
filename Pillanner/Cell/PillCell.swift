@@ -10,7 +10,9 @@ import SnapKit
 import SwiftUI
 
 final class PillCell: UITableViewCell {
-    static let id = "PillCell"
+    
+    private var onEditingProcess = false
+    static let identifier = "PillCell"
     private let sidePaddingSizeValue = 20
     
     private let pillnameLabel: UILabel = {
@@ -22,7 +24,7 @@ final class PillCell: UITableViewCell {
         return label
     }()
     
-    private let pillnametext: UITextField = {
+    private let pillNameTextField: UITextField = {
         let field = UITextField()
         field.placeholder = "제품명"
         field.textAlignment = .left
@@ -32,21 +34,36 @@ final class PillCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        self.setupLayout()
+//        self.setupLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
     
-    private func setupLayout() {
+    func setupLayout() {
         self.contentView.addSubview(self.pillnameLabel)
-        self.contentView.addSubview(self.pillnametext)
+        self.contentView.addSubview(self.pillNameTextField)
         self.pillnameLabel.snp.makeConstraints {
             $0.top.left.bottom.equalToSuperview().inset(sidePaddingSizeValue)
             $0.width.equalTo(50)
         }
-        self.pillnametext.snp.makeConstraints {
+        self.pillNameTextField.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(20)
+            $0.left.equalTo(self.pillnameLabel.snp.right).inset(-8)
+            $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
+        }
+    }
+    
+    func setupLayoutOnEditingProcess(title: String) {
+        self.pillNameTextField.placeholder = title
+        self.contentView.addSubview(self.pillnameLabel)
+        self.contentView.addSubview(self.pillNameTextField)
+        self.pillnameLabel.snp.makeConstraints {
+            $0.top.left.bottom.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.width.equalTo(50)
+        }
+        self.pillNameTextField.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(20)
             $0.left.equalTo(self.pillnameLabel.snp.right).inset(-8)
             $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
@@ -55,11 +72,11 @@ final class PillCell: UITableViewCell {
     
     //cell 초기화 함수 - 제품명 사라지게 하기
     internal func reset() {
-        self.pillnametext.text = ""
+        self.pillNameTextField.text = ""
     }
     
     //키보드 사라지게 하는 함수
     internal func hideKeyboard() {
-        self.pillnametext.resignFirstResponder()
+        self.pillNameTextField.resignFirstResponder()
     }
 }

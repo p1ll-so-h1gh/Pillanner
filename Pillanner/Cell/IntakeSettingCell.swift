@@ -27,7 +27,7 @@ final class PillTableView: UITableView {
 
 final class IntakeSettingCell: UITableViewCell {
     
-    static let id = "IntakeSettingCell"
+    static let identifier = "IntakeSettingCell"
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
     weak var delegate: IntakeSettingDelegate?
@@ -49,7 +49,7 @@ final class IntakeSettingCell: UITableViewCell {
     
     private let pillTableView: PillTableView = {
         let tableview = PillTableView()
-        tableview.register(IntakePillCell.self, forCellReuseIdentifier: IntakePillCell.id)
+        tableview.register(IntakePillCell.self, forCellReuseIdentifier: IntakePillCell.identifier)
         tableview.separatorStyle = .none
         tableview.isScrollEnabled = true
         return tableview
@@ -134,7 +134,7 @@ extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: IntakePillCell.id, for: indexPath) as! IntakePillCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: IntakePillCell.identifier, for: indexPath) as! IntakePillCell
         cell.timeLabel.text = "\("")시 \("")정"
         cell.alarmLabel.text = "알림 \("")"
         return cell
