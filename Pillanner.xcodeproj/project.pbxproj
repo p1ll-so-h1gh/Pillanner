@@ -362,19 +362,19 @@
 				CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */,
 				CC16979F2B90221B008276B0 /* PillTypeCell.swift */,
 				CC1697A22B90223D008276B0 /* DueDateCell.swift */,
-				CC7DB3F42B95C3D700809665 /* DeadlineCalendar */,
+				CC7DB3F42B95C3D700809665 /* DueDateCalendar */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		CC7DB3F42B95C3D700809665 /* DeadlineCalendar */ = {
+		CC7DB3F42B95C3D700809665 /* DueDateCalendar */ = {
 			isa = PBXGroup;
 			children = (
 				CC7DB3F52B95C3FF00809665 /* MonthYearBarView.swift */,
 				CC7DB3F72B95CBFF00809665 /* WeekdaysView.swift */,
 				CC7DB3FB2B95CCCD00809665 /* CalendarView.swift */,
 			);
-			path = DeadlineCalendar;
+			path = DueDateCalendar;
 			sourceTree = "<group>";
 		};
 		CC7DB4032B981DD300809665 /* Setting */ = {
