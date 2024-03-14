@@ -43,7 +43,7 @@ final class DataManager {
         }
     }
     
-    func readUserData(userID: String, completion: @escaping ([String: Any]?) -> Void){
+    func readUserData(userID: String, completion: @escaping ([String: String]?) -> Void){
         var output = ["": ""]
         let query = db.collection("Users").whereField("ID", isEqualTo: userID)
         
@@ -57,7 +57,8 @@ final class DataManager {
             for document in snapshot.documents {
                 let dict = ["UID": document.documentID,
                             "ID": document.data()["ID"] as! String,
-                            "Name": document.data()["Name"] as! String]
+                            "Password": document.data()["Password"] as! String,
+                            "Nickname": document.data()["Nickname"] as! String]
                 output = dict
             }
             completion(output)

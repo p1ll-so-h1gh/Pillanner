@@ -63,7 +63,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.pointThemeColor2
         button.layer.cornerRadius = 8
-        button.addTarget(target, action: #selector(naverDisconnectButtonTapped), for: .touchUpInside)
+        button.addTarget(target, action: #selector(logInButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -293,22 +293,31 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     }
     
     //MARK: - Button Actions
+    // 로그인 버튼
     @objc func logInButtonTapped() {
-        let id = idTextfield.text
-        let password = pwdTextfield.text
+        let id = idTextfield.text!
+        let password = pwdTextfield.text!
+        var firebaseUserData = ["":""]
         
         if UserDefaults.standard.bool(forKey: "isAutoLoginActivate") {
             UserDefaults.standard.setValue(id, forKey: "ID")
             UserDefaults.standard.setValue(password, forKey: "Password")
         }
         
-        // 일단 메인 화면(탭바)로 넘어가는 기능 넣기
-        let mainVC = TabBarController()
-        mainVC.modalPresentationStyle = .fullScreen
-        present(mainVC, animated: true, completion: nil)
-        
+        DataManager.shared.readUserData(userID: id, completion: { output in
+            firebaseUserData = output ?? [:]
+            if (firebaseUserData["ID"] ?? "" == id) && (firebaseUserData["Password"] ?? "" == password) {
+                // 일단 메인 화면(탭바)로 넘어가는 기능 넣기
+                let mainVC = TabBarController()
+                mainVC.modalPresentationStyle = .fullScreen
+                self.present(mainVC, animated: true, completion: nil)
+            } else {
+                print("error login")
+            }
+        })
     }
     
+    // 회원가입하기 버튼
     @objc func signInButtonTapped() {
         print(#function)
 
@@ -317,6 +326,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
 
     }
     
+    // 자동로그인
     @objc func autoLoginButtonTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
         

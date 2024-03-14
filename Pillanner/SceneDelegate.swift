@@ -20,9 +20,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        print("====================================================================")
+        print("UserDefaults UID : ", UserDefaults.standard.string(forKey: "UID") ?? "nil")
+        print("UserDefaults ID : ", UserDefaults.standard.string(forKey: "ID") ?? "nil")
+        print("UserDefaults Password : ", UserDefaults.standard.string(forKey: "Password") ?? "nil")
+        print("UserDefaults Nickname : ", UserDefaults.standard.string(forKey: "Nickname") ?? "nil")
+        print("UserDefaults 자동로그인 : ", UserDefaults.standard.bool(forKey: "isAutoLoginActivate")) // true : 자동 로그인 체크
+        print("====================================================================")
         window = UIWindow(windowScene: windowScene)
-//        window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
-        window?.rootViewController = CustomLaunchScreenViewController(message: "알약, 달력 넘기듯 간편하게", status: false)
+        let password = UserDefaults.standard.string(forKey: "Password") ?? nil
+        let startVC: UIViewController
+        
+        if password == "sns" { // 이미 SNS 로그인 한 이력이 있는 경우
+            startVC = CustomLaunchScreenViewController(message: "알약, 달력 넘기듯 간편하게", status: true) // 런치스크린 -> 메인탭바뷰컨으로 이동
+        } else { // 일반회원가입 한 경우
+            if UserDefaults.standard.bool(forKey: "isAutoLoginActivate") { // 자동로그인 체크 O
+                startVC = CustomLaunchScreenViewController(message: "알약, 달력 넘기듯 간편하게", status: true) // 런치스크린 -> 메인탭바뷰컨으로 이동
+            } else { // 자동로그인 체크 X
+                startVC = CustomLaunchScreenViewController(message: "알약, 달력 넘기듯 간편하게", status: false) // 런치스크린 -> 로그인뷰컨으로 이동
+            }
+        }
+        
+        window?.rootViewController = startVC
         window?.makeKeyAndVisible()
     }
 

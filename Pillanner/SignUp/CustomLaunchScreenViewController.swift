@@ -59,12 +59,13 @@ class CustomLaunchScreenViewController: UIViewController {
         sleep(3)
         
         switch(loginStatus){
-        case false : let navVC = UINavigationController(rootViewController: LoginViewController())
-            navVC.modalPresentationStyle = .fullScreen
-            present(navVC, animated: true)
         case true : let nextVC = TabBarController()
             nextVC.modalPresentationStyle = .fullScreen
             present(nextVC, animated: true)
+            
+        case false : let navVC = UINavigationController(rootViewController: LoginViewController())
+            navVC.modalPresentationStyle = .fullScreen
+            present(navVC, animated: true)
         }
     }
     
