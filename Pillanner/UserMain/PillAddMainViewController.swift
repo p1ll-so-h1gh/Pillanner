@@ -144,13 +144,16 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
+            cell.setupLayout()
             cell.delegate = self
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillTypeCell", for: indexPath) as! PillTypeCell
+            cell.setupLayout()
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DueDateCell
+            cell.setupLayout()
             cell.delegate = self
             return cell
         default:
