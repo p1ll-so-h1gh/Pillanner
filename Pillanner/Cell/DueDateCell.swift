@@ -16,7 +16,7 @@ protocol DueDateCellDelegate: AnyObject {
 }
 
 final class DueDateCell: UITableViewCell {
-    static let id = "DeadlineCell"
+    static let identifier = "DeadlineCell"
     private let sidePaddingSizeValue = 20
     
     weak var delegate: DueDateCellDelegate?
@@ -69,7 +69,35 @@ final class DueDateCell: UITableViewCell {
         fatalError()
     }
     
-    private func setupLayout() {
+    func setupLayoutOnEditingProcess(dueDate: String) {
+        self.topView.addSubview(titleLabel)
+        self.topView.addSubview(popswitch)
+        self.stackView.addArrangedSubview(topView)
+        self.stackView.addArrangedSubview(calendarView)
+        self.contentView.addSubview(stackView)
+        self.titleLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.top.bottom.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.height.equalTo(24)
+            $0.width.equalTo(84)
+        }
+        self.popswitch.snp.makeConstraints {
+            $0.top.right.bottom.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.height.equalTo(28)
+            $0.width.equalTo(55)
+        }
+        self.calendarView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.width.equalTo(351)
+//            $0.height.equalTo(320)
+        }
+        self.stackView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
+        }
+    }
+    
+    func setupLayout() {
         self.topView.addSubview(titleLabel)
         self.topView.addSubview(popswitch)
         self.stackView.addArrangedSubview(topView)

@@ -15,6 +15,8 @@ final class PillEditViewController: UIViewController {
     
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
+    
+    private var pillDataForEdit: Pill
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -31,11 +33,11 @@ final class PillEditViewController: UIViewController {
     
     private let totalTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.id)
-        tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.id)
-        tableView.register(IntakeSettingCell.self, forCellReuseIdentifier: IntakeSettingCell.id)
-        tableView.register(PillTypeCell.self, forCellReuseIdentifier: PillTypeCell.id)
-        tableView.register(DueDateCell.self, forCellReuseIdentifier: DueDateCell.id)
+        tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.identifier)
+        tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.identifier)
+        tableView.register(IntakeSettingCell.self, forCellReuseIdentifier: IntakeSettingCell.identifier)
+        tableView.register(PillTypeCell.self, forCellReuseIdentifier: PillTypeCell.identifier)
+        tableView.register(DueDateCell.self, forCellReuseIdentifier: DueDateCell.identifier)
         return tableView
     }()
     
@@ -54,6 +56,16 @@ final class PillEditViewController: UIViewController {
     }()
     
     private lazy var navBackButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    
+    // 초기화 메서드를 추가합니다.
+    init(pill: Pill) {
+        self.pillDataForEdit = pill
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,9 +138,11 @@ extension PillEditViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillCell", for: indexPath) as! PillCell
+            cell.setupLayoutOnEditingProcess(title: self.pillDataForEdit.title)
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
+            cell.setupLayoutOnEditingProcess(intake: self.pillDataForEdit.intake)
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell

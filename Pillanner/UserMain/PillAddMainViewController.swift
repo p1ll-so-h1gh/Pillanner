@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import SwiftUI
 
-// 셀이 가지고 있는 약 정보 받아올 수 있도록 initializer setting 필요
+// 약 추가하는 부분에서는 다른 데이터 가져올 필요 없이, 반환되는 값들로 Pill 구조체 하나 뚝딱해서 만들어내야됨
 
 final class PillAddMainViewController: UIViewController {
     
@@ -31,11 +31,11 @@ final class PillAddMainViewController: UIViewController {
     
     private let totalTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.id)
-        tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.id)
-        tableView.register(IntakeSettingCell.self, forCellReuseIdentifier: IntakeSettingCell.id)
-        tableView.register(PillTypeCell.self, forCellReuseIdentifier: PillTypeCell.id)
-        tableView.register(DueDateCell.self, forCellReuseIdentifier: DueDateCell.id)
+        tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.identifier)
+        tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.identifier)
+        tableView.register(IntakeSettingCell.self, forCellReuseIdentifier: IntakeSettingCell.identifier)
+        tableView.register(PillTypeCell.self, forCellReuseIdentifier: PillTypeCell.identifier)
+        tableView.register(DueDateCell.self, forCellReuseIdentifier: DueDateCell.identifier)
         return tableView
     }()
     
@@ -136,9 +136,11 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillCell", for: indexPath) as! PillCell
+            cell.setupLayout()
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
+            cell.setupLayout()
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
