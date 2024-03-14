@@ -90,7 +90,40 @@ final class IntakeSettingCell: UITableViewCell {
         fatalError()
     }
     
-    private func setupLayout() {
+    func setupLayoutOnEditingProcess(intake: String) {
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(infoLabel)
+        self.contentView.addSubview(pillTableView)
+        self.contentView.addSubview(intakeaddBtnView)
+        intakeaddBtnView.addSubview(intakeaddBtn)
+        self.titleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.left.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.height.equalTo(24)
+        }
+        self.infoLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.right.equalToSuperview().inset(sidePaddingSizeValue)
+        }
+        self.pillTableView.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).inset(-10)
+            $0.left.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.right.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.height.greaterThanOrEqualTo(1)
+        }
+        self.intakeaddBtn.snp.makeConstraints {
+            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
+        }
+        self.intakeaddBtnView.snp.makeConstraints {
+            $0.top.equalTo(self.pillTableView.snp.bottom).inset(-15)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(45)
+            $0.width.equalTo(339)
+            $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
+        }
+    }
+    
+    func setupLayout() {
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(infoLabel)
         self.contentView.addSubview(pillTableView)
