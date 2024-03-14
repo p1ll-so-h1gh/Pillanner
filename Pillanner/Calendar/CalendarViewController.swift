@@ -98,11 +98,17 @@ class CalendarViewController: UIViewController {
                 print("알림 권한이 거부되었습니다.")
             }
         }
+        // TableView에 뿌려줄 데이터 셋업
+        setUpPillData()
+        categorizePillData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.layer.addSublayer(gradientLayer)
+        
+        // 테스트
+        print(categoryOfPills)
     }
     
     override func viewDidAppear(_ animated: Bool) {

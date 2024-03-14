@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 
+// 약 정보 수정하는 뷰에서 접근할 때, 약 정보 받아올 수 있는 방법 필요 -> 이미 선택된 날짜 셀은 선택이 된 상태로 보여질 수 있도록
+
 class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var tableView: UITableView!
