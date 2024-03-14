@@ -152,13 +152,30 @@ final class IntakeDateCell: UITableViewCell {
         fatalError()
     }
     
-    func checkWeekdayViewWithIntakeData(intake: [String]) {
-        for day in intake {
-            
+    func checkWeekdayViewWithIntakeData(days: [String]) {
+        for day in days {
+            if day == "Mon" {
+                MonView.backgroundColor = .pointThemeColor2
+            } else if day == "Tue" {
+                TueView.backgroundColor = .pointThemeColor2
+            } else if day == "Wed" {
+                WedView.backgroundColor = .pointThemeColor2
+            } else if day == "Thu" {
+                ThuView.backgroundColor = .pointThemeColor2
+            } else if day == "Fri" {
+                FriView.backgroundColor = .pointThemeColor2
+            } else if day == "Sat" {
+                SatView.backgroundColor = .pointThemeColor2
+            } else if day == "Sun" {
+                SunView.backgroundColor = .pointThemeColor2
+            }
         }
     }
     
-    func setupLayoutOnEditingProcess(intake: [String]) {
+    func setupLayoutOnEditingProcess(days: [String]) {
+        
+        checkWeekdayViewWithIntakeData(days: days)
+        
         [intakedateLabel, editBtn, HStackView].forEach {
             self.contentView.addSubview($0)
         }

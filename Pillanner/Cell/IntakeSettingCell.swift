@@ -91,6 +91,7 @@ final class IntakeSettingCell: UITableViewCell {
     }
     
     func setupLayoutOnEditingProcess(intake: String) {
+        
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(infoLabel)
         self.contentView.addSubview(pillTableView)

@@ -142,7 +142,7 @@ extension PillEditViewController: UITableViewDataSource {
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
-            cell.setupLayoutOnEditingProcess(intake: self.pillDataForEdit.intake)
+            cell.setupLayoutOnEditingProcess(days: self.pillDataForEdit.day)
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
