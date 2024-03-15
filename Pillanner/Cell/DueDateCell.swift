@@ -97,7 +97,7 @@ final class DueDateCell: UITableViewCell {
             }
         }
     
-    private func setupLayout() {
+    func setupLayout() {
         self.topView.addSubview(titleLabel)
         self.topView.addSubview(popSwitch)
         self.verticalStackView.addArrangedSubview(topView)
