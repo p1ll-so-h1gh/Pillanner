@@ -10,6 +10,7 @@ import SnapKit
 import SwiftUI
 
 // 셀이 가지고 있는 약 정보 받아올 수 있도록 initializer setting 필요
+// 데이터를 어떻게 반환받을 것인지 로직 구성 필요
 
 final class PillEditViewController: UIViewController {
     

@@ -10,7 +10,6 @@ import SnapKit
 
 class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent {
     var transformView: UIView { return self.view }
-    var myUID: String = ""
     
     var idTextFieldFlag: Bool = false
     var nameTextFieldFlag: Bool = false

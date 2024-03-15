@@ -10,6 +10,8 @@ import SnapKit
 import SwiftUI
 
 // 약 추가하는 부분에서는 다른 데이터 가져올 필요 없이, 반환되는 값들로 Pill 구조체 하나 뚝딱해서 만들어내야됨
+// 데이터를 어떻게 반환받을 것인지 로직 구성 필요
+
 
 final class PillAddMainViewController: UIViewController {
     

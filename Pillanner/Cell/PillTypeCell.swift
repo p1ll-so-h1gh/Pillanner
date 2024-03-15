@@ -87,7 +87,26 @@ final class PillTypeCell: UITableViewCell {
         fatalError()
     }
     
+    func changeButtonStateWithPresetData(type: String) {
+        if type == "일반" {
+            generalPillView.layer.borderWidth = 2
+            generalPillView.backgroundColor = .white
+            generalPillView.layer.borderColor = UIColor.pointThemeColor2.cgColor
+            prescriptionPillView.layer.borderColor = UIColor(hexCode: "E6E6E6").cgColor
+            prescriptionPillView.backgroundColor = UIColor(hexCode: "E6E6E6")
+        } else if type == "처방" {
+            prescriptionPillView.layer.borderWidth = 2
+            prescriptionPillView.backgroundColor = .white
+            prescriptionPillView.layer.borderColor = UIColor.pointThemeColor2.cgColor
+            generalPillView.layer.borderColor = UIColor(hexCode: "E6E6E6").cgColor
+            generalPillView.backgroundColor = UIColor(hexCode: "E6E6E6")
+        }
+    }
+    
     func setupLayoutOnEditingProcess(type: String) {
+        
+        changeButtonStateWithPresetData(type: type)
+        
         generalPillView.addSubview(generalPillBtn)
         generalPillBtn.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
