@@ -153,7 +153,7 @@ extension SignUpViewController {
                 self.present(alert, animated: true)
             } else {
                 // 성공시 Current IDTokenRefresh 처리
-                print("Current IDTokenRefresh 처리중...")
+                self.myUID = (authData?.user.uid)!
                 let currentUser = Auth.auth().currentUser
                 currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
                     if let error = error {
@@ -347,7 +347,7 @@ extension SignUpViewController {
             // Firestore DB에 회원 정보 저장
             DataManager.shared.createUserData(
                 user: UserData(
-                    UID: UserDefaults.standard.string(forKey: "UID")!,
+                    UID: myUID,
                     ID: idTextField.text!,
                     password: passwordTextField.text!,
                     nickname: nameTextField.text!

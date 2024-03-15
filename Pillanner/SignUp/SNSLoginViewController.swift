@@ -123,15 +123,29 @@ class SNSLoginViewController: UIViewController, UITextFieldDelegate {
         })
     }
     
-    //MARK: - Button Action
+    //MARK: - Action Method
     @objc func setNameButtonTapped() {
         let userID = UserDefaults.standard.string(forKey: "ID")!
+        let nickName = UserDefaults.standard.string(forKey: "Nickname")!
         let alert = UIAlertController(title: "닉네임 설정", message: "'\(self.setNameTextField.text!)'로 설정하시겠습니까?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
             DataManager.shared.updateUserData(userID: userID, changedPassword: "sns", changedName: self.setNameTextField.text!)
-            self.navigationController?.popToRootViewController(animated: true)
+            let nextVC = CustomLaunchScreenViewController(message: "\(self.setNameTextField.text!)님 PILLANNER 가입을\n축하합니다!", status: true)
+            nextVC.modalPresentationStyle = .fullScreen
+            self.present(nextVC, animated: true)
         }))
         self.present(alert, animated: true)
+    }
+    
+    // 키보드 외부 터치할 경우 키보드 숨김처리
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    // 키보드 리턴 버튼 누를경우 키보드 숨김처리
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
