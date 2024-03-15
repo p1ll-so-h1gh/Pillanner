@@ -42,6 +42,8 @@ class IntakePillCell: UITableViewCell {
     }
     
     func setupLayoutOnEditingProcess(intake: String) {
+        self.timeLabel.text = "\(intake)"
+        
         self.contentView.addSubview(timeLabel)
         self.contentView.addSubview(alarmLabel)
         self.contentView.addSubview(editBtn)

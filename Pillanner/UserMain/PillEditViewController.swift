@@ -146,7 +146,7 @@ extension PillEditViewController: UITableViewDataSource {
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
-            cell.setupLayoutOnEditingProcess(intake: self.pillDataForEdit.intake[indexPath.row])
+            cell.setupLayoutOnEditingProcess(numberOfIntake: self.pillDataForEdit.intake.count)
             cell.delegate = self
             return cell
         case 3:
