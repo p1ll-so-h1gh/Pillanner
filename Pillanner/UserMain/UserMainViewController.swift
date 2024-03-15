@@ -314,7 +314,6 @@ final class UserMainViewController: UIViewController {
     }
     
     // MARK: - Set Up Data
-    
     private func readPillDataFromFirestore() {
         guard let UID = UserDefaults.standard.string(forKey: "UID") else { return }
         
@@ -340,7 +339,7 @@ final class UserMainViewController: UIViewController {
         infoLabel.text = "\(nickname)님! 오늘 알약 섭취를 \(pillsList.count) 완료 하셨어요 :)" // 몇개 먹은지 수정 필요
         intakeDescriptionLabel.text = "\(nickname)님이 복용중인 약은 \(pillsList.count) 개 입니다"
     }
-    
+
 
     //MARK: - Attainment Circle
     private func createCircle() {
@@ -425,11 +424,6 @@ extension UserMainViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 300, height: 70)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        collectionView.invalidateIntrinsicContentSize()
-        collectionView.layoutIfNeeded()
-    }
 }
 
 //MARK: - UIStackView Extension
@@ -459,6 +453,5 @@ extension UserMainViewController: PillListViewDelegate {
         present(VC, animated: true, completion: nil)
     }
 }
-
 
 

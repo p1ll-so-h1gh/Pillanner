@@ -90,6 +90,7 @@ final class IntakeSettingCell: UITableViewCell {
         fatalError()
     }
     
+
     func setupLayoutOnEditingProcess(numberOfIntake: Int) {
         
         self.infoLabel.text = "복용횟수 \(numberOfIntake)회"
