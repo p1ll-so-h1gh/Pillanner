@@ -9,7 +9,10 @@ import UIKit
 import SnapKit
 import SwiftUI
 
+// 셀이 가지고 있는 약 정보 받아올 수 있도록 initializer setting 필요
+
 final class PillAddMainViewController: UIViewController {
+    
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
     

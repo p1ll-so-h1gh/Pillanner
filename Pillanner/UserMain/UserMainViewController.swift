@@ -30,6 +30,7 @@ final class UserMainViewController: UIViewController {
     
     // MARK: - TO DO
     // CollectionView에 뿌려줄 데이터 타입 정의 필요
+    private var pillsList = [Pill]()
     
     //MARK: - UI Properties
     
@@ -40,14 +41,14 @@ final class UserMainViewController: UIViewController {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "김영현님"
+//        label.text = "\("")님"
         label.font = FontLiteral.title2(style: .bold).withSize(24)
         return label
     }()
     
     private let infoLabel: UILabel = {
         let label = UILabel()
-        label.text = "영현님! 오늘 알약 섭취를 70% 완료 하셨어요 :)"
+//        label.text = "\("")님! 오늘 알약 섭취를 \("") 완료 하셨어요 :)"
         label.font = FontLiteral.body(style: .regular).withSize(14)
         label.alpha = 0.5
         return label
@@ -173,7 +174,7 @@ final class UserMainViewController: UIViewController {
     
     private let intakeDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "영현님이 복용중인 약은 00 개 입니다"
+//        label.text = "\("")님이 복용중인 약은 \("") 개 입니다"
         label.font = FontLiteral.body(style: .regular).withSize(14)
         label.alpha = 0.5
         return label
@@ -200,14 +201,17 @@ final class UserMainViewController: UIViewController {
         intakePillListCollectionView.delegate = self
         intakePillListCollectionView.dataSource = self
         intakePillListCollectionView.register(PillListCollectionViewCell.self, forCellWithReuseIdentifier: PillListCollectionViewCell.id)
+        readPillDataFromFirestore()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         //뷰가 나타날때마다 애니메이션 효과 주기 위해
         createCircle()
+        setUpLabelsTextWithUserInformation()
     }
     
-    //MARK: - AddSubView
+    
+    //MARK: - Add SubView
     private func addSubView() {
         [topView, scrollView].forEach {
             self.view.addSubview($0)
@@ -299,6 +303,7 @@ final class UserMainViewController: UIViewController {
             $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
         }
         intakeDescriptionLabel.snp.makeConstraints {
+            $0.leading.equalTo(contentView.snp.leading).inset(30)
             $0.top.equalTo(intakePillLabel.snp.bottom).inset(-5)
             $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
         }
@@ -309,8 +314,36 @@ final class UserMainViewController: UIViewController {
         }
     }
     
+    // MARK: - Set Up Data
+    
+    private func readPillDataFromFirestore() {
+        guard let UID = UserDefaults.standard.string(forKey: "UID") else { return }
+        
+        DataManager.shared.readPillListData(UID: UID) { list in
+            if let list = list {
+                for pill in list {
+                    let receiver = Pill(title: pill["Title"] as! String,
+                                        type: pill["Type"] as! String,
+                                        day: pill["Day"] as! [String],
+                                        dueDate: pill["DueDate"] as! String,
+                                        intake: pill["Intake"] as! [String],
+                                        dosage: pill["Dosage"] as! Double)
+                    self.pillsList.append(receiver)
+                }
+            }
+        }
+    }
+    
+    
+    private func setUpLabelsTextWithUserInformation() {
+        guard let nickname = UserDefaults.standard.string(forKey: "Nickname") else { return }
+        nameLabel.text = "\(nickname)님"
+        infoLabel.text = "\(nickname)님! 오늘 알약 섭취를 \(pillsList.count) 완료 하셨어요 :)" // 몇개 먹은지 수정 필요
+        intakeDescriptionLabel.text = "\(nickname)님이 복용중인 약은 \(pillsList.count) 개 입니다"
+    }
+    
 
-    //MARK: - Attainmet Circle
+    //MARK: - Attainment Circle
     private func createCircle() {
         let dayCircleRadius: CGFloat = 100
         let weekCircleRadius: CGFloat = 67
@@ -361,22 +394,26 @@ final class UserMainViewController: UIViewController {
 }
 
 //MARK: - Pill CollectionView
+
 extension UserMainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return pillsList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PillListCollectionViewCell", for: indexPath) as! PillListCollectionViewCell
+        let pill = pillsList[indexPath.row]
+        
         cell.backgroundColor = .white
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = true
         cell.pillListViewDelegate = self
 
-        cell.typeLabel.text = "일반"
-        cell.nameLabel.text = "유산균"
-        cell.alarmLabel.text = "off"
-        cell.pillnumLabel.text = "하루 1정"
+//        cell.typeLabel.text = "일반"
+//        cell.nameLabel.text = "유산균"
+//        cell.alarmLabel.text = "off"
+//        cell.pillnumLabel.text = "하루 1정"
+        cell.configureCell(with: pill)
         
         return cell
     }
@@ -409,13 +446,15 @@ extension UserMainViewController: PillListViewDelegate {
         let title = "\(pillData)을 정말 삭제하시겠습니까?"
         let alert = UIAlertController(title: title, message: "", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "아니요", style: .default)
-        let delete = UIAlertAction(title: "네", style: .default)
+        let delete = UIAlertAction(title: "네", style: .default) { _ in
+            DataManager.shared.deletePillData(title: pillData)
+        }
         alert.addAction(delete)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)
     }
     
-    func editPill(pillData: String) {
+    func editPill(pillData: Pill) {
         let VC = PillEditViewController()
         VC.modalPresentationStyle = .fullScreen
         present(VC, animated: true, completion: nil)

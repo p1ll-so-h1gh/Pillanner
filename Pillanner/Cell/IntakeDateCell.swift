@@ -8,7 +8,10 @@
 import UIKit
 import SnapKit
 
+// 복용 날짜 데이터 받아와서 라벨 색칠된 상태로 표시될 수 있도록
+
 final class IntakeDateCell: UITableViewCell {
+    
     static let id = "IntakeDateCell"
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13

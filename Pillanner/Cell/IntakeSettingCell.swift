@@ -26,6 +26,7 @@ final class PillTableView: UITableView {
 }
 
 final class IntakeSettingCell: UITableViewCell {
+    
     static let id = "IntakeSettingCell"
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
@@ -41,7 +42,7 @@ final class IntakeSettingCell: UITableViewCell {
     
     private let infoLabel: UILabel = {
         let label = UILabel()
-        label.text = "섭취횟수 3회"
+        label.text = "섭취횟수 \("")회"
         label.font = FontLiteral.body(style: .regular).withSize(16)
         return label
     }()
@@ -134,8 +135,8 @@ extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IntakePillCell.id, for: indexPath) as! IntakePillCell
-        cell.timeLabel.text = "오전 11시 1정"
-        cell.alarmLabel.text = "알림 ON"
+        cell.timeLabel.text = "\("")시 \("")정"
+        cell.alarmLabel.text = "알림 \("")"
         return cell
     }
     

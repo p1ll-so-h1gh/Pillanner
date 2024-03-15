@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 import FSCalendar
 
+// 날짜 눌렀을 때 반환값 필요 ("yyyy-MM-dd" string값)
+
 protocol DueDateCellDelegate: AnyObject {
     func updateCellHeight()
     func sendDate(date: String)

@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 
+// 버튼 눌렀을 떄 반환값 필요
+
 final class PillTypeCell: UITableViewCell {
     static let id = "PillTypeCell"
     private let sidePaddingSizeValue = 20
