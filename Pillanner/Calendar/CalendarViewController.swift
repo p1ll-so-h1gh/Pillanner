@@ -343,7 +343,7 @@ class CalendarViewController: UIViewController {
         headerView.backgroundColor = .clear
 
         let headerTitle = UILabel()
-        headerTitle.text = medicationSections[section].headerTitle
+        headerTitle.text = categoryOfPills[section].meridiem
         headerTitle.textColor = .black
         headerTitle.font = FontLiteral.title3(style: .bold)
 
@@ -409,11 +409,11 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
     // 셀
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as! CheckPillCell
-        let medicine = categoryOfPills[indexPath.section].pills[indexPath.row]
+        let pill = categoryOfPills[indexPath.section].pills[indexPath.row]
 
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
-        cell.configure(with: medicine)
+        cell.configure(with: pill)
 
         return cell
     }
@@ -426,13 +426,13 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 모두 선택 시
-        if let selectedIndexPaths = tableView.indexPathsForSelectedRows, selectedIndexPaths.count == medicationSections.flatMap({ $0.medications }).count {
+        if let selectedIndexPaths = tableView.indexPathsForSelectedRows, selectedIndexPaths.count == categoryOfPills.flatMap({ $0.pills }).count {
             showFireworkAnimation(at: tableView.center)
         }
 
         // 알림
-        let medicine = medicationSections[indexPath.section].medications[indexPath.row]
-        showNotification(message: "'\(medicine.name) - \(medicine.dosage)'을 복용하셨습니다.")
+        let pill = categoryOfPills[indexPath.section].pills[indexPath.row]
+        showNotification(message: "'\(pill.title) - \(pill.dosage)'을 복용하셨습니다.")
     }
 
     // MARK: - UserNotification
