@@ -9,13 +9,14 @@ import UIKit
 import SnapKit
 
 protocol PillListViewDelegate: AnyObject {
-    func deletePill(pilldata: String)
-    func editPill(pilldata: String)
+    func deletePill(pillData: String)
+    func editPill(pillData: String)
 }
 
 class PillListCollectionViewCell: UICollectionViewCell {
+    
     static let id = "PillListCollectionViewCell"
-    weak var delegate: PillListViewDelegate?
+    weak var pillListViewDelegate: PillListViewDelegate?
     
     let typeLabelView: UIView = {
         let view = UIView()
@@ -37,7 +38,7 @@ class PillListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let alarmImg: UIImageView = {
+    private let alarmImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "clock")
         return image
@@ -57,7 +58,7 @@ class PillListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let pillnumImg: UIImageView = {
+    private let pillnumImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "pill_gray")
         return image
@@ -77,7 +78,7 @@ class PillListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let editBtn: UIButton = {
+    private let editButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "dots"), for: .normal)
         return button
@@ -86,22 +87,22 @@ class PillListCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
-        configeBtn()
+        configureButton()
     }
     
-    private func configeBtn() {
+    private func configureButton() {
         let edit = UIAction(title: "수정", state: .off) { _ in
             guard let pillname = self.nameLabel.text else { return }
-            self.delegate?.editPill(pilldata: pillname)
+            self.pillListViewDelegate?.editPill(pillData: pillname)
         }
         let delete = UIAction(title: "삭제", state: .off) { _ in
             guard let pillname = self.nameLabel.text else { return }
-            self.delegate?.deletePill(pilldata: pillname)
+            self.pillListViewDelegate?.deletePill(pillData: pillname)
         }
         let menu = UIMenu(title: "", options: .displayInline, children: [edit, delete])
-        editBtn.menu = menu
-        editBtn.showsMenuAsPrimaryAction = true
-        editBtn.changesSelectionAsPrimaryAction = false
+        editButton.menu = menu
+        editButton.showsMenuAsPrimaryAction = true
+        editButton.changesSelectionAsPrimaryAction = false
     }
     
     required init?(coder: NSCoder) {
@@ -111,13 +112,13 @@ class PillListCollectionViewCell: UICollectionViewCell {
     private func setupLayout() {
         typeLabelView.addSubview(typeLabel)
         
-        [alarmImg, alarmLabel].forEach {
+        [alarmImage, alarmLabel].forEach {
             alarmStackView.addArrangedSubview($0)
         }
-        [pillnumImg, pillnumLabel].forEach {
+        [pillnumImage, pillnumLabel].forEach {
             pillStackView.addArrangedSubview($0)
         }
-        [typeLabelView, nameLabel, alarmStackView, pillStackView, editBtn].forEach {
+        [typeLabelView, nameLabel, alarmStackView, pillStackView, editButton].forEach {
             self.contentView.addSubview($0)
         }
         typeLabel.snp.makeConstraints {
@@ -145,7 +146,7 @@ class PillListCollectionViewCell: UICollectionViewCell {
             $0.centerY.equalTo(alarmStackView.snp.centerY)
             $0.bottom.equalToSuperview().inset(6)
         }
-        editBtn.snp.makeConstraints {
+        editButton.snp.makeConstraints {
             $0.right.equalToSuperview().inset(5)
             $0.top.equalToSuperview().inset(7)
         }
