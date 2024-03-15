@@ -8,8 +8,11 @@
 import UIKit
 import SnapKit
 
+// 버튼 눌렀을 떄 반환값 필요
+
 final class PillTypeCell: UITableViewCell {
-    static let id = "PillTypeCell"
+    
+    static let identifier = "PillTypeCell"
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
     
@@ -84,7 +87,40 @@ final class PillTypeCell: UITableViewCell {
         fatalError()
     }
     
-    private func setupLayout() {
+    func setupLayoutOnEditingProcess(type: String) {
+        generalPillView.addSubview(generalPillBtn)
+        generalPillBtn.snp.makeConstraints {
+            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
+        }
+        prescriptionPillView.addSubview(prescriptionPillBtn)
+        prescriptionPillBtn.snp.makeConstraints {
+            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
+        }
+        HStackView.addArrangedSubview(generalPillView)
+        HStackView.addArrangedSubview(prescriptionPillView)
+        [titleLabel, HStackView].forEach {
+            contentView.addSubview($0)
+        }
+        titleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.left.equalToSuperview().inset(sidePaddingSizeValue)
+        }
+        generalPillView.snp.makeConstraints {
+            $0.width.equalTo(157)
+            $0.height.equalTo(47)
+        }
+        prescriptionPillView.snp.makeConstraints {
+            $0.width.equalTo(157)
+            $0.height.equalTo(47)
+        }
+        HStackView.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).inset(-sidePaddingSizeValue)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
+        }
+    }
+    
+    func setupLayout() {
         generalPillView.addSubview(generalPillBtn)
         generalPillBtn.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()

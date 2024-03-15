@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 
+// 약 정보 수정하는 뷰에서 접근할 때, 약 정보 받아올 수 있는 방법 필요
+
 class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource {
     
     private var pageTitleLabel: UILabel!

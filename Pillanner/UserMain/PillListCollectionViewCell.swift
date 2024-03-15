@@ -9,13 +9,16 @@ import UIKit
 import SnapKit
 
 protocol PillListViewDelegate: AnyObject {
-    func deletePill(pilldata: String)
-    func editPill(pilldata: String)
+    func editPill(pillData: Pill)
+    func deletePill(pillData: String)
 }
 
+// 데이터받아서 셀 그려주는 함수 구현 필요
+
 class PillListCollectionViewCell: UICollectionViewCell {
+    
     static let id = "PillListCollectionViewCell"
-    weak var delegate: PillListViewDelegate?
+    weak var pillListViewDelegate: PillListViewDelegate?
     
     let typeLabelView: UIView = {
         let view = UIView()
@@ -24,26 +27,26 @@ class PillListCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    let typeLabel: UILabel = {
+    private lazy var typeLabel: UILabel = {
         let label = UILabel()
         label.font = FontLiteral.body(style: .bold).withSize(14)
         return label
     }()
     
-    let nameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = FontLiteral.body(style: .bold).withSize(18)
         label.alpha = 0.8
         return label
     }()
     
-    private let alarmImg: UIImageView = {
+    private let alarmImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "clock")
         return image
     }()
     
-    let alarmLabel: UILabel = {
+    private lazy var alarmLabel: UILabel = {
         let label = UILabel()
         label.font = FontLiteral.body(style: .regular).withSize(12)
         label.alpha = 0.5
@@ -57,13 +60,13 @@ class PillListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let pillnumImg: UIImageView = {
+    private let pillnumImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "pill_gray")
         return image
     }()
     
-    let pillnumLabel: UILabel = {
+    private lazy var pillnumLabel: UILabel = {
         let label = UILabel()
         label.font = FontLiteral.body(style: .regular).withSize(12)
         label.alpha = 0.5
@@ -77,7 +80,7 @@ class PillListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let editBtn: UIButton = {
+    private let editButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "dots"), for: .normal)
         return button
@@ -86,22 +89,43 @@ class PillListCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
-        configeBtn()
+        configureButton()
     }
     
-    private func configeBtn() {
+    func configureCell(with pill: Pill) {
+        self.nameLabel.text = pill.title
+        self.typeLabel.text = pill.type
+        self.alarmLabel.text = "on" // 알람여부 데이터 기반으로 판별해서 넣어야
+        self.pillnumLabel.text = "하루 \(pill.dosage)정" // 복용단위 업데이트
+    }
+    
+    // pill name 대신 pill data 넘겨서 사용할 수 있도록 수정해야 됨
+    private func configureButton() {
         let edit = UIAction(title: "수정", state: .off) { _ in
-            guard let pillname = self.nameLabel.text else { return }
-            self.delegate?.editPill(pilldata: pillname)
+            guard let userID = UserDefaults.standard.string(forKey: "ID") else { return }
+            DataManager.shared.readUserData(userID: userID) { pillData in
+                if let pillData = pillData {
+                    let pill = Pill(title: pillData["Title"] as! String,
+                                    type: pillData["Type"] as! String,
+                                    day: pillData["Day"] as! [String],
+                                    dueDate: pillData["DueDate"] as! String,
+                                    intake: pillData["Intake"] as! [String],
+                                    dosage: pillData["Dosage"] as! Double)
+                    self.pillListViewDelegate?.editPill(pillData: pill)
+                }
+            }
+            
+//            guard let pillname = self.nameLabel.text else { return }
+//            self.pillListViewDelegate?.editPill(pillData: pillname)
         }
         let delete = UIAction(title: "삭제", state: .off) { _ in
             guard let pillname = self.nameLabel.text else { return }
-            self.delegate?.deletePill(pilldata: pillname)
+            self.pillListViewDelegate?.deletePill(pillData: pillname)
         }
         let menu = UIMenu(title: "", options: .displayInline, children: [edit, delete])
-        editBtn.menu = menu
-        editBtn.showsMenuAsPrimaryAction = true
-        editBtn.changesSelectionAsPrimaryAction = false
+        editButton.menu = menu
+        editButton.showsMenuAsPrimaryAction = true
+        editButton.changesSelectionAsPrimaryAction = false
     }
     
     required init?(coder: NSCoder) {
@@ -111,13 +135,13 @@ class PillListCollectionViewCell: UICollectionViewCell {
     private func setupLayout() {
         typeLabelView.addSubview(typeLabel)
         
-        [alarmImg, alarmLabel].forEach {
+        [alarmImage, alarmLabel].forEach {
             alarmStackView.addArrangedSubview($0)
         }
-        [pillnumImg, pillnumLabel].forEach {
+        [pillnumImage, pillnumLabel].forEach {
             pillStackView.addArrangedSubview($0)
         }
-        [typeLabelView, nameLabel, alarmStackView, pillStackView, editBtn].forEach {
+        [typeLabelView, nameLabel, alarmStackView, pillStackView, editButton].forEach {
             self.contentView.addSubview($0)
         }
         typeLabel.snp.makeConstraints {
@@ -145,7 +169,7 @@ class PillListCollectionViewCell: UICollectionViewCell {
             $0.centerY.equalTo(alarmStackView.snp.centerY)
             $0.bottom.equalToSuperview().inset(6)
         }
-        editBtn.snp.makeConstraints {
+        editButton.snp.makeConstraints {
             $0.right.equalToSuperview().inset(5)
             $0.top.equalToSuperview().inset(7)
         }
