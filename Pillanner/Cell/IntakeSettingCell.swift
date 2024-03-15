@@ -26,7 +26,8 @@ final class PillTableView: UITableView {
 }
 
 final class IntakeSettingCell: UITableViewCell {
-    static let id = "IntakeSettingCell"
+    
+    static let identifier = "IntakeSettingCell"
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
     weak var delegate: IntakeSettingDelegate?
@@ -41,14 +42,14 @@ final class IntakeSettingCell: UITableViewCell {
     
     private let infoLabel: UILabel = {
         let label = UILabel()
-        label.text = "섭취횟수 3회"
+        label.text = "섭취횟수 \("")회"
         label.font = FontLiteral.body(style: .regular).withSize(16)
         return label
     }()
     
     private let pillTableView: PillTableView = {
         let tableview = PillTableView()
-        tableview.register(IntakePillCell.self, forCellReuseIdentifier: IntakePillCell.id)
+        tableview.register(IntakePillCell.self, forCellReuseIdentifier: IntakePillCell.identifier)
         tableview.separatorStyle = .none
         tableview.isScrollEnabled = true
         return tableview
@@ -89,7 +90,40 @@ final class IntakeSettingCell: UITableViewCell {
         fatalError()
     }
     
-    private func setupLayout() {
+    func setupLayoutOnEditingProcess(intake: String) {
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(infoLabel)
+        self.contentView.addSubview(pillTableView)
+        self.contentView.addSubview(intakeaddBtnView)
+        intakeaddBtnView.addSubview(intakeaddBtn)
+        self.titleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.left.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.height.equalTo(24)
+        }
+        self.infoLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.right.equalToSuperview().inset(sidePaddingSizeValue)
+        }
+        self.pillTableView.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).inset(-10)
+            $0.left.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.right.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.height.greaterThanOrEqualTo(1)
+        }
+        self.intakeaddBtn.snp.makeConstraints {
+            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
+        }
+        self.intakeaddBtnView.snp.makeConstraints {
+            $0.top.equalTo(self.pillTableView.snp.bottom).inset(-15)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(45)
+            $0.width.equalTo(339)
+            $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
+        }
+    }
+    
+    func setupLayout() {
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(infoLabel)
         self.contentView.addSubview(pillTableView)
@@ -133,9 +167,9 @@ extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: IntakePillCell.id, for: indexPath) as! IntakePillCell
-        cell.timeLabel.text = "오전 11시 1정"
-        cell.alarmLabel.text = "알림 ON"
+        let cell = tableView.dequeueReusableCell(withIdentifier: IntakePillCell.identifier, for: indexPath) as! IntakePillCell
+        cell.timeLabel.text = "\("")시 \("")정"
+        cell.alarmLabel.text = "알림 \("")"
         return cell
     }
     

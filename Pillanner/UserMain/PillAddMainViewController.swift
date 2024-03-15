@@ -28,11 +28,11 @@ final class PillAddMainViewController: UIViewController {
     
     private let totalTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.id)
-        tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.id)
-        tableView.register(IntakeSettingCell.self, forCellReuseIdentifier: IntakeSettingCell.id)
-        tableView.register(PillTypeCell.self, forCellReuseIdentifier: PillTypeCell.id)
-        tableView.register(DueDateCell.self, forCellReuseIdentifier: DueDateCell.id)
+        tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.identifier)
+        tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.identifier)
+        tableView.register(IntakeSettingCell.self, forCellReuseIdentifier: IntakeSettingCell.identifier)
+        tableView.register(PillTypeCell.self, forCellReuseIdentifier: PillTypeCell.identifier)
+        tableView.register(DueDateCell.self, forCellReuseIdentifier: DueDateCell.identifier)
         return tableView
     }()
     

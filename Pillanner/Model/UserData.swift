@@ -19,9 +19,9 @@ struct UserData {
 struct Pill {
     let title: String
     let type: String // 일반 or 처방
-    var day: [Int] // 일요일 -> 0
+    var day: [String] // Mon, Tue, Wed, Thu, Fri, Sat, Sun
     var dueDate: String // 데이터 타입 변화할 가능성이 있음...
-    var intake: [String]
+    var intake: [String] // "12:30", "10:30" ...
     var dosage: Double
 }
 

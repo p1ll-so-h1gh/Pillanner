@@ -8,8 +8,11 @@
 import UIKit
 import SnapKit
 
+// 복용 날짜 데이터 받아와서 라벨 색칠된 상태로 표시될 수 있도록
+
 final class IntakeDateCell: UITableViewCell {
-    static let id = "IntakeDateCell"
+    
+    static let identifier = "IntakeDateCell"
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
     
@@ -142,14 +145,34 @@ final class IntakeDateCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        self.setupLayout()
+//        self.setupLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
     
-    private func setupLayout() {
+    func checkWeekdayViewWithIntakeData(days: [String]) {
+            for day in days {
+                if day == "Mon" {
+                    MonView.backgroundColor = .pointThemeColor2
+                } else if day == "Tue" {
+                    TueView.backgroundColor = .pointThemeColor2
+                } else if day == "Wed" {
+                    WedView.backgroundColor = .pointThemeColor2
+                } else if day == "Thu" {
+                    ThuView.backgroundColor = .pointThemeColor2
+                } else if day == "Fri" {
+                    FriView.backgroundColor = .pointThemeColor2
+                } else if day == "Sat" {
+                    SatView.backgroundColor = .pointThemeColor2
+                } else if day == "Sun" {
+                    SunView.backgroundColor = .pointThemeColor2
+                }
+            }
+        }
+    
+    func setupLayoutOnEditingProcess(intake: [String]) {
         [intakedateLabel, editBtn, HStackView].forEach {
             self.contentView.addSubview($0)
         }
@@ -164,46 +187,89 @@ final class IntakeDateCell: UITableViewCell {
             self.HStackView.addArrangedSubview($0)
         }
         self.MonLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(8)
-            $0.bottom.equalToSuperview().inset(8)
-            $0.left.equalToSuperview().inset(10)
-            $0.right.equalToSuperview().inset(10)
+            $0.top.bottom.equalToSuperview().inset(8)
+            $0.left.right.equalToSuperview().inset(10)
         }
         self.TueLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(8)
-            $0.bottom.equalToSuperview().inset(8)
-            $0.left.equalToSuperview().inset(10)
-            $0.right.equalToSuperview().inset(10)
+            $0.top.bottom.equalToSuperview().inset(8)
+            $0.left.right.equalToSuperview().inset(10)
         }
         self.WedLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(8)
-            $0.bottom.equalToSuperview().inset(8)
-            $0.left.equalToSuperview().inset(10)
-            $0.right.equalToSuperview().inset(10)
+            $0.top.bottom.equalToSuperview().inset(8)
+            $0.left.right.equalToSuperview().inset(10)
         }
         self.ThuLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(8)
-            $0.bottom.equalToSuperview().inset(8)
-            $0.left.equalToSuperview().inset(10)
-            $0.right.equalToSuperview().inset(10)
+            $0.top.bottom.equalToSuperview().inset(8)
+            $0.left.right.equalToSuperview().inset(10)
         }
         self.FriLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(8)
-            $0.bottom.equalToSuperview().inset(8)
-            $0.left.equalToSuperview().inset(10)
-            $0.right.equalToSuperview().inset(10)
+            $0.top.bottom.equalToSuperview().inset(8)
+            $0.left.right.equalToSuperview().inset(10)
         }
         self.SatLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(8)
-            $0.bottom.equalToSuperview().inset(8)
-            $0.left.equalToSuperview().inset(10)
-            $0.right.equalToSuperview().inset(10)
+            $0.top.bottom.equalToSuperview().inset(8)
+            $0.left.right.equalToSuperview().inset(10)
         }
         self.SunLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(8)
-            $0.bottom.equalToSuperview().inset(8)
-            $0.left.equalToSuperview().inset(10)
-            $0.right.equalToSuperview().inset(10)
+            $0.top.bottom.equalToSuperview().inset(8)
+            $0.left.right.equalToSuperview().inset(10)
+        }
+        self.intakedateLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.left.equalToSuperview().inset(sidePaddingSizeValue)
+        }
+        self.editBtn.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.right.equalToSuperview().inset(sidePaddingSizeValue)
+        }
+        self.HStackView.snp.makeConstraints {
+            $0.top.equalTo(intakedateLabel.snp.bottom).inset(-sidePaddingSizeValue)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
+        }
+    }
+    
+    func setupLayout() {
+        [intakedateLabel, editBtn, HStackView].forEach {
+            self.contentView.addSubview($0)
+        }
+        MonView.addSubview(MonLabel)
+        TueView.addSubview(TueLabel)
+        WedView.addSubview(WedLabel)
+        ThuView.addSubview(ThuLabel)
+        FriView.addSubview(FriLabel)
+        SatView.addSubview(SatLabel)
+        SunView.addSubview(SunLabel)
+        [MonView, TueView, WedView, ThuView, FriView, SatView, SunView].forEach {
+            self.HStackView.addArrangedSubview($0)
+        }
+        self.MonLabel.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(8)
+            $0.left.right.equalToSuperview().inset(10)
+        }
+        self.TueLabel.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(8)
+            $0.left.right.equalToSuperview().inset(10)
+        }
+        self.WedLabel.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(8)
+            $0.left.right.equalToSuperview().inset(10)
+        }
+        self.ThuLabel.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(8)
+            $0.left.right.equalToSuperview().inset(10)
+        }
+        self.FriLabel.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(8)
+            $0.left.right.equalToSuperview().inset(10)
+        }
+        self.SatLabel.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(8)
+            $0.left.right.equalToSuperview().inset(10)
+        }
+        self.SunLabel.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(8)
+            $0.left.right.equalToSuperview().inset(10)
         }
         self.intakedateLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(sidePaddingSizeValue)
