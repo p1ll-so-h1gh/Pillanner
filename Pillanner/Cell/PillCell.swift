@@ -34,7 +34,7 @@ final class PillCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-//        self.setupLayout()
+        //        self.setupLayout()
     }
     
     required init?(coder: NSCoder) {

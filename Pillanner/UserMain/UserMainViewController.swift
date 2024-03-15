@@ -422,6 +422,11 @@ extension UserMainViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 300, height: 70)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        collectionView.invalidateIntrinsicContentSize()
+        collectionView.layoutIfNeeded()
+    }
 }
 
 //MARK: - UIStackView Extension
