@@ -11,6 +11,7 @@ import FSCalendar
 
 protocol DueDateCellDelegate: AnyObject {
     func updateCellHeight()
+    func sendDate(date: String)
 }
 
 final class DueDateCell: UITableViewCell {
@@ -61,6 +62,7 @@ final class DueDateCell: UITableViewCell {
         self.selectionStyle = .none
         self.setupLayout()
         self.calendarView.isHidden = true
+        self.calendarView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -100,3 +102,9 @@ final class DueDateCell: UITableViewCell {
     }
 }
 
+//collection에서 받은 데이터 다시 또 DueDateCell의 delegate로 연결
+extension DueDateCell: CalendarCollectionDelegate {
+    func sendDateData(date: String) {
+        self.delegate?.sendDate(date: date)
+    }
+}
