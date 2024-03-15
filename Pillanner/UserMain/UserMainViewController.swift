@@ -303,7 +303,6 @@ final class UserMainViewController: UIViewController {
             $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
         }
         intakeDescriptionLabel.snp.makeConstraints {
-            $0.leading.equalTo(contentView.snp.leading).inset(30)
             $0.top.equalTo(intakePillLabel.snp.bottom).inset(-5)
             $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
         }
@@ -455,7 +454,7 @@ extension UserMainViewController: PillListViewDelegate {
     }
     
     func editPill(pillData: Pill) {
-        let VC = PillEditViewController()
+        let VC = PillEditViewController(pill: pillData)
         VC.modalPresentationStyle = .fullScreen
         present(VC, animated: true, completion: nil)
     }
