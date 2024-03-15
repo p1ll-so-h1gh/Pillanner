@@ -332,14 +332,12 @@ final class UserMainViewController: UIViewController {
         }
     }
     
-    
     private func setUpLabelsTextWithUserInformation() {
         guard let nickname = UserDefaults.standard.string(forKey: "Nickname") else { return }
         nameLabel.text = "\(nickname)님"
         infoLabel.text = "\(nickname)님! 오늘 알약 섭취를 \(pillsList.count) 완료 하셨어요 :)" // 몇개 먹은지 수정 필요
         intakeDescriptionLabel.text = "\(nickname)님이 복용중인 약은 \(pillsList.count) 개 입니다"
     }
-
 
     //MARK: - Attainment Circle
     private func createCircle() {

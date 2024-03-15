@@ -19,6 +19,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
     var phoneCertTextFieldFlag: Bool = false
     var certNumberTextFieldFlag: Bool = false
     
+    var myUID: String = ""
     var myVerificationID: String = ""
     var myIDToken: String = ""
     var limitTime: Int = 180 // 3분

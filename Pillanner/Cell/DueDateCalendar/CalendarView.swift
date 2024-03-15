@@ -92,7 +92,7 @@ class CalendarView: UIView, MonthYearBarViewDelegate {
         dayCollectionView.dataSource = self
         dayCollectionView.register(dateCVCell.self, forCellWithReuseIdentifier: "Cell1")
     }
-    
+
     private func setupView() {
         self.addSubview(monthView)
         monthView.delegate = self
@@ -212,7 +212,7 @@ class dateCVCell: UICollectionViewCell {
         label.font = FontLiteral.body(style: .bold).withSize(16)
         return label
     }()
-    
+  
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
@@ -221,7 +221,7 @@ class dateCVCell: UICollectionViewCell {
         
         setupViews()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

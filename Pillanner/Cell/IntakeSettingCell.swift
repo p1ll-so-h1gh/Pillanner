@@ -89,7 +89,6 @@ final class IntakeSettingCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError()
     }
-    
 
     func setupLayoutOnEditingProcess(numberOfIntake: Int) {
         

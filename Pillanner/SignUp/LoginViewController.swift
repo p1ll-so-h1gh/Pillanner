@@ -306,6 +306,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             
             DataManager.shared.readUserData(userID: id) { userData in
                 guard let userData = userData else { return }
+
                 if id == userData["ID"] as! String && password == userData["Password"] as! String {
                     let mainVC = TabBarController()
                     mainVC.modalPresentationStyle = .fullScreen
