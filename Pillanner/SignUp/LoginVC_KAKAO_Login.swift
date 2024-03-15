@@ -75,7 +75,9 @@ extension LoginViewController {
                                 nickname: "아직 설정 전"
                             )
                         )
-                        self.navigationController?.pushViewController(SNSLoginViewController(), animated: true)
+                        let nextVC = SNSLoginViewController()
+                        nextVC.modalPresentationStyle = .fullScreen
+                        self.present(nextVC, animated: true)
                     }
                 }
             }

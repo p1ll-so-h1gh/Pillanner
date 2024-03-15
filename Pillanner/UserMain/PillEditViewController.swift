@@ -142,11 +142,11 @@ extension PillEditViewController: UITableViewDataSource {
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
-            cell.setupLayoutOnEditingProcess(intake: self.pillDataForEdit.intake)
+            cell.setupLayoutOnEditingProcess(days: self.pillDataForEdit.day)
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
-            cell.setupLayoutOnEditingProcess(intake: self.pillDataForEdit.intake[indexPath.row])
+            cell.setupLayoutOnEditingProcess(numberOfIntake: self.pillDataForEdit.intake.count)
             cell.delegate = self
             return cell
         case 3:
@@ -181,6 +181,10 @@ extension PillEditViewController: IntakeSettingDelegate {
 }
 
 extension PillEditViewController: DueDateCellDelegate {
+    func sendDate(date: String) {
+        print(date)
+    }
+    
     func updateCellHeight() {
         self.totalTableView.reloadData()
         self.totalTableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)

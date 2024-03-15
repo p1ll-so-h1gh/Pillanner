@@ -8,6 +8,10 @@
 import UIKit
 import SnapKit
 
+protocol CalendarCollectionDelegate: AnyObject {
+    func sendDateData(date: String)
+}
+
 final class CalendarCollectionView: UICollectionView {
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -33,6 +37,8 @@ class CalendarView: UIView, MonthYearBarViewDelegate {
     private var presentYear = 0
     private var todaysDate = 0
     private var firstWeekDayOfMonth = 0
+    
+    weak var delegate: CalendarCollectionDelegate?
     
     private let monthView: MonthYearBarView = {
         let view = MonthYearBarView()
@@ -86,6 +92,7 @@ class CalendarView: UIView, MonthYearBarViewDelegate {
         dayCollectionView.dataSource = self
         dayCollectionView.register(dateCVCell.self, forCellWithReuseIdentifier: "Cell1")
     }
+
     private func setupView() {
         self.addSubview(monthView)
         monthView.delegate = self
@@ -161,9 +168,15 @@ extension CalendarView: UICollectionViewDelegateFlowLayout, UICollectionViewData
         }
         return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
+        let day = indexPath.row - firstWeekDayOfMonth + 2
+        
         cell?.backgroundColor = UIColor.mainThemeColor
+        
+        let pickedDate = "\(currentYear)-\(currentMonthIndex)-\(day)"
+        self.delegate?.sendDateData(date: pickedDate)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -199,6 +212,7 @@ class dateCVCell: UICollectionViewCell {
         label.font = FontLiteral.body(style: .bold).withSize(16)
         return label
     }()
+  
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
@@ -207,6 +221,7 @@ class dateCVCell: UICollectionViewCell {
         
         setupViews()
     }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

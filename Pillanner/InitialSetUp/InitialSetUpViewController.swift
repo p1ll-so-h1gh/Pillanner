@@ -29,11 +29,11 @@ class InitialSetUpViewController: UIViewController {
     
     private let totalTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.id)
-        tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.id)
-        tableView.register(IntakeSettingCell.self, forCellReuseIdentifier: IntakeSettingCell.id)
-        tableView.register(PillTypeCell.self, forCellReuseIdentifier: PillTypeCell.id)
-        tableView.register(DueDateCell.self, forCellReuseIdentifier: DueDateCell.id)
+        tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.identifier)
+        tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.identifier)
+        tableView.register(IntakeSettingCell.self, forCellReuseIdentifier: IntakeSettingCell.identifier)
+        tableView.register(PillTypeCell.self, forCellReuseIdentifier: PillTypeCell.identifier)
+        tableView.register(DueDateCell.self, forCellReuseIdentifier: DueDateCell.identifier)
         return tableView
     }()
     
@@ -166,19 +166,24 @@ extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillCell", for: indexPath) as! PillCell
+            cell.setupLayout()
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
+            cell.setupLayout()
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
+            cell.setupLayout()
             cell.delegate = self
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillTypeCell", for: indexPath) as! PillTypeCell
+            cell.setupLayout()
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DueDateCell
+            cell.setupLayout()
             cell.delegate = self
             return cell
         default:
@@ -204,6 +209,10 @@ extension InitialSetUpViewController: IntakeSettingDelegate {
 }
 
 extension InitialSetUpViewController: DueDateCellDelegate {
+    func sendDate(date: String) {
+        print(date)
+    }
+    
     func updateCellHeight() {
         self.totalTableView.reloadData()
         self.totalTableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)

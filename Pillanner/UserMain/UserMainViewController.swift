@@ -8,6 +8,21 @@
 import UIKit
 import SnapKit
 
+final class UserMainCollectionView: UICollectionView {
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: frame, collectionViewLayout: layout)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        let height = self.contentSize.height + self.contentInset.top + self.contentInset.bottom
+        return CGSize(width: self.contentSize.width, height: height)
+    }
+}
+
 final class UserMainViewController: UIViewController {
     //배경 깔아주기
     private lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
@@ -18,13 +33,8 @@ final class UserMainViewController: UIViewController {
     private var pillsList = [Pill]()
     
     //MARK: - UI Properties
-    private let scrollView: UIScrollView = {
-        var view = UIScrollView()
-        view.showsVerticalScrollIndicator = false
-        return view
-    }()
     
-    private let contentView: UIView = {
+    private let topView: UIView = {
         var view = UIView()
         return view
     }()
@@ -44,7 +54,7 @@ final class UserMainViewController: UIViewController {
         return label
     }()
     
-    private lazy var settingBtn: UIButton = {
+    private lazy var settingButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
         button.tintColor = UIColor.black
@@ -58,6 +68,11 @@ final class UserMainViewController: UIViewController {
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true, completion: nil)
     }
+    
+    private let scrollView: UIScrollView = {
+        var view = UIScrollView()
+        return view
+    }()
     
     private let attainmentRateLabel: UILabel = {
         let label = UILabel()
@@ -88,7 +103,7 @@ final class UserMainViewController: UIViewController {
         return label
     }()
     
-    private let daytextLabel: UILabel = {
+    private let dayTextLabel: UILabel = {
         let label = UILabel()
         label.text = "하루"
         label.font = FontLiteral.body(style: .regular).withSize(18)
@@ -109,7 +124,7 @@ final class UserMainViewController: UIViewController {
         return label
     }()
     
-    private let weektextLabel: UILabel = {
+    private let weekTextLabel: UILabel = {
         let label = UILabel()
         label.text = "일주일"
         label.font = FontLiteral.body(style: .regular).withSize(18)
@@ -130,7 +145,7 @@ final class UserMainViewController: UIViewController {
         return label
     }()
     
-    private let monthtextLabel: UILabel = {
+    private let monthTextLabel: UILabel = {
         let label = UILabel()
         label.text = "월별"
         label.font = FontLiteral.body(style: .regular).withSize(18)
@@ -165,13 +180,14 @@ final class UserMainViewController: UIViewController {
         return label
     }()
     
-    private let intakePillListCollectionView: UICollectionView = {
+    private let intakePillListCollectionView: UserMainCollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 10
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: (UIScreen.main.bounds.width - 70), height: 70)
         
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let collectionView = UserMainCollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.isScrollEnabled = false
         collectionView.backgroundColor = .clear
         return collectionView
     }()
@@ -197,67 +213,66 @@ final class UserMainViewController: UIViewController {
     
     //MARK: - Add SubView
     private func addSubView() {
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        
-        //전체적인 뷰 세팅
-        [nameLabel, infoLabel, settingBtn, attainmentRateLabel, circleContainerView, labelVStackView, sectionSeparatorLine, intakePillLabel, intakeDescriptionLabel, intakePillListCollectionView].forEach {
-            contentView.addSubview($0)
+        [topView, scrollView].forEach {
+            self.view.addSubview($0)
         }
-        
+        [nameLabel, infoLabel, settingButton].forEach {
+            topView.addSubview($0)
+        }
+        [attainmentRateLabel, circleContainerView, labelVStackView, sectionSeparatorLine, intakePillLabel, intakeDescriptionLabel, intakePillListCollectionView].forEach {
+            scrollView.addSubview($0)
+        }      
         dayView.addSubview(dayLabel)
-        dayView.addSubview(daytextLabel)
+        dayView.addSubview(dayTextLabel)
         weekView.addSubview(weekLabel)
-        weekView.addSubview(weektextLabel)
+        weekView.addSubview(weekTextLabel)
         monthView.addSubview(monthLabel)
-        monthView.addSubview(monthtextLabel)
+        monthView.addSubview(monthTextLabel)
         labelVStackView.addArrangedSubviews(dayView, weekView, monthView)
     }
     
     //MARK: - View Contraints
     private func setUpLayout() {
-        scrollView.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+        topView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
-        }
-        contentView.snp.makeConstraints {
-            $0.edges.equalTo(scrollView.contentLayoutGuide)
-            $0.width.equalTo(scrollView.frameLayoutGuide)
-            $0.height.equalTo(self.view.safeAreaLayoutGuide.snp.height)
+            $0.width.equalToSuperview()
+            $0.height.equalTo(90)
         }
         nameLabel.snp.makeConstraints {
-            $0.leading.equalTo(contentView.snp.leading).inset(sidePaddingSizeValue)
-            $0.top.equalTo(contentView).inset(sidePaddingSizeValue)
+            $0.top.leading.equalToSuperview().inset(sidePaddingSizeValue)
         }
         infoLabel.snp.makeConstraints {
-            $0.leading.equalTo(contentView.snp.leading).inset(sidePaddingSizeValue)
             $0.top.equalTo(nameLabel.snp.bottom).inset(-5)
+            $0.leading.bottom.equalToSuperview().inset(sidePaddingSizeValue)
         }
-        settingBtn.snp.makeConstraints {
-            $0.trailing.equalTo(contentView.snp.trailing).inset(sidePaddingSizeValue)
-            $0.top.equalTo(contentView.snp.top).inset(sidePaddingSizeValue)
+        settingButton.snp.makeConstraints {
+            $0.top.trailing.equalToSuperview().inset(sidePaddingSizeValue)
+        }
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(topView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
+            $0.width.equalToSuperview()
         }
         attainmentRateLabel.snp.makeConstraints {
-            $0.leading.equalTo(contentView.snp.leading).inset(sidePaddingSizeValue)
-            $0.top.equalTo(infoLabel.snp.bottom).inset(-25)
+            $0.top.leading.equalToSuperview().inset(sidePaddingSizeValue)
         }
         circleContainerView.snp.makeConstraints {
             $0.size.equalTo(220)
-            $0.leading.equalTo(contentView.snp.leading).inset(30)
+            $0.leading.equalToSuperview().inset(sidePaddingSizeValue*2)
             $0.top.equalTo(attainmentRateLabel.snp.bottom).inset(-30)
-            $0.bottom.equalTo(sectionSeparatorLine.snp.top).inset(-20)
         }
         labelVStackView.snp.makeConstraints {
             $0.leading.equalTo(circleContainerView.snp.trailing).inset(-30)
-            $0.trailing.equalTo(contentView.snp.trailing).inset(sidePaddingSizeValue)
-            $0.top.equalTo(contentView.snp.top).offset(180)
+            $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.top.equalToSuperview().inset(100)
         }
         dayLabel.snp.makeConstraints {
             $0.size.equalTo(12)
             $0.leading.equalTo(dayView.snp.leading)
         }
-        daytextLabel.snp.makeConstraints {
+        dayTextLabel.snp.makeConstraints {
             $0.leading.equalTo(dayLabel.snp.trailing).inset(-10)
             $0.centerY.equalTo(dayLabel.snp.centerY)
         }
@@ -265,7 +280,7 @@ final class UserMainViewController: UIViewController {
             $0.size.equalTo(12)
             $0.leading.equalTo(weekView.snp.leading)
         }
-        weektextLabel.snp.makeConstraints {
+        weekTextLabel.snp.makeConstraints {
             $0.leading.equalTo(weekLabel.snp.trailing).inset(-10)
             $0.centerY.equalTo(weekLabel.snp.centerY)
         }
@@ -273,32 +288,32 @@ final class UserMainViewController: UIViewController {
             $0.size.equalTo(12)
             $0.leading.equalTo(monthView.snp.leading)
         }
-        monthtextLabel.snp.makeConstraints {
+        monthTextLabel.snp.makeConstraints {
             $0.leading.equalTo(monthLabel.snp.trailing).inset(-10)
             $0.centerY.equalTo(monthLabel.snp.centerY)
         }
         sectionSeparatorLine.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.width.equalTo(353)
             $0.height.equalTo(1)
-            $0.top.equalTo(circleContainerView.snp.bottom).inset(-5)
-            $0.leadingMargin.trailingMargin.equalTo(contentView).inset(20)
+            $0.top.equalTo(circleContainerView.snp.bottom).inset(-10)
         }
         intakePillLabel.snp.makeConstraints {
-            $0.leading.equalTo(contentView.snp.leading).inset(sidePaddingSizeValue)
-            $0.top.equalTo(sectionSeparatorLine.snp.bottom).inset(-15)
+            $0.top.equalTo(sectionSeparatorLine.snp.bottom).inset(-sidePaddingSizeValue)
+            $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
         }
         intakeDescriptionLabel.snp.makeConstraints {
-            $0.leading.equalTo(contentView.snp.leading).inset(30)
             $0.top.equalTo(intakePillLabel.snp.bottom).inset(-5)
+            $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
         }
         intakePillListCollectionView.snp.makeConstraints {
-            $0.leading.trailing.equalTo(contentView).inset(sidePaddingSizeValue)
             $0.top.equalTo(intakeDescriptionLabel.snp.bottom).inset(-10)
-            $0.bottom.equalTo(contentView.snp.bottom).inset(30)
+            $0.leading.trailing.bottom.equalToSuperview().inset(sidePaddingSizeValue)
+            $0.height.greaterThanOrEqualTo(1)
         }
     }
     
     // MARK: - Set Up Data
-    
     private func readPillDataFromFirestore() {
         guard let UID = UserDefaults.standard.string(forKey: "UID") else { return }
         
@@ -317,14 +332,12 @@ final class UserMainViewController: UIViewController {
         }
     }
     
-    
     private func setUpLabelsTextWithUserInformation() {
         guard let nickname = UserDefaults.standard.string(forKey: "Nickname") else { return }
         nameLabel.text = "\(nickname)님"
         infoLabel.text = "\(nickname)님! 오늘 알약 섭취를 \(pillsList.count) 완료 하셨어요 :)" // 몇개 먹은지 수정 필요
         intakeDescriptionLabel.text = "\(nickname)님이 복용중인 약은 \(pillsList.count) 개 입니다"
     }
-    
 
     //MARK: - Attainment Circle
     private func createCircle() {
@@ -433,11 +446,10 @@ extension UserMainViewController: PillListViewDelegate {
     }
     
     func editPill(pillData: Pill) {
-        let VC = PillEditViewController()
+        let VC = PillEditViewController(pill: pillData)
         VC.modalPresentationStyle = .fullScreen
         present(VC, animated: true, completion: nil)
     }
 }
-
 
 

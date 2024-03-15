@@ -156,7 +156,6 @@ extension SignUpViewController {
                 self.myUID = authData.user.uid // 가입하기 버튼 눌렀을 때 넣어줄 UID값 미리 받는 부분
                 
                 // 성공시 Current IDTokenRefresh 처리
-                print("Current IDTokenRefresh 처리중...")
                 let currentUser = Auth.auth().currentUser
                 currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
                     if let error = error {
@@ -348,6 +347,7 @@ extension SignUpViewController {
         if availableSignUpFlag && !idTextField.text!.isEmpty && !nameTextField.text!.isEmpty && !passwordTextField.text!.isEmpty && !passwordReTextField.text!.isEmpty && !phoneCertTextField.text!.isEmpty {
             
             // Firestore DB에 회원 정보 저장
+
             DataManager.shared.createUserData(user: UserData(
                     UID: self.myUID,
                     ID: idTextField.text!,

@@ -179,8 +179,13 @@ extension PillAddMainViewController: IntakeSettingDelegate {
 }
 
 extension PillAddMainViewController: DueDateCellDelegate {
+    func sendDate(date: String) {
+        print(date)
+    }
+    
     func updateCellHeight() {
         self.totalTableView.reloadData()
         self.totalTableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
     }
 }
+
