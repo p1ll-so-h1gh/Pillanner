@@ -9,7 +9,10 @@ import UIKit
 import SnapKit
 import SwiftUI
 
+// 약 추가하는 부분에서는 다른 데이터 가져올 필요 없이, 반환되는 값들로 Pill 구조체 하나 뚝딱해서 만들어내야됨
+
 final class PillAddMainViewController: UIViewController {
+    
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
     
@@ -20,7 +23,7 @@ final class PillAddMainViewController: UIViewController {
         return label
     }()
     
-    private let backBtn: UIButton = {
+    private let backButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "xmark")?.withRenderingMode(.alwaysOriginal).withTintColor(.black), for: .normal)
         return button
@@ -36,21 +39,21 @@ final class PillAddMainViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var addBtnView: UIView = {
+    private lazy var addButtonView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.pointThemeColor2
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     
-    private let addBtn: UIButton = {
+    private let addButton: UIButton = {
         let button = UIButton()
         button.setTitle("등록하기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         return button
     }()
     
-    private lazy var navBackBtn = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    private lazy var navBackButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -61,10 +64,10 @@ final class PillAddMainViewController: UIViewController {
         self.totalTableView.delegate = self
         self.totalTableView.rowHeight = UITableView.automaticDimension
         
-        backBtn.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
         
-        navBackBtn.tintColor = .black
-        self.navigationItem.backBarButtonItem = navBackBtn
+        navBackButton.tintColor = .black
+        self.navigationItem.backBarButtonItem = navBackButton
         
         setupView()
     }
@@ -91,14 +94,16 @@ final class PillAddMainViewController: UIViewController {
     }
     
     private func setupView() {
-        addBtnView.addSubview(addBtn)
-        addBtn.snp.makeConstraints {
+        addButtonView.addSubview(addButton)
+        addButton.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
-        [backBtn, titleLabel, totalTableView, addBtnView].forEach {
+        
+        [backButton, titleLabel, totalTableView, addButtonView].forEach {
             view.addSubview($0)
         }
-        backBtn.snp.makeConstraints {
+        
+        backButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
@@ -109,9 +114,9 @@ final class PillAddMainViewController: UIViewController {
         totalTableView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).inset(-sidePaddingSizeValue)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(addBtnView.snp.top).inset(-sidePaddingSizeValue)
+            $0.bottom.equalTo(addButtonView.snp.top).inset(-sidePaddingSizeValue)
         }
-        addBtnView.snp.makeConstraints {
+        addButtonView.snp.makeConstraints {
             $0.width.equalTo(339)
             $0.height.equalTo(53)
             $0.centerX.equalToSuperview()
@@ -131,19 +136,24 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillCell", for: indexPath) as! PillCell
+            cell.setupLayout()
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
+            cell.setupLayout()
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
+            cell.setupLayout()
             cell.delegate = self
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillTypeCell", for: indexPath) as! PillTypeCell
+            cell.setupLayout()
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DueDateCell
+            cell.setupLayout()
             cell.delegate = self
             return cell
         default:

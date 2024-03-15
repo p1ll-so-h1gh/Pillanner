@@ -7,6 +7,8 @@
 
 import Foundation
 
+// This file will deprecate soon.
+
 struct MedicationSection {
     var headerTitle: String
     var medications: [Medicine]

@@ -295,26 +295,36 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     //MARK: - Button Actions
     // 로그인 버튼
     @objc func logInButtonTapped() {
-        let id = idTextfield.text!
-        let password = pwdTextfield.text!
-        var firebaseUserData = ["":""]
-        
-        if UserDefaults.standard.bool(forKey: "isAutoLoginActivate") {
-            UserDefaults.standard.setValue(id, forKey: "ID")
-            UserDefaults.standard.setValue(password, forKey: "Password")
-        }
-        
-        DataManager.shared.readUserData(userID: id, completion: { output in
-            firebaseUserData = output ?? [:]
-            if (firebaseUserData["ID"] ?? "" == id) && (firebaseUserData["Password"] ?? "" == password) {
-                // 일단 메인 화면(탭바)로 넘어가는 기능 넣기
-                let mainVC = TabBarController()
-                mainVC.modalPresentationStyle = .fullScreen
-                self.present(mainVC, animated: true, completion: nil)
-            } else {
-                print("error login")
+
+        if let id = idTextfield.text, let password = pwdTextfield.text {
+            
+            
+            if UserDefaults.standard.bool(forKey: "isAutoLoginActivate") {
+                UserDefaults.standard.setValue(id, forKey: "ID")
+                UserDefaults.standard.setValue(password, forKey: "Password")
             }
-        })
+            
+            DataManager.shared.readUserData(userID: id) { userData in
+                guard let userData = userData else { return }
+                if id == userData["ID"] as! String && password == userData["Password"] as! String {
+                    let mainVC = TabBarController()
+                    mainVC.modalPresentationStyle = .fullScreen
+                    self.present(mainVC, animated: true, completion: nil)
+                } else {
+                    let loginFailedAlert: UIAlertController = {
+                        let alert = UIAlertController(title: "로그인에 실패하셨습니다.", message: "회원 정보를 다시 확인하시고 로그인을 시도해주세요.", preferredStyle: .alert)
+                        let okAction = UIAlertAction(title: "확인", style: .destructive)
+                        alert.addAction(okAction)
+                        return alert
+                    }()
+                    self.present(loginFailedAlert, animated: true)
+                }
+            }
+            // 일단 메인 화면(탭바)로 넘어가는 기능 넣기
+//            let mainVC = TabBarController()
+//            mainVC.modalPresentationStyle = .fullScreen
+//            present(mainVC, animated: true, completion: nil)
+        }
     }
     
     // 회원가입하기 버튼

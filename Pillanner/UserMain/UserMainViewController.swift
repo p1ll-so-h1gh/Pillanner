@@ -29,8 +29,8 @@ final class UserMainViewController: UIViewController {
     private let sidePaddingSizeValue = 20
     
     // MARK: - TO DO
-        // CollectionView에 뿌려줄 데이터 타입 정의 필요
-        private var pillsList = [Pill]()
+    // CollectionView에 뿌려줄 데이터 타입 정의 필요
+    private var pillsList = [Pill]()
     
     //MARK: - UI Properties
     
@@ -41,14 +41,14 @@ final class UserMainViewController: UIViewController {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "김영현님"
+//        label.text = "\("")님"
         label.font = FontLiteral.title2(style: .bold).withSize(24)
         return label
     }()
     
     private let infoLabel: UILabel = {
         let label = UILabel()
-        label.text = "영현님! 오늘 알약 섭취를 70% 완료 하셨어요 :)"
+//        label.text = "\("")님! 오늘 알약 섭취를 \("") 완료 하셨어요 :)"
         label.font = FontLiteral.body(style: .regular).withSize(14)
         label.alpha = 0.5
         return label
@@ -174,7 +174,7 @@ final class UserMainViewController: UIViewController {
     
     private let intakeDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "영현님이 복용중인 약은 00 개 입니다"
+//        label.text = "\("")님이 복용중인 약은 \("") 개 입니다"
         label.font = FontLiteral.body(style: .regular).withSize(14)
         label.alpha = 0.5
         return label
@@ -210,7 +210,8 @@ final class UserMainViewController: UIViewController {
         setUpLabelsTextWithUserInformation()
     }
     
-    //MARK: - AddSubView
+    
+    //MARK: - Add SubView
     private func addSubView() {
         [topView, scrollView].forEach {
             self.view.addSubview($0)
@@ -313,81 +314,80 @@ final class UserMainViewController: UIViewController {
     }
     
     // MARK: - Set Up Data
+    private func readPillDataFromFirestore() {
+        guard let UID = UserDefaults.standard.string(forKey: "UID") else { return }
         
-        private func readPillDataFromFirestore() {
-            guard let UID = UserDefaults.standard.string(forKey: "UID") else { return }
-            
-            DataManager.shared.readPillListData(UID: UID) { list in
-                if let list = list {
-                    for pill in list {
-                        let receiver = Pill(title: pill["Title"] as! String,
-                                            type: pill["Type"] as! String,
-                                            day: pill["Day"] as! [String],
-                                            dueDate: pill["DueDate"] as! String,
-                                            intake: pill["Intake"] as! [String],
-                                            dosage: pill["Dosage"] as! Double)
-                        self.pillsList.append(receiver)
-                    }
+        DataManager.shared.readPillListData(UID: UID) { list in
+            if let list = list {
+                for pill in list {
+                    let receiver = Pill(title: pill["Title"] as! String,
+                                        type: pill["Type"] as! String,
+                                        day: pill["Day"] as! [String],
+                                        dueDate: pill["DueDate"] as! String,
+                                        intake: pill["Intake"] as! [String],
+                                        dosage: pill["Dosage"] as! Double)
+                    self.pillsList.append(receiver)
                 }
             }
         }
-        
-        
-        private func setUpLabelsTextWithUserInformation() {
-            guard let nickname = UserDefaults.standard.string(forKey: "Nickname") else { return }
-            nameLabel.text = "\(nickname)님"
-            infoLabel.text = "\(nickname)님! 오늘 알약 섭취를 \(pillsList.count) 완료 하셨어요 :)" // 몇개 먹은지 수정 필요
-            intakeDescriptionLabel.text = "\(nickname)님이 복용중인 약은 \(pillsList.count) 개 입니다"
-        }
+    }
     
+    
+    private func setUpLabelsTextWithUserInformation() {
+        guard let nickname = UserDefaults.standard.string(forKey: "Nickname") else { return }
+        nameLabel.text = "\(nickname)님"
+        infoLabel.text = "\(nickname)님! 오늘 알약 섭취를 \(pillsList.count) 완료 하셨어요 :)" // 몇개 먹은지 수정 필요
+        intakeDescriptionLabel.text = "\(nickname)님이 복용중인 약은 \(pillsList.count) 개 입니다"
+    }
+
 
     //MARK: - Attainment Circle
     private func createCircle() {
-        let daycircleRadius: CGFloat = 100
-        let weekcircleRadius: CGFloat = 67
-        let monthcircleRadius: CGFloat = 40
+        let dayCircleRadius: CGFloat = 100
+        let weekCircleRadius: CGFloat = 67
+        let monthCircleRadius: CGFloat = 40
         let circleLineWidth: CGFloat = 15.0
         
         //원경로
-        let daycircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: daycircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi , clockwise: true)
-        let weekcircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: weekcircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 2 , clockwise: true)
-        let monthcircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: monthcircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 3, clockwise: true)
+        let dayCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: dayCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi , clockwise: true)
+        let weekCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: weekCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 2 , clockwise: true)
+        let monthCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: monthCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 3, clockwise: true)
         //정답률 테두리
-        let dayborderLine = CAShapeLayer()
-        dayborderLine.path = daycircularPath.cgPath
-        dayborderLine.strokeColor = UIColor(hexCode: "9BDCFD").cgColor
-        dayborderLine.lineWidth = circleLineWidth
-        dayborderLine.fillColor = UIColor.clear.cgColor
-        dayborderLine.lineCap = CAShapeLayerLineCap.round
+        let dayBorderLine = CAShapeLayer()
+        dayBorderLine.path = dayCircularPath.cgPath
+        dayBorderLine.strokeColor = UIColor(hexCode: "9BDCFD").cgColor
+        dayBorderLine.lineWidth = circleLineWidth
+        dayBorderLine.fillColor = UIColor.clear.cgColor
+        dayBorderLine.lineCap = CAShapeLayerLineCap.round
         
-        circleContainerView.layer.addSublayer(dayborderLine)
+        circleContainerView.layer.addSublayer(dayBorderLine)
         
-        let weekborderLine = CAShapeLayer()
-        weekborderLine.path = weekcircularPath.cgPath
-        weekborderLine.strokeColor = UIColor(hexCode: "FF9898").cgColor
-        weekborderLine.lineWidth = circleLineWidth
-        weekborderLine.fillColor = UIColor.clear.cgColor
-        weekborderLine.lineCap = CAShapeLayerLineCap.round
+        let weekBorderLine = CAShapeLayer()
+        weekBorderLine.path = weekCircularPath.cgPath
+        weekBorderLine.strokeColor = UIColor(hexCode: "FF9898").cgColor
+        weekBorderLine.lineWidth = circleLineWidth
+        weekBorderLine.fillColor = UIColor.clear.cgColor
+        weekBorderLine.lineCap = CAShapeLayerLineCap.round
         
-        circleContainerView.layer.addSublayer(weekborderLine)
+        circleContainerView.layer.addSublayer(weekBorderLine)
         
-        let monthborderLine = CAShapeLayer()
-        monthborderLine.path = monthcircularPath.cgPath
-        monthborderLine.strokeColor = UIColor(hexCode: "FFD188").cgColor
-        monthborderLine.lineWidth = circleLineWidth
-        monthborderLine.fillColor = UIColor.clear.cgColor
-        monthborderLine.lineCap = CAShapeLayerLineCap.round
+        let monthBorderLine = CAShapeLayer()
+        monthBorderLine.path = monthCircularPath.cgPath
+        monthBorderLine.strokeColor = UIColor(hexCode: "FFD188").cgColor
+        monthBorderLine.lineWidth = circleLineWidth
+        monthBorderLine.fillColor = UIColor.clear.cgColor
+        monthBorderLine.lineCap = CAShapeLayerLineCap.round
         
-        circleContainerView.layer.addSublayer(monthborderLine)
+        circleContainerView.layer.addSublayer(monthBorderLine)
         
         //테두리 애니메이션
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = 0
         animation.toValue = 1
         animation.duration = 1.5
-        dayborderLine.add(animation,forKey: "progressAnimation")
-        weekborderLine.add(animation,forKey: "progressAnimation")
-        monthborderLine.add(animation,forKey: "progressAnimation")
+        dayBorderLine.add(animation,forKey: "progressAnimation")
+        weekBorderLine.add(animation,forKey: "progressAnimation")
+        monthBorderLine.add(animation,forKey: "progressAnimation")
     }
 }
 
@@ -448,7 +448,7 @@ extension UserMainViewController: PillListViewDelegate {
     }
     
     func editPill(pillData: Pill) {
-        let VC = PillEditViewController()
+        let VC = PillEditViewController(pill: pillData)
         VC.modalPresentationStyle = .fullScreen
         present(VC, animated: true, completion: nil)
     }
