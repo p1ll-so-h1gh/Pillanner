@@ -17,7 +17,14 @@ final class PillEditViewController: UIViewController {
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
     
+    private var titleForUpdate = String()
+    private var typeForUpdate = String()
+    private var dayForUpdate = [String]()
+    private var dueDateForUpdate = String()
+    private var intakeForUpdate = [String]()
+    private var dosageForUpdate = Double()
     private var pillDataForEdit: Pill
+    private let originalPillTitle: String
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -59,8 +66,10 @@ final class PillEditViewController: UIViewController {
     private lazy var navBackButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     
     // 초기화 메서드를 추가합니다.
+    // PillEditVC에 진입하는 시점의 title을 originalPillTitle에 저장해둡니다.
     init(pill: Pill) {
         self.pillDataForEdit = pill
+        self.originalPillTitle = pill.title
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -85,6 +94,12 @@ final class PillEditViewController: UIViewController {
     
     @objc func dismissView() {
         dismiss(animated: true)
+    }
+    
+    @objc private func editButtonTapped() {
+        // 각 셀들의 상태를 어떻게 업데이트 받을지...
+        
+        
     }
     
     //키보드 외부 터치 시 키보드 숨김처리
@@ -140,10 +155,12 @@ extension PillEditViewController: UITableViewDataSource {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillCell", for: indexPath) as! PillCell
             cell.setupLayoutOnEditingProcess(title: self.pillDataForEdit.title)
+            cell.delegate = self
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
             cell.setupLayoutOnEditingProcess(days: self.pillDataForEdit.day)
+//            cell.delegate = self
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
@@ -153,6 +170,7 @@ extension PillEditViewController: UITableViewDataSource {
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillTypeCell", for: indexPath) as! PillTypeCell
             cell.setupLayoutOnEditingProcess(type: self.pillDataForEdit.type)
+//            cell.delegate = self
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DueDateCell
@@ -181,10 +199,24 @@ extension PillEditViewController: IntakeSettingDelegate {
     }
 }
 
-extension PillEditViewController: DueDateCellDelegate {
-    func sendDate(date: String) {
-        print(date)
+extension PillEditViewController: PillCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate {
+    
+    func updatePillTitle(_ title: String) {
+        self.titleForUpdate = title
     }
+    
+    func updatePillType(_ type: String) {
+        self.typeForUpdate = type
+    }
+    
+    func updateDays(_ day: [String]) {
+        self.dayForUpdate = day
+    }
+    
+    func updateDueDate(date: String) {
+        self.dueDateForUpdate = date
+    }
+    
     
     func updateCellHeight() {
         self.totalTableView.reloadData()

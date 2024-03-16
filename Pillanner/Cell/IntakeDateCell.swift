@@ -10,8 +10,13 @@ import SnapKit
 
 // 복용 날짜 데이터 받아와서 라벨 색칠된 상태로 표시될 수 있도록
 
+protocol IntakeDateCellDelegate: AnyObject {
+    func updateDate(_ date: [String])
+}
+
 final class IntakeDateCell: UITableViewCell {
     
+    private var selectedDate = [String]()
     static let identifier = "IntakeDateCell"
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
@@ -24,27 +29,27 @@ final class IntakeDateCell: UITableViewCell {
         return label
     }()
     
-    private let editBtn: UIButton = {
+    private let editButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "button"), for: .normal)
         return button
     }()
     
-    private let HStackView: UIStackView = {
+    private let HorizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 15
         return stackView
     }()
     
-    private lazy var MonView: UIView = {
+    private lazy var monView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     
-    private let MonLabel: UILabel = {
+    private let monLabel: UILabel = {
         let label = UILabel()
         label.text = "월"
         label.font = FontLiteral.body(style: .regular).withSize(14)
@@ -52,14 +57,14 @@ final class IntakeDateCell: UITableViewCell {
         return label
     }()
     
-    private lazy var TueView: UIView = {
+    private lazy var tueView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     
-    private let TueLabel: UILabel = {
+    private let tueLabel: UILabel = {
         let label = UILabel()
         label.text = "화"
         label.font = FontLiteral.body(style: .regular).withSize(14)
@@ -67,14 +72,14 @@ final class IntakeDateCell: UITableViewCell {
         return label
     }()
     
-    private lazy var WedView: UIView = {
+    private lazy var wedView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     
-    private let WedLabel: UILabel = {
+    private let wedLabel: UILabel = {
         let label = UILabel()
         label.text = "수"
         label.font = FontLiteral.body(style: .regular).withSize(14)
@@ -82,14 +87,14 @@ final class IntakeDateCell: UITableViewCell {
         return label
     }()
     
-    private lazy var ThuView: UIView = {
+    private lazy var thuView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     
-    private let ThuLabel: UILabel = {
+    private let thuLabel: UILabel = {
         let label = UILabel()
         label.text = "목"
         label.font = FontLiteral.body(style: .regular).withSize(14)
@@ -97,14 +102,14 @@ final class IntakeDateCell: UITableViewCell {
         return label
     }()
     
-    private lazy var FriView: UIView = {
+    private lazy var friView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     
-    private let FriLabel: UILabel = {
+    private let friLabel: UILabel = {
         let label = UILabel()
         label.text = "금"
         label.font = FontLiteral.body(style: .regular).withSize(14)
@@ -112,14 +117,14 @@ final class IntakeDateCell: UITableViewCell {
         return label
     }()
     
-    private lazy var SatView: UIView = {
+    private lazy var satView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     
-    private let SatLabel: UILabel = {
+    private let satLabel: UILabel = {
         let label = UILabel()
         label.text = "토"
         label.font = FontLiteral.body(style: .regular).withSize(14)
@@ -127,14 +132,14 @@ final class IntakeDateCell: UITableViewCell {
         return label
     }()
     
-    private lazy var SunView: UIView = {
+    private lazy var sunView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "E6E6E6")
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     
-    private let SunLabel: UILabel = {
+    private let sunLabel: UILabel = {
         let label = UILabel()
         label.text = "일"
         label.font = FontLiteral.body(style: .regular).withSize(14)
@@ -153,22 +158,20 @@ final class IntakeDateCell: UITableViewCell {
     }
     
     func checkWeekdayViewWithIntakeData(days: [String]) {
-        for day in days {
-            if day == "Mon" {
-                MonView.backgroundColor = .pointThemeColor2
-            } else if day == "Tue" {
-                TueView.backgroundColor = .pointThemeColor2
-            } else if day == "Wed" {
-                WedView.backgroundColor = .pointThemeColor2
-            } else if day == "Thu" {
-                ThuView.backgroundColor = .pointThemeColor2
-            } else if day == "Fri" {
-                FriView.backgroundColor = .pointThemeColor2
-            } else if day == "Sat" {
-                SatView.backgroundColor = .pointThemeColor2
-            } else if day == "Sun" {
-                SunView.backgroundColor = .pointThemeColor2
-            }
+        if days.contains("Mon") {
+            monView.backgroundColor = .pointThemeColor2
+        } else if days.contains("Tue") {
+            tueView.backgroundColor = .pointThemeColor2
+        } else if days.contains("Wed") {
+            wedView.backgroundColor = .pointThemeColor2
+        } else if days.contains("Thu") {
+            thuView.backgroundColor = .pointThemeColor2
+        } else if days.contains("Fri") {
+            friView.backgroundColor = .pointThemeColor2
+        } else if days.contains("Sat") {
+            satView.backgroundColor = .pointThemeColor2
+        } else if days.contains("Sun") {
+            sunView.backgroundColor = .pointThemeColor2
         }
     }
     
@@ -176,44 +179,44 @@ final class IntakeDateCell: UITableViewCell {
         
         checkWeekdayViewWithIntakeData(days: days)
         
-        [intakedateLabel, editBtn, HStackView].forEach {
+        [intakedateLabel, editButton, HorizontalStackView].forEach {
             self.contentView.addSubview($0)
         }
-        MonView.addSubview(MonLabel)
-        TueView.addSubview(TueLabel)
-        WedView.addSubview(WedLabel)
-        ThuView.addSubview(ThuLabel)
-        FriView.addSubview(FriLabel)
-        SatView.addSubview(SatLabel)
-        SunView.addSubview(SunLabel)
-        [MonView, TueView, WedView, ThuView, FriView, SatView, SunView].forEach {
-            self.HStackView.addArrangedSubview($0)
+        monView.addSubview(monLabel)
+        tueView.addSubview(tueLabel)
+        wedView.addSubview(wedLabel)
+        thuView.addSubview(thuLabel)
+        friView.addSubview(friLabel)
+        satView.addSubview(satLabel)
+        sunView.addSubview(sunLabel)
+        [monView, tueView, wedView, thuView, friView, satView, sunView].forEach {
+            self.HorizontalStackView.addArrangedSubview($0)
         }
-        self.MonLabel.snp.makeConstraints {
+        self.monLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(8)
             $0.left.right.equalToSuperview().inset(10)
         }
-        self.TueLabel.snp.makeConstraints {
+        self.tueLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(8)
             $0.left.right.equalToSuperview().inset(10)
         }
-        self.WedLabel.snp.makeConstraints {
+        self.wedLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(8)
             $0.left.right.equalToSuperview().inset(10)
         }
-        self.ThuLabel.snp.makeConstraints {
+        self.thuLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(8)
             $0.left.right.equalToSuperview().inset(10)
         }
-        self.FriLabel.snp.makeConstraints {
+        self.friLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(8)
             $0.left.right.equalToSuperview().inset(10)
         }
-        self.SatLabel.snp.makeConstraints {
+        self.satLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(8)
             $0.left.right.equalToSuperview().inset(10)
         }
-        self.SunLabel.snp.makeConstraints {
+        self.sunLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(8)
             $0.left.right.equalToSuperview().inset(10)
         }
@@ -221,11 +224,11 @@ final class IntakeDateCell: UITableViewCell {
             $0.top.equalToSuperview().inset(sidePaddingSizeValue)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)
         }
-        self.editBtn.snp.makeConstraints {
+        self.editButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(sidePaddingSizeValue)
             $0.right.equalToSuperview().inset(sidePaddingSizeValue)
         }
-        self.HStackView.snp.makeConstraints {
+        self.HorizontalStackView.snp.makeConstraints {
             $0.top.equalTo(intakedateLabel.snp.bottom).inset(-sidePaddingSizeValue)
             $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
@@ -233,44 +236,44 @@ final class IntakeDateCell: UITableViewCell {
     }
     
     func setupLayout() {
-        [intakedateLabel, editBtn, HStackView].forEach {
+        [intakedateLabel, editButton, HorizontalStackView].forEach {
             self.contentView.addSubview($0)
         }
-        MonView.addSubview(MonLabel)
-        TueView.addSubview(TueLabel)
-        WedView.addSubview(WedLabel)
-        ThuView.addSubview(ThuLabel)
-        FriView.addSubview(FriLabel)
-        SatView.addSubview(SatLabel)
-        SunView.addSubview(SunLabel)
-        [MonView, TueView, WedView, ThuView, FriView, SatView, SunView].forEach {
-            self.HStackView.addArrangedSubview($0)
+        monView.addSubview(monLabel)
+        tueView.addSubview(tueLabel)
+        wedView.addSubview(wedLabel)
+        thuView.addSubview(thuLabel)
+        friView.addSubview(friLabel)
+        satView.addSubview(satLabel)
+        sunView.addSubview(sunLabel)
+        [monView, tueView, wedView, thuView, friView, satView, sunView].forEach {
+            self.HorizontalStackView.addArrangedSubview($0)
         }
-        self.MonLabel.snp.makeConstraints {
+        self.monLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(8)
             $0.left.right.equalToSuperview().inset(10)
         }
-        self.TueLabel.snp.makeConstraints {
+        self.tueLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(8)
             $0.left.right.equalToSuperview().inset(10)
         }
-        self.WedLabel.snp.makeConstraints {
+        self.wedLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(8)
             $0.left.right.equalToSuperview().inset(10)
         }
-        self.ThuLabel.snp.makeConstraints {
+        self.thuLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(8)
             $0.left.right.equalToSuperview().inset(10)
         }
-        self.FriLabel.snp.makeConstraints {
+        self.friLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(8)
             $0.left.right.equalToSuperview().inset(10)
         }
-        self.SatLabel.snp.makeConstraints {
+        self.satLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(8)
             $0.left.right.equalToSuperview().inset(10)
         }
-        self.SunLabel.snp.makeConstraints {
+        self.sunLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(8)
             $0.left.right.equalToSuperview().inset(10)
         }
@@ -278,11 +281,11 @@ final class IntakeDateCell: UITableViewCell {
             $0.top.equalToSuperview().inset(sidePaddingSizeValue)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)
         }
-        self.editBtn.snp.makeConstraints {
+        self.editButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(sidePaddingSizeValue)
             $0.right.equalToSuperview().inset(sidePaddingSizeValue)
         }
-        self.HStackView.snp.makeConstraints {
+        self.HorizontalStackView.snp.makeConstraints {
             $0.top.equalTo(intakedateLabel.snp.bottom).inset(-sidePaddingSizeValue)
             $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
@@ -291,5 +294,11 @@ final class IntakeDateCell: UITableViewCell {
     
     //cell 초기화 함수 - 색깔이 변한 섭취요일 다시 원상복구
     internal func reset() {
+    }
+}
+
+extension IntakeDateCell: WeekdaySelectionDelegate {
+    func updateIntakeDate(_ date: [String]) {
+        self.selectedDate = date
     }
 }
