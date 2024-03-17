@@ -18,6 +18,13 @@ final class PillAddMainViewController: UIViewController {
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
     
+    private var titleForAdd = String()
+    private var typeForAdd = String()
+    private var dayForAdd = [String]()
+    private var dueDateForAdd = String()
+    private var intakeForAdd = [String]()
+    private var dosageForAdd = Double()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "내 영양제 추가하기"
@@ -72,6 +79,12 @@ final class PillAddMainViewController: UIViewController {
         self.navigationItem.backBarButtonItem = navBackButton
         
         setupView()
+    }
+    
+    @objc private func addButtonTapped() {
+        let newPillData = Pill(title: self.titleForAdd, type: self.typeForAdd, day: self.dayForAdd, dueDate: self.dueDateForAdd, intake: self.intakeForAdd, dosage: self.dosageForAdd)
+        
+        DataManager.shared.createPillData(pill: newPillData)
     }
     
     @objc func dismissView() {
@@ -180,7 +193,32 @@ extension PillAddMainViewController: IntakeSettingDelegate {
     }
 }
 
-extension PillAddMainViewController: DueDateCellDelegate {
+extension PillAddMainViewController: PillCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
+    
+    func updatePillTitle(_ title: String) {
+        self.titleForAdd = title
+    }
+    
+    func updatePillType(_ type: String) {
+        self.typeForAdd = type
+    }
+    
+    func updateDays(_ day: [String]) {
+        self.dayForAdd = day
+    }
+    
+    func updateDueDate(date: String) {
+        self.dueDateForAdd = date
+    }
+    
+    func updateDosage(_ dosage: Double) {
+        self.dosageForAdd = dosage
+    }
+    
+    func updateIntake(_ intake: String) {
+        self.intakeForAdd.append(intake)
+    }
+    
     func sendDate(date: String) {
         print(date)
     }

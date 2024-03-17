@@ -11,7 +11,7 @@ import SnapKit
 // 복용 날짜 데이터 받아와서 라벨 색칠된 상태로 표시될 수 있도록
 
 protocol IntakeDateCellDelegate: AnyObject {
-    func updateDate(_ date: [String])
+    func updateDays(_ days: [String])
 }
 
 final class IntakeDateCell: UITableViewCell {
