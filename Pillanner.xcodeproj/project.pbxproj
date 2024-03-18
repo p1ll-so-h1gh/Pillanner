@@ -64,6 +64,7 @@
 		56FA3A3D2BA5450400C3CCD8 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 56FA3A3C2BA5450400C3CCD8 /* Secrets.plist */; };
 		7C365CA52B9F1F25003C8CF8 /* LoginVC_NAVER_Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C365CA42B9F1F25003C8CF8 /* LoginVC_NAVER_Login.swift */; };
 		7C365CA92B9F22B9003C8CF8 /* NaverThirdPartyLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 7C365CA82B9F22B9003C8CF8 /* NaverThirdPartyLogin */; };
+		7C365CBD2BA8022E003C8CF8 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C365CBC2BA8022E003C8CF8 /* NotificationHelper.swift */; };
 		7C3F79862B9068A000DD1AC7 /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F79852B9068A000DD1AC7 /* CalendarModel.swift */; };
 		7C3F798A2B906A7700DD1AC7 /* CheckPillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */; };
 		7CEBD66E2B96A8BC00F63F78 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEBD66D2B96A8BC00F63F78 /* TabBarController.swift */; };
@@ -129,6 +130,7 @@
 		56E781ED2BA338DB006D36BB /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		56FA3A3C2BA5450400C3CCD8 /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		7C365CA42B9F1F25003C8CF8 /* LoginVC_NAVER_Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC_NAVER_Login.swift; sourceTree = "<group>"; };
+		7C365CBC2BA8022E003C8CF8 /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		7C3F79852B9068A000DD1AC7 /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPillCell.swift; sourceTree = "<group>"; };
 		7CEBD66D2B96A8BC00F63F78 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				560EC5B52B9898C300FF0D37 /* AddPill */,
 				14D2BE602B84BBBF0006AC51 /* AppDelegate.swift */,
 				14D2BE622B84BBBF0006AC51 /* SceneDelegate.swift */,
+				7C365CBC2BA8022E003C8CF8 /* NotificationHelper.swift */,
 				7CEBD66D2B96A8BC00F63F78 /* TabBarController.swift */,
 				CCD759342B9F183400878CEF /* Keyboard.swift */,
 				14D2BE6C2B84BBC20006AC51 /* Assets.xcassets */,
@@ -560,6 +563,7 @@
 				560EC5BD2B98995100FF0D37 /* InitialSetupStartViewController.swift in Sources */,
 				CC16979E2B9021F2008276B0 /* IntakeSettingCell.swift in Sources */,
 				CC7DB4052B981DFE00809665 /* UserInfoView.swift in Sources */,
+				7C365CBD2BA8022E003C8CF8 /* NotificationHelper.swift in Sources */,
 				14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */,
 				CC7DB3FE2B96F72C00809665 /* PillEditViewController.swift in Sources */,
 				CC7DB3F82B95CBFF00809665 /* WeekdaysView.swift in Sources */,
@@ -717,6 +721,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -752,6 +757,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
