@@ -170,17 +170,20 @@ class UserSettingViewController: UIViewController {
     }
 
     @objc func handleLogout() {
-        // Show logout alert
         let alert = UIAlertController(title: "로그아웃", message: "정말 로그아웃 하시겠습니까?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "네", style: .destructive, handler: { _ in
-            // Handle logout logic here
-            print("User logged out")
+            // 로그아웃 처리
+            UserDefaults.standard.set(false, forKey: "isAutoLoginActivate")
+            var currentViewController: UIViewController? = self.presentingViewController
+            while let presentingViewController = currentViewController?.presentingViewController {
+                currentViewController = presentingViewController
+            }
+            
+            currentViewController?.dismiss(animated: true, completion: nil)
         }))
         alert.addAction(UIAlertAction(title: "아니오", style: .cancel, handler: nil))
         present(alert, animated: true)
     }
-    
-    
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true

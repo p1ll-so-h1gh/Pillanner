@@ -30,15 +30,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         let password = UserDefaults.standard.string(forKey: "Password") ?? nil
         let startVC: UIViewController
+        let autoLoginActivate: Bool = UserDefaults.standard.bool(forKey: "isAutoLoginActivate")
         
-        if password == "sns" { // 이미 SNS 로그인 한 이력이 있는 경우
+        if autoLoginActivate { // 자동로그인 On
             startVC = CustomLaunchScreenViewController(message: "알약, 달력 넘기듯 간편하게", status: true) // 런치스크린 -> 메인탭바뷰컨으로 이동
-        } else { // 일반회원가입 한 경우
-            if UserDefaults.standard.bool(forKey: "isAutoLoginActivate") { // 자동로그인 체크 O
-                startVC = CustomLaunchScreenViewController(message: "알약, 달력 넘기듯 간편하게", status: true) // 런치스크린 -> 메인탭바뷰컨으로 이동
-            } else { // 자동로그인 체크 X
-                startVC = CustomLaunchScreenViewController(message: "알약, 달력 넘기듯 간편하게", status: false) // 런치스크린 -> 로그인뷰컨으로 이동
-            }
+        } else { // 자동로그인 Off
+            startVC = CustomLaunchScreenViewController(message: "알약, 달력 넘기듯 간편하게", status: false) // 런치스크린 -> 로그인뷰컨으로 이동
         }
         
         window?.rootViewController = startVC

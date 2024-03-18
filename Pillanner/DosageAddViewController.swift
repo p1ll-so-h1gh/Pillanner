@@ -204,6 +204,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
             print("Failed to Add Dosage")
         }
         
+
 //        delegate?.updateIntake(<#T##String#>)
     }
     

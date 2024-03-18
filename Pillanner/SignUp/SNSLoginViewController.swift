@@ -126,10 +126,11 @@ class SNSLoginViewController: UIViewController, UITextFieldDelegate {
     //MARK: - Action Method
     @objc func setNameButtonTapped() {
         let userID = UserDefaults.standard.string(forKey: "ID")!
-        let nickName = UserDefaults.standard.string(forKey: "Nickname")!
         let alert = UIAlertController(title: "닉네임 설정", message: "'\(self.setNameTextField.text!)'로 설정하시겠습니까?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
+            UserDefaults.standard.set(true, forKey: "isAutoLoginActivate") //SNS 회원가입은 자동로그인을 기본값으로 설정(true)
+            UserDefaults.standard.set(self.setNameTextField.text!, forKey: "Nickname")
             DataManager.shared.updateUserData(userID: userID, changedPassword: "sns", changedName: self.setNameTextField.text!)
             let nextVC = CustomLaunchScreenViewController(message: "\(self.setNameTextField.text!)님 PILLANNER 가입을\n축하합니다!", status: true)
             nextVC.modalPresentationStyle = .fullScreen
