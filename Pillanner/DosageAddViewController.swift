@@ -10,6 +10,8 @@ import SnapKit
 
 // 약 정보 수정하는 뷰에서 접근할 때, 약 정보 받아올 수 있는 방법 필요
 
+
+
 protocol DosageAddDelegate: AnyObject {
     func updateDosage(_ dosage: Double)
     func updateIntake(_ intake: String)
@@ -24,10 +26,12 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     private var timeSettingLabel: UILabel!
     private var dosageCountLabel: UILabel!
     private var selectedTimeLabel: UILabel!
-    private var dosageCountTextField: UITextField!
     private var pickerContainerView: UIView!
     private var timePickerView: UIPickerView!
     private var confirmButton: UIButton!
+    
+    private var selectTimeButton: UIButton!
+       private var selectedTimeDisplayLabel: UILabel!
     
     private var alarmStatusLabel: UILabel!
     
@@ -56,15 +60,12 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         super.viewDidLoad()
         view.backgroundColor = .white
         setupUI()
-        dosageCountTextField.delegate = self
         self.navigationItem.title = "복용횟수추가"
         let textAttributes = [NSAttributedString.Key.font: FontLiteral.title3(style: .bold)]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
     }
     
     private func setupUI() {
-        
-        //        setupPageTitleLabel()
         setupAlarmSetting()
         setupTimeSetting()
         setupDosageCount()
@@ -76,18 +77,66 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         setupAlarmStatusLabel()
         setupDosageUnitSelectionButton()
         setupDosageUnitTableView()
+        
+        setupSelectTimeButton()
+                setupSelectedTimeDisplayLabel()
     }
+
+        
+    private func setupSelectTimeButton() {
+        selectTimeButton = UIButton(type: .system)
+        selectTimeButton.setTitle("섭취시간 선택", for: .normal)
+        selectTimeButton.setTitleColor(.white, for: .normal)
+        selectTimeButton.titleLabel?.font = FontLiteral.body(style: .bold)
+        selectTimeButton.layer.borderWidth = 0
+        selectTimeButton.layer.cornerRadius = 10
+        selectTimeButton.backgroundColor = UIColor.pointThemeColor2
+        selectTimeButton.addTarget(self, action: #selector(selectTimeButtonTapped), for: .touchUpInside)
+        view.addSubview(selectTimeButton)
+        
+        selectTimeButton.snp.makeConstraints { make in
+            make.centerY.equalTo(timeSettingLabel.snp.centerY)
+            make.left.equalTo(timeSettingLabel.snp.right).offset(30)
+            make.right.equalToSuperview().inset(20)
+
+            make.height.equalTo(40)
+        }
+    }
+        
+        private func setupSelectedTimeDisplayLabel() {
+            selectedTimeDisplayLabel = UILabel()
+            selectedTimeDisplayLabel.font = FontLiteral.title3(style: .bold)
+            view.addSubview(selectedTimeDisplayLabel)
+            
+            selectedTimeDisplayLabel.snp.makeConstraints { make in
+                make.top.equalTo(timeSettingLabel.snp.bottom).offset(15)
+                make.left.equalToSuperview().offset(30)
+            }
+        }
     
+    @objc private func confirmButtonTapped() {
+        DispatchQueue.main.async {
+            if let meridiem = self.tempSelectedMeridiem,
+               let hour = self.tempSelectedHour,
+               let minute = self.tempSelectedMinute {
+                let timeString = "\(meridiem) \(hour):\(minute)"
+                self.selectedTimeDisplayLabel.text = timeString
+                self.delegate?.updateIntake(timeString)
+            }
+            self.hidePickerView()
+        }
+    }
     
     private func setupDosageUnitSelectionButton() {
         dosageUnitSelectionButton = UIButton(type: .system)
         dosageUnitSelectionButton.setTitle("단위 선택", for: .normal)
-        dosageUnitSelectionButton.setTitleColor(UIColor.pointThemeColor, for: .normal)
-        dosageUnitSelectionButton.titleLabel?.font = FontLiteral.title3(style: .regular)
-        dosageUnitSelectionButton.layer.borderWidth = 1.0
-        dosageUnitSelectionButton.layer.borderColor = UIColor.tertiaryLabel.cgColor // 테두리 색상 설정
+        dosageUnitSelectionButton.setTitleColor(.white, for: .normal)
+        dosageUnitSelectionButton.titleLabel?.font = FontLiteral.body(style: .bold)
+        dosageUnitSelectionButton.layer.borderWidth = 0
         dosageUnitSelectionButton.layer.cornerRadius = 10
-        dosageUnitSelectionButton.backgroundColor = .white
+        dosageUnitSelectionButton.backgroundColor = UIColor.pointThemeColor2
+        
+
         dosageUnitSelectionButton.addTarget(self, action: #selector(toggleDropdown), for: .touchUpInside)
         view.addSubview(dosageUnitSelectionButton)
         
@@ -110,7 +159,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         dosageUnitTableView.snp.makeConstraints { make in
             make.top.equalTo(dosageUnitSelectionButton.snp.bottom)
             make.left.right.equalTo(dosageUnitSelectionButton)
-            make.height.equalTo(200) // Adjust as needed
+            make.height.equalTo(200)
         }
     }
     
@@ -134,8 +183,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         toggleDropdown()
     }
     
-    //test
-    
+   
     @objc private func dosageInputContainerTapped() {
         dosageInputTextField.becomeFirstResponder()
     }
@@ -156,7 +204,8 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
             print("Failed to Add Dosage")
         }
         
-        //delegate?.updateIntake(<#T##String#>)
+
+//        delegate?.updateIntake(<#T##String#>)
     }
     
     
@@ -218,7 +267,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         view.addSubview(selectedTimeLabel)
         
         timeSettingLabel.snp.makeConstraints { make in
-            make.top.equalTo(alarmSettingLabel.snp.bottom).offset(40)
+            make.top.equalTo(alarmSettingLabel.snp.bottom).offset(60)
             make.left.equalToSuperview().offset(20)
         }
         
@@ -254,7 +303,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         confirmButton.backgroundColor = UIColor.pointThemeColor2
         confirmButton.layer.cornerRadius = 20
         confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
-        //        view.addSubview(confirmButton) // 뷰에 confirmButton 추가
+                view.addSubview(confirmButton) // 뷰에 confirmButton 추가
         pickerContainerView.addSubview(confirmButton)
         
         confirmButton.snp.makeConstraints { make in
@@ -266,7 +315,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         view.bringSubviewToFront(confirmButton)
     }
     
-    @objc private func timeSettingLabelTapped() {
+    @objc private func selectTimeButtonTapped() {
         if let meridiemIndex = meridiem.firstIndex(of: tempSelectedMeridiem ?? ""),
            let hourIndex = hours.firstIndex(of: tempSelectedHour ?? ""),
            let minuteIndex = minutes.firstIndex(of: tempSelectedMinute ?? "") {
@@ -281,10 +330,9 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     private func showPickerView() {
         pickerContainerView.isHidden = false
         confirmButton.isHidden = false
-        // 필요하다면, pickerContainerView의 높이를 조정하는 로직 추가
         UIView.animate(withDuration: 0.5) {
             self.pickerContainerView.snp.updateConstraints { make in
-                make.height.equalTo(260) // 예시: 원래 높이로 복원
+                make.height.equalTo(260)
                 make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(-20)
             }
             self.view.layoutIfNeeded()
@@ -310,20 +358,12 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         dosageCountLabel.font = FontLiteral.body(style: .bold)
         view.addSubview(dosageCountLabel)
         
-        dosageCountTextField = UITextField()
-        dosageCountTextField.font = FontLiteral.body(style: .bold)
-        view.addSubview(dosageCountTextField)
-        
         dosageCountLabel.snp.makeConstraints { make in
-            make.top.equalTo(timeSettingLabel.snp.bottom).offset(50)
+            make.top.equalTo(timeSettingLabel.snp.bottom).offset(90)
             make.left.equalToSuperview().offset(20)
         }
         
-        dosageCountTextField.snp.makeConstraints { make in
-            make.centerY.equalTo(dosageCountLabel.snp.centerY)
-            make.right.equalToSuperview().offset(-20)
-            make.width.equalTo(100)
-        }
+
     }
     
     private func setupDosageInputContainer() {
@@ -338,7 +378,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
             make.top.equalTo(dosageCountLabel.snp.bottom).offset(20)
             make.left.equalToSuperview().inset(20)
             make.right.equalTo(view.snp.centerX).offset(-10) // 가로 크기 절반으로 조정
-            make.height.equalTo(50)
+            make.height.equalTo(40)
         }
         dosageInputTextField = UITextField()
         dosageInputTextField.delegate = self
@@ -363,25 +403,9 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         }
     }
     
-    @objc private func confirmButtonTapped() {
-        if let meridiem = tempSelectedMeridiem,
-           let hour = tempSelectedHour,
-           let minute = tempSelectedMinute {
-            let selectedTimeText = "\(meridiem) \(hour)시 \(minute)분"
-            selectedTimeLabel.text = selectedTimeText
-            
-            tempSelectedMeridiem = nil
-            tempSelectedHour = nil
-            tempSelectedMinute = nil
-        }
-        
-        hidePickerView()
-    }
-    
-    
     
     private func setupTimeSettingTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(timeSettingLabelTapped))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(selectTimeButtonTapped))
         timeSettingLabel.isUserInteractionEnabled = true
         timeSettingLabel.addGestureRecognizer(tapGesture)
     }
@@ -421,18 +445,21 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        let meridiemIndex = pickerView.selectedRow(inComponent: 0)
-        let hourIndex = pickerView.selectedRow(inComponent: 1)
-        let minuteIndex = pickerView.selectedRow(inComponent: 2)
-        
-        if meridiemIndex < meridiem.count,
-           hourIndex < hours.count,
-           minuteIndex < minutes.count {
-            tempSelectedMeridiem = meridiem[meridiemIndex]
-            tempSelectedHour = hours[hourIndex]
-            tempSelectedMinute = minutes[minuteIndex]
-        }
-    }
+        // "hh-mm" 포맷으로 시간 문자열 생성 및 저장 로직 추가
+                let meridiemIndex = pickerView.selectedRow(inComponent: 0)
+                let hourIndex = pickerView.selectedRow(inComponent: 1)
+                let minuteIndex = pickerView.selectedRow(inComponent: 2)
+                
+                // 시간 포맷을 "hh-mm"으로 변경하는 로직 추가
+                if meridiemIndex < meridiem.count,
+                   hourIndex < hours.count,
+                   minuteIndex < minutes.count {
+                    tempSelectedMeridiem = meridiem[meridiemIndex]
+                    tempSelectedHour = String(format: "%02d", hourIndex) // 시간을 "hh" 포맷으로 변경
+                    tempSelectedMinute = minutes[minuteIndex] // 분은 이미 "mm" 포맷
+                }
+            }
+    
     
     
     private func setupDosageInputField() {
@@ -498,3 +525,5 @@ extension DosageAddViewController {
         return true
     }
 }
+
+
