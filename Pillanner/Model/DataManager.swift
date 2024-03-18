@@ -44,7 +44,7 @@ final class DataManager {
     }
     
     func readUserData(userID: String, completion: @escaping ([String: String]?) -> Void){
-
+        
         var output = ["": ""]
         let query = db.collection("Users").whereField("ID", isEqualTo: userID)
         
@@ -153,11 +153,11 @@ final class DataManager {
                 }
                 for document in snapshot.documents {
                     if let title = document.data()["Title"],
-                        let type = document.data()["Type"],
-                        let day = document.data()["Day"],
-                        let dueDate = document.data()["DueDate"],
-                        let intake = document.data()["Intake"],
-                        let dosage = document.data()["Dosage"] {
+                       let type = document.data()["Type"],
+                       let day = document.data()["Day"],
+                       let dueDate = document.data()["DueDate"],
+                       let intake = document.data()["Intake"],
+                       let dosage = document.data()["Dosage"] {
                         let dict = ["Title": title ,"Type": type, "Day": day, "DueDate": dueDate, "Intake": intake, "Dosage": dosage]
                         output = dict
                     }
@@ -254,32 +254,73 @@ final class DataManager {
     }
     
     // MARK: - Functions about Pill Record
-    // 약 복용 로그를 저장할 수 있는 메서드 구현 필요
-    // Pill에 bool값 하나 더 넣어두는게...
-    func createPillRecordData(pill: Pill) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+    // 복용된 로그를 저장할 수 있는 메서드 구현 필요
+    // 복용된 로그를 통해 달성률 계산
+    // 이후 달성률 계산 위해서 -> 이름, 섭취날짜, 섭취량 저장?
+    // 1.
+    // 이름 String
+    // 섭취 날짜 [String] 형태 -> 한 약에 대한 섭취 날짜들 관리 -> 이후에 지난 날에 대한 약 복용 유무 비교 가능
+    // 섭취량 Double
+    // 약 하나당 정보 관리 용이?
+    // 2.
+    // 위의 데이터 형태는 똑같지만, 한 약에 대한 관리가 아닌 단순히 복용된 약들을 통째로 저장하는 형태
+    // 하나의 레코드가 이름 - 섭취 날짜 - 섭취량
+    
+    // ->
+    // 1. TakenPills Collection 접근
+    // 2. 약 이름이 존재하는지 안하는지 확인
+    // 3. 약 이름이 존재하지 않으면 새롭게 doc 만듬
+    // 4. 약 이름 존재하면 doc에 접근해 intake 값을 더 저장해줌
+    
+    func createPillRecordData(pill: TakenPill) {
         if let userID = UserDefaults.standard.string(forKey: "ID") {
             readUserData(userID: userID) { userData in
                 if let userData = userData {
                     let userDocumentID = userData["UID"]
                     let takenPillsCollection = self.db.collection("Users").document(userDocumentID!).collection("TakenPills")
-                    let query = takenPillsCollection.whereField("Title", isEqualTo: pill.title)
+                    let dateQuery = takenPillsCollection.whereField("TakenDate", isEqualTo: pill.takenDate)
+                    let titleQuery = takenPillsCollection.whereField("Title", isEqualTo: pill.title)
                     
-                    query.getDocuments{ (snapshot, error) in
+                    dateQuery.getDocuments{ (snapshot, error) in
                         guard let captured = snapshot, !captured.isEmpty else {
+                            //title, date 모두 존재 안하는 경우
                             takenPillsCollection.document("\(pill.title)").setData([
                                 "Title": pill.title,
-                                "Type": pill.type,
-                                "TakenDate": dateFormatter.string(from: Date()),
-                                "Intake": pill.intake,
-                                "Dosage": pill.dosage,
-                                "Dosed": true
+                                "TakenDate": pill.takenDate,
+                                "Intake": [pill.intake],
+                                "Dosage": pill.dosage
                             ])
                             print("복용 기록 등록 완료")
                             return
                         }
-                        print("이미 같은 복용 기록으로 등록이 되어있어요.")
+                        //date가 존재하는 경우
+                        titleQuery.getDocuments { (snapshot, error) in
+                            guard let captured = snapshot, !captured.isEmpty else {
+                                //date는 존재하는데 title 존재 안하는 경우
+                                takenPillsCollection.document("\(pill.title)").setData([
+                                    "Title": pill.title,
+                                    "TakenDate": pill.takenDate,
+                                    "Intake": [pill.intake],
+                                    "Dosage": pill.dosage
+                                ])
+                                print("복용 기록 등록 완료")
+                                return
+                            }
+                            //date도 존재하고 title도 존재하는 경우
+                            if let pillDocument = captured.documents.first {
+                                var currentIntake = pillDocument.data()["Intake"] as? [String] ?? []
+                                currentIntake.append(pill.intake)
+                                takenPillsCollection.document("\(pill.title)").updateData([
+                                    "Intake": currentIntake
+                                ]) { error in
+                                    if let error = error {
+                                        print("Error updating document: \(error)")
+                                    } else {
+                                        print("복용 기록 업데이트 완료")
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -297,11 +338,9 @@ final class DataManager {
             }
             for document in snapshot.documents {
                 let docs = ["Title": document.data()["Title"],
-                            "Type": document.data()["Type"],
                             "DueDate": document.data()["DueDate"],
                             "Intake": document.data()["Intake"],
-                            "Dosage": document.data()["Dosage"],
-                            "Dosed": document.data()["Dosed"]
+                            "Dosage": document.data()["Dosage"]
                 ]
                 result.append(docs as [String : Any])
             }
@@ -324,3 +363,4 @@ final class DataManager {
         return passwordTest.evaluate(with: password)
     }
 }
+

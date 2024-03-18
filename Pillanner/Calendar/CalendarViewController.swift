@@ -161,7 +161,7 @@ class CalendarViewController: UIViewController {
                                             day: pill["Day"] as! [String],
                                             dueDate: pill["DueDate"] as! String,
                                             intake: pill["Intake"] as! [String],
-                                            dosage: pill["Dosage"] as! Double)
+                                            dosage: pill["Dosage"] as! String)
                             todaysPill.append(data)
                         }
                     }
@@ -198,14 +198,14 @@ class CalendarViewController: UIViewController {
                     pillsListPM.pills.append(Pill(title: pill.title,
                                                   type: pill.type,
                                                   day: [""],
-                                                  dueDate: "",
+                                                  dueDate: pill.dueDate,
                                                   intake: [timeFormatter.date(from: time)!.toString()],
                                                   dosage: pill.dosage))
                 } else {
                     pillsListAM.pills.append(Pill(title: pill.title,
                                                   type: pill.type,
                                                   day: [""],
-                                                  dueDate: "",
+                                                  dueDate: pill.dueDate,
                                                   intake: [timeFormatter.date(from: time)!.toString()],
                                                   dosage: pill.dosage))
                 }
@@ -439,6 +439,13 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
         // 알림
         let pill = categoryOfPills[indexPath.section].pills[indexPath.row]
         showNotification(message: "'\(pill.title) - \(pill.dosage)'을 복용하셨습니다.")
+        
+        // 셀 선택 시 복용된 약 저장
+        // 날짜는 캘린더에 표시되는 당일 값을 넣어줌
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let takenPill = TakenPill(title: pill.title, takenDate: dateFormatter.string(from: calendar.today!), intake: pill.intake[0], dosage: pill.dosage)
+        DataManager.shared.createPillRecordData(pill: takenPill)
     }
     
     // MARK: - UserNotification
