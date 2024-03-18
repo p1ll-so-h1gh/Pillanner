@@ -10,7 +10,13 @@ import SnapKit
 
 // 약 정보 수정하는 뷰에서 접근할 때, 약 정보 받아올 수 있는 방법 필요
 
+protocol DosageAddDelegate: AnyObject {
+    func updateDosage(_ dosage: Double)
+    func updateIntake(_ intake: String)
+}
+
 class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource {
+    weak var delegate: DosageAddDelegate?
     
     private var pageTitleLabel: UILabel!
     private var alarmSettingLabel: UILabel!
@@ -143,6 +149,14 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     
     @objc private func saveButtonTapped() {
         print("저장 버튼이 탭되었습니다.")
+        
+        if let dosage = Double(dosageInputTextField.text!) {
+            delegate?.updateDosage(dosage)
+        } else { 
+            print("Failed to Add Dosage")
+        }
+        
+        delegate?.updateIntake(<#T##String#>)
     }
     
     

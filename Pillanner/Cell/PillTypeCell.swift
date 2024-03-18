@@ -10,7 +10,13 @@ import SnapKit
 
 // 버튼 눌렀을 떄 반환값 필요
 
+protocol PillTypeCellDelegate: AnyObject {
+    func updatePillType(_ type: String)
+}
+
 final class PillTypeCell: UITableViewCell {
+    
+    weak var delegate: PillTypeCellDelegate?
     
     static let identifier = "PillTypeCell"
     private let sidePaddingSizeValue = 20
@@ -73,6 +79,7 @@ final class PillTypeCell: UITableViewCell {
         generalPillView.layer.borderColor = UIColor.pointThemeColor2.cgColor
         prescriptionPillView.layer.borderColor = UIColor(hexCode: "E6E6E6").cgColor
         prescriptionPillView.backgroundColor = UIColor(hexCode: "E6E6E6")
+        delegate?.updatePillType("일반")
     }
     
     @objc func tappedprescriptionPillBtn() {
@@ -81,6 +88,7 @@ final class PillTypeCell: UITableViewCell {
         prescriptionPillView.layer.borderColor = UIColor.pointThemeColor2.cgColor
         generalPillView.layer.borderColor = UIColor(hexCode: "E6E6E6").cgColor
         generalPillView.backgroundColor = UIColor(hexCode: "E6E6E6")
+        delegate?.updatePillType("처방")
     }
     
     required init?(coder: NSCoder) {

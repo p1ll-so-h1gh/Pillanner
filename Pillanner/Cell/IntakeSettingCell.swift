@@ -83,7 +83,7 @@ final class IntakeSettingCell: UITableViewCell {
         self.pillTableView.dataSource = self
         self.pillTableView.delegate = self
         self.pillTableView.rowHeight = UITableView.automaticDimension
-        self.setupLayout()
+//        self.setupLayout()
     }
     
     required init?(coder: NSCoder) {

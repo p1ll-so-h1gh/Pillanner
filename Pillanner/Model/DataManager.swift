@@ -116,7 +116,7 @@ final class DataManager {
             readUserData(userID: userID) { userData in
                 if let userData = userData {
                     let userDocumentID = userData["UID"]
-                    let pillCollection = self.db.collection("Users").document(userDocumentID as! String).collection("Pills")
+                    let pillCollection = self.db.collection("Users").document(userDocumentID!).collection("Pills")
                     let query = pillCollection.whereField("Title", isEqualTo: pill.title)
                     
                     query.getDocuments{ (snapshot, error) in
@@ -192,7 +192,7 @@ final class DataManager {
     }
     
     // 약 이름 받아서 -> 그거랑 같은 데이터 먼저 찾고 -> 접근해서 새로운 데이터로 바꾸기
-    func updatePillData(oldTitle: String, newTitle: String, type: String, day: [Int], dueDate: String, intake: [String], dosage: Double) {
+    func updatePillData(oldTitle: String, newTitle: String, type: String, day: [String], dueDate: String, intake: [String], dosage: Double) {
         if let userDocumentID = UserDefaults.standard.string(forKey: "UID") {
             
             let pillCollection = db.collection("Users").document(userDocumentID).collection("Pills")
@@ -210,6 +210,30 @@ final class DataManager {
                 
                 oldRef.delete()
                 newRef.setData(["Title": newTitle ,"Type": type, "Day": day, "DueDate": dueDate, "Intake": intake, "Dosage": dosage])
+            }
+            print("약 정보가 업데이트 되었습니다.")
+        }
+        
+    }
+    
+    func updatePillData(oldTitle: String, pill: Pill) {
+        if let userDocumentID = UserDefaults.standard.string(forKey: "UID") {
+            
+            let pillCollection = db.collection("Users").document(userDocumentID).collection("Pills")
+            let query = pillCollection.whereField("Title", isEqualTo: oldTitle)
+            
+            query.getDocuments{(snapshot, error) in
+                guard let snapshot = snapshot, !snapshot.isEmpty else {
+                    print("잘못된 접근입니다...")
+                    return
+                }
+                print("약 정보 수정을 시작합니다.")
+                
+                let oldRef = pillCollection.document(oldTitle)
+                let newRef = pillCollection.document(pill.title)
+                
+                oldRef.delete()
+                newRef.setData(["Title": pill.title ,"Type": pill.type, "Day": pill.day, "DueDate": pill.dueDate, "Intake": pill.intake, "Dosage": pill.dosage])
             }
             print("약 정보가 업데이트 되었습니다.")
         }
@@ -239,7 +263,7 @@ final class DataManager {
             readUserData(userID: userID) { userData in
                 if let userData = userData {
                     let userDocumentID = userData["UID"]
-                    let takenPillsCollection = self.db.collection("Users").document(userDocumentID as! String).collection("TakenPills")
+                    let takenPillsCollection = self.db.collection("Users").document(userDocumentID!).collection("TakenPills")
                     let query = takenPillsCollection.whereField("Title", isEqualTo: pill.title)
                     
                     query.getDocuments{ (snapshot, error) in

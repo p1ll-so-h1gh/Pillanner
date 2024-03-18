@@ -169,6 +169,7 @@ extension CalendarView: UICollectionViewDelegateFlowLayout, UICollectionViewData
         return cell
     }
     
+    // 특정 날짜 클릭했을 때 이벤트
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
         let day = indexPath.row - firstWeekDayOfMonth + 2

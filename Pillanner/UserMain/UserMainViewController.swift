@@ -33,7 +33,6 @@ final class UserMainViewController: UIViewController {
     private var pillsList = [Pill]()
     
     //MARK: - UI Properties
-    
     private let topView: UIView = {
         var view = UIView()
         return view

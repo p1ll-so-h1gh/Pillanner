@@ -9,8 +9,13 @@ import UIKit
 import SnapKit
 import SwiftUI
 
+protocol PillCellDelegate: AnyObject {
+    func updatePillTitle(_ title: String)
+}
+
 final class PillCell: UITableViewCell {
     
+    weak var delegate: PillCellDelegate?
     private var onEditingProcess = false
     static let identifier = "PillCell"
     private let sidePaddingSizeValue = 20
@@ -28,6 +33,7 @@ final class PillCell: UITableViewCell {
         let field = UITextField()
         field.placeholder = "제품명"
         field.textAlignment = .left
+        field.addTarget(self, action: #selector(textFieldDidChanged), for: .editingChanged)
         return field
     }()
     
@@ -39,6 +45,10 @@ final class PillCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError()
+    }
+    
+    @objc private func textFieldDidChanged(_ sender: Any) {
+        delegate?.updatePillTitle(self.pillNameTextField.text ?? "")
     }
     
     func setupLayout() {
@@ -68,6 +78,10 @@ final class PillCell: UITableViewCell {
             $0.left.equalTo(self.pillnameLabel.snp.right).inset(-8)
             $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
         }
+    }
+    
+    func titleChanged(_ title: String) {
+        delegate?.updatePillTitle(title)
     }
     
     //cell 초기화 함수 - 제품명 사라지게 하기
