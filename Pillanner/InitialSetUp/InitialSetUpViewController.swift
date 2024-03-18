@@ -209,6 +209,10 @@ extension InitialSetUpViewController: IntakeSettingDelegate {
 }
 
 extension InitialSetUpViewController: DueDateCellDelegate {
+    func updateDueDate(date: String) {
+        //<#code#>
+    }
+    
     func sendDate(date: String) {
         print(date)
     }

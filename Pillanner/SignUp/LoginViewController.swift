@@ -13,7 +13,6 @@ import AuthenticationServices
 import CryptoKit
 
 class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
-    var mySNSLoginViewController = SNSLoginViewController()
     var currentNonce: String?
     private let sidePaddingValue = 20
     private let paddingBetweenComponents = 30
@@ -307,7 +306,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             DataManager.shared.readUserData(userID: id) { userData in
                 guard let userData = userData else { return }
 
-                if id == userData["ID"] as! String && password == userData["Password"] as! String {
+                if id == userData["ID"]! && password == userData["Password"]! {
                     let mainVC = TabBarController()
                     mainVC.modalPresentationStyle = .fullScreen
                     self.present(mainVC, animated: true, completion: nil)
@@ -321,10 +320,6 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
                     self.present(loginFailedAlert, animated: true)
                 }
             }
-            // 일단 메인 화면(탭바)로 넘어가는 기능 넣기
-//            let mainVC = TabBarController()
-//            mainVC.modalPresentationStyle = .fullScreen
-//            present(mainVC, animated: true, completion: nil)
         }
     }
     
