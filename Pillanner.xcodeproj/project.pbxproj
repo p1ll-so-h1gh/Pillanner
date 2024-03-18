@@ -62,6 +62,7 @@
 		56B1D99B2B889E1C0030C6BB /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		56E781EE2BA338DB006D36BB /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 56E781ED2BA338DB006D36BB /* Secrets.plist */; };
 		56FA3A3D2BA5450400C3CCD8 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 56FA3A3C2BA5450400C3CCD8 /* Secrets.plist */; };
+		56FA3A412BA7EC6F00C3CCD8 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 56FA3A402BA7EC6E00C3CCD8 /* Secrets.plist */; };
 		7C365CA52B9F1F25003C8CF8 /* LoginVC_NAVER_Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C365CA42B9F1F25003C8CF8 /* LoginVC_NAVER_Login.swift */; };
 		7C365CA92B9F22B9003C8CF8 /* NaverThirdPartyLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 7C365CA82B9F22B9003C8CF8 /* NaverThirdPartyLogin */; };
 		7C3F79862B9068A000DD1AC7 /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F79852B9068A000DD1AC7 /* CalendarModel.swift */; };
@@ -128,6 +129,7 @@
 		5672C8902BA334AA004D4DAD /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		56E781ED2BA338DB006D36BB /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		56FA3A3C2BA5450400C3CCD8 /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
+		56FA3A402BA7EC6E00C3CCD8 /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		7C365CA42B9F1F25003C8CF8 /* LoginVC_NAVER_Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC_NAVER_Login.swift; sourceTree = "<group>"; };
 		7C3F79852B9068A000DD1AC7 /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPillCell.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				56E781ED2BA338DB006D36BB /* Secrets.plist */,
 				1425CFAD2BA1B16E00A01D44 /* Secrets.plist */,
 				56FA3A3C2BA5450400C3CCD8 /* Secrets.plist */,
+				56FA3A402BA7EC6E00C3CCD8 /* Secrets.plist */,
 				C4A55A032B999E0A0084AF16 /* Config.xcconfig */,
 				14D2BE5F2B84BBBF0006AC51 /* Pillanner */,
 				14D2BE5E2B84BBBF0006AC51 /* Products */,
@@ -515,6 +518,7 @@
 				56FA3A3D2BA5450400C3CCD8 /* Secrets.plist in Resources */,
 				1425CFAE2BA1B16E00A01D44 /* Secrets.plist in Resources */,
 				1438F6AC2B8F0A53006D2939 /* GoogleService-Info.plist in Resources */,
+				56FA3A412BA7EC6F00C3CCD8 /* Secrets.plist in Resources */,
 				14D2BE6D2B84BBC20006AC51 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
