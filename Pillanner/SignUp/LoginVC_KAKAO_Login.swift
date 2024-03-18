@@ -25,7 +25,7 @@ extension LoginViewController {
                     print("카카오톡 앱으로 실행")
                     //do something
                     _ = oauthToken
-                    print("my kakao Token : ",oauthToken)
+                    print("my kakao Token : ",oauthToken as Any)
                     self.signUpWithKakaoEmail()
                 }
             }
@@ -82,5 +82,16 @@ extension LoginViewController {
                 }
             }
         }
+    }
+    
+    // 카카오톡 로그아웃
+    func kakaoLogout() {
+        UserApi.shared.logout(completion: { (error) in
+            if let error = error {
+                print("로그아웃 에러: ", error)
+            } else {
+                print("카카오 로그아웃 성공")
+            }
+        })
     }
 }

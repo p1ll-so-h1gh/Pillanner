@@ -111,4 +111,14 @@ extension LoginViewController {
         
         return hashString
     }
+    
+    // Apple 로그아웃 (Firebase)
+    func appleFirebaseLogout() {
+        do {
+            try Auth.auth().signOut()
+            print("Firebase Apple 로그아웃")
+        } catch let error {
+            print("Firebase Apple 로그아웃 에러: ", error.localizedDescription)
+        }
+    }
 }
