@@ -28,6 +28,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
         let field = UITextField()
         field.placeholder = "아이디 입력"
         field.textAlignment = .left
+        field.autocapitalizationType = .none
         return field
     }()
     
@@ -297,16 +298,14 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
 
         if let id = idTextfield.text, let password = pwdTextfield.text {
             
-            
-            if UserDefaults.standard.bool(forKey: "isAutoLoginActivate") {
-                UserDefaults.standard.setValue(id, forKey: "ID")
-                UserDefaults.standard.setValue(password, forKey: "Password")
-            }
-            
             DataManager.shared.readUserData(userID: id) { userData in
                 guard let userData = userData else { return }
-
-                if id == userData["ID"]! && password == userData["Password"]! {
+                if id == userData["ID"]! && password == userData["Password"]! && userData["SignUpPath"]! == "일반회원가입" {
+                    UserDefaults.standard.set(userData["UID"]!, forKey: "UID")
+                    UserDefaults.standard.set(userData["ID"]!, forKey: "ID")
+                    UserDefaults.standard.set(userData["Password"]!, forKey: "Password")
+                    UserDefaults.standard.set(userData["Nickname"]!, forKey: "Nickname")
+                    UserDefaults.standard.set(userData["SignUpPath"]!, forKey: "SignUpPath")
                     let mainVC = TabBarController()
                     mainVC.modalPresentationStyle = .fullScreen
                     self.present(mainVC, animated: true, completion: nil)
