@@ -32,7 +32,7 @@ struct PillCategory {
     var pills: [Pill]
 }
 
-// 복용한 약 저장 구조체
+
 struct TakenPill {
     let title: String
     var takenDate: String // 데이터 타입 변화할 가능성이 있음...

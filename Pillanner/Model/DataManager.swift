@@ -22,8 +22,8 @@ final class DataManager {
     // create함수는 UserDefaults에 ID, PW값을 저장하게 됩니다.
     // MARK: - Functions about User Data
     func createUserData(user: UserData) {
-        let userCollection = db.collection("Users")
-        let query = userCollection.whereField("ID", isEqualTo: user.ID)
+        let userCollection = db.collection("Users") // CollectionReference
+        let query = userCollection.whereField("ID", isEqualTo: user.ID) // DocumentReference
         
         query.getDocuments{ (snapshot, error) in
             guard let captured = snapshot, !captured.isEmpty else {
@@ -192,6 +192,7 @@ final class DataManager {
     }
     
     // 약 이름 받아서 -> 그거랑 같은 데이터 먼저 찾고 -> 접근해서 새로운 데이터로 바꾸기
+
     func updatePillData(oldTitle: String, newTitle: String, type: String, day: [String], dueDate: String, intake: [String], dosage: String) {
         if let userDocumentID = UserDefaults.standard.string(forKey: "UID") {
             
@@ -239,9 +240,6 @@ final class DataManager {
         }
         
     }
-    
-    
-    
     
     func deletePillData(title: String) {
         if let userDocumentID = UserDefaults.standard.string(forKey: "UID") {

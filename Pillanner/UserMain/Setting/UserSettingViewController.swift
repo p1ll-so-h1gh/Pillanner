@@ -623,3 +623,5 @@ final class SettingSectionHeaderView: UITableViewHeaderFooterView {
     }
     
 }
+
+UIApplication

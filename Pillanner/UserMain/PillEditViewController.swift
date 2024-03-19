@@ -97,14 +97,25 @@ final class PillEditViewController: UIViewController {
         dismiss(animated: true)
     }
     
+    // 저장버튼 눌렀을 때, 데이터 업데이트 및 알럿, 화면 빠져나오기 기능 추가
     @objc private func editButtonTapped() {
-        // 각 셀들의 상태를 어떻게 업데이트 받을지...
+        // 빈 내용이 있으면 어떻게 처리할 지 고민해야 함
         
-        DataManager.shared.updatePillData(oldTitle: originalPillTitle, newTitle: self.titleForEdit, type: self.typeForEdit, day: self.dayForEdit, dueDate: self.dueDateForEdit, intake: self.intakeForEdit, dosage: self.dosageForEdit)
+        let newPill = Pill(title: self.titleForEdit, type: self.typeForEdit, day: self.dayForEdit, dueDate: self.dueDateForEdit, intake: self.intakeForEdit, dosage: self.dosageForEdit)
+        
+        DataManager.shared.updatePillData(oldTitle: originalPillTitle, pill: newPill)
         
         DataManager.shared.readPillListData(UID: UserDefaults.standard.string(forKey: "UID")!) { pillList in
             print(pillList)
         }
+        
+        let addAlert = UIAlertController(title: "수정 완료", message: "약 정보 수정이 정상적으로 완료되었습니다!", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _  in
+            self.navigationController?.popViewController(animated: true)
+        }
+        addAlert.addAction(okAction)
+        
+        present(addAlert, animated: true)
     }
     
     //키보드 외부 터치 시 키보드 숨김처리

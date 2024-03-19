@@ -24,6 +24,16 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
     let weekdays = ["월요일마다", "화요일마다", "수요일마다", "목요일마다", "금요일마다", "토요일마다", "일요일마다"]
     private var pageTitleLabel: UILabel!
     
+//    private let loginButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("저장하기", for: .normal)
+//        button.titleLabel?.font = FontLiteral.body(style: .bold)
+//        button.setTitleColor(.white, for: .normal)
+//        button.backgroundColor = UIColor.pointThemeColor2
+//        button.layer.cornerRadius = 8
+//        button.addTarget(target, action: #selector(didSaveButtonTapped), for: .touchUpInside)
+//        return button
+//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +41,11 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
         self.navigationItem.title = "반복"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: FontLiteral.title3(style: .bold)]
         setupTableView()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        didSaveButtonTapped()
     }
 
     
@@ -72,23 +87,28 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
             selectedWeekdays.insert(indexPath.row)
         }
         tableView.reloadRows(at: [indexPath], with: .fade)
+        print(selectedWeekdays)
+        print(selectedWeekdaysInString)
     }
     
+    // 로직 수정
     func saveSelectedWeekdaysInString() {
-        if selectedWeekdays.contains(0) {
-            selectedWeekdaysInString.append("Mon")
-        } else if selectedWeekdays.contains(1) {
-            selectedWeekdaysInString.append("Tue")
-        } else if selectedWeekdays.contains(2) {
-            selectedWeekdaysInString.append("Wed")
-        } else if selectedWeekdays.contains(3) {
-            selectedWeekdaysInString.append("Thu")
-        } else if selectedWeekdays.contains(4) {
-            selectedWeekdaysInString.append("Fri")
-        } else if selectedWeekdays.contains(5) {
-            selectedWeekdaysInString.append("Sat")
-        } else if selectedWeekdays.contains(6) {
-            selectedWeekdaysInString.append("Sun")
+        for selectedWeekday in selectedWeekdays {
+            if selectedWeekday == 0 {
+                selectedWeekdaysInString.append("Mon")
+            } else if selectedWeekday == 1 {
+                selectedWeekdaysInString.append("Tue")
+            } else if selectedWeekday == 2 {
+                selectedWeekdaysInString.append("Wed")
+            } else if selectedWeekday == 3 {
+                selectedWeekdaysInString.append("Thu")
+            } else if selectedWeekday == 4 {
+                selectedWeekdaysInString.append("Fri")
+            } else if selectedWeekday == 5 {
+                selectedWeekdaysInString.append("Sat")
+            } else if selectedWeekday == 6 {
+                selectedWeekdaysInString.append("Sun")
+            }
         }
     }
     
@@ -96,6 +116,7 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
         saveSelectedWeekdaysInString()
         
         delegate?.updateIntakeDate(selectedWeekdaysInString)
+        print(selectedWeekdaysInString)
     }
 }
 

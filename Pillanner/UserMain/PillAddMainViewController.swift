@@ -81,10 +81,19 @@ final class PillAddMainViewController: UIViewController {
         setupView()
     }
     
+    // 추가버튼 눌렀을 떄, 알럿 및 화면 빠져나오기 기능 구현
     @objc private func addButtonTapped() {
         let newPillData = Pill(title: self.titleForAdd, type: self.typeForAdd, day: self.dayForAdd, dueDate: self.dueDateForAdd, intake: self.intakeForAdd, dosage: self.dosageForAdd)
         
         DataManager.shared.createPillData(pill: newPillData)
+        
+        let addAlert = UIAlertController(title: "추가 완료", message: "약 추가가 정상적으로 완료되었습니다!", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _  in
+            self.navigationController?.popViewController(animated: true)
+        }
+        addAlert.addAction(okAction)
+        
+        present(addAlert, animated: true)
     }
     
     @objc func dismissView() {
@@ -106,6 +115,7 @@ final class PillAddMainViewController: UIViewController {
     //뷰가 나타날 때 네비게이션 바 숨김
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
+        print(dayForAdd)
     }
     
     private func setupView() {
