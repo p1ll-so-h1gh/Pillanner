@@ -151,7 +151,7 @@ extension NotificationHelper {
                let day = pillData["Day"] as? [String],
                let dueDate = pillData["DueDate"] as? String,
                let intake = pillData["Intake"] as? [String],
-               let dosage = pillData["Dosage"] as? Double {
+               let dosage = pillData["Dosage"] as? String {
                 let pill = Pill(title: title, type: type, day: day, dueDate: dueDate, intake: intake, dosage: dosage)
                 pills.append(pill)
             }

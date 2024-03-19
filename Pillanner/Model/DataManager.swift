@@ -192,7 +192,7 @@ final class DataManager {
     }
     
     // 약 이름 받아서 -> 그거랑 같은 데이터 먼저 찾고 -> 접근해서 새로운 데이터로 바꾸기
-    func updatePillData(oldTitle: String, newTitle: String, type: String, day: [String], dueDate: String, intake: [String], dosage: Double) {
+    func updatePillData(oldTitle: String, newTitle: String, type: String, day: [String], dueDate: String, intake: [String], dosage: String) {
         if let userDocumentID = UserDefaults.standard.string(forKey: "UID") {
             
             let pillCollection = db.collection("Users").document(userDocumentID).collection("Pills")

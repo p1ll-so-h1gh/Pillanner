@@ -23,7 +23,7 @@ final class PillAddMainViewController: UIViewController {
     private var dayForAdd = [String]()
     private var dueDateForAdd = String()
     private var intakeForAdd = [String]()
-    private var dosageForAdd = Double()
+    private var dosageForAdd = String()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -211,7 +211,7 @@ extension PillAddMainViewController: PillCellDelegate, IntakeDateCellDelegate, P
         self.dueDateForAdd = date
     }
     
-    func updateDosage(_ dosage: Double) {
+    func updateDosage(_ dosage: String) {
         self.dosageForAdd = dosage
     }
     

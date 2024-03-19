@@ -105,12 +105,12 @@ class PillListCollectionViewCell: UICollectionViewCell {
             guard let userID = UserDefaults.standard.string(forKey: "ID") else { return }
             DataManager.shared.readUserData(userID: userID) { pillData in
                 if let pillData = pillData {
-                    let pill = Pill(title: pillData["Title"] as! String,
-                                    type: pillData["Type"] as! String,
+                    let pill = Pill(title: pillData["Title"]!,
+                                    type: pillData["Type"]!,
                                     day: pillData["Day"] as! [String],
-                                    dueDate: pillData["DueDate"] as! String,
+                                    dueDate: pillData["DueDate"]!,
                                     intake: pillData["Intake"] as! [String],
-                                    dosage: pillData["Dosage"] as! Double)
+                                    dosage: pillData["Dosage"]!)
                     self.pillListViewDelegate?.editPill(pillData: pill)
                 }
             }
