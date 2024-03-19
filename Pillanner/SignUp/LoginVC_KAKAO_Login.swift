@@ -59,7 +59,16 @@ extension LoginViewController {
                 
                 Auth.auth().createUser(withEmail: (user?.kakaoAccount?.email)!, password: "123456") { result, error in
                     if let error = error {
-                        print(error)
+                        let code = (error as NSError).code
+                        print("firebase auth error code : ", code)
+                        switch code {
+                        case 17007 : 
+                            print("이미 같은 이메일로 가입된 ID가 있습니다.")
+                            let nextVC = TabBarController()
+                                nextVC.modalPresentationStyle = .fullScreen
+                            self.present(nextVC, animated: true)
+                        default : print(error.localizedDescription)
+                        }
                     }
                     
                     if let result = result {

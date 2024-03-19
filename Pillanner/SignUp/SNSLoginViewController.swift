@@ -84,25 +84,6 @@ class SNSLoginViewController: UIViewController, UITextFieldDelegate {
         pillannerFlagImage.frame.size.height = self.view.frame.height * 0.1
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        // Calculate new size based on text content
-        let currentText = (textField.text ?? "") as NSString
-        let newText = currentText.replacingCharacters(in: range, with: string) as NSString
-        let width = newText.size(withAttributes: [NSAttributedString.Key.font: textField.font!]).width + 20 // Add padding
-        
-        // Remove existing width constraint (if exists)
-        textField.snp.removeConstraints()
-        
-        // Add new width constraint
-        textField.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
-            $0.width.equalTo(width)
-        }
-        
-        return true
-    }
-
-    
     private func setConstraints() {
         pillannerFlagImage.snp.makeConstraints{
             $0.centerX.equalToSuperview()
@@ -113,6 +94,8 @@ class SNSLoginViewController: UIViewController, UITextFieldDelegate {
             $0.top.equalTo(pillannerFlagImage.snp.bottom).offset(30)
         }
         setNameTextField.snp.makeConstraints{
+            $0.left.equalToSuperview().offset(sidePaddingValue)
+            $0.right.equalToSuperview().offset(-sidePaddingValue)
             $0.centerX.centerY.equalToSuperview()
         }
         setNameButton.snp.makeConstraints({

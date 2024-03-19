@@ -49,8 +49,16 @@ extension LoginViewController {
             // Sign in with Firebase.
             Auth.auth().signIn(with: credential) { (result, error) in
                 if let error = error {
-                    print(error.localizedDescription)
-                    return
+                    let code = (error as NSError).code
+                    print("firebase auth error code : ", code)
+                    switch code {
+                    case 17007 :
+                        print("이미 같은 이메일로 가입된 ID가 있습니다.")
+                        let nextVC = TabBarController()
+                            nextVC.modalPresentationStyle = .fullScreen
+                        self.present(nextVC, animated: true)
+                    default : print(error.localizedDescription)
+                    }
                 }
                 print("애플 로그인에 성공했습니다.")
                 print("appleIDCredential : ", appleIDCredential)
