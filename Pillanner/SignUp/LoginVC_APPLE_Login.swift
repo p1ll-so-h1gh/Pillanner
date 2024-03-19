@@ -53,10 +53,23 @@ extension LoginViewController {
                     print("firebase auth error code : ", code)
                     switch code {
                     case 17007 :
-                        print("이미 같은 이메일로 가입된 ID가 있습니다.")
-                        let nextVC = TabBarController()
-                            nextVC.modalPresentationStyle = .fullScreen
-                        self.present(nextVC, animated: true)
+                        DataManager.shared.readUserData(userID: idTokenString) { userData in
+                            guard let userData = userData else { return }
+                            if userData["SignUpPath"]! == "애플" {
+                                UserDefaults.standard.set(userData["UID"]!, forKey: "UID")
+                                UserDefaults.standard.set(userData["ID"]!, forKey: "ID")
+                                UserDefaults.standard.set(userData["Password"]!, forKey: "Password")
+                                UserDefaults.standard.set(userData["Nickname"]!, forKey: "Nickname")
+                                UserDefaults.standard.set(userData["SignUpPath"]!, forKey: "SignUpPath")
+                                let nextVC = TabBarController()
+                                    nextVC.modalPresentationStyle = .fullScreen
+                                self.present(nextVC, animated: true)
+                            } else {
+                                let alert = UIAlertController(title: "로그인 실패", message: "이미 가입된 이메일입니다.", preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "확인", style: .cancel))
+                                self.present(alert, animated: true)
+                            }
+                        }
                     default : print(error.localizedDescription)
                     }
                 }
@@ -69,7 +82,8 @@ extension LoginViewController {
                         UID: result!.user.uid,
                         ID: result!.user.email!,
                         password: "sns",
-                        nickname: "아직 설정 전"
+                        nickname: "아직 설정 전",
+                        signUpPath: "애플"
                     )
                 )
                 let nextVC = SNSLoginViewController()

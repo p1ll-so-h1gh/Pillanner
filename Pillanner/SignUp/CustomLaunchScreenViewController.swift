@@ -9,7 +9,9 @@ import UIKit
 import SnapKit
 
 class CustomLaunchScreenViewController: UIViewController {
-    var loginStatus: Bool = false // false : LoginVC 로 전환, true : (회원가입을 방금한 상태) CustomLaunchVC - 유저메인으로 이동
+    private let myID: String = UserDefaults.standard.string(forKey: "ID") ?? ""
+    private let myPW: String = UserDefaults.standard.string(forKey: "Password") ?? ""
+    private let autoLoginActivate: Bool = UserDefaults.standard.bool(forKey: "isAutoLoginActivate")
     private lazy var backgroundLayer = CAGradientLayer.dayBackgroundLayer(view: self.view)
     
     let logoFlagImage: UIImageView = {
@@ -31,10 +33,9 @@ class CustomLaunchScreenViewController: UIViewController {
         return image
     }()
 
-    init(message: String, status: Bool) {
+    init(message: String) {
         super.init(nibName: nil, bundle: nil)
         welcomeMessageLabel.text = message
-        loginStatus = status
     }
     
     required init?(coder: NSCoder) {
@@ -56,12 +57,23 @@ class CustomLaunchScreenViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        print("자동로그인 on/off? : ", autoLoginActivate)
         sleep(3)
         
-        switch(loginStatus){
-        case true : let nextVC = TabBarController()
-            nextVC.modalPresentationStyle = .fullScreen
-            present(nextVC, animated: true)
+        switch(autoLoginActivate){
+        case true : 
+            DataManager.shared.readUserData(userID: myID) { userData in
+                guard let userData = userData else { return }
+                if self.myID == userData["ID"] && self.myPW == userData["Password"] && userData["SignUpPath"] == "일반회원가입" {
+                    let mainVC = TabBarController()
+                    mainVC.modalPresentationStyle = .fullScreen
+                    self.present(mainVC, animated: true, completion: nil)
+                } else {
+                    let navVC = UINavigationController(rootViewController: LoginViewController())
+                        navVC.modalPresentationStyle = .fullScreen
+                    self.present(navVC, animated: true)
+                }
+            }
             
         case false : let navVC = UINavigationController(rootViewController: LoginViewController())
             navVC.modalPresentationStyle = .fullScreen

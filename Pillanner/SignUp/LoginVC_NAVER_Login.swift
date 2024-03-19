@@ -43,9 +43,9 @@ extension LoginViewController: NaverThirdPartyLoginConnectionDelegate {
             return
         }
 
-        guard let tokenType = naverLoginInstance?.tokenType else { return }
-        guard let accessToken = naverLoginInstance?.accessToken else { return }
-        guard let refreshToken = naverLoginInstance?.refreshToken else { return }
+        guard let tokenType = naverLoginInstance?.tokenType,
+              let accessToken = naverLoginInstance?.accessToken,
+              let refreshToken = naverLoginInstance?.refreshToken else { return }
 
         let urlStr = "https://openapi.naver.com/v1/nid/me"
         let url = URL(string: urlStr)!
@@ -68,10 +68,23 @@ extension LoginViewController: NaverThirdPartyLoginConnectionDelegate {
                     print("firebase auth error code : ", code)
                     switch code {
                     case 17007 :
-                        print("이미 같은 이메일로 가입된 ID가 있습니다.")
-                        let nextVC = TabBarController()
-                            nextVC.modalPresentationStyle = .fullScreen
-                        self.present(nextVC, animated: true)
+                        DataManager.shared.readUserData(userID: email) { userData in
+                            guard let userData = userData else { return }
+                            if userData["SignUpPath"]! == "네이버" {
+                                UserDefaults.standard.set(userData["UID"]!, forKey: "UID")
+                                UserDefaults.standard.set(userData["ID"]!, forKey: "ID")
+                                UserDefaults.standard.set(userData["Password"]!, forKey: "Password")
+                                UserDefaults.standard.set(userData["Nickname"]!, forKey: "Nickname")
+                                UserDefaults.standard.set(userData["SignUpPath"]!, forKey: "SignUpPath")
+                                let nextVC = TabBarController()
+                                    nextVC.modalPresentationStyle = .fullScreen
+                                self.present(nextVC, animated: true)
+                            } else {
+                                let alert = UIAlertController(title: "로그인 실패", message: "이미 가입된 이메일입니다.", preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "확인", style: .cancel))
+                                self.present(alert, animated: true)
+                            }
+                        }
                     default : print(error.localizedDescription)
                     }
                 }
@@ -85,7 +98,8 @@ extension LoginViewController: NaverThirdPartyLoginConnectionDelegate {
                             UID: result.user.uid,
                             ID: email,
                             password: "sns",
-                            nickname: "아직 설정 전"
+                            nickname: "아직 설정 전",
+                            signUpPath: "네이버"
                         )
                     )
                     self.naverDisconnect()
@@ -106,6 +120,7 @@ extension LoginViewController: NaverThirdPartyLoginConnectionDelegate {
     func oauth20ConnectionDidFinishRequestACTokenWithRefreshToken() {
         // 리프레시 토큰 처리
         print(#function)
+        self.naverDisconnect()
     }
 
     func oauth20ConnectionDidFinishDeleteToken() {
