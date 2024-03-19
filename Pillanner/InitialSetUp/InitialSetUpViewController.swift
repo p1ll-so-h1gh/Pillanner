@@ -193,7 +193,7 @@ extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 1 {
-            let weekSelectVC = WeekdaySelectionViewController()
+            let weekSelectVC = WeekdaySelectionViewController(selectedWeekdaysInString: [])
             self.navigationController?.isNavigationBarHidden = false
             self.navigationController?.pushViewController(weekSelectVC, animated: true)
         }

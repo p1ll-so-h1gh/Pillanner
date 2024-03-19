@@ -89,7 +89,7 @@ class PillListCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
-        configureButton()
+//        configureButton(title: "유산균")
     }
     
     func configureCell(with pill: Pill) {
@@ -97,18 +97,19 @@ class PillListCollectionViewCell: UICollectionViewCell {
         self.typeLabel.text = pill.type
         self.alarmLabel.text = "on" // 알람여부 데이터 기반으로 판별해서 넣어야
         self.pillnumLabel.text = "하루 \(pill.dosage)정" // 복용단위 업데이트
+        configureButton(title: pill.title)
     }
     
     // pill name 대신 pill data 넘겨서 사용할 수 있도록 수정해야 됨
-    private func configureButton() {
+    private func configureButton(title: String) {
         let edit = UIAction(title: "수정", state: .off) { _ in
-            guard let userID = UserDefaults.standard.string(forKey: "ID") else { return }
-            DataManager.shared.readUserData(userID: userID) { pillData in
+            DataManager.shared.readPillData(pillTitle: title) { pillData in
                 if let pillData = pillData {
-                    let pill = Pill(title: pillData["Title"]!,
-                                    type: pillData["Type"]!,
+                    print(pillData)
+                    let pill = Pill(title: pillData["Title"] as! String,
+                                    type: pillData["Type"] as! String,
                                     day: pillData["Day"] as! [String],
-                                    dueDate: pillData["DueDate"]!,
+                                    dueDate: pillData["DueDate"] as! String,
                                     intake: pillData["Intake"] as! [String],
                                     dosage: pillData["Dosage"]!)
                     self.pillListViewDelegate?.editPill(pillData: pill)

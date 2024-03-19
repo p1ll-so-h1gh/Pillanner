@@ -200,13 +200,14 @@ final class UserMainViewController: UIViewController {
         intakePillListCollectionView.delegate = self
         intakePillListCollectionView.dataSource = self
         intakePillListCollectionView.register(PillListCollectionViewCell.self, forCellWithReuseIdentifier: PillListCollectionViewCell.id)
-        readPillDataFromFirestore()
+//        readPillDataFromFirestore()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         //뷰가 나타날때마다 애니메이션 효과 주기 위해
         createCircle()
-        setUpLabelsTextWithUserInformation()
+//        setUpLabelsTextWithUserInformation()
+        readPillDataFromFirestore()
     }
     
     
@@ -310,6 +311,7 @@ final class UserMainViewController: UIViewController {
             $0.top.equalTo(intakeDescriptionLabel.snp.bottom).inset(-10)
             $0.leading.trailing.bottom.equalToSuperview().inset(sidePaddingSizeValue)
             $0.height.greaterThanOrEqualTo(1)
+//            $0.height.equalTo(100)
         }
     }
     
@@ -318,6 +320,7 @@ final class UserMainViewController: UIViewController {
         guard let UID = UserDefaults.standard.string(forKey: "UID") else { return }
         
         DataManager.shared.readPillListData(UID: UID) { list in
+            var tempList = [Pill]()
             if let list = list {
                 for pill in list {
                     let receiver = Pill(title: pill["Title"] as! String,
@@ -326,8 +329,11 @@ final class UserMainViewController: UIViewController {
                                         dueDate: pill["DueDate"] as! String,
                                         intake: pill["Intake"] as! [String],
                                         dosage: pill["Dosage"] as! String)
-                    self.pillsList.append(receiver)
+                    tempList.append(receiver)
                 }
+                self.pillsList = tempList
+                self.intakePillListCollectionView.reloadData()
+                self.setUpLabelsTextWithUserInformation()
             }
         }
     }
@@ -335,8 +341,14 @@ final class UserMainViewController: UIViewController {
     private func setUpLabelsTextWithUserInformation() {
         guard let nickname = UserDefaults.standard.string(forKey: "Nickname") else { return }
         nameLabel.text = "\(nickname)님"
-        infoLabel.text = "\(nickname)님! 오늘 알약 섭취를 \(pillsList.count) 완료 하셨어요 :)" // 몇개 먹은지 수정 필요
-        intakeDescriptionLabel.text = "\(nickname)님이 복용중인 약은 \(pillsList.count) 개 입니다"
+        infoLabel.text = "\(nickname)님! 오늘도 잊지않고 약 챙겨드세요! :)" // 다 먹기 전/ 후 분기처리 필요
+        // 혹은 그냥 응원의 문구를 적어 넣는 것도 나쁘지 않을지도?
+        // 해당 문구 아래에 달성률이 이 역할을 할 것이기 때문에...
+        if pillsList.isEmpty {
+            intakeDescriptionLabel.text = "\(nickname)님, 아직 등록하신 약이 없으시네요!"
+        } else {
+            intakeDescriptionLabel.text = "\(nickname)님이 복용중인 약은 \(pillsList.count) 개 입니다"
+        }
     }
 
     //MARK: - Attainment Circle

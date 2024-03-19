@@ -25,7 +25,7 @@ final class PillEditViewController: UIViewController {
     private var dosageForEdit = String()
     
     private var oldPillDataForEdit: Pill
-    private let originalPillTitle: String
+    private var originalPillTitle: String
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -64,7 +64,7 @@ final class PillEditViewController: UIViewController {
         return button
     }()
     
-    private lazy var navBackButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    private lazy var navigationBackButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     
     // 초기화 메서드를 추가합니다.
     // PillEditVC에 진입하는 시점의 title을 originalPillTitle에 저장해둡니다.
@@ -84,11 +84,11 @@ final class PillEditViewController: UIViewController {
         
         self.totalTableView.dataSource = self
         self.totalTableView.rowHeight = UITableView.automaticDimension
-        
+        editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
         backButton.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
         
-        navBackButton.tintColor = .black
-        self.navigationItem.backBarButtonItem = navBackButton
+        navigationBackButton.tintColor = .black
+        self.navigationItem.backBarButtonItem = navigationBackButton
         
         setupView()
     }
@@ -106,12 +106,15 @@ final class PillEditViewController: UIViewController {
         DataManager.shared.updatePillData(oldTitle: originalPillTitle, pill: newPill)
         
         DataManager.shared.readPillListData(UID: UserDefaults.standard.string(forKey: "UID")!) { pillList in
-            print(pillList)
+            if let pillList = pillList {
+                print(pillList)
+            }
         }
         
         let addAlert = UIAlertController(title: "수정 완료", message: "약 정보 수정이 정상적으로 완료되었습니다!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { _  in
             self.navigationController?.popViewController(animated: true)
+//            self.dismiss(animated: true)
         }
         addAlert.addAction(okAction)
         
@@ -186,7 +189,7 @@ extension PillEditViewController: UITableViewDataSource {
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillTypeCell", for: indexPath) as! PillTypeCell
             cell.setupLayoutOnEditingProcess(type: self.oldPillDataForEdit.type)
-//            cell.delegate = self
+            cell.delegate = self
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DueDateCell
@@ -200,7 +203,8 @@ extension PillEditViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 1 {
-            let weekSelectVC = WeekdaySelectionViewController()
+            let weekSelectVC = WeekdaySelectionViewController(selectedWeekdaysInString: oldPillDataForEdit.day)
+            weekSelectVC.delegate = self
             self.navigationController?.isNavigationBarHidden = false
             self.navigationController?.pushViewController(weekSelectVC, animated: true)
         }
@@ -210,6 +214,7 @@ extension PillEditViewController: UITableViewDataSource {
 extension PillEditViewController: IntakeSettingDelegate {
     func addDosage() {
         let dosageAddVC = DosageAddViewController()
+        dosageAddVC.delegate = self
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(dosageAddVC, animated: true)
     }
@@ -219,26 +224,33 @@ extension PillEditViewController: PillCellDelegate, IntakeDateCellDelegate, Pill
     
     func updatePillTitle(_ title: String) {
         self.titleForEdit = title
+        print(#function," : \(self.titleForEdit)")
     }
     
     func updatePillType(_ type: String) {
         self.typeForEdit = type
+        print(#function," : \(self.typeForEdit)")
     }
     
     func updateDays(_ day: [String]) {
         self.dayForEdit = day
+        print(#function," : \(self.dayForEdit)")
+        self.totalTableView.reloadData()
     }
     
     func updateDueDate(date: String) {
         self.dueDateForEdit = date
+        print(#function," : \(self.dueDateForEdit)")
     }
     
     func updateDosage(_ dosage: String) {
         self.dosageForEdit = dosage
+        print(#function," : \(self.dosageForEdit)")
     }
     
     func updateIntake(_ intake: String) {
         self.intakeForEdit.append(intake)
+        print(#function," : \(self.intakeForEdit)")
     }
     
     

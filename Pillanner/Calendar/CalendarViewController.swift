@@ -129,7 +129,7 @@ class CalendarViewController: UIViewController {
     // 4. 분류된 결과를 가지고, PillCategories 변수에 담아내기 ( PillCategories = [PillCategory] 타입의 배열 )
     // 5. 정의된 PillCategories 변수로 테이블 셀을 그려내기
     private func setUpPillData() {
-        
+        print(#function)
         let dateFormatter: DateFormatter = {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
@@ -181,6 +181,7 @@ class CalendarViewController: UIViewController {
     
     
     private func categorizePillData() {
+        print(#function)
         // 시간 변환하는 포매터 설정
         var pillsListAM = PillCategory(meridiem: "AM", pills: [])
         var pillsListPM = PillCategory(meridiem: "PM", pills: [])
