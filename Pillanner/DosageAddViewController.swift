@@ -10,15 +10,22 @@ import SnapKit
 
 // 약 정보 수정하는 뷰에서 접근할 때, 약 정보 받아올 수 있는 방법 필요
 
-
-
+// DosageAddDelegate 프로토콜 수정
 protocol DosageAddDelegate: AnyObject {
-    func updateDosage(_ dosage: String)
-    func updateIntake(_ intake: String)
+    func updateAlarmStatus(isOn: Bool)
+    func updateTimeData(time: String)
+    func updateDosageInfo(dosage: String, unit: String)
 }
+
 
 class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource {
     weak var delegate: DosageAddDelegate?
+    
+    // 유저 입력을 저장할 변수
+        var isAlarmOn: Bool = false
+        var timeData: String = ""
+        var dosage: String = ""
+        var unit: String = ""
     
     private var pageTitleLabel: UILabel!
     private var alarmSettingLabel: UILabel!
@@ -31,7 +38,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     private var confirmButton: UIButton!
     
     private var selectTimeButton: UIButton!
-    private var selectedTimeDisplayLabel: UILabel!
+       private var selectedTimeDisplayLabel: UILabel!
     
     private var alarmStatusLabel: UILabel!
     
@@ -79,7 +86,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         setupDosageUnitTableView()
         
         setupSelectTimeButton()
-        setupSelectedTimeDisplayLabel()
+                setupSelectedTimeDisplayLabel()
     }
 
         
@@ -114,21 +121,25 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
             }
         }
     
-    @objc private func confirmButtonTapped() {
-        DispatchQueue.main.async {
-            if let meridiem = self.tempSelectedMeridiem, let hour = self.tempSelectedHour, let minute = self.tempSelectedMinute {
-                var timeString = ""
-                if meridiem == "오전" {
-                    timeString = "\(hour):\(minute)"
-                } else {
-                    timeString = "\(Int(hour)! + 12):\(minute)"
-                }
-                self.selectedTimeDisplayLabel.text = timeString
-                self.delegate?.updateIntake(timeString)
-            }
-            self.hidePickerView()
-        }
+
+    @objc private func alarmToggleChanged(_ toggle: UISwitch) {
+        updateAlarmStatusLabel(isOn: toggle.isOn)
     }
+    
+    
+    @objc private func confirmButtonTapped() {
+        // 사용자가 선택한 시간 데이터를 timeData 변수에 저장
+        if let meridiem = tempSelectedMeridiem,
+           let hour = tempSelectedHour,
+           let minute = tempSelectedMinute {
+            let timeString = "\(meridiem) \(hour):\(minute)"
+            timeData = timeString // 시간 데이터 저장
+            // 선택한 시간을 UI에 표시
+            selectedTimeDisplayLabel.text = timeString
+        }
+        hidePickerView()
+    }
+
     
     private func setupDosageUnitSelectionButton() {
         dosageUnitSelectionButton = UIButton(type: .system)
@@ -198,16 +209,21 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         self.navigationItem.rightBarButtonItem = saveButtonItem
     }
     
+
     @objc private func saveButtonTapped() {
-        print("저장 버튼이 탭되었습니다.")
-        
-        if let dosage = dosageInputTextField.text {
-            delegate?.updateDosage(dosage)
-        } else { 
-            print("Failed to Add Dosage")
-        }
-//        updateIntake에 넣을 매개변수 찾아놓기
-//        delegate?.updateIntake("")
+        // 사용자 입력 데이터 처리
+        let isAlarmOn = alarmToggle.isOn
+        let timeData = self.timeData // 시간 데이터는 사용자가 시간을 선택할 때 저장되어 있어야 합니다.
+        let dosage = dosageInputTextField.text ?? ""
+        let unit = dosageUnitSelectionButton.title(for: .normal) ?? ""
+
+        // delegate를 통해 데이터 전달
+        delegate?.updateAlarmStatus(isOn: isAlarmOn)
+        delegate?.updateTimeData(time: timeData)
+        delegate?.updateDosageInfo(dosage: dosage, unit: unit)
+
+        // 현재 ViewController 닫기
+        navigationController?.popViewController(animated: true)
     }
     
     
@@ -250,9 +266,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         updateAlarmStatusLabel(isOn: alarmToggle.isOn)
     }
     
-    @objc private func alarmToggleChanged(_ toggle: UISwitch) {
-        updateAlarmStatusLabel(isOn: toggle.isOn)
-    }
+
     
     private func updateAlarmStatusLabel(isOn: Bool) {
         alarmStatusLabel.text = isOn ? "on" : "off"
@@ -529,7 +543,3 @@ extension DosageAddViewController {
 }
 
 
-// 섭취 설정 -> 저장 누르면
-//1. 추가하기 뷰에서 섭취 설정 테이블뷰셀 만들기
-//2. 우측 상단에 섭취횟수 업데이트하기
-//3.

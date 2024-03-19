@@ -26,6 +26,11 @@ final class PillEditViewController: UIViewController {
     
     private var oldPillDataForEdit: Pill
     private var originalPillTitle: String
+    
+    private var alarmStatus: Bool = false
+    private var timeData: String = ""
+    private var dosage: String = ""
+    private var dosageUnit: String = ""
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -221,6 +226,22 @@ extension PillEditViewController: IntakeSettingDelegate {
 }
 
 extension PillEditViewController: PillCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
+    func updateAlarmStatus(isOn: Bool) {
+            self.alarmStatus = isOn
+            // 여기에 필요한 UI 업데이트 로직 추가
+        }
+        
+        func updateTimeData(time: String) {
+            self.timeData = time
+            // 여기에 필요한 UI 업데이트 로직 추가
+        }
+        
+        func updateDosageInfo(dosage: String, unit: String) {
+            self.dosage = dosage
+            self.dosageUnit = unit
+            // 여기에 필요한 UI 업데이트 로직 추가
+        }
+    
     
     func updatePillTitle(_ title: String) {
         self.titleForEdit = title
