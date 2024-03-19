@@ -14,6 +14,7 @@ struct UserData {
     var ID: String
     let password: String
     var nickname: String
+    var signUpPath: String
 }
 
 // 약을 저장할 때 하루에 섭취하는 횟수를 넣어도 좋지 않을까

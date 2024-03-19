@@ -30,12 +30,14 @@ final class DataManager {
                 self.db.collection("Users").document(user.UID).setData([
                     "ID": user.ID,
                     "Password": user.password,
-                    "Nickname": user.nickname
+                    "Nickname": user.nickname,
+                    "SignUpPath": user.signUpPath
                 ])
                 UserDefaults.standard.set(user.UID, forKey: "UID")
                 UserDefaults.standard.set(user.ID, forKey: "ID")
                 UserDefaults.standard.set(user.password, forKey: "Password")
                 UserDefaults.standard.set(user.nickname, forKey: "Nickname")
+                UserDefaults.standard.set(user.signUpPath, forKey: "SignUpPath")
                 print("회원가입 완료")
                 return
             }
@@ -59,7 +61,8 @@ final class DataManager {
                 let dict = ["UID": document.documentID,
                             "ID": document.data()["ID"] as! String,
                             "Password": document.data()["Password"] as! String,
-                            "Nickname": document.data()["Nickname"] as! String]
+                            "Nickname": document.data()["Nickname"] as! String,
+                            "SignUpPath": document.data()["SignUpPath"] as! String]
                 output = dict
             }
             completion(output)

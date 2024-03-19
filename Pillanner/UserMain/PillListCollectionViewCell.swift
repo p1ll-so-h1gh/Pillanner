@@ -111,7 +111,7 @@ class PillListCollectionViewCell: UICollectionViewCell {
                                     day: pillData["Day"] as! [String],
                                     dueDate: pillData["DueDate"] as! String,
                                     intake: pillData["Intake"] as! [String],
-                                    dosage: pillData["Dosage"]!)
+                                    dosage: pillData["Dosage"] as! String)
                     self.pillListViewDelegate?.editPill(pillData: pill)
                 }
             }

@@ -352,7 +352,8 @@ extension SignUpViewController {
                     UID: self.myUID,
                     ID: idTextField.text!,
                     password: passwordTextField.text!,
-                    nickname: nameTextField.text!
+                    nickname: nameTextField.text!,
+                    signUpPath: "일반회원가입"
                 )
             )
             // 회원가입 완료 - Alert

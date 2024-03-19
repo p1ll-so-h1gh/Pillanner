@@ -200,14 +200,14 @@ final class UserMainViewController: UIViewController {
         intakePillListCollectionView.delegate = self
         intakePillListCollectionView.dataSource = self
         intakePillListCollectionView.register(PillListCollectionViewCell.self, forCellWithReuseIdentifier: PillListCollectionViewCell.id)
-//        readPillDataFromFirestore()
+        readPillDataFromFirestore()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         //뷰가 나타날때마다 애니메이션 효과 주기 위해
         createCircle()
 //        setUpLabelsTextWithUserInformation()
-        readPillDataFromFirestore()
+        //readPillDataFromFirestore()
     }
     
     
@@ -317,6 +317,7 @@ final class UserMainViewController: UIViewController {
     
     // MARK: - Set Up Data
     private func readPillDataFromFirestore() {
+        print(#function)
         guard let UID = UserDefaults.standard.string(forKey: "UID") else { return }
         
         DataManager.shared.readPillListData(UID: UID) { list in
@@ -333,12 +334,13 @@ final class UserMainViewController: UIViewController {
                 }
                 self.pillsList = tempList
                 self.intakePillListCollectionView.reloadData()
-                self.setUpLabelsTextWithUserInformation()
             }
         }
+        self.setUpLabelsTextWithUserInformation()
     }
     
     private func setUpLabelsTextWithUserInformation() {
+        print(#function)
         guard let nickname = UserDefaults.standard.string(forKey: "Nickname") else { return }
         nameLabel.text = "\(nickname)님"
         infoLabel.text = "\(nickname)님! 오늘도 잊지않고 약 챙겨드세요! :)" // 다 먹기 전/ 후 분기처리 필요
