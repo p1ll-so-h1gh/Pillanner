@@ -11,8 +11,11 @@ import SnapKit
 class CustomLaunchScreenViewController: UIViewController {
     private let myID: String = UserDefaults.standard.string(forKey: "ID") ?? ""
     private let myPW: String = UserDefaults.standard.string(forKey: "Password") ?? ""
-    private let autoLoginActivate: Bool = UserDefaults.standard.bool(forKey: "isAutoLoginActivate")
     private lazy var backgroundLayer = CAGradientLayer.dayBackgroundLayer(view: self.view)
+    
+    var autoLoginActivate: Bool {
+        return UserDefaults.standard.bool(forKey: "isAutoLoginActivate")
+    }
     
     let logoFlagImage: UIImageView = {
         let image = UIImageView(image: UIImage(named: "PillannerFlagImage"))
@@ -56,12 +59,20 @@ class CustomLaunchScreenViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        print("====================================================================")
+        print("UserDefaults UID : ", UserDefaults.standard.string(forKey: "UID") ?? "nil")
+        print("UserDefaults ID : ", UserDefaults.standard.string(forKey: "ID") ?? "nil")
+        print("UserDefaults Password : ", UserDefaults.standard.string(forKey: "Password") ?? "nil")
+        print("UserDefaults Nickname : ", UserDefaults.standard.string(forKey: "Nickname") ?? "nil")
+        print("UserDefaults SignUpPath : ", UserDefaults.standard.string(forKey: "SignUpPath") ?? "nil")
+        print("UserDefaults 자동로그인 : ", UserDefaults.standard.bool(forKey: "isAutoLoginActivate")) // true : 자동 로그인 체크
+        print("====================================================================")
         super.viewDidAppear(animated)
         print("자동로그인 on/off? : ", autoLoginActivate)
         sleep(3)
         
         switch(autoLoginActivate){
-        case true : 
+        case true :
             DataManager.shared.readUserData(userID: myID) { userData in
                 guard let userData = userData else { return }
                 if self.myID == userData["ID"] && self.myPW == userData["Password"] && userData["SignUpPath"] == "일반회원가입" {
