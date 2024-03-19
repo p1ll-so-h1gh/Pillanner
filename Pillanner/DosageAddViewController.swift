@@ -126,15 +126,21 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         updateAlarmStatusLabel(isOn: toggle.isOn)
     }
     
-    
+
     @objc private func confirmButtonTapped() {
-        // 사용자가 선택한 시간 데이터를 timeData 변수에 저장
         if let meridiem = tempSelectedMeridiem,
-           let hour = tempSelectedHour,
+           let hourString = tempSelectedHour,
            let minute = tempSelectedMinute {
-            let timeString = "\(meridiem) \(hour):\(minute)"
-            timeData = timeString // 시간 데이터 저장
-            // 선택한 시간을 UI에 표시
+            var hour = Int(hourString) ?? 0
+
+            if meridiem == "오후" && hour != 12 {
+                hour = (hour % 12) + 12
+            } else if meridiem == "오전" && hour == 12 {
+                hour = 0
+            }
+
+            let timeString = String(format: "%02d:%@", hour, minute)
+            timeData = timeString
             selectedTimeDisplayLabel.text = timeString
         }
         hidePickerView()
@@ -211,17 +217,6 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     
 
     @objc private func saveButtonTapped() {
-
-        print("저장 버튼이 탭되었습니다.")
-        
-        if let dosage = dosageInputTextField.text {
-            delegate?.updateDosage(dosage)
-        } else { 
-            print("Failed to Add Dosage")
-        }
-//        updateIntake에 넣을 매개변수 찾아놓기
-//        delegate?.updateIntake("")
-
         // 사용자 입력 데이터 처리
         let isAlarmOn = alarmToggle.isOn
         let timeData = self.timeData // 시간 데이터는 사용자가 시간을 선택할 때 저장되어 있어야 합니다.
@@ -471,19 +466,18 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-        // "hh-mm" 포맷으로 시간 문자열 생성 및 저장 로직 추가
+
                 let meridiemIndex = pickerView.selectedRow(inComponent: 0)
                 let hourIndex = pickerView.selectedRow(inComponent: 1)
                 let minuteIndex = pickerView.selectedRow(inComponent: 2)
                 
-                // 시간 포맷을 "hh-mm"으로 변경하는 로직 추가
                 if meridiemIndex < meridiem.count,
                    hourIndex < hours.count,
                    minuteIndex < minutes.count {
                     tempSelectedMeridiem = meridiem[meridiemIndex]
-                    tempSelectedHour = String(format: "%02d", hourIndex) // 시간을 "hh" 포맷으로 변경
-                    tempSelectedMinute = minutes[minuteIndex] // 분은 이미 "mm" 포맷
+                    // 시간을 "hh" 포맷으로 변경하면서, 인덱스에 1을 더해 실제 시간 값으로 변환
+                    tempSelectedHour = String(format: "%02d", hourIndex + 1)
+                    tempSelectedMinute = minutes[minuteIndex]
                 }
             }
     
