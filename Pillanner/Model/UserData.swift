@@ -50,3 +50,10 @@ enum Weekday: String {
     case Sat = "Sat"
     case Sun = "Sun"
 }
+
+// DosageAddViewController / IntakeSetting 데이터 모델 정의
+struct IntakeData {
+    var time: String // "HH:mm" 포맷
+    var dosage: String // 예: "2 정"
+    var isAlarmOn: Bool
+}

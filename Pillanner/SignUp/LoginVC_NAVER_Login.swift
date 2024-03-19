@@ -19,7 +19,7 @@ extension LoginViewController: NaverThirdPartyLoginConnectionDelegate {
         naverLoginInstance?.requestThirdPartyLogin()
     }
 
-    @objc func naverDisconnectButtonTapped() {
+    func naverDisconnect() {
         // 네이버 연결 끊기
         naverLoginInstance?.requestDeleteToken()
     }
@@ -64,8 +64,16 @@ extension LoginViewController: NaverThirdPartyLoginConnectionDelegate {
             // Firebase에 사용자 등록
             Auth.auth().createUser(withEmail: email, password: "123456") { result, error in
                 if let error = error {
-                    print("Firebase 사용자 등록 오류: \(error)")
-                    return
+                    let code = (error as NSError).code
+                    print("firebase auth error code : ", code)
+                    switch code {
+                    case 17007 :
+                        print("이미 같은 이메일로 가입된 ID가 있습니다.")
+                        let nextVC = TabBarController()
+                            nextVC.modalPresentationStyle = .fullScreen
+                        self.present(nextVC, animated: true)
+                    default : print(error.localizedDescription)
+                    }
                 }
 
                 if let result = result {
@@ -80,6 +88,7 @@ extension LoginViewController: NaverThirdPartyLoginConnectionDelegate {
                             nickname: "아직 설정 전"
                         )
                     )
+                    self.naverDisconnect()
                     let nextVC = SNSLoginViewController()
                     nextVC.modalPresentationStyle = .fullScreen
                     self.present(nextVC, animated: true)
@@ -91,23 +100,27 @@ extension LoginViewController: NaverThirdPartyLoginConnectionDelegate {
 
     // 로그인 버튼을 눌렀을 경우 열게 될 브라우저
     func oauth20ConnectionDidOpenInAppBrowser(forOAuth request: URLRequest!) {
-
+        print(#function)
     }
 
     func oauth20ConnectionDidFinishRequestACTokenWithRefreshToken() {
         // 리프레시 토큰 처리
+        print(#function)
     }
 
     func oauth20ConnectionDidFinishDeleteToken() {
         // 토큰 삭제 처리
+        print(#function)
     }
 
     func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
         // 로그인 실패 처리
+        print(#function)
     }
 
     func oauth20ConnectionDidReceiveAccessToken(_ accessToken: String!, tokenType: String!, expiresIn: String!) {
         // 액세스 토큰 수신 처리
+        print(#function)
     }
 
 }
