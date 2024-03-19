@@ -211,6 +211,17 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     
 
     @objc private func saveButtonTapped() {
+
+        print("저장 버튼이 탭되었습니다.")
+        
+        if let dosage = dosageInputTextField.text {
+            delegate?.updateDosage(dosage)
+        } else { 
+            print("Failed to Add Dosage")
+        }
+//        updateIntake에 넣을 매개변수 찾아놓기
+//        delegate?.updateIntake("")
+
         // 사용자 입력 데이터 처리
         let isAlarmOn = alarmToggle.isOn
         let timeData = self.timeData // 시간 데이터는 사용자가 시간을 선택할 때 저장되어 있어야 합니다.
