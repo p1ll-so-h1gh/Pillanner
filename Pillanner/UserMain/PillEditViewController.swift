@@ -113,7 +113,7 @@ final class PillEditViewController: UIViewController {
         
         DataManager.shared.readPillListData(UID: UserDefaults.standard.string(forKey: "UID")!) { pillList in
             if let pillList = pillList {
-                print(pillList)
+                print("########", pillList)
             }
         }
         
@@ -246,33 +246,33 @@ extension PillEditViewController: PillCellDelegate, IntakeDateCellDelegate, Pill
     
     func updatePillTitle(_ title: String) {
         self.titleForEdit = title
-        print(#function," : \(self.titleForEdit)")
+        print("########" + #function," : \(self.titleForEdit)")
     }
     
     func updatePillType(_ type: String) {
         self.typeForEdit = type
-        print(#function," : \(self.typeForEdit)")
+        print("########" + #function," : \(self.typeForEdit)")
     }
     
     func updateDays(_ day: [String]) {
         self.dayForEdit = day
-        print(#function," : \(self.dayForEdit)")
+        print("########" + #function," : \(self.dayForEdit)")
         self.totalTableView.reloadData()
     }
     
     func updateDueDate(date: String) {
         self.dueDateForEdit = date
-        print(#function," : \(self.dueDateForEdit)")
+        print("########" + #function," : \(self.dueDateForEdit)")
     }
     
     func updateDosage(_ dosage: String) {
         self.dosageForEdit = dosage
-        print(#function," : \(self.dosageForEdit)")
+        print("########" + #function," : \(self.dosageForEdit)")
     }
     
     func updateIntake(_ intake: String) {
         self.intakeForEdit.append(intake)
-        print(#function," : \(self.intakeForEdit)")
+        print("########" + #function," : \(self.intakeForEdit)")
     }
     
     

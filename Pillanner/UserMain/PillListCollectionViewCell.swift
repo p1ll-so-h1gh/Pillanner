@@ -111,7 +111,12 @@ class PillListCollectionViewCell: UICollectionViewCell {
                                     day: pillData["Day"] as! [String],
                                     dueDate: pillData["DueDate"] as! String,
                                     intake: pillData["Intake"] as! [String],
+<<<<<<< HEAD
                                     dosage: pillData["Dosage"] as! String)
+=======
+                                    dosage: pillData["Dosage"] as! String,
+                                    alarmStatus: pillData["AlarmStatus"] as! Bool)
+>>>>>>> 4faf00b ([FIX] conflict 해결(DataManager, PillListCollectionViewCell 파일))
                     self.pillListViewDelegate?.editPill(pillData: pill)
                 }
             }

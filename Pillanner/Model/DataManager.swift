@@ -174,6 +174,8 @@ final class DataManager {
     
     func readPillListData(UID: String, completion: @escaping ([[String: Any]]?) -> Void) {
         var result = [[String: Any]]()
+        print(#function)
+        print(UID)
         if let userDocumentID = UserDefaults.standard.string(forKey: "UID") {
             let pillCollection = self.db.collection("Users").document(userDocumentID).collection("Pills")
             
@@ -200,9 +202,8 @@ final class DataManager {
     // 약 이름 받아서 -> 그거랑 같은 데이터 먼저 찾고 -> 접근해서 새로운 데이터로 바꾸기
 
     func updatePillData(oldTitle: String, newTitle: String, type: String, day: [String], dueDate: String, intake: [String], dosage: String, alarmStatus: Bool) {
-        if let userDocumentID = UserDefaults.standard.string(forKey: "UID") {
-            
-            let pillCollection = db.collection("Users").document(userDocumentID).collection("Pills")
+        if let UID = UserDefaults.standard.string(forKey: "UID") {
+            let pillCollection = db.collection("Users").document(UID).collection("Pills")
             let query = pillCollection.whereField("Title", isEqualTo: oldTitle)
             
             query.getDocuments{(snapshot, error) in
@@ -333,6 +334,8 @@ final class DataManager {
     
     func readPillRecordData(UID: String, completion: @escaping ([[String: Any]]?) -> Void) {
         var result = [[String: Any]]()
+        print(#function)
+        print(UID)
         let takenPillsCollection = self.db.collection("Users").document(UID).collection("TakenPills")
         
         takenPillsCollection.getDocuments{ (snapshot, error) in

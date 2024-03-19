@@ -23,6 +23,8 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
     var tableView: UITableView!
     var selectedWeekdays = Set<Int>()
     var selectedWeekdaysInString = [String]()
+//    var selectedWeekdaysInString = Set<String>()
+    
     
     let weekdays = ["월요일마다", "화요일마다", "수요일마다", "목요일마다", "금요일마다", "토요일마다", "일요일마다"]
     private var pageTitleLabel: UILabel!
@@ -55,6 +57,7 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
     init(selectedWeekdaysInString: [String]) {
         super.init(nibName: nil, bundle: nil)
         self.selectedWeekdaysInString = selectedWeekdaysInString
+        print(selectedWeekdaysInString)
     }
     
     required init?(coder: NSCoder) {
@@ -78,19 +81,19 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
     
     func yeah(array: [String]) {
         for selectedWeekday in array {
-            if selectedWeekday == "Mon" {
+            if selectedWeekday == "Mon" && !array.contains("Mon") {
                 selectedWeekdays.insert(0)
-            } else if selectedWeekday == "Tue" {
+            } else if selectedWeekday == "Tue" && !array.contains("Tue") {
                 selectedWeekdays.insert(1)
-            } else if selectedWeekday == "Wed" {
+            } else if selectedWeekday == "Wed" && !array.contains("Wed") {
                 selectedWeekdays.insert(2)
-            } else if selectedWeekday == "Thu" {
+            } else if selectedWeekday == "Thu" && !array.contains("Thu") {
                 selectedWeekdays.insert(3)
-            } else if selectedWeekday == "Fri" {
+            } else if selectedWeekday == "Fri" && !array.contains("Fri") {
                 selectedWeekdays.insert(4)
-            } else if selectedWeekday == "Sat" {
+            } else if selectedWeekday == "Sat" && !array.contains("Sat") {
                 selectedWeekdays.insert(5)
-            } else if selectedWeekday == "Sun" {
+            } else if selectedWeekday == "Sun" && !array.contains("Sun") {
                 selectedWeekdays.insert(6)
             }
         }
