@@ -25,6 +25,11 @@ final class PillAddMainViewController: UIViewController{
     private var intakeForAdd = [String]()
     private var dosageForAdd = String()
     
+    private var alarmStatus: Bool = false
+    private var timeData: String = ""
+    private var dosage: String = ""
+    private var dosageUnit: String = ""
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "내 영양제 추가하기"
@@ -212,6 +217,21 @@ extension PillAddMainViewController: IntakeSettingDelegate {
 }
 
 extension PillAddMainViewController: PillCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
+    func updateAlarmStatus(isOn: Bool) {
+            self.alarmStatus = isOn
+            // 여기에 필요한 UI 업데이트 로직 추가
+        }
+        
+        func updateTimeData(time: String) {
+            self.timeData = time
+            // 여기에 필요한 UI 업데이트 로직 추가
+        }
+        
+        func updateDosageInfo(dosage: String, unit: String) {
+            self.dosage = dosage
+            self.dosageUnit = unit
+            // 여기에 필요한 UI 업데이트 로직 추가
+        }
     
     func updateDays(_ days: [String]) {
         print(#function, self.dayForAdd)
