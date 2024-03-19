@@ -32,6 +32,11 @@ final class IntakeSettingCell: UITableViewCell {
     private let cornerRadiusValue: CGFloat = 13
     weak var delegate: IntakeSettingDelegate?
     
+    private var intake = [String]()
+    private var alarmStatus = [Bool]()
+    private var dosage = [String]()
+    private var unit = [String]()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "섭취 설정"
@@ -42,7 +47,6 @@ final class IntakeSettingCell: UITableViewCell {
     
     private let infoLabel: UILabel = {
         let label = UILabel()
-        label.text = "섭취횟수 \("")회"
         label.font = FontLiteral.body(style: .regular).withSize(16)
         return label
     }()
@@ -55,7 +59,7 @@ final class IntakeSettingCell: UITableViewCell {
         return tableview
     }()
     
-    private lazy var intakeaddBtnView: UIView = {
+    private lazy var intakeAddButtonView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = cornerRadiusValue
         view.layer.borderWidth = 1
@@ -64,7 +68,7 @@ final class IntakeSettingCell: UITableViewCell {
         return view
     }()
     
-    private lazy var intakeaddBtn: UIButton = {
+    private lazy var intakeAddButton: UIButton = {
         let button = UIButton()
         button.setTitle("복용 횟수 추가하기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
@@ -83,7 +87,10 @@ final class IntakeSettingCell: UITableViewCell {
         self.pillTableView.dataSource = self
         self.pillTableView.delegate = self
         self.pillTableView.rowHeight = UITableView.automaticDimension
+        // 섭취 횟수 저장 필요
 //        self.setupLayout()
+        self.pillTableView.reloadData()
+        print("########", self.intake)
     }
     
     required init?(coder: NSCoder) {
@@ -97,8 +104,8 @@ final class IntakeSettingCell: UITableViewCell {
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(infoLabel)
         self.contentView.addSubview(pillTableView)
-        self.contentView.addSubview(intakeaddBtnView)
-        intakeaddBtnView.addSubview(intakeaddBtn)
+        self.contentView.addSubview(intakeAddButtonView)
+        intakeAddButtonView.addSubview(intakeAddButton)
         self.titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(sidePaddingSizeValue)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)
@@ -114,10 +121,10 @@ final class IntakeSettingCell: UITableViewCell {
             $0.right.equalToSuperview().inset(sidePaddingSizeValue)
             $0.height.greaterThanOrEqualTo(1)
         }
-        self.intakeaddBtn.snp.makeConstraints {
+        self.intakeAddButton.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
-        self.intakeaddBtnView.snp.makeConstraints {
+        self.intakeAddButtonView.snp.makeConstraints {
             $0.top.equalTo(self.pillTableView.snp.bottom).inset(-15)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(45)
@@ -130,8 +137,8 @@ final class IntakeSettingCell: UITableViewCell {
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(infoLabel)
         self.contentView.addSubview(pillTableView)
-        self.contentView.addSubview(intakeaddBtnView)
-        intakeaddBtnView.addSubview(intakeaddBtn)
+        self.contentView.addSubview(intakeAddButtonView)
+        intakeAddButtonView.addSubview(intakeAddButton)
         self.titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(sidePaddingSizeValue)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)
@@ -147,10 +154,10 @@ final class IntakeSettingCell: UITableViewCell {
             $0.right.equalToSuperview().inset(sidePaddingSizeValue)
             $0.height.greaterThanOrEqualTo(1)
         }
-        self.intakeaddBtn.snp.makeConstraints {
+        self.intakeAddButton.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
-        self.intakeaddBtnView.snp.makeConstraints {
+        self.intakeAddButtonView.snp.makeConstraints {
             $0.top.equalTo(self.pillTableView.snp.bottom).inset(-15)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(45)
@@ -166,18 +173,33 @@ final class IntakeSettingCell: UITableViewCell {
 
 extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return self.intake.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IntakePillCell.identifier, for: indexPath) as! IntakePillCell
-        cell.timeLabel.text = "\("")시 \("")정"
-        cell.alarmLabel.text = "알림 \("")"
+        cell.timeLabel.text = "\(self.intake[indexPath.row]) \(self.dosage[indexPath.row])\(self.unit[indexPath.row])"
+        cell.alarmLabel.text = "알림 \(self.alarmStatus[indexPath.row])"
         return cell
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         tableView.invalidateIntrinsicContentSize()
         tableView.layoutIfNeeded()
+    }
+}
+
+extension IntakeSettingCell: DosageAddDelegate {
+    func updateAlarmStatus(isOn: Bool) {
+        self.alarmStatus.append(isOn)
+    }
+    
+    func updateTimeData(time: String) {
+        self.intake.append(time)
+    }
+    
+    func updateDosageInfo(dosage: String, unit: String) {
+        self.dosage.append(dosage)
+        self.unit.append(unit)
     }
 }

@@ -237,6 +237,8 @@ final class DataManager {
                 }
                 print("약 정보 수정을 시작합니다.")
                 
+                // oldTitle == newTitle 일 때, 아닐 때 경우를 나누어서 로직을 구현해야 됨
+                
                 let oldRef = pillCollection.document(oldTitle)
                 let newRef = pillCollection.document(pill.title)
                 

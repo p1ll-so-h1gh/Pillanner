@@ -200,14 +200,23 @@ final class UserMainViewController: UIViewController {
         intakePillListCollectionView.delegate = self
         intakePillListCollectionView.dataSource = self
         intakePillListCollectionView.register(PillListCollectionViewCell.self, forCellWithReuseIdentifier: PillListCollectionViewCell.id)
-        readPillDataFromFirestore()
+
+//        readPillDataFromFirestore()
+        DispatchQueue.main.async {
+            self.readPillDataFromFirestore()
+        }
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         //뷰가 나타날때마다 애니메이션 효과 주기 위해
         createCircle()
 //        setUpLabelsTextWithUserInformation()
-        //readPillDataFromFirestore()
+
+        if self.pillsList.isEmpty {
+            setUpLabelsTextWithUserInformation()
+        }
+
     }
     
     
@@ -221,14 +230,7 @@ final class UserMainViewController: UIViewController {
         }
         [attainmentRateLabel, circleContainerView, sectionSeparatorLine, intakePillLabel, intakeDescriptionLabel, intakePillListCollectionView].forEach {
             scrollView.addSubview($0)
-        }      
-//        dayView.addSubview(dayLabel)
-//        dayView.addSubview(dayTextLabel)
-//        weekView.addSubview(weekLabel)
-//        weekView.addSubview(weekTextLabel)
-//        monthView.addSubview(monthLabel)
-//        monthView.addSubview(monthTextLabel)
-//        labelVStackView.addArrangedSubviews(dayView, weekView, monthView)
+        }
     }
     
     //MARK: - View Contraints
@@ -317,9 +319,9 @@ final class UserMainViewController: UIViewController {
     
     // MARK: - Set Up Data
     private func readPillDataFromFirestore() {
-        print(#function)
+        print("#### \(#function)")
         guard let UID = UserDefaults.standard.string(forKey: "UID") else { return }
-        
+        print("#### \(UID)")
         DataManager.shared.readPillListData(UID: UID) { list in
             var tempList = [Pill]()
             if let list = list {
@@ -333,16 +335,18 @@ final class UserMainViewController: UIViewController {
                                         alarmStatus: pill["AlarmStatus"] as! Bool)
                     tempList.append(receiver)
                 }
+                print(tempList)
                 self.pillsList = tempList
                 self.intakePillListCollectionView.reloadData()
-
+                self.setUpLabelsTextWithUserInformation()
             }
-            self.setUpLabelsTextWithUserInformation()
         }
     }
     
     private func setUpLabelsTextWithUserInformation() {
-        print(#function)
+
+        print("#### \(#function)")
+
         guard let nickname = UserDefaults.standard.string(forKey: "Nickname") else { return }
         nameLabel.text = "\(nickname)님"
         infoLabel.text = "\(nickname)님! 오늘도 잊지않고 약 챙겨드세요! :)" // 다 먹기 전/ 후 분기처리 필요
