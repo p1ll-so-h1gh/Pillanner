@@ -13,7 +13,7 @@ enum SettingSection: CaseIterable {
     case support
     case policy
     case appInfo
-
+    
     var title: String {
         switch self {
             
@@ -126,7 +126,7 @@ class UserSettingViewController: UIViewController {
         return view
     }()
     
-
+    
     private let bottomTableView: UITableView = {
         let tableview = UITableView()
         tableview.register(SettingSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: SettingSectionHeaderView.reuseIdentifier)
@@ -168,7 +168,7 @@ class UserSettingViewController: UIViewController {
         ])
         bottomTableView.tableFooterView = footerView
     }
-
+    
     @objc func handleLogout() {
         print(#function)
         let alert = UIAlertController(title: "로그아웃", message: "정말 로그아웃 하시겠습니까?", preferredStyle: .alert)
@@ -179,9 +179,7 @@ class UserSettingViewController: UIViewController {
             var currentViewController: UIViewController? = self.presentingViewController
             while let presentingViewController = currentViewController?.presentingViewController {
                 currentViewController = presentingViewController
-                print(currentViewController)
             }
-            
             currentViewController?.dismiss(animated: true, completion: nil)
         }))
         alert.addAction(UIAlertAction(title: "아니오", style: .cancel, handler: nil))
@@ -287,16 +285,6 @@ class UserSettingViewController: UIViewController {
     }
 }
 
-//extension UserSettingViewController: UITableViewDataSource, UITableViewDelegate {
-//    //섹션 만들기
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        
-//        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: SettingSectionHeaderView.reuseIdentifier) as? SettingSectionHeaderView else { return nil }
-//        
-//        headerView.setTitle(with: sectionList[section].title)
-//        return headerView
-//    }
-
 extension UserSettingViewController: UITableViewDataSource, UITableViewDelegate {
     // 섹션 헤더 뷰 설정
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -325,72 +313,72 @@ extension UserSettingViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     // 셀 설정
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: settingCell.identifier, for: indexPath) as! settingCell
-            switch sectionList[indexPath.section] {
-            case .userInfo:
-                cell.titleLabel.text = SettingSection.userInfoList[indexPath.row]
-            case .support:
-                cell.titleLabel.text = SettingSection.supportList[indexPath.row]
-            case .policy:
-                cell.titleLabel.text = SettingSection.policyList[indexPath.row]
-            case .appInfo:
-                cell.titleLabel.text = "버전 정보"
-                cell.versionLabel.text = "1.0.2" // 예시 버전 정보
-                cell.pageBtn.isHidden = true
-            }
-            return cell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: settingCell.identifier, for: indexPath) as! settingCell
+        switch sectionList[indexPath.section] {
+        case .userInfo:
+            cell.titleLabel.text = SettingSection.userInfoList[indexPath.row]
+        case .support:
+            cell.titleLabel.text = SettingSection.supportList[indexPath.row]
+        case .policy:
+            cell.titleLabel.text = SettingSection.policyList[indexPath.row]
+        case .appInfo:
+            cell.titleLabel.text = "버전 정보"
+            cell.versionLabel.text = "1.0.2" // 예시 버전 정보
+            cell.pageBtn.isHidden = true
         }
+        return cell
+    }
     
     // 셀 선택 시 동작 설정
-        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            tableView.deselectRow(at: indexPath, animated: true)
-            
-            switch sectionList[indexPath.section] {
-            case .userInfo:
-                let userInfoVC = UserInfoView() // UserInfoView 인스턴스 생성
-                navigateTo(userInfoVC) // 화면 전환 수행
-            case .support:
-                supportSectionAction(indexPath: indexPath)
-            case .policy:
-                policySectionAction(indexPath: indexPath)
-            case .appInfo:
-                // appInfo 섹션은 화면 전환을 수행하지 않음
-                break
-            }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        switch sectionList[indexPath.section] {
+        case .userInfo:
+            let userInfoVC = UserInfoView() // UserInfoView 인스턴스 생성
+            navigateTo(userInfoVC) // 화면 전환 수행
+        case .support:
+            supportSectionAction(indexPath: indexPath)
+        case .policy:
+            policySectionAction(indexPath: indexPath)
+        case .appInfo:
+            // appInfo 섹션은 화면 전환을 수행하지 않음
+            break
         }
+    }
     
     // support 섹션 처리
-        private func supportSectionAction(indexPath: IndexPath) {
-            switch indexPath.row {
-            case 0:
-                let noticeVC = NoticeViewController() // 공지사항 화면 인스턴스 생성
-                navigateTo(noticeVC)
-            case 1:
-                sendEmail() // 1:1 문의 이메일 전송
-            default:
-                break
-            }
+    private func supportSectionAction(indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            let noticeVC = NoticeViewController() // 공지사항 화면 인스턴스 생성
+            navigateTo(noticeVC)
+        case 1:
+            sendEmail() // 1:1 문의 이메일 전송
+        default:
+            break
         }
+    }
     
     // policy 섹션 처리
-        private func policySectionAction(indexPath: IndexPath) {
-            switch indexPath.row {
-            case 0:
-                let termsVC = TermsofUseViewController() // 이용약관 화면 인스턴스 생성
-                navigateTo(termsVC)
-            case 1:
-                let privacyVC = PrivacyPolicyViewController() // 개인정보 처리방침 화면 인스턴스 생성
-                navigateTo(privacyVC)
-            default:
-                break
-            }
+    private func policySectionAction(indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            let termsVC = TermsofUseViewController() // 이용약관 화면 인스턴스 생성
+            navigateTo(termsVC)
+        case 1:
+            let privacyVC = PrivacyPolicyViewController() // 개인정보 처리방침 화면 인스턴스 생성
+            navigateTo(privacyVC)
+        default:
+            break
         }
-        
-        // 화면 전환 유틸리티 함수
-        private func navigateTo(_ viewController: UIViewController) {
-            self.navigationController?.pushViewController(viewController, animated: true)
-        }
+    }
+    
+    // 화면 전환 유틸리티 함수
+    private func navigateTo(_ viewController: UIViewController) {
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
     
     
     private func showEmailWithTemplate(subject: String, body: String) {
@@ -403,120 +391,20 @@ extension UserSettingViewController: UITableViewDataSource, UITableViewDelegate 
         ]
         
         guard let url = components.url else { return }
-
+        
         // 현재 앱에서 기본 이메일 앱을 띄움
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
-
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//
-////        switch sectionList[indexPath.section] {
-////        case .userInfo: // "회원정보" 섹션 처리
-////            userInfoSectionAction(indexPath: indexPath)
-////            
-////        case .support:
-////            supportSectionAction(indexPath: indexPath)
-////            
-////        case .policy:
-////            policySectionAction(indexPath: indexPath)
-////            
-////        case .appInfo:
-////            appInfoSectionAction(indexPath: indexPath)
-////
-////        }
-////    }
-//        switch sectionList[indexPath.section] {
-//            case .userInfo:
-//                userInfoSectionAction(indexPath: indexPath)
-//            case .support:
-//                supportSectionAction(indexPath: indexPath)
-//            case .policy:
-//                policySectionAction(indexPath: indexPath)
-//            case .appInfo:
-//                appInfoSectionAction(indexPath: indexPath)
-//            }
-//        }
-
-    // 각 섹션별 처리 함수 예시
-//    private func supportSectionAction(indexPath: IndexPath) {
-//        switch indexPath.row {
-//        case 0:
-//            let noticeVC = NoticeViewController()
-//            self.navigationController?.pushViewController(noticeVC, animated: true)
-//        case 1:
-//            sendEmail()
-//        default:
-//            break
-//        }
-//    }
-
-//    private func policySectionAction(indexPath: IndexPath) {
-//        switch indexPath.row {
-//        case 0:
-//            navigateTo(TermsofUseViewController())
-//        case 1:
-//            navigateTo(PrivacyPolicyViewController())
-//        default:
-//            break
-//        }
-//    }
-
-//    private func appInfoSectionAction(indexPath: IndexPath) {
-//        switch indexPath.row {
-//        case 0:
-//            print("버전 정보 페이지로 이동")
-//        case 1:
-//            logoutAlert()
-//        case 2: // "회원탈퇴" 가정
-//            print("회원탈퇴 처리")
-//        default:
-//            break
-//        }
-//    }
-
-//    private func userInfoSectionAction(indexPath: IndexPath) {
-//        // 예: 회원 정보 관리 화면으로 이동
-//        navigateTo(UserInfoView())
-//        print("회원 정보 관리 화면으로 이동")
-//    }
+    
     private func userInfoSectionAction(indexPath: IndexPath) {
         // 예: 회원 정보 관리 화면으로 이동
         let userInfoVC = UserInfoView() // UserInfoView 인스턴스 생성
         navigateTo(userInfoVC) // 화면 전환 수행
         print("회원 정보 관리 화면으로 이동")
     }
-
-    // 주어진 뷰 컨트롤러로 이동하는 유틸리티 함수
-//    private func navigateTo(_ viewController: UIViewController) {
-//        self.navigationController?.pushViewController(viewController, animated: true)
-//    }
     
-//    private func navigateTo(_ viewController: UIViewController) {
-//        // 네비게이션 컨트롤러를 사용하여 화면 전환
-//        if let navigationController = self.navigationController {
-//            navigationController.pushViewController(viewController, animated: true)
-//        } else {
-//            // 네비게이션 컨트롤러가 없는 경우, 모달 방식으로 화면 전환을 수행할 수 있습니다.
-//            self.present(viewController, animated: true, completion: nil)
-//        }
-//    }
-
-    // 로그아웃 알림 표시 함수
-    private func logoutAlert() {
-        let alert = UIAlertController(title: "로그아웃", message: "정말 로그아웃 하시겠습니까?", preferredStyle: .alert)
-        let actionYes = UIAlertAction(title: "네", style: .destructive) { _ in
-            // 로그아웃 로직 처리
-            print("로그아웃 처리")
-        }
-        let actionNo = UIAlertAction(title: "아니오", style: .cancel)
-        alert.addAction(actionYes)
-        alert.addAction(actionNo)
-        self.present(alert, animated: true)
-    }
-
     // 이메일 전송 처리 함수
     private func sendEmail() {
         let subject = "1:1 문의"
@@ -548,26 +436,26 @@ class settingCell: UITableViewCell {
     }()
     
     // versionLabel 추가
-        var versionLabel: UILabel = {
-            let label = UILabel()
-            label.font = FontLiteral.body(style: .regular).withSize(16)
-            label.textColor = UIColor.black // 적절한 색상 설정
-            return label
-        }()
+    var versionLabel: UILabel = {
+        let label = UILabel()
+        label.font = FontLiteral.body(style: .regular).withSize(16)
+        label.textColor = UIColor.black // 적절한 색상 설정
+        return label
+    }()
     
     // pageBtn 접근 제한자 변경 (예: internal)
-        internal let pageBtn: UIButton = {
-            let button = UIButton()
-            button.setImage(UIImage(named: "button"), for: .normal)
-            button.tintColor = UIColor(hexCode: "5F5F5F")
-            return button
-        }()
+    internal let pageBtn: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "button"), for: .normal)
+        button.tintColor = UIColor(hexCode: "5F5F5F")
+        return button
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
-            self.selectionStyle = .none
-            setupCell()
-        }
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.selectionStyle = .none
+        setupCell()
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

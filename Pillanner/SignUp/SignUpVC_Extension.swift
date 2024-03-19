@@ -89,7 +89,7 @@ extension SignUpViewController {
                         self.getCertNumberButton.setTitleColor(UIColor.lightGray, for: .normal)
                         self.certNumberAvailableLabel.textColor = .systemBlue
                         self.certNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                        self.myVerificationID = verificationID!
+                        UserDefaults.standard.setValue(verificationID!, forKey: "firebaseVerificationID")
                     }
             }
         } else if phoneCertTextField.text!.isEmpty {
@@ -139,7 +139,7 @@ extension SignUpViewController {
     // 인증번호 확인 버튼
     @objc func CheckCertNumberButtonClicked() {
         let credential = PhoneAuthProvider.provider().credential(
-            withVerificationID: myVerificationID,
+            withVerificationID: UserDefaults.standard.string(forKey: "firebaseVerificationID")!,
             verificationCode: self.certNumberTextField.text!
         )
         Auth.auth().signIn(with: credential) { authData, error in
@@ -154,7 +154,7 @@ extension SignUpViewController {
             } else {
                 guard let authData = authData else { return }
                 self.myUID = authData.user.uid // 가입하기 버튼 눌렀을 때 넣어줄 UID값 미리 받는 부분
-                
+                UserDefaults.standard.setValue(self.certNumberTextField.text!, forKey: "firebaseVerificationCode")
                 // 성공시 Current IDTokenRefresh 처리
                 let currentUser = Auth.auth().currentUser
                 currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
@@ -164,7 +164,6 @@ extension SignUpViewController {
                     }
                     // FirebaseidToken 받기 완료 (Authentication)
                     self.stopTimer()
-                    self.myIDToken = idToken!
                     self.timerLabel.isHidden = true
                     self.limitTime = 180
                     self.availableGetCertNumberFlag = false
