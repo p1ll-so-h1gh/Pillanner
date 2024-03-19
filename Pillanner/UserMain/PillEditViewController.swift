@@ -22,7 +22,7 @@ final class PillEditViewController: UIViewController {
     private var dayForEdit = [String]()
     private var dueDateForEdit = String()
     private var intakeForEdit = [String]()
-    private var dosageForEdit = Double()
+    private var dosageForEdit = String()
     
     private var oldPillDataForEdit: Pill
     private let originalPillTitle: String
@@ -222,7 +222,7 @@ extension PillEditViewController: PillCellDelegate, IntakeDateCellDelegate, Pill
         self.dueDateForEdit = date
     }
     
-    func updateDosage(_ dosage: Double) {
+    func updateDosage(_ dosage: String) {
         self.dosageForEdit = dosage
     }
     

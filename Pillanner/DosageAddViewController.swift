@@ -13,7 +13,7 @@ import SnapKit
 
 
 protocol DosageAddDelegate: AnyObject {
-    func updateDosage(_ dosage: Double)
+    func updateDosage(_ dosage: String)
     func updateIntake(_ intake: String)
 }
 
@@ -198,7 +198,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     @objc private func saveButtonTapped() {
         print("저장 버튼이 탭되었습니다.")
         
-        if let dosage = Double(dosageInputTextField.text!) {
+        if let dosage = dosageInputTextField.text {
             delegate?.updateDosage(dosage)
         } else { 
             print("Failed to Add Dosage")

@@ -75,7 +75,7 @@ final class UserMainViewController: UIViewController {
     
     private let attainmentRateLabel: UILabel = {
         let label = UILabel()
-        label.text = "달성률"
+        label.text = "오늘의 달성률"
         label.font = FontLiteral.title2(style: .bold).withSize(20)
         return label
     }()
@@ -218,16 +218,16 @@ final class UserMainViewController: UIViewController {
         [nameLabel, infoLabel, settingButton].forEach {
             topView.addSubview($0)
         }
-        [attainmentRateLabel, circleContainerView, labelVStackView, sectionSeparatorLine, intakePillLabel, intakeDescriptionLabel, intakePillListCollectionView].forEach {
+        [attainmentRateLabel, circleContainerView, sectionSeparatorLine, intakePillLabel, intakeDescriptionLabel, intakePillListCollectionView].forEach {
             scrollView.addSubview($0)
         }      
-        dayView.addSubview(dayLabel)
-        dayView.addSubview(dayTextLabel)
-        weekView.addSubview(weekLabel)
-        weekView.addSubview(weekTextLabel)
-        monthView.addSubview(monthLabel)
-        monthView.addSubview(monthTextLabel)
-        labelVStackView.addArrangedSubviews(dayView, weekView, monthView)
+//        dayView.addSubview(dayLabel)
+//        dayView.addSubview(dayTextLabel)
+//        weekView.addSubview(weekLabel)
+//        weekView.addSubview(weekTextLabel)
+//        monthView.addSubview(monthLabel)
+//        monthView.addSubview(monthTextLabel)
+//        labelVStackView.addArrangedSubviews(dayView, weekView, monthView)
     }
     
     //MARK: - View Contraints
@@ -259,43 +259,44 @@ final class UserMainViewController: UIViewController {
         }
         circleContainerView.snp.makeConstraints {
             $0.size.equalTo(220)
-            $0.leading.equalToSuperview().inset(sidePaddingSizeValue*2)
+//            $0.leading.equalToSuperview().inset(sidePaddingSizeValue*2)
+            $0.centerX.equalToSuperview()
             $0.top.equalTo(attainmentRateLabel.snp.bottom).inset(-30)
         }
-        labelVStackView.snp.makeConstraints {
-            $0.leading.equalTo(circleContainerView.snp.trailing).inset(-30)
-            $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.top.equalToSuperview().inset(100)
-        }
-        dayLabel.snp.makeConstraints {
-            $0.size.equalTo(12)
-            $0.leading.equalTo(dayView.snp.leading)
-        }
-        dayTextLabel.snp.makeConstraints {
-            $0.leading.equalTo(dayLabel.snp.trailing).inset(-10)
-            $0.centerY.equalTo(dayLabel.snp.centerY)
-        }
-        weekLabel.snp.makeConstraints {
-            $0.size.equalTo(12)
-            $0.leading.equalTo(weekView.snp.leading)
-        }
-        weekTextLabel.snp.makeConstraints {
-            $0.leading.equalTo(weekLabel.snp.trailing).inset(-10)
-            $0.centerY.equalTo(weekLabel.snp.centerY)
-        }
-        monthLabel.snp.makeConstraints {
-            $0.size.equalTo(12)
-            $0.leading.equalTo(monthView.snp.leading)
-        }
-        monthTextLabel.snp.makeConstraints {
-            $0.leading.equalTo(monthLabel.snp.trailing).inset(-10)
-            $0.centerY.equalTo(monthLabel.snp.centerY)
-        }
+//        labelVStackView.snp.makeConstraints {
+//            $0.leading.equalTo(circleContainerView.snp.trailing).inset(-30)
+//            $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
+//            $0.top.equalToSuperview().inset(100)
+//        }
+//        dayLabel.snp.makeConstraints {
+//            $0.size.equalTo(12)
+//            $0.leading.equalTo(dayView.snp.leading)
+//        }
+//        dayTextLabel.snp.makeConstraints {
+//            $0.leading.equalTo(dayLabel.snp.trailing).inset(-10)
+//            $0.centerY.equalTo(dayLabel.snp.centerY)
+//        }
+//        weekLabel.snp.makeConstraints {
+//            $0.size.equalTo(12)
+//            $0.leading.equalTo(weekView.snp.leading)
+//        }
+//        weekTextLabel.snp.makeConstraints {
+//            $0.leading.equalTo(weekLabel.snp.trailing).inset(-10)
+//            $0.centerY.equalTo(weekLabel.snp.centerY)
+//        }
+//        monthLabel.snp.makeConstraints {
+//            $0.size.equalTo(12)
+//            $0.leading.equalTo(monthView.snp.leading)
+//        }
+//        monthTextLabel.snp.makeConstraints {
+//            $0.leading.equalTo(monthLabel.snp.trailing).inset(-10)
+//            $0.centerY.equalTo(monthLabel.snp.centerY)
+//        }
         sectionSeparatorLine.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(sidePaddingSizeValue)
             $0.width.equalTo(353)
             $0.height.equalTo(1)
-            $0.top.equalTo(circleContainerView.snp.bottom).inset(-10)
+            $0.top.equalTo(circleContainerView.snp.bottom).inset(-sidePaddingSizeValue)
         }
         intakePillLabel.snp.makeConstraints {
             $0.top.equalTo(sectionSeparatorLine.snp.bottom).inset(-sidePaddingSizeValue)
@@ -324,7 +325,7 @@ final class UserMainViewController: UIViewController {
                                         day: pill["Day"] as! [String],
                                         dueDate: pill["DueDate"] as! String,
                                         intake: pill["Intake"] as! [String],
-                                        dosage: pill["Dosage"] as! Double)
+                                        dosage: pill["Dosage"] as! String)
                     self.pillsList.append(receiver)
                 }
             }
@@ -339,43 +340,65 @@ final class UserMainViewController: UIViewController {
     }
 
     //MARK: - Attainment Circle
+    // 하루, 일주일, 월별 -> 하루 달성률만 표시되도록 축소
     private func createCircle() {
         let dayCircleRadius: CGFloat = 100
-        let weekCircleRadius: CGFloat = 67
-        let monthCircleRadius: CGFloat = 40
-        let circleLineWidth: CGFloat = 15.0
+//        let weekCircleRadius: CGFloat = 67
+//        let monthCircleRadius: CGFloat = 40
+        let circleLineWidth: CGFloat = 30.0
         
         //원경로
-        let dayCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: dayCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi , clockwise: true)
-        let weekCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: weekCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 2 , clockwise: true)
-        let monthCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: monthCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 3, clockwise: true)
+        let dayCircularPath = UIBezierPath(arcCenter: CGPoint(x: 110, y: 110), radius: dayCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 2 , clockwise: true)
+        let dayBackgroundCircularPath = UIBezierPath(arcCenter: CGPoint(x: 110, y: 110), radius: dayCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi , clockwise: true)
+//        let weekCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: weekCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 2 , clockwise: true)
+//        let monthCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: monthCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 3, clockwise: true)
+        
         //정답률 테두리
         let dayBorderLine = CAShapeLayer()
         dayBorderLine.path = dayCircularPath.cgPath
-        dayBorderLine.strokeColor = UIColor(hexCode: "9BDCFD").cgColor
+        dayBorderLine.strokeColor = UIColor(hexCode: "FF9898").cgColor
         dayBorderLine.lineWidth = circleLineWidth
         dayBorderLine.fillColor = UIColor.clear.cgColor
         dayBorderLine.lineCap = CAShapeLayerLineCap.round
         
+        let dayBackgroundCircularLine = CAShapeLayer()
+        dayBackgroundCircularLine.path = dayBackgroundCircularPath.cgPath
+        dayBackgroundCircularLine.strokeColor = UIColor(hexCode: "FFE5E5").cgColor
+        dayBackgroundCircularLine.lineWidth = circleLineWidth
+        dayBackgroundCircularLine.fillColor = UIColor.clear.cgColor
+        
+        circleContainerView.layer.addSublayer(dayBackgroundCircularLine)
         circleContainerView.layer.addSublayer(dayBorderLine)
         
-        let weekBorderLine = CAShapeLayer()
-        weekBorderLine.path = weekCircularPath.cgPath
-        weekBorderLine.strokeColor = UIColor(hexCode: "FF9898").cgColor
-        weekBorderLine.lineWidth = circleLineWidth
-        weekBorderLine.fillColor = UIColor.clear.cgColor
-        weekBorderLine.lineCap = CAShapeLayerLineCap.round
         
-        circleContainerView.layer.addSublayer(weekBorderLine)
+//        let weekBorderLine = CAShapeLayer()
+//        weekBorderLine.path = weekCircularPath.cgPath
+//        weekBorderLine.strokeColor = UIColor(hexCode: "FF9898").cgColor
+//        weekBorderLine.lineWidth = circleLineWidth
+//        weekBorderLine.fillColor = UIColor.clear.cgColor
+//        weekBorderLine.lineCap = CAShapeLayerLineCap.round
+//        
+//        circleContainerView.layer.addSublayer(weekBorderLine)
+//        
+//        let monthBorderLine = CAShapeLayer()
+//        monthBorderLine.path = monthCircularPath.cgPath
+//        monthBorderLine.strokeColor = UIColor(hexCode: "FFD188").cgColor
+//        monthBorderLine.lineWidth = circleLineWidth
+//        monthBorderLine.fillColor = UIColor.clear.cgColor
+//        monthBorderLine.lineCap = CAShapeLayerLineCap.round
+//        
+//        circleContainerView.layer.addSublayer(monthBorderLine)
         
-        let monthBorderLine = CAShapeLayer()
-        monthBorderLine.path = monthCircularPath.cgPath
-        monthBorderLine.strokeColor = UIColor(hexCode: "FFD188").cgColor
-        monthBorderLine.lineWidth = circleLineWidth
-        monthBorderLine.fillColor = UIColor.clear.cgColor
-        monthBorderLine.lineCap = CAShapeLayerLineCap.round
+        // 정답률 label
+        let attainmentLabel = UILabel()
+        attainmentLabel.text = "70 %"
+        attainmentLabel.textColor = UIColor(hexCode: "F97474")
+        attainmentLabel.font = FontLiteral.title2(style: .bold).withSize(30)
         
-        circleContainerView.layer.addSublayer(monthBorderLine)
+        circleContainerView.addSubview(attainmentLabel)
+        attainmentLabel.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+        }
         
         //테두리 애니메이션
         let animation = CABasicAnimation(keyPath: "strokeEnd")
@@ -383,8 +406,8 @@ final class UserMainViewController: UIViewController {
         animation.toValue = 1
         animation.duration = 1.5
         dayBorderLine.add(animation,forKey: "progressAnimation")
-        weekBorderLine.add(animation,forKey: "progressAnimation")
-        monthBorderLine.add(animation,forKey: "progressAnimation")
+//        weekBorderLine.add(animation,forKey: "progressAnimation")
+//        monthBorderLine.add(animation,forKey: "progressAnimation")
     }
 }
 
