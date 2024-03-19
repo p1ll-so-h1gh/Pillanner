@@ -43,17 +43,11 @@ extension LoginViewController: NaverThirdPartyLoginConnectionDelegate {
             return
         }
 
-<<<<<<< HEAD
+
         guard let tokenType = naverLoginInstance?.tokenType,
               let accessToken = naverLoginInstance?.accessToken,
               let refreshToken = naverLoginInstance?.refreshToken else { return }
-=======
-        guard let tokenType = naverLoginInstance?.tokenType, 
-            let accessToken = naverLoginInstance?.accessToken,
-            let refreshToken = naverLoginInstance?.refreshToken  else { return }
-//        guard let accessToken = naverLoginInstance?.accessToken else { return }
-//        guard let refreshToken = naverLoginInstance?.refreshToken else { return }
->>>>>>> 4faf00b ([FIX] conflict 해결(DataManager, PillListCollectionViewCell 파일))
+
 
         let urlStr = "https://openapi.naver.com/v1/nid/me"
         let url = URL(string: urlStr)!

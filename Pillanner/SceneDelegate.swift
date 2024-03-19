@@ -33,16 +33,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let startVC: UIViewController
         let autoLoginActivate: Bool = UserDefaults.standard.bool(forKey: "isAutoLoginActivate")
         
-<<<<<<< HEAD
         startVC = CustomLaunchScreenViewController(message: "알약, 달력 넘기듯 간편하게") // 런치스크린 -> 메인탭바뷰컨으로 이동
-=======
-        if autoLoginActivate { // 자동로그인 On
-            // DB 에 저장된 데이터랑 userDefaults에 저장된 데이터랑 비교해서 로그인 하는 로직이 있어야
-            startVC = CustomLaunchScreenViewController(message: "알약, 달력 넘기듯 간편하게", status: true) // 런치스크린 -> 메인탭바뷰컨으로 이동
-        } else { // 자동로그인 Off
-            startVC = CustomLaunchScreenViewController(message: "알약, 달력 넘기듯 간편하게", status: false) // 런치스크린 -> 로그인뷰컨으로 이동
-        }
->>>>>>> 4faf00b ([FIX] conflict 해결(DataManager, PillListCollectionViewCell 파일))
+
         
         window?.rootViewController = startVC
         window?.makeKeyAndVisible()

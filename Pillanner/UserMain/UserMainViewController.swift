@@ -335,18 +335,10 @@ final class UserMainViewController: UIViewController {
                 }
                 self.pillsList = tempList
                 self.intakePillListCollectionView.reloadData()
-<<<<<<< HEAD
-=======
-//                self.setUpLabelsTextWithUserInformation()
->>>>>>> 4faf00b ([FIX] conflict 해결(DataManager, PillListCollectionViewCell 파일))
+
             }
             self.setUpLabelsTextWithUserInformation()
         }
-<<<<<<< HEAD
-        self.setUpLabelsTextWithUserInformation()
-=======
-//        self.setUpLabelsTextWithUserInformation()
->>>>>>> 4faf00b ([FIX] conflict 해결(DataManager, PillListCollectionViewCell 파일))
     }
     
     private func setUpLabelsTextWithUserInformation() {
