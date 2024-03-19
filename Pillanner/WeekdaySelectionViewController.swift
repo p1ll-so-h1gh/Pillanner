@@ -16,7 +16,10 @@ protocol WeekdaySelectionDelegate: AnyObject {
 
 class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    weak var delegate: WeekdaySelectionDelegate?
+//    weak var delegate: WeekdaySelectionDelegate?
+    weak var delegate: IntakeDateCellDelegate?
+    
+    
     var tableView: UITableView!
     var selectedWeekdays = Set<Int>()
     var selectedWeekdaysInString = [String]()
@@ -24,15 +27,39 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
     let weekdays = ["월요일마다", "화요일마다", "수요일마다", "목요일마다", "금요일마다", "토요일마다", "일요일마다"]
     private var pageTitleLabel: UILabel!
     
+//    private let loginButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("저장하기", for: .normal)
+//        button.titleLabel?.font = FontLiteral.body(style: .bold)
+//        button.setTitleColor(.white, for: .normal)
+//        button.backgroundColor = UIColor.pointThemeColor2
+//        button.layer.cornerRadius = 8
+//        button.addTarget(target, action: #selector(didSaveButtonTapped), for: .touchUpInside)
+//        return button
+//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .primaryBackgroundColor
         self.navigationItem.title = "반복"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: FontLiteral.title3(style: .bold)]
+        yeah(array: self.selectedWeekdaysInString)
         setupTableView()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        didSaveButtonTapped()
+    }
 
+    init(selectedWeekdaysInString: [String]) {
+        super.init(nibName: nil, bundle: nil)
+        self.selectedWeekdaysInString = selectedWeekdaysInString
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func setupTableView() {
         tableView = UITableView()
@@ -48,7 +75,26 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }
-
+    
+    func yeah(array: [String]) {
+        for selectedWeekday in array {
+            if selectedWeekday == "Mon" {
+                selectedWeekdays.insert(0)
+            } else if selectedWeekday == "Tue" {
+                selectedWeekdays.insert(1)
+            } else if selectedWeekday == "Wed" {
+                selectedWeekdays.insert(2)
+            } else if selectedWeekday == "Thu" {
+                selectedWeekdays.insert(3)
+            } else if selectedWeekday == "Fri" {
+                selectedWeekdays.insert(4)
+            } else if selectedWeekday == "Sat" {
+                selectedWeekdays.insert(5)
+            } else if selectedWeekday == "Sun" {
+                selectedWeekdays.insert(6)
+            }
+        }
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return weekdays.count
@@ -60,42 +106,48 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "WeekdayTableViewCell", for: indexPath) as! WeekdayTableViewCell
-        cell.configure(with: weekdays[indexPath.row], isSelected: selectedWeekdays.contains(indexPath.row))
+        cell.configure(with: self.weekdays[indexPath.row], isSelected: self.selectedWeekdays.contains(indexPath.row))
         return cell
     }
 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if selectedWeekdays.contains(indexPath.row) {
-            selectedWeekdays.remove(indexPath.row)
+        if self.selectedWeekdays.contains(indexPath.row) {
+            self.selectedWeekdays.remove(indexPath.row)
         } else {
-            selectedWeekdays.insert(indexPath.row)
+            self.selectedWeekdays.insert(indexPath.row)
         }
         tableView.reloadRows(at: [indexPath], with: .fade)
+        print(#function, selectedWeekdays)
+        print(#function, selectedWeekdaysInString)
     }
     
+    // 로직 수정
     func saveSelectedWeekdaysInString() {
-        if selectedWeekdays.contains(0) {
-            selectedWeekdaysInString.append("Mon")
-        } else if selectedWeekdays.contains(1) {
-            selectedWeekdaysInString.append("Tue")
-        } else if selectedWeekdays.contains(2) {
-            selectedWeekdaysInString.append("Wed")
-        } else if selectedWeekdays.contains(3) {
-            selectedWeekdaysInString.append("Thu")
-        } else if selectedWeekdays.contains(4) {
-            selectedWeekdaysInString.append("Fri")
-        } else if selectedWeekdays.contains(5) {
-            selectedWeekdaysInString.append("Sat")
-        } else if selectedWeekdays.contains(6) {
-            selectedWeekdaysInString.append("Sun")
+        for selectedWeekday in selectedWeekdays {
+            if selectedWeekday == 0 {
+                selectedWeekdaysInString.append("Mon")
+            } else if selectedWeekday == 1 {
+                selectedWeekdaysInString.append("Tue")
+            } else if selectedWeekday == 2 {
+                selectedWeekdaysInString.append("Wed")
+            } else if selectedWeekday == 3 {
+                selectedWeekdaysInString.append("Thu")
+            } else if selectedWeekday == 4 {
+                selectedWeekdaysInString.append("Fri")
+            } else if selectedWeekday == 5 {
+                selectedWeekdaysInString.append("Sat")
+            } else if selectedWeekday == 6 {
+                selectedWeekdaysInString.append("Sun")
+            }
         }
     }
     
     @objc private func didSaveButtonTapped() {
         saveSelectedWeekdaysInString()
         
-        delegate?.updateIntakeDate(selectedWeekdaysInString)
+        delegate?.updateDays(selectedWeekdaysInString)
+        print(#function, selectedWeekdaysInString)
     }
 }
 

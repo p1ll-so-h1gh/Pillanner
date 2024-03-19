@@ -16,6 +16,8 @@ protocol IntakeDateCellDelegate: AnyObject {
 
 final class IntakeDateCell: UITableViewCell {
     
+    
+    
     private var selectedDate = [String]()
     static let identifier = "IntakeDateCell"
     private let sidePaddingSizeValue = 20
@@ -151,6 +153,8 @@ final class IntakeDateCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
         //        self.setupLayout()
+        
+        self.checkWeekdayViewWithIntakeData(days: selectedDate)
     }
     
     required init?(coder: NSCoder) {
@@ -158,20 +162,23 @@ final class IntakeDateCell: UITableViewCell {
     }
     
     func checkWeekdayViewWithIntakeData(days: [String]) {
-        if days.contains("Mon") {
-            monView.backgroundColor = .pointThemeColor2
-        } else if days.contains("Tue") {
-            tueView.backgroundColor = .pointThemeColor2
-        } else if days.contains("Wed") {
-            wedView.backgroundColor = .pointThemeColor2
-        } else if days.contains("Thu") {
-            thuView.backgroundColor = .pointThemeColor2
-        } else if days.contains("Fri") {
-            friView.backgroundColor = .pointThemeColor2
-        } else if days.contains("Sat") {
-            satView.backgroundColor = .pointThemeColor2
-        } else if days.contains("Sun") {
-            sunView.backgroundColor = .pointThemeColor2
+        print("####################### \(days)")
+        for day in days {
+            if day == "Mon" {
+                monView.backgroundColor = .pointThemeColor2
+            } else if day == "Tue" {
+                tueView.backgroundColor = .pointThemeColor2
+            } else if day == "Wed" {
+                wedView.backgroundColor = .pointThemeColor2
+            } else if day == "Thu" {
+                thuView.backgroundColor = .pointThemeColor2
+            } else if day == "Fri" {
+                friView.backgroundColor = .pointThemeColor2
+            } else if day == "Sat" {
+                satView.backgroundColor = .pointThemeColor2
+            } else if day == "Sun" {
+                sunView.backgroundColor = .pointThemeColor2
+            }
         }
     }
     
@@ -297,8 +304,9 @@ final class IntakeDateCell: UITableViewCell {
     }
 }
 
-extension IntakeDateCell: WeekdaySelectionDelegate {
-    func updateIntakeDate(_ date: [String]) {
-        self.selectedDate = date
-    }
-}
+//extension IntakeDateCell: WeekdaySelectionDelegate {
+//    func updateIntakeDate(_ date: [String]) {
+//        print(#function, self.selectedDate)
+//        self.selectedDate = date
+//    }
+//}

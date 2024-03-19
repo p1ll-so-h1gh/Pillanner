@@ -13,7 +13,7 @@ import SwiftUI
 // 데이터를 어떻게 반환받을 것인지 로직 구성 필요
 
 
-final class PillAddMainViewController: UIViewController {
+final class PillAddMainViewController: UIViewController{
     
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
@@ -74,6 +74,7 @@ final class PillAddMainViewController: UIViewController {
         self.totalTableView.rowHeight = UITableView.automaticDimension
         
         backButton.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         
         navBackButton.tintColor = .black
         self.navigationItem.backBarButtonItem = navBackButton
@@ -81,10 +82,20 @@ final class PillAddMainViewController: UIViewController {
         setupView()
     }
     
+    // 추가버튼 눌렀을 떄, 알럿 및 화면 빠져나오기 기능 구현
     @objc private func addButtonTapped() {
         let newPillData = Pill(title: self.titleForAdd, type: self.typeForAdd, day: self.dayForAdd, dueDate: self.dueDateForAdd, intake: self.intakeForAdd, dosage: self.dosageForAdd)
         
         DataManager.shared.createPillData(pill: newPillData)
+        
+        let addAlert = UIAlertController(title: "추가 완료", message: "약 추가가 정상적으로 완료되었습니다!", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _  in
+//            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true)
+        }
+        addAlert.addAction(okAction)
+        
+        present(addAlert, animated: true)
     }
     
     @objc func dismissView() {
@@ -106,6 +117,7 @@ final class PillAddMainViewController: UIViewController {
     //뷰가 나타날 때 네비게이션 바 숨김
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
+        print(dayForAdd)
     }
     
     private func setupView() {
@@ -152,10 +164,12 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillCell", for: indexPath) as! PillCell
             cell.setupLayout()
+            cell.delegate = self
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
-            cell.setupLayout()
+            cell.setupLayoutOnEditingProcess(days: self.dayForAdd)
+//            cell.delegate = self
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
@@ -165,6 +179,7 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillTypeCell", for: indexPath) as! PillTypeCell
             cell.setupLayout()
+            cell.delegate = self
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DueDateCell
@@ -178,7 +193,9 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 1 {
-            let weekSelectVC = WeekdaySelectionViewController()
+            let weekSelectVC = WeekdaySelectionViewController(selectedWeekdaysInString: self.dayForAdd)
+            weekSelectVC.delegate = self
+            print(self.dayForAdd)
             self.navigationController?.isNavigationBarHidden = false
             self.navigationController?.pushViewController(weekSelectVC, animated: true)
         }
@@ -188,6 +205,7 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
 extension PillAddMainViewController: IntakeSettingDelegate {
     func addDosage() {
         let dosageAddVC = DosageAddViewController()
+        dosageAddVC.delegate = self
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(dosageAddVC, animated: true)
     }
@@ -195,16 +213,18 @@ extension PillAddMainViewController: IntakeSettingDelegate {
 
 extension PillAddMainViewController: PillCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
     
+    func updateDays(_ days: [String]) {
+        print(#function, self.dayForAdd)
+        self.dayForAdd = days
+        self.totalTableView.reloadData()
+    }
+    
     func updatePillTitle(_ title: String) {
         self.titleForAdd = title
     }
     
     func updatePillType(_ type: String) {
         self.typeForAdd = type
-    }
-    
-    func updateDays(_ day: [String]) {
-        self.dayForAdd = day
     }
     
     func updateDueDate(date: String) {

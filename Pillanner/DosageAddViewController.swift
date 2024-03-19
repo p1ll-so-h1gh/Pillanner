@@ -31,7 +31,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     private var confirmButton: UIButton!
     
     private var selectTimeButton: UIButton!
-       private var selectedTimeDisplayLabel: UILabel!
+    private var selectedTimeDisplayLabel: UILabel!
     
     private var alarmStatusLabel: UILabel!
     
@@ -79,7 +79,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         setupDosageUnitTableView()
         
         setupSelectTimeButton()
-                setupSelectedTimeDisplayLabel()
+        setupSelectedTimeDisplayLabel()
     }
 
         
@@ -116,10 +116,13 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     
     @objc private func confirmButtonTapped() {
         DispatchQueue.main.async {
-            if let meridiem = self.tempSelectedMeridiem,
-               let hour = self.tempSelectedHour,
-               let minute = self.tempSelectedMinute {
-                let timeString = "\(meridiem) \(hour):\(minute)"
+            if let meridiem = self.tempSelectedMeridiem, let hour = self.tempSelectedHour, let minute = self.tempSelectedMinute {
+                var timeString = ""
+                if meridiem == "오전" {
+                    timeString = "\(hour):\(minute)"
+                } else {
+                    timeString = "\(Int(hour)! + 12):\(minute)"
+                }
                 self.selectedTimeDisplayLabel.text = timeString
                 self.delegate?.updateIntake(timeString)
             }
@@ -203,9 +206,8 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         } else { 
             print("Failed to Add Dosage")
         }
-        
-
-//        delegate?.updateIntake(<#T##String#>)
+//        updateIntake에 넣을 매개변수 찾아놓기
+//        delegate?.updateIntake("")
     }
     
     
@@ -527,3 +529,7 @@ extension DosageAddViewController {
 }
 
 
+// 섭취 설정 -> 저장 누르면
+//1. 추가하기 뷰에서 섭취 설정 테이블뷰셀 만들기
+//2. 우측 상단에 섭취횟수 업데이트하기
+//3.

@@ -125,8 +125,11 @@ class CalendarViewController: UIViewController {
     // Pill List 만드는 순서 (viewWillAppear 함수 내부에 구현하기)
     // 1. Firestore에 저장된 Pill Data들 싹다 불러오기
     // 2. Pill -> duedate가 가지고 있는 날짜 데이터를 현재 날짜와 비교해서 유효한 데이터만 구별해내기
+    // 3. Pill -> intake 정보에 따라 오전에 먹는 약인지, 오후에 먹는 약인지 분류
+    // 4. 분류된 결과를 가지고, PillCategories 변수에 담아내기 ( PillCategories = [PillCategory] 타입의 배열 )
+    // 5. 정의된 PillCategories 변수로 테이블 셀을 그려내기
     private func setUpPillData() {
-        
+        print(#function)
         let dateFormatter: DateFormatter = {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
@@ -136,7 +139,7 @@ class CalendarViewController: UIViewController {
         let todaysDate = dateFormatter.date(from: Date().toString())
         let dayFormatter: DateFormatter = {
             let formatter = DateFormatter()
-            formatter.dateFormat = "EEE"
+            formatter.dateFormat = "EEE" // Mon, Tue...
             formatter.locale = Locale(identifier: "en")
             return formatter
         }()
@@ -167,19 +170,18 @@ class CalendarViewController: UIViewController {
                     }
                 }
                 
-                for pill in todaysPill {
+                for pill in todaysPill { // 복용기한 내
                     if pill.day.contains(todaysday) {
-                        self.listOfPills.append(pill)
+                        self.listOfPills.append(pill) // "yyyy-MM-dd" 요일이 같음 -> 오늘 날짜의 yyyy-MM-dd
                     }
                 }
             }
         }
     }
     
-    // 3. Pill -> intake 정보에 따라 오전에 먹는 약인지, 오후에 먹는 약인지 분류
-    // 4. 분류된 결과를 가지고, PillCategories 변수에 담아내기 ( PillCategories = [PillCategory] 타입의 배열 )
-    // 5. 정의된 PillCategories 변수로 테이블 셀을 그려내기
+    
     private func categorizePillData() {
+        print(#function)
         // 시간 변환하는 포매터 설정
         var pillsListAM = PillCategory(meridiem: "AM", pills: [])
         var pillsListPM = PillCategory(meridiem: "PM", pills: [])
