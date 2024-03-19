@@ -87,17 +87,7 @@ class CalendarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        UNUserNotificationCenter.current().delegate = self
-        
-        // 앱 시작 시 알림 권한 요청
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-            if granted {
-                print("알림 권한이 허용되었습니다.")
-            } else {
-                print("알림 권한이 거부되었습니다.")
-            }
-        }
+
         // TableView에 뿌려줄 데이터 셋업
         setUpPillData()
         categorizePillData()
@@ -164,7 +154,8 @@ class CalendarViewController: UIViewController {
                                             day: pill["Day"] as! [String],
                                             dueDate: pill["DueDate"] as! String,
                                             intake: pill["Intake"] as! [String],
-                                            dosage: pill["Dosage"] as! String)
+                                            dosage: pill["Dosage"] as! String,
+                                            alarmStatus: pill["AlarmStatus"] as! Bool)
                             todaysPill.append(data)
                         }
                     }
@@ -202,14 +193,16 @@ class CalendarViewController: UIViewController {
                                                   day: [""],
                                                   dueDate: pill.dueDate,
                                                   intake: [timeFormatter.date(from: time)!.toString()],
-                                                  dosage: pill.dosage))
+                                                  dosage: pill.dosage,
+                                                  alarmStatus: pill.alarmStatus))
                 } else {
                     pillsListAM.pills.append(Pill(title: pill.title,
                                                   type: pill.type,
                                                   day: [""],
                                                   dueDate: pill.dueDate,
                                                   intake: [timeFormatter.date(from: time)!.toString()],
-                                                  dosage: pill.dosage))
+                                                  dosage: pill.dosage,
+                                                  alarmStatus: pill.alarmStatus))
                 }
             }
         }
@@ -449,7 +442,12 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
         let takenPill = TakenPill(title: pill.title, takenDate: dateFormatter.string(from: calendar.today!), intake: pill.intake[0], dosage: pill.dosage)
         DataManager.shared.createPillRecordData(pill: takenPill)
     }
-    
+
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        // 선택 상태 유지
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+    }
+
     // MARK: - UserNotification
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {

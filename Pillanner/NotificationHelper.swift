@@ -120,10 +120,10 @@ class NotificationHelper {
 extension NotificationHelper {
 
     // 알림 권한 설정
-    func setAuthorization() {
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, _ in }
-    }
+//    func setAuthorization() {
+//        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+//        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, _ in }
+//    }
 
     private func scheduleNotification(title: String, body: String, date: Date, identifier: String) {
         // 알림 내용
@@ -151,8 +151,10 @@ extension NotificationHelper {
                let day = pillData["Day"] as? [String],
                let dueDate = pillData["DueDate"] as? String,
                let intake = pillData["Intake"] as? [String],
-               let dosage = pillData["Dosage"] as? String {
-                let pill = Pill(title: title, type: type, day: day, dueDate: dueDate, intake: intake, dosage: dosage)
+               let dosage = pillData["Dosage"] as? String,
+               let alarmStatus = pillData["alarmStatus"] as? Bool,
+               alarmStatus == true {
+                let pill = Pill(title: title, type: type, day: day, dueDate: dueDate, intake: intake, dosage: dosage, alarmStatus: alarmStatus)
                 pills.append(pill)
             }
         }

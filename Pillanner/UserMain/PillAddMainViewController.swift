@@ -24,7 +24,8 @@ final class PillAddMainViewController: UIViewController{
     private var dueDateForAdd = String()
     private var intakeForAdd = [String]()
     private var dosageForAdd = String()
-    
+    private var alarmStatusForAdd = Bool()
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "내 영양제 추가하기"
@@ -84,8 +85,8 @@ final class PillAddMainViewController: UIViewController{
     
     // 추가버튼 눌렀을 떄, 알럿 및 화면 빠져나오기 기능 구현
     @objc private func addButtonTapped() {
-        let newPillData = Pill(title: self.titleForAdd, type: self.typeForAdd, day: self.dayForAdd, dueDate: self.dueDateForAdd, intake: self.intakeForAdd, dosage: self.dosageForAdd)
-        
+        let newPillData = Pill(title: self.titleForAdd, type: self.typeForAdd, day: self.dayForAdd, dueDate: self.dueDateForAdd, intake: self.intakeForAdd, dosage: self.dosageForAdd, alarmStatus: self.alarmStatusForAdd)
+
         DataManager.shared.createPillData(pill: newPillData)
         
         let addAlert = UIAlertController(title: "추가 완료", message: "약 추가가 정상적으로 완료되었습니다!", preferredStyle: .alert)
@@ -247,5 +248,14 @@ extension PillAddMainViewController: PillCellDelegate, IntakeDateCellDelegate, P
         self.totalTableView.reloadData()
         self.totalTableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
     }
+
+//    func updateAlarmStatus(isOn: Bool) {
+//        if isOn {
+//            self.alarmStatusForAdd = isOn
+//            NotificationHelper.shared.readUserPills()
+//        } else {
+//
+//        }
+//    }
 }
 

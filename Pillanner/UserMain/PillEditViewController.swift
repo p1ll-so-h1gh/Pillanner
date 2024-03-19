@@ -23,7 +23,8 @@ final class PillEditViewController: UIViewController {
     private var dueDateForEdit = String()
     private var intakeForEdit = [String]()
     private var dosageForEdit = String()
-    
+    private var alarmStatusForEdit = Bool()
+
     private var oldPillDataForEdit: Pill
     private var originalPillTitle: String
 
@@ -101,8 +102,8 @@ final class PillEditViewController: UIViewController {
     @objc private func editButtonTapped() {
         // 빈 내용이 있으면 어떻게 처리할 지 고민해야 함
         
-        let newPill = Pill(title: self.titleForEdit, type: self.typeForEdit, day: self.dayForEdit, dueDate: self.dueDateForEdit, intake: self.intakeForEdit, dosage: self.dosageForEdit)
-        
+        let newPill = Pill(title: self.titleForEdit, type: self.typeForEdit, day: self.dayForEdit, dueDate: self.dueDateForEdit, intake: self.intakeForEdit, dosage: self.dosageForEdit, alarmStatus: self.alarmStatusForEdit)
+
         DataManager.shared.updatePillData(oldTitle: originalPillTitle, pill: newPill)
         
         DataManager.shared.readPillListData(UID: UserDefaults.standard.string(forKey: "UID")!) { pillList in

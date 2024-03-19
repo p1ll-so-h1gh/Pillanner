@@ -328,7 +328,8 @@ final class UserMainViewController: UIViewController {
                                         day: pill["Day"] as! [String],
                                         dueDate: pill["DueDate"] as! String,
                                         intake: pill["Intake"] as! [String],
-                                        dosage: pill["Dosage"] as! String)
+                                        dosage: pill["Dosage"] as! String,
+                                        alarmStatus: pill["AlarmStatus"] as! Bool)
                     tempList.append(receiver)
                 }
                 self.pillsList = tempList

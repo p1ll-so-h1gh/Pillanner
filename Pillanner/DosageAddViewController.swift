@@ -208,6 +208,8 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         }
 //        updateIntake에 넣을 매개변수 찾아놓기
 //        delegate?.updateIntake("")
+
+        //delegate?.updateAlarmStatus(isOn: alarmToggle.isOn)
     }
     
     
