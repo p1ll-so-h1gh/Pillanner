@@ -26,6 +26,7 @@ struct Pill {
     var dueDate: String // 데이터 타입 변화할 가능성이 있음...
     var intake: [String] // [10:30, 12:30]
     var dosage: String
+    var alarmStatus: Bool
 }
 
 struct PillCategory {
@@ -49,4 +50,11 @@ enum Weekday: String {
     case Fri = "Fri"
     case Sat = "Sat"
     case Sun = "Sun"
+}
+
+// DosageAddViewController / IntakeSetting 데이터 모델 정의
+struct IntakeData {
+    var time: String // "HH:mm" 포맷
+    var dosage: String // 예: "2 정"
+    var isAlarmOn: Bool
 }

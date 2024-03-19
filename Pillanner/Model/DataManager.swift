@@ -130,7 +130,8 @@ final class DataManager {
                                 "Day": pill.day,
                                 "DueDate": pill.dueDate,
                                 "Intake": pill.intake,
-                                "Dosage": pill.dosage
+                                "Dosage": pill.dosage,
+                                "alarmStatus": pill.alarmStatus
                             ])
                             print("약 등록 완료")
                             return
@@ -160,8 +161,9 @@ final class DataManager {
                        let day = document.data()["Day"],
                        let dueDate = document.data()["DueDate"],
                        let intake = document.data()["Intake"],
-                       let dosage = document.data()["Dosage"] {
-                        let dict = ["Title": title ,"Type": type, "Day": day, "DueDate": dueDate, "Intake": intake, "Dosage": dosage]
+                       let dosage = document.data()["Dosage"],
+                       let alarmStatus = document.data()["AlarmStatus"] {
+                        let dict = ["Title": title ,"Type": type, "Day": day, "DueDate": dueDate, "Intake": intake, "Dosage": dosage, "AlarmStatus": alarmStatus]
                         output = dict
                     }
                 }
@@ -186,7 +188,8 @@ final class DataManager {
                                 "Day": document.data()["Day"],
                                 "DueDate": document.data()["DueDate"],
                                 "Intake": document.data()["Intake"],
-                                "Dosage": document.data()["Dosage"]]
+                                "Dosage": document.data()["Dosage"],
+                                "AlarmStatus": document.data()["AlarmStatus"]]
                     result.append(docs as [String : Any])
                 }
                 completion(result)
@@ -196,7 +199,7 @@ final class DataManager {
     
     // 약 이름 받아서 -> 그거랑 같은 데이터 먼저 찾고 -> 접근해서 새로운 데이터로 바꾸기
 
-    func updatePillData(oldTitle: String, newTitle: String, type: String, day: [String], dueDate: String, intake: [String], dosage: String) {
+    func updatePillData(oldTitle: String, newTitle: String, type: String, day: [String], dueDate: String, intake: [String], dosage: String, alarmStatus: Bool) {
         if let userDocumentID = UserDefaults.standard.string(forKey: "UID") {
             
             let pillCollection = db.collection("Users").document(userDocumentID).collection("Pills")
@@ -213,7 +216,7 @@ final class DataManager {
                 let newRef = pillCollection.document(newTitle)
                 
                 oldRef.delete()
-                newRef.setData(["Title": newTitle ,"Type": type, "Day": day, "DueDate": dueDate, "Intake": intake, "Dosage": dosage])
+                newRef.setData(["Title": newTitle ,"Type": type, "Day": day, "DueDate": dueDate, "Intake": intake, "Dosage": dosage, "AlarmStatus": alarmStatus])
             }
             print("약 정보가 업데이트 되었습니다.")
         }
@@ -237,7 +240,7 @@ final class DataManager {
                 let newRef = pillCollection.document(pill.title)
                 
                 oldRef.delete()
-                newRef.setData(["Title": pill.title ,"Type": pill.type, "Day": pill.day, "DueDate": pill.dueDate, "Intake": pill.intake, "Dosage": pill.dosage])
+                newRef.setData(["Title": pill.title ,"Type": pill.type, "Day": pill.day, "DueDate": pill.dueDate, "Intake": pill.intake, "Dosage": pill.dosage, "AlarmStatus": pill.alarmStatus])
             }
             print("약 정보가 업데이트 되었습니다.")
         }
