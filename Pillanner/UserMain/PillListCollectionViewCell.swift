@@ -95,13 +95,14 @@ class PillListCollectionViewCell: UICollectionViewCell {
     func configureCell(with pill: Pill) {
         self.nameLabel.text = pill.title
         self.typeLabel.text = pill.type
-        self.alarmLabel.text = "on" // 알람여부 데이터 기반으로 판별해서 넣어야
+        //self.alarmLabel.text = "on" // 알람여부 데이터 기반으로 판별해서 넣어야
+        self.alarmLabel.text = pill.alarmStatus ? "on" : "off"
         self.pillnumLabel.text = "하루 \(pill.dosage)정" // 복용단위 업데이트
-        configureButton(title: pill.title)
+        configureButton(title: pill.title, alarmStatus: pill.alarmStatus)
     }
     
     // pill name 대신 pill data 넘겨서 사용할 수 있도록 수정해야 됨
-    private func configureButton(title: String) {
+    private func configureButton(title: String, alarmStatus: Bool) {
         let edit = UIAction(title: "수정", state: .off) { _ in
             DataManager.shared.readPillData(pillTitle: title) { pillData in
                 if let pillData = pillData {
@@ -111,7 +112,8 @@ class PillListCollectionViewCell: UICollectionViewCell {
                                     day: pillData["Day"] as! [String],
                                     dueDate: pillData["DueDate"] as! String,
                                     intake: pillData["Intake"] as! [String],
-                                    dosage: pillData["Dosage"]! as! String)
+                                    dosage: pillData["Dosage"] as! String,
+                                    alarmStatus: alarmStatus)
                     self.pillListViewDelegate?.editPill(pillData: pill)
                 }
             }
