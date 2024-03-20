@@ -79,6 +79,7 @@ extension LoginViewController: NaverThirdPartyLoginConnectionDelegate {
                                 UserDefaults.standard.set(userData["Nickname"]!, forKey: "Nickname")
                                 UserDefaults.standard.set(userData["SignUpPath"]!, forKey: "SignUpPath")
                                 UserDefaults.standard.set(true, forKey: "isAutoLoginActivate")
+                                Auth.auth().signIn(withEmail: email, password: "123456")
                                 let nextVC = TabBarController()
                                     nextVC.modalPresentationStyle = .fullScreen
                                 self.present(nextVC, animated: true)

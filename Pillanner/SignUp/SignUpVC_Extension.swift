@@ -80,7 +80,7 @@ extension SignUpViewController {
                             print(error.localizedDescription)
                             return
                         }
-                        // 에러가 없다면 사용자에게 인증코드와 verifiacationID(인증 ID) 전달
+                        // 에러가 없다면 사용자에게 인증코드와 verificationID(인증 ID) 전달
                         print("@@@@@@@@@@@@@@@@@@@ 인증번호 발송 @@@@@@@@@@@@@@@@@@")
                         self.getSetTime()
                         self.ifPhoneNumberIsEmptyLabel.text = ""
