@@ -61,6 +61,7 @@ extension LoginViewController {
                                 UserDefaults.standard.set(userData["Password"]!, forKey: "Password")
                                 UserDefaults.standard.set(userData["Nickname"]!, forKey: "Nickname")
                                 UserDefaults.standard.set(userData["SignUpPath"]!, forKey: "SignUpPath")
+                                UserDefaults.standard.set(true, forKey: "isAutoLoginActivate")
                                 let nextVC = TabBarController()
                                     nextVC.modalPresentationStyle = .fullScreen
                                 self.present(nextVC, animated: true)
@@ -75,7 +76,7 @@ extension LoginViewController {
                 }
                 print("애플 로그인에 성공했습니다.")
                 print("appleIDCredential : ", appleIDCredential)
-                
+                UserDefaults.standard.set(true, forKey: "isAutoLoginActivate")
                 // Firestore DB에 회원 정보 저장
                 DataManager.shared.createUserData(
                     user: UserData(

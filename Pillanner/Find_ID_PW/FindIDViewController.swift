@@ -18,8 +18,44 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
     var availableGetCertNumberFlag: Bool = true // 인증번호 받고 나서 3분 동안만 false. false 상태에선 인증번호를 받을 수 없다.
     
     private let sidePaddingValue = 20
-    private let topPaddingValue = 30
-    
+    private let topPaddingValue = 40
+
+    private lazy var backButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(systemName: "xmark")?.withRenderingMode(.alwaysOriginal).withTintColor(.black),
+                                     style: .plain, target: self, action: #selector(dismissView))
+        return button
+    }()
+
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "ID 찾기"
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.sizeToFit()
+        return label
+    }()
+
+    let nameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "이름"
+        label.font = FontLiteral.body(style: .bold)
+        return label
+    }()
+
+    let nameTextField: UITextField = {
+        let textfield = UITextField()
+        textfield.placeholder = "이름을 입력해주세요."
+        textfield.font = FontLiteral.subheadline(style: .regular)
+        return textfield
+    }()
+
+    let nameTextFieldUnderLine: UIProgressView = {
+        let line = UIProgressView(progressViewStyle: .bar)
+        line.trackTintColor = .lightGray
+        line.progressTintColor = .systemBlue
+        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
+        return line
+    }()
+
     let PhoneCertLabel: UILabel = {
         let label = UILabel()
         label.text = "휴대전화 번호인증"
@@ -45,7 +81,7 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
     let GetCertNumberButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("인증번호 받기", for: .normal) // 재전송
-        button.setTitleColor(UIColor.lightGray, for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
         button.backgroundColor = .mainThemeColor
         button.layer.cornerRadius = 5
         button.addTarget(target, action: #selector(GetCertNumberButtonClicked), for: .touchUpInside)
@@ -88,7 +124,7 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
     let CheckCertNumberButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("확인", for: .normal)
-        button.setTitleColor(UIColor.lightGray, for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
         button.backgroundColor = .mainThemeColor
         button.layer.cornerRadius = 5
         button.addTarget(target, action: #selector(CheckCertNumberButtonClicked), for: .touchUpInside)
@@ -99,50 +135,6 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
         let label = UILabel()
         label.numberOfLines = 2
         return label
-    }()
-    
-    let nameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "이름"
-        label.font = FontLiteral.body(style: .bold)
-        return label
-    }()
-    
-    let nameTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.placeholder = "이름을 입력해주세요."
-        textfield.font = FontLiteral.subheadline(style: .regular)
-        return textfield
-    }()
-    
-    let nameTextFieldUnderLine: UIProgressView = {
-        let line = UIProgressView(progressViewStyle: .bar)
-        line.trackTintColor = .lightGray
-        line.progressTintColor = .systemBlue
-        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
-        return line
-    }()
-    
-    let birthLabel: UILabel = {
-        let label = UILabel()
-        label.text = "생년월일 입력"
-        label.font = FontLiteral.body(style: .bold)
-        return label
-    }()
-    
-    let birthTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.placeholder = "생년월일 6자리를 입력해주세요."
-        textfield.font = FontLiteral.subheadline(style: .regular)
-        return textfield
-    }()
-    
-    let birthTextFieldUnderLine: UIProgressView = {
-        let line = UIProgressView(progressViewStyle: .bar)
-        line.trackTintColor = .lightGray
-        line.progressTintColor = .systemBlue
-        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
-        return line
     }()
     
     let findIDButton: UIButton = {
@@ -161,9 +153,16 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
         view.backgroundColor = .white
         addView()
         setContstraints()
+        
+        navigationItem.leftBarButtonItem = backButton
+        navigationItem.titleView = titleLabel
     }
     
     private func addView() {
+        view.addSubview(nameLabel)
+        view.addSubview(nameTextField)
+        view.addSubview(nameTextFieldUnderLine)
+
         view.addSubview(PhoneCertLabel)
         view.addSubview(PhoneCertTextField)
         view.addSubview(PhoneCertTextFieldUnderLine)
@@ -176,20 +175,29 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
         CertContentStackView.addArrangedSubview(CheckCertNumberButton)
         view.addSubview(CertUIView)
         view.addSubview(CertNumberAvailableLabel)
-        
-        view.addSubview(nameLabel)
-        view.addSubview(nameTextField)
-        view.addSubview(nameTextFieldUnderLine)
-        view.addSubview(birthLabel)
-        view.addSubview(birthTextField)
-        view.addSubview(birthTextFieldUnderLine)
-        
+
         view.addSubview(findIDButton)
     }
     
     private func setContstraints() {
+        //이름
+        nameLabel.snp.makeConstraints({
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(topPaddingValue)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+        })
+        nameTextField.snp.makeConstraints({
+            $0.top.equalTo(nameLabel.snp.bottom).offset(5)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
+        })
+        nameTextFieldUnderLine.snp.makeConstraints({
+            $0.top.equalTo(nameTextField.snp.bottom).offset(5)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
+            $0.width.equalTo(nameTextField.snp.width)
+        })
+
         PhoneCertLabel.snp.makeConstraints({
-            $0.top.equalToSuperview().offset(100)
+            $0.top.equalTo(nameTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         PhoneCertTextField.snp.makeConstraints({
@@ -229,41 +237,16 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
             $0.top.equalTo(CertUIView.snp.bottom).offset(1)
             $0.left.equalTo(sidePaddingValue)
         })
-        //이름
-        nameLabel.snp.makeConstraints({
-            $0.top.equalTo(CertContentStackView.snp.bottom).offset(topPaddingValue)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-        })
-        nameTextField.snp.makeConstraints({
-            $0.top.equalTo(nameLabel.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
-        })
-        nameTextFieldUnderLine.snp.makeConstraints({
-            $0.top.equalTo(nameTextField.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.width.equalTo(nameTextField.snp.width)
-        })
-        //생년월일
-        birthLabel.snp.makeConstraints({
-            $0.top.equalTo(nameTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-        })
-        birthTextField.snp.makeConstraints({
-            $0.top.equalTo(birthLabel.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
-        })
-        birthTextFieldUnderLine.snp.makeConstraints({
-            $0.top.equalTo(birthTextField.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.width.equalTo(birthTextField.snp.width)
-        })
         findIDButton.snp.makeConstraints({
-            $0.top.equalTo(birthTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
+            $0.height.equalTo(50)
         })
+    }
+
+    @objc func dismissView() {
+        navigationController?.popViewController(animated: true)
     }
 
     // 인증번호 받기 버튼 로직

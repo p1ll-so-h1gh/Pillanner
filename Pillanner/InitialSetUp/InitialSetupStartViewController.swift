@@ -9,7 +9,17 @@ import UIKit
 import SnapKit
 
 class InitialSetupStartViewController: UIViewController {
-
+    var userNickName: String = ""
+    
+    init(nickName: String) {
+        super.init(nibName: nil, bundle: nil)
+        self.userNickName = nickName
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -54,16 +64,16 @@ class InitialSetupStartViewController: UIViewController {
     private func setupTitleAndDescription() {
         let titleLabel = UILabel()
         titleLabel.numberOfLines = 0
-        titleLabel.text = "건강한 루틴을 위한\n알약 플래너 만들기"
+        titleLabel.text = "\(userNickName)님\nPillanner 가입을 축하드립니다!"
         titleLabel.textAlignment = .center
         titleLabel.font = FontLiteral.title2(style: .bold)
         view.addSubview(titleLabel)
         
         let descriptionLabel = UILabel()
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.text = "지금부터 Pillanner가 약을\n챙겨드리기 위한 정보를 요청드리려 해요!"
+        descriptionLabel.text = "지금부터 Pillanner 가 약을\n챙겨드리기 위한 정보를 요청드리려 해요!"
         descriptionLabel.textAlignment = .center
-        descriptionLabel.font = FontLiteral.body(style: .regular)
+        descriptionLabel.font = FontLiteral.subheadline(style: .regular)
         view.addSubview(descriptionLabel)
         
         titleLabel.snp.makeConstraints { make in

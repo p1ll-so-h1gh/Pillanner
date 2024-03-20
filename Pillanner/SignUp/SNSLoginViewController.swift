@@ -116,9 +116,10 @@ class SNSLoginViewController: UIViewController, UITextFieldDelegate {
             // setNameTextField.text 값은 옵셔널 바인딩해서 사용하는게
             UserDefaults.standard.set(self.setNameTextField.text!, forKey: "Nickname")
             DataManager.shared.updateUserData(userID: userID, changedPassword: "sns", changedName: self.setNameTextField.text!)
-            let nextVC = CustomLaunchScreenViewController(message: "\(self.setNameTextField.text!)님 PILLANNER 가입을\n축하합니다!")
-            nextVC.modalPresentationStyle = .fullScreen
-            self.present(nextVC, animated: true)
+            
+            let initialSetUpStartVC = UINavigationController(rootViewController: InitialSetupStartViewController(nickName: self.setNameTextField.text!))
+            initialSetUpStartVC.modalPresentationStyle = .fullScreen
+            self.present(initialSetUpStartVC, animated: true)
         }))
         self.present(alert, animated: true)
     }

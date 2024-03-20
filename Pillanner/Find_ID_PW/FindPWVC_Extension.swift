@@ -133,106 +133,110 @@ extension FindPWViewController {
             
         }
     }
-    
-    // 새로운 비밀번호 토글 버튼
-    @objc func NewPassWordToggleButtonClicked() {
-        if newPassWordTextField.isSecureTextEntry == true {
-            newPassWordTextField.isSecureTextEntry = false
-            newPassWordToggleButton.setImage(UIImage(named: "eyeClose"), for: .normal)
-        } else {
-            newPassWordTextField.isSecureTextEntry = true
-            newPassWordToggleButton.setImage(UIImage(named: "eyeOpen"), for: .normal)
-        }
+
+    @objc func findPWButtonTapped() {
+
     }
-    
-    // 새로운 비밀번호 재입력 토글 버튼
-    @objc func NewPassWordReToggleButtonClicked() {
-        if newPassWordReTextField.isSecureTextEntry == true {
-            newPassWordReTextField.isSecureTextEntry = false
-            newPassWordReToggleButton.setImage(UIImage(named: "eyeClose"), for: .normal)
-        } else {
-            newPassWordReTextField.isSecureTextEntry = true
-            newPassWordReToggleButton.setImage(UIImage(named: "eyeOpen"), for: .normal)
-        }
-    }
-    
-    // 새로운 비밀번호 재입력 필드의 텍스트가 변경될 때마다 호출되는 메서드
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == newPassWordReTextField {
-            // 변경된 텍스트를 포함하여 비밀번호가 일치하는지 확인
-            let updatedString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
-            let fullPassword = newPassWordTextField.text ?? ""
-            let reenteredPassword = updatedString
-            if fullPassword == reenteredPassword {
-                newPassWordCorrectLabel.text = "비밀번호가 일치합니다."
-                newPassWordCorrectLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                newPassWordCorrectLabel.textColor = .systemBlue
-            } else {
-                newPassWordCorrectLabel.text = "비밀번호가 일치하지 않습니다."
-                newPassWordCorrectLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                newPassWordCorrectLabel.textColor = .red
-            }
-        }
-        if textField == newPassWordTextField {
-            let password = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
-            if DataManager.shared.isValidPassword(password: password) {
-                newPassWordCheckLabel.text = "사용가능한 비밀번호입니다."
-                newPassWordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                newPassWordCheckLabel.textColor = .systemBlue
-            }else {
-                newPassWordCheckLabel.text = "올바르지 않은 형식입니다. (영문자+숫자+특수문자, 8~16자)"
-                newPassWordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                newPassWordCheckLabel.textColor = .red
-            }
-        }
-        return true
-    }
-    
-    // 텍스트필드 위임자 선언
-    func setUpTextFieldDelegate() {
-        [idTextField, nameTextField, newPassWordTextField, newPassWordReTextField, phoneCertTextField, certNumberTextField] .forEach({
-            $0.delegate = self
-        })
-    }
-    
-    // 텍스트필드 언더라인 활성화 메서드
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 0.4) {
-            switch(textField) {
-            case self.idTextField : self.idTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.nameTextField : self.nameTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.newPassWordTextField : self.newPassWordTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.newPassWordReTextField : self.newPassWordReTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.phoneCertTextField : self.phoneCertTextFieldUnderLine.setProgress(1.0, animated: true)
-            default : break
-            }
-        }
-    }
-    
-    // 텍스트필드 언더라인 비활성화 메서드
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 0.3) {
-            switch(textField) {
-            case self.idTextField : self.idTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.nameTextField : self.nameTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.newPassWordTextField : self.newPassWordTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.newPassWordReTextField : self.newPassWordReTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.phoneCertTextField : self.phoneCertTextFieldUnderLine.setProgress(0.0, animated: true)
-            default : break
-            }
-        }
-    }
-    
-    // 비밀번호 재설정 버튼
-    @objc func SetUpNewPassWordButtonClicked() {
-        if availableSetUpNewPassWordFlag == true {
-            // 비밀번호 재설정
-            DataManager.shared.updateUserData(userID: idTextField.text!, changedPassword: newPassWordTextField.text!, changedName: nameTextField.text!)
-        }else {
-            // 인증번호 매칭 에러 - Alert
-            let alert = UIAlertController(title: "비밀번호 재설정 실패", message: "입력 형식을 다시 확인해주세요.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "확인", style: .default))
-            self.present(alert, animated: true)
-        }
-    }
+
+//    // 새로운 비밀번호 토글 버튼
+//    @objc func NewPassWordToggleButtonClicked() {
+//        if newPassWordTextField.isSecureTextEntry == true {
+//            newPassWordTextField.isSecureTextEntry = false
+//            newPassWordToggleButton.setImage(UIImage(named: "eyeClose"), for: .normal)
+//        } else {
+//            newPassWordTextField.isSecureTextEntry = true
+//            newPassWordToggleButton.setImage(UIImage(named: "eyeOpen"), for: .normal)
+//        }
+//    }
+//    
+//    // 새로운 비밀번호 재입력 토글 버튼
+//    @objc func NewPassWordReToggleButtonClicked() {
+//        if newPassWordReTextField.isSecureTextEntry == true {
+//            newPassWordReTextField.isSecureTextEntry = false
+//            newPassWordReToggleButton.setImage(UIImage(named: "eyeClose"), for: .normal)
+//        } else {
+//            newPassWordReTextField.isSecureTextEntry = true
+//            newPassWordReToggleButton.setImage(UIImage(named: "eyeOpen"), for: .normal)
+//        }
+//    }
+//    
+//    // 새로운 비밀번호 재입력 필드의 텍스트가 변경될 때마다 호출되는 메서드
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        if textField == newPassWordReTextField {
+//            // 변경된 텍스트를 포함하여 비밀번호가 일치하는지 확인
+//            let updatedString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
+//            let fullPassword = newPassWordTextField.text ?? ""
+//            let reenteredPassword = updatedString
+//            if fullPassword == reenteredPassword {
+//                newPassWordCorrectLabel.text = "비밀번호가 일치합니다."
+//                newPassWordCorrectLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+//                newPassWordCorrectLabel.textColor = .systemBlue
+//            } else {
+//                newPassWordCorrectLabel.text = "비밀번호가 일치하지 않습니다."
+//                newPassWordCorrectLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+//                newPassWordCorrectLabel.textColor = .red
+//            }
+//        }
+//        if textField == newPassWordTextField {
+//            let password = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
+//            if DataManager.shared.isValidPassword(password: password) {
+//                newPassWordCheckLabel.text = "사용가능한 비밀번호입니다."
+//                newPassWordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+//                newPassWordCheckLabel.textColor = .systemBlue
+//            }else {
+//                newPassWordCheckLabel.text = "올바르지 않은 형식입니다. (영문자+숫자+특수문자, 8~16자)"
+//                newPassWordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+//                newPassWordCheckLabel.textColor = .red
+//            }
+//        }
+//        return true
+//    }
+//    
+//    // 텍스트필드 위임자 선언
+//    func setUpTextFieldDelegate() {
+//        [idTextField, nameTextField, newPassWordTextField, newPassWordReTextField, phoneCertTextField, certNumberTextField] .forEach({
+//            $0.delegate = self
+//        })
+//    }
+//    
+//    // 텍스트필드 언더라인 활성화 메서드
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//        UIView.animate(withDuration: 0.4) {
+//            switch(textField) {
+//            case self.idTextField : self.idTextFieldUnderLine.setProgress(1.0, animated: true)
+//            case self.nameTextField : self.nameTextFieldUnderLine.setProgress(1.0, animated: true)
+//            case self.newPassWordTextField : self.newPassWordTextFieldUnderLine.setProgress(1.0, animated: true)
+//            case self.newPassWordReTextField : self.newPassWordReTextFieldUnderLine.setProgress(1.0, animated: true)
+//            case self.phoneCertTextField : self.phoneCertTextFieldUnderLine.setProgress(1.0, animated: true)
+//            default : break
+//            }
+//        }
+//    }
+//    
+//    // 텍스트필드 언더라인 비활성화 메서드
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        UIView.animate(withDuration: 0.3) {
+//            switch(textField) {
+//            case self.idTextField : self.idTextFieldUnderLine.setProgress(0.0, animated: true)
+//            case self.nameTextField : self.nameTextFieldUnderLine.setProgress(0.0, animated: true)
+//            case self.newPassWordTextField : self.newPassWordTextFieldUnderLine.setProgress(0.0, animated: true)
+//            case self.newPassWordReTextField : self.newPassWordReTextFieldUnderLine.setProgress(0.0, animated: true)
+//            case self.phoneCertTextField : self.phoneCertTextFieldUnderLine.setProgress(0.0, animated: true)
+//            default : break
+//            }
+//        }
+//    }
+//    
+//    // 비밀번호 재설정 버튼
+//    @objc func SetUpNewPassWordButtonClicked() {
+//        if availableSetUpNewPassWordFlag == true {
+//            // 비밀번호 재설정
+//            DataManager.shared.updateUserData(userID: idTextField.text!, changedPassword: newPassWordTextField.text!, changedName: nameTextField.text!)
+//        }else {
+//            // 인증번호 매칭 에러 - Alert
+//            let alert = UIAlertController(title: "비밀번호 재설정 실패", message: "입력 형식을 다시 확인해주세요.", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "확인", style: .default))
+//            self.present(alert, animated: true)
+//        }
+//    }
 }

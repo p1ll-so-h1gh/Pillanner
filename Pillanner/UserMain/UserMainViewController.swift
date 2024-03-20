@@ -32,6 +32,9 @@ final class UserMainViewController: UIViewController {
     // CollectionView에 뿌려줄 데이터 타입 정의 필요
     private var pillsList = [Pill]()
     
+    private let attainment = Attainment()
+    private var attainmentRate: Int = 0
+    
     //MARK: - UI Properties
     private let topView: UIView = {
         var view = UIView()
@@ -86,75 +89,75 @@ final class UserMainViewController: UIViewController {
         return view
     }()
     
-    private let labelVStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 50
-        return stackView
-    }()
-    
-    private let dayLabel: UILabel = {
-        let label = UILabel()
-        label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
-        label.layer.cornerRadius = label.frame.size.width/2
-        label.clipsToBounds = true
-        label.backgroundColor = UIColor(hexCode: "9BDCFD")
-        return label
-    }()
-    
-    private let dayTextLabel: UILabel = {
-        let label = UILabel()
-        label.text = "하루"
-        label.font = FontLiteral.body(style: .regular).withSize(18)
-        return label
-    }()
-    
-    private let dayView: UIView = {
-        let view = UIView()
-        return view
-    }()
-    
-    private let weekLabel: UILabel = {
-        let label = UILabel()
-        label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
-        label.layer.cornerRadius = label.frame.size.width/2
-        label.clipsToBounds = true
-        label.backgroundColor = UIColor(hexCode: "FF9898")
-        return label
-    }()
-    
-    private let weekTextLabel: UILabel = {
-        let label = UILabel()
-        label.text = "일주일"
-        label.font = FontLiteral.body(style: .regular).withSize(18)
-        return label
-    }()
-    
-    private let weekView: UIView = {
-        let view = UIView()
-        return view
-    }()
-    
-    private let monthLabel: UILabel = {
-        let label = UILabel()
-        label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
-        label.layer.cornerRadius = label.frame.size.width/2
-        label.clipsToBounds = true
-        label.backgroundColor = UIColor(hexCode: "FFD188")
-        return label
-    }()
-    
-    private let monthTextLabel: UILabel = {
-        let label = UILabel()
-        label.text = "월별"
-        label.font = FontLiteral.body(style: .regular).withSize(18)
-        return label
-    }()
-    
-    private let monthView: UIView = {
-        let view = UIView()
-        return view
-    }()
+//    private let labelVStackView: UIStackView = {
+//        let stackView = UIStackView()
+//        stackView.axis = .vertical
+//        stackView.spacing = 50
+//        return stackView
+//    }()
+//    
+//    private let dayLabel: UILabel = {
+//        let label = UILabel()
+//        label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
+//        label.layer.cornerRadius = label.frame.size.width/2
+//        label.clipsToBounds = true
+//        label.backgroundColor = UIColor(hexCode: "9BDCFD")
+//        return label
+//    }()
+//    
+//    private let dayTextLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "하루"
+//        label.font = FontLiteral.body(style: .regular).withSize(18)
+//        return label
+//    }()
+//    
+//    private let dayView: UIView = {
+//        let view = UIView()
+//        return view
+//    }()
+//    
+//    private let weekLabel: UILabel = {
+//        let label = UILabel()
+//        label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
+//        label.layer.cornerRadius = label.frame.size.width/2
+//        label.clipsToBounds = true
+//        label.backgroundColor = UIColor(hexCode: "FF9898")
+//        return label
+//    }()
+//    
+//    private let weekTextLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "일주일"
+//        label.font = FontLiteral.body(style: .regular).withSize(18)
+//        return label
+//    }()
+//    
+//    private let weekView: UIView = {
+//        let view = UIView()
+//        return view
+//    }()
+//    
+//    private let monthLabel: UILabel = {
+//        let label = UILabel()
+//        label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
+//        label.layer.cornerRadius = label.frame.size.width/2
+//        label.clipsToBounds = true
+//        label.backgroundColor = UIColor(hexCode: "FFD188")
+//        return label
+//    }()
+//    
+//    private let monthTextLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "월별"
+//        label.font = FontLiteral.body(style: .regular).withSize(18)
+//        return label
+//    }()
+//    
+//    private let monthView: UIView = {
+//        let view = UIView()
+//        return view
+//    }()
     
     private let sectionSeparatorLine: UIView = {
         let view = UIView()
@@ -210,6 +213,10 @@ final class UserMainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         //뷰가 나타날때마다 애니메이션 효과 주기 위해
+        //여기에 attainmentRate를 불러오면 될 것 같음
+        attainment.attainmentDidChange = { calculatedData in
+            self.attainmentRate = calculatedData
+        }
         createCircle()
         //        setUpLabelsTextWithUserInformation()
         
@@ -387,12 +394,21 @@ final class UserMainViewController: UIViewController {
         //        let weekCircleRadius: CGFloat = 67
         //        let monthCircleRadius: CGFloat = 40
         let circleLineWidth: CGFloat = 30.0
+        let attainmentGoal = CGFloat(self.attainmentRate) / 100.0
         
         //원경로
-        let dayCircularPath = UIBezierPath(arcCenter: CGPoint(x: 110, y: 110), radius: dayCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 2 , clockwise: true)
-        let dayBackgroundCircularPath = UIBezierPath(arcCenter: CGPoint(x: 110, y: 110), radius: dayCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi , clockwise: true)
-        //        let weekCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: weekCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 2 , clockwise: true)
-        //        let monthCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: monthCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 3, clockwise: true)
+        let dayCircularPath = UIBezierPath(arcCenter: CGPoint(x: 110, y: 110), 
+                                           radius: dayCircleRadius,
+                                           startAngle: -CGFloat.pi / 2,
+                                           endAngle: 2 * CGFloat.pi * attainmentGoal - CGFloat.pi / 2,
+                                           clockwise: true)
+        let dayBackgroundCircularPath = UIBezierPath(arcCenter: CGPoint(x: 110, y: 110), 
+                                                     radius: dayCircleRadius, 
+                                                     startAngle: -CGFloat.pi / 2,
+                                                     endAngle: 2 * CGFloat.pi,
+                                                     clockwise: true)
+//        let weekCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: weekCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 2 , clockwise: true)
+//        let monthCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: monthCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 3, clockwise: true)
         
         //정답률 테두리
         let dayBorderLine = CAShapeLayer()
@@ -432,7 +448,7 @@ final class UserMainViewController: UIViewController {
         
         // 정답률 label
         let attainmentLabel = UILabel()
-        attainmentLabel.text = "70 %"
+        attainmentLabel.text = "\(self.attainmentRate) %"
         attainmentLabel.textColor = UIColor(hexCode: "F97474")
         attainmentLabel.font = FontLiteral.title2(style: .bold).withSize(30)
         
@@ -520,5 +536,4 @@ extension UserMainViewController: PillListViewDelegate {
         present(VC, animated: true, completion: nil)
     }
 }
-
 

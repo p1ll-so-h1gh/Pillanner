@@ -86,11 +86,13 @@ final class DataManager {
                 print("oldValue = \(userDefaults.string(forKey: "Password")!)")
                 print("newValue = \(changedPassword)")
                 ref.updateData(["Password": changedPassword])
+                userDefaults.setValue(changedPassword, forKey: "Password")
             }
             if changedName != "" {
                 print("oldValue = \(userDefaults.string(forKey: "Nickname")!)")
                 print("newValue = \(changedName)")
                 ref.updateData(["Nickname": changedName])
+                userDefaults.setValue(changedName, forKey: "Nickname")
             }
             print("데이터 수정 완료")
         }
@@ -100,15 +102,35 @@ final class DataManager {
         let userCollection = db.collection("Users")
         let query = userCollection.whereField("ID", isEqualTo: userID)
         
+        // Firestore DB 삭제 & UserDefaults 삭제
         query.getDocuments{ (snapshot, error) in
             guard let snapshot = snapshot, !snapshot.isEmpty else {
                 print("데이터가 없어용")
                 return
             }
             let ref = userCollection.document(snapshot.documents[0].documentID)
-            
+            UserDefaults.standard.removeObject(forKey: "UID")
+            UserDefaults.standard.removeObject(forKey: "ID")
+            UserDefaults.standard.removeObject(forKey: "Password")
+            UserDefaults.standard.removeObject(forKey: "Nickname")
+            UserDefaults.standard.removeObject(forKey: "SignUpPath")
+            UserDefaults.standard.removeObject(forKey: "isAutoLoginActivate")
             ref.delete()
             print("데이터 삭제 완료")
+        }
+        // Firebase Auth 탈퇴
+        if let user = Auth.auth().currentUser {
+            print("Firebase 탈퇴를 진행합니다.")
+            user.delete { error in
+                if let error = error {
+                    print("Firebase Error : ", error)
+                } else {
+                    print("회원탈퇴 성공!")
+                }
+            }
+        } else {
+            print("로그인 정보가 존재하지 않습니다")
+            
         }
     }
     

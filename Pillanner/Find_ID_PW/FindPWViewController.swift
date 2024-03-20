@@ -16,8 +16,22 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
     var availableSetUpNewPassWordFlag: Bool = false // 개인정보 확인 절차 Flag (이름, 아이디, 번호 인증까지 완료되면 true)
     
     private let sidePaddingValue = 20
-    private let topPaddingValue = 30
-    
+    private let topPaddingValue = 40
+
+    private lazy var backButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(systemName: "xmark")?.withRenderingMode(.alwaysOriginal).withTintColor(.black),
+                                     style: .plain, target: self, action: #selector(dismissView))
+        return button
+    }()
+
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "PW 찾기"
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.sizeToFit()
+        return label
+    }()
+
     let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "이름"
@@ -87,7 +101,7 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
     let getCertNumberButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("인증번호 받기", for: .normal) // 재전송
-        button.setTitleColor(UIColor.lightGray, for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
         button.backgroundColor = .mainThemeColor
         button.layer.cornerRadius = 5
         button.addTarget(target, action: #selector(GetCertNumberButtonClicked), for: .touchUpInside)
@@ -135,7 +149,7 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
     let checkCertNumberButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("확인", for: .normal)
-        button.setTitleColor(UIColor.lightGray, for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
         button.backgroundColor = .mainThemeColor
         button.layer.cornerRadius = 5
         button.addTarget(target, action: #selector(CheckCertNumberButtonClicked), for: .touchUpInside)
@@ -147,83 +161,13 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
         return label
     }()
     
-    let newPassWordLabel: UILabel = {
-        let label = UILabel()
-        label.text = "새로운 비밀번호"
-        label.font = FontLiteral.body(style: .bold)
-        return label
-    }()
-    
-    let newPassWordTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.isSecureTextEntry = true
-        textfield.placeholder = "8-16 자리 영 대/소문자, 숫자, 특수문자 조합"
-        textfield.font = FontLiteral.subheadline(style: .regular)
-        return textfield
-    }()
-    
-    let newPassWordToggleButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "eyeOpen"), for: .normal)
-        button.addTarget(target, action: #selector(NewPassWordToggleButtonClicked), for: .touchUpInside)
-        return button
-    }()
-    
-    let newPassWordTextFieldUnderLine: UIProgressView = {
-        let line = UIProgressView(progressViewStyle: .bar)
-        line.trackTintColor = .lightGray
-        line.progressTintColor = .systemBlue
-        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
-        return line
-    }()
-    
-    let newPassWordCheckLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
-    
-    let newPassWordReLabel: UILabel = {
-        let label = UILabel()
-        label.text = "새로운 비밀번호 재입력"
-        label.font = FontLiteral.body(style: .bold)
-        return label
-    }()
-    
-    let newPassWordReTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.isSecureTextEntry = true
-        textfield.placeholder = "8-16 자리 영 대/소문자, 숫자, 특수문자 조합"
-        textfield.font = FontLiteral.subheadline(style: .regular)
-        return textfield
-    }()
-    
-    let newPassWordReToggleButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "eyeOpen"), for: .normal)
-        button.addTarget(target, action: #selector(NewPassWordReToggleButtonClicked), for: .touchUpInside)
-        return button
-    }()
-    
-    let newPassWordReTextFieldUnderLine: UIProgressView = {
-        let line = UIProgressView(progressViewStyle: .bar)
-        line.trackTintColor = .lightGray
-        line.progressTintColor = .systemBlue
-        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
-        return line
-    }()
-    
-    let newPassWordCorrectLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
-    
-    let setUpNewPassWordButton: UIButton = {
+    let findPWButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("비밀번호 재설정", for: .normal)
+        button.setTitle("비밀번호 찾기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         button.backgroundColor = .mainThemeColor
         button.layer.cornerRadius = 5
-        button.addTarget(target, action: #selector(SetUpNewPassWordButtonClicked), for: .touchUpInside)
+        button.addTarget(target, action: #selector(findPWButtonTapped), for: .touchUpInside)
         return button
     }()
 
@@ -231,9 +175,12 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         view.backgroundColor = .white
     
-        setUpTextFieldDelegate()
+        //setUpTextFieldDelegate()
         addView()
         setUpConstraint()
+
+        navigationItem.leftBarButtonItem = backButton
+        navigationItem.titleView = titleLabel
     }
     
     private func addView() {
@@ -259,19 +206,7 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(nameTextField)
         view.addSubview(nameTextFieldUnderLine)
         
-        view.addSubview(newPassWordLabel)
-        view.addSubview(newPassWordTextField)
-        view.addSubview(newPassWordToggleButton)
-        view.addSubview(newPassWordTextFieldUnderLine)
-        view.addSubview(newPassWordCheckLabel)
-        
-        view.addSubview(newPassWordReLabel)
-        view.addSubview(newPassWordReTextField)
-        view.addSubview(newPassWordReToggleButton)
-        view.addSubview(newPassWordReTextFieldUnderLine)
-        view.addSubview(newPassWordCorrectLabel)
-        
-        view.addSubview(setUpNewPassWordButton)
+        view.addSubview(findPWButton)
     }
     
     private func setUpConstraint() {
@@ -353,60 +288,16 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
             $0.top.equalTo(certUIView.snp.bottom).offset(1)
             $0.left.equalTo(sidePaddingValue)
         })
-        // 새로운 비밀번호 입력부분
-        newPassWordLabel.snp.makeConstraints({
-            $0.top.equalTo(certUIView.snp.bottom).offset(topPaddingValue)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-        })
-        newPassWordTextField.snp.makeConstraints({
-            $0.top.equalTo(newPassWordLabel.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
-        })
-        newPassWordToggleButton.snp.makeConstraints({
-            $0.centerY.equalTo(newPassWordTextField.snp.centerY)
-            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
-            $0.width.height.equalTo(20)
-        })
-        newPassWordTextFieldUnderLine.snp.makeConstraints({
-            $0.top.equalTo(newPassWordTextField.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.width.equalTo(newPassWordTextField.snp.width)
-        })
-        newPassWordCheckLabel.snp.makeConstraints({
-            $0.top.equalTo(newPassWordTextFieldUnderLine.snp.bottom).offset(1)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-        })
-        // 새로운 비밀번호 재입력부분
-        newPassWordReLabel.snp.makeConstraints({
-            $0.top.equalTo(newPassWordTextField.snp.bottom).offset(topPaddingValue)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-        })
-        newPassWordReTextField.snp.makeConstraints({
-            $0.top.equalTo(newPassWordReLabel.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
-        })
-        newPassWordReToggleButton.snp.makeConstraints({
-            $0.centerY.equalTo(newPassWordReTextField.snp.centerY)
-            $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
-            $0.width.height.equalTo(20)
-        })
-        newPassWordReTextFieldUnderLine.snp.makeConstraints({
-            $0.top.equalTo(newPassWordReTextField.snp.bottom).offset(5)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-            $0.width.equalTo(newPassWordReTextField.snp.width)
-        })
-        newPassWordCorrectLabel.snp.makeConstraints({
-            $0.top.equalTo(newPassWordReTextFieldUnderLine.snp.bottom).offset(1)
-            $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
-        })
-        // 비밀번호 재설정 버튼
-        setUpNewPassWordButton.snp.makeConstraints({
+        // 비밀번호 찾기 버튼
+        findPWButton.snp.makeConstraints({
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
             $0.height.equalTo(50)
         })
+    }
+
+    @objc func dismissView() {
+        navigationController?.popViewController(animated: true)
     }
 }
