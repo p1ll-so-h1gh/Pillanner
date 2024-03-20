@@ -45,6 +45,26 @@ final class DataManager {
         }
     }
     
+    // 아이디 찾기
+    func findIDUserData(userNickName: String, completion: @escaping (String?) -> Void) {
+        var returnID = ""
+        let query = db.collection("Users").whereField("Nickname", isEqualTo: userNickName)
+        
+        query.getDocuments { (snapshot, error) in
+            guard let snapshot = snapshot, !snapshot.isEmpty else {
+                // 데이터 없을 때
+                print("사용자 이름으로 된 ID가 없습니다.")
+                completion(nil)
+                return
+            }
+            // 데이터 있을 때
+            for document in snapshot.documents {
+                returnID = document.data()["ID"] as! String
+            }
+            completion(returnID) // 닉네임을 입력받아서 해당 닉네임의 아이디를 리턴 (해당 메서드는 무조건 번호인증 완료된 이후에 사용됨.)
+        }
+    }
+    
     func readUserData(userID: String, completion: @escaping ([String: String]?) -> Void){
         
         var output = ["": ""]
@@ -54,6 +74,7 @@ final class DataManager {
             guard let snapshot = snapshot, !snapshot.isEmpty else {
                 // 데이터 없을 때
                 print("사용자의 ID로 된 데이터가 없습니다.")
+                completion(nil)
                 return
             }
             // 데이터 있을 때

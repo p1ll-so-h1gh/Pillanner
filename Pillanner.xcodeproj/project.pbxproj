@@ -74,6 +74,8 @@
 		C40136A82B887DA200577C17 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A72B887DA200577C17 /* UIFont+Extension.swift */; };
 		C40136AA2B887DBA00577C17 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A92B887DBA00577C17 /* CALayer+Extension.swift */; };
 		C40136AC2B887DE100577C17 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136AB2B887DE100577C17 /* LoginViewController.swift */; };
+		C432A88A2BAAC09B00432DBB /* FindIDVC_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C432A8892BAAC09B00432DBB /* FindIDVC_Extension.swift */; };
+		C432A88C2BAAD02500432DBB /* NaverThirdPartyLogin in Frameworks */ = {isa = PBXBuildFile; productRef = C432A88B2BAAD02500432DBB /* NaverThirdPartyLogin */; };
 		C4346D8F2B8DA90D00110DEF /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4346D8E2B8DA90D00110DEF /* UserData.swift */; };
 		C4346D922B8DB2D300110DEF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C4346D912B8DB2D300110DEF /* FirebaseAnalytics */; };
 		C4346D942B8DB2D300110DEF /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = C4346D932B8DB2D300110DEF /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -142,6 +144,7 @@
 		C40136A72B887DA200577C17 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C40136A92B887DBA00577C17 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		C40136AB2B887DE100577C17 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		C432A8892BAAC09B00432DBB /* FindIDVC_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDVC_Extension.swift; sourceTree = "<group>"; };
 		C4346D8E2B8DA90D00110DEF /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		C4346D902B8DAD1B00110DEF /* Pillanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pillanner.entitlements; sourceTree = "<group>"; };
 		C447B5692BA02CDA001D4913 /* SNSLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SNSLoginViewController.swift; sourceTree = "<group>"; };
@@ -190,6 +193,7 @@
 				142BC7612B8870DD0046D8AB /* FirebaseFirestoreSwift in Frameworks */,
 				142BC7512B8870DD0046D8AB /* FirebaseAuth in Frameworks */,
 				142BC7352B8870B70046D8AB /* KakaoSDK in Frameworks */,
+				C432A88C2BAAD02500432DBB /* NaverThirdPartyLogin in Frameworks */,
 				142BC7302B8870960046D8AB /* SnapKit in Frameworks */,
 				142BC76B2B8870DD0046D8AB /* FirebaseInstallations in Frameworks */,
 				142BC7712B8870DD0046D8AB /* FirebasePerformance in Frameworks */,
@@ -365,6 +369,7 @@
 			isa = PBXGroup;
 			children = (
 				C45D904F2B95B0EA00676CEA /* FindIDViewController.swift */,
+				C432A8892BAAC09B00432DBB /* FindIDVC_Extension.swift */,
 				C45D90512B95B0F700676CEA /* FindPWViewController.swift */,
 				C45D90532B95BB7200676CEA /* FindPWVC_Extension.swift */,
 			);
@@ -468,6 +473,7 @@
 				C4346D9B2B8DB2D300110DEF /* FirebaseAppDistribution-Beta */,
 				7C365CA82B9F22B9003C8CF8 /* NaverThirdPartyLogin */,
 				C447B5672BA0231C001D4913 /* NaverThirdPartyLogin */,
+				C432A88B2BAAD02500432DBB /* NaverThirdPartyLogin */,
 			);
 			productName = Pillanner;
 			productReference = 14D2BE5D2B84BBBF0006AC51 /* Pillanner.app */;
@@ -576,6 +582,7 @@
 				CC7DB3F82B95CBFF00809665 /* WeekdaysView.swift in Sources */,
 				7C3F79862B9068A000DD1AC7 /* CalendarModel.swift in Sources */,
 				CCD759372BA00DE300878CEF /* InitialSetupEndViewController.swift in Sources */,
+				C432A88A2BAAC09B00432DBB /* FindIDVC_Extension.swift in Sources */,
 				7CEBD66E2B96A8BC00F63F78 /* TabBarController.swift in Sources */,
 				CC16979C2B9021D2008276B0 /* IntakeDateCell.swift in Sources */,
 				CC7DB3FC2B95CCCD00809665 /* CalendarView.swift in Sources */,
@@ -1049,6 +1056,11 @@
 		7C365CA82B9F22B9003C8CF8 /* NaverThirdPartyLogin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7C365CA62B9F213C003C8CF8 /* XCRemoteSwiftPackageReference "naveridlogin-sdk-ios" */;
+			productName = NaverThirdPartyLogin;
+		};
+		C432A88B2BAAD02500432DBB /* NaverThirdPartyLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C447B5662BA0231C001D4913 /* XCRemoteSwiftPackageReference "NaverThirdPartyLogin" */;
 			productName = NaverThirdPartyLogin;
 		};
 		C4346D912B8DB2D300110DEF /* FirebaseAnalytics */ = {

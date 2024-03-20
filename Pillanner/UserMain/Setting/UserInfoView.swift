@@ -15,11 +15,11 @@ class UserInfoView: UIViewController, UITextFieldDelegate {
     private let buttonHeightValue = 35
     private let withdrawalButton = UIButton()
     var myID: String {
-        return UserDefaults.standard.string(forKey: "ID")!
+        return UserDefaults.standard.string(forKey: "ID") ?? ""
     }
     
     var myPW: String {
-        return UserDefaults.standard.string(forKey: "Password")!
+        return UserDefaults.standard.string(forKey: "Password") ?? ""
     }
     
     override func viewDidLoad() {

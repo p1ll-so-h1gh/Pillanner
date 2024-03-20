@@ -16,11 +16,11 @@ class CustomLaunchScreenViewController: UIViewController {
         verificationCode: UserDefaults.standard.string(forKey: "firebaseVerificationCode") ?? ""
     )
     var myID: String {
-        return UserDefaults.standard.string(forKey: "ID")!
+        return UserDefaults.standard.string(forKey: "ID") ?? ""
     }
     
     var myPW: String {
-        return UserDefaults.standard.string(forKey: "Password")!
+        return UserDefaults.standard.string(forKey: "Password") ?? ""
     }
     
     var autoLoginActivate: Bool {
