@@ -58,7 +58,7 @@ class CustomLaunchScreenViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("자동로그인 on/off? : ", autoLoginActivate)
-        sleep(3)
+        sleep(1)
         
         switch(autoLoginActivate){
         case true : 

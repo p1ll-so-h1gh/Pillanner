@@ -25,7 +25,7 @@ class IntakePillCell: UITableViewCell {
         return label
     }()
     
-    private let editBtn: UIButton = {
+    private let editButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "button"), for: .normal)
         return button
@@ -34,29 +34,29 @@ class IntakePillCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        //        self.setupLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
     
-    func setupLayoutOnEditingProcess(intake: String) {
+    func setupLayoutOnEditingProcess(intake: String, dosage: String, unit: String, alarm: Bool) {
         
-        self.timeLabel.text = "\(intake)"
+        self.timeLabel.text = "\(intake) \(dosage)\(unit)"
+        self.alarmLabel.text = "알림 \(alarm)"
         
         self.contentView.addSubview(timeLabel)
         self.contentView.addSubview(alarmLabel)
-        self.contentView.addSubview(editBtn)
+        self.contentView.addSubview(editButton)
         timeLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(10)
             $0.left.equalToSuperview().inset(6)
         }
         alarmLabel.snp.makeConstraints {
             $0.centerY.equalTo(timeLabel.snp.centerY)
-            $0.right.equalTo(editBtn.snp.left).inset(-5)
+            $0.right.equalTo(editButton.snp.left).inset(-5)
         }
-        editBtn.snp.makeConstraints {
+        editButton.snp.makeConstraints {
             $0.centerY.equalTo(timeLabel.snp.centerY)
             $0.right.equalToSuperview().inset(6)
         }
@@ -65,16 +65,16 @@ class IntakePillCell: UITableViewCell {
     func setupLayout() {
         self.contentView.addSubview(timeLabel)
         self.contentView.addSubview(alarmLabel)
-        self.contentView.addSubview(editBtn)
+        self.contentView.addSubview(editButton)
         timeLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(10)
             $0.left.equalToSuperview().inset(6)
         }
         alarmLabel.snp.makeConstraints {
             $0.centerY.equalTo(timeLabel.snp.centerY)
-            $0.right.equalTo(editBtn.snp.left).inset(-5)
+            $0.right.equalTo(editButton.snp.left).inset(-5)
         }
-        editBtn.snp.makeConstraints {
+        editButton.snp.makeConstraints {
             $0.centerY.equalTo(timeLabel.snp.centerY)
             $0.right.equalToSuperview().inset(6)
         }

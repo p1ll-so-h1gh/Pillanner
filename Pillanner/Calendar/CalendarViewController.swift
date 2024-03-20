@@ -89,8 +89,6 @@ class CalendarViewController: UIViewController {
         super.viewDidLoad()
 
         // TableView에 뿌려줄 데이터 셋업
-        setUpPillData()
-        categorizePillData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -98,7 +96,8 @@ class CalendarViewController: UIViewController {
         view.layer.addSublayer(gradientLayer)
         
         // 테스트
-        print(categoryOfPills)
+        setUpPillData()
+        print("##### categoryOfPills", categoryOfPills)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -149,23 +148,28 @@ class CalendarViewController: UIViewController {
                         if todaysDate?.compare(dueDate).rawValue == 1 {
                             print("복용 기한이 지난 약의 데이터입니다.")
                         } else {
-                            let data = Pill(title: pill["Title"] as! String,
-                                            type: pill["Type"] as! String,
-                                            day: pill["Day"] as! [String],
-                                            dueDate: pill["DueDate"] as! String,
-                                            intake: pill["Intake"] as! [String],
-                                            dosage: pill["Dosage"] as! String,
-                                            alarmStatus: pill["AlarmStatus"] as! Bool)
+                            let data = Pill(title: pill["Title"] as? String ?? "ftitle",
+                                            type: pill["Type"] as? String ?? "ftype",
+                                            day: pill["Day"] as? [String] ?? ["fday"],
+                                            dueDate: pill["DueDate"] as? String ?? "fduedate",
+                                            intake: pill["Intake"] as? [String] ?? ["fintake"],
+                                            dosage: pill["Dosage"] as? String ?? "fdosage",
+                                            alarmStatus: pill["AlarmStatus"] as? Bool ?? true)
                             todaysPill.append(data)
                         }
                     }
                 }
                 
+                var tempList = [Pill]()
                 for pill in todaysPill { // 복용기한 내
                     if pill.day.contains(todaysday) {
-                        self.listOfPills.append(pill) // "yyyy-MM-dd" 요일이 같음 -> 오늘 날짜의 yyyy-MM-dd
+                        tempList.append(pill) // "yyyy-MM-dd" 요일이 같음 -> 오늘 날짜의 yyyy-MM-dd
+                        
                     }
                 }
+                self.listOfPills = tempList
+                self.categorizePillData()
+                self.tableView.reloadData()
             }
         }
     }
@@ -190,24 +194,24 @@ class CalendarViewController: UIViewController {
                 if timeFormatter.date(from: time)?.compare(timeFormatter.date(from: "12:00")!).rawValue == 1 {
                     pillsListPM.pills.append(Pill(title: pill.title,
                                                   type: pill.type,
-                                                  day: [""],
+                                                  day: pill.day,
                                                   dueDate: pill.dueDate,
-                                                  intake: [timeFormatter.date(from: time)!.toString()],
+                                                  intake: [time],
                                                   dosage: pill.dosage,
                                                   alarmStatus: pill.alarmStatus))
                 } else {
                     pillsListAM.pills.append(Pill(title: pill.title,
                                                   type: pill.type,
-                                                  day: [""],
+                                                  day: pill.day,
                                                   dueDate: pill.dueDate,
-                                                  intake: [timeFormatter.date(from: time)!.toString()],
+                                                  intake: [time],
                                                   dosage: pill.dosage,
                                                   alarmStatus: pill.alarmStatus))
                 }
             }
         }
-        categoryOfPills.append(pillsListAM)
-        categoryOfPills.append(pillsListPM)
+        let combinedCategories = [pillsListAM, pillsListPM]
+        categoryOfPills = combinedCategories
     }
     
     private func setupCalendar() {

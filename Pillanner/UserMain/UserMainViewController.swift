@@ -40,14 +40,14 @@ final class UserMainViewController: UIViewController {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-//        label.text = "\("")님"
+        //        label.text = "\("")님"
         label.font = FontLiteral.title2(style: .bold).withSize(24)
         return label
     }()
     
     private let infoLabel: UILabel = {
         let label = UILabel()
-//        label.text = "\("")님! 오늘 알약 섭취를 \("") 완료 하셨어요 :)"
+        //        label.text = "\("")님! 오늘 알약 섭취를 \("") 완료 하셨어요 :)"
         label.font = FontLiteral.body(style: .regular).withSize(14)
         label.alpha = 0.5
         return label
@@ -173,7 +173,7 @@ final class UserMainViewController: UIViewController {
     
     private let intakeDescriptionLabel: UILabel = {
         let label = UILabel()
-//        label.text = "\("")님이 복용중인 약은 \("") 개 입니다"
+        //        label.text = "\("")님이 복용중인 약은 \("") 개 입니다"
         label.font = FontLiteral.body(style: .regular).withSize(14)
         label.alpha = 0.5
         return label
@@ -190,7 +190,7 @@ final class UserMainViewController: UIViewController {
         collectionView.backgroundColor = .clear
         return collectionView
     }()
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -200,23 +200,23 @@ final class UserMainViewController: UIViewController {
         intakePillListCollectionView.delegate = self
         intakePillListCollectionView.dataSource = self
         intakePillListCollectionView.register(PillListCollectionViewCell.self, forCellWithReuseIdentifier: PillListCollectionViewCell.id)
-
-//        readPillDataFromFirestore()
-        DispatchQueue.main.async {
-            self.readPillDataFromFirestore()
-        }
-
+        
+        //        readPillDataFromFirestore()
+        //        DispatchQueue.main.async {
+        //            self.readPillDataFromFirestore()
+        //        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         //뷰가 나타날때마다 애니메이션 효과 주기 위해
         createCircle()
-//        setUpLabelsTextWithUserInformation()
-
+        //        setUpLabelsTextWithUserInformation()
+        
         if self.pillsList.isEmpty {
             setUpLabelsTextWithUserInformation()
         }
-
+        self.readPillDataFromFirestore()
     }
     
     
@@ -262,39 +262,39 @@ final class UserMainViewController: UIViewController {
         }
         circleContainerView.snp.makeConstraints {
             $0.size.equalTo(220)
-//            $0.leading.equalToSuperview().inset(sidePaddingSizeValue*2)
+            //            $0.leading.equalToSuperview().inset(sidePaddingSizeValue*2)
             $0.centerX.equalToSuperview()
             $0.top.equalTo(attainmentRateLabel.snp.bottom).inset(-30)
         }
-//        labelVStackView.snp.makeConstraints {
-//            $0.leading.equalTo(circleContainerView.snp.trailing).inset(-30)
-//            $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
-//            $0.top.equalToSuperview().inset(100)
-//        }
-//        dayLabel.snp.makeConstraints {
-//            $0.size.equalTo(12)
-//            $0.leading.equalTo(dayView.snp.leading)
-//        }
-//        dayTextLabel.snp.makeConstraints {
-//            $0.leading.equalTo(dayLabel.snp.trailing).inset(-10)
-//            $0.centerY.equalTo(dayLabel.snp.centerY)
-//        }
-//        weekLabel.snp.makeConstraints {
-//            $0.size.equalTo(12)
-//            $0.leading.equalTo(weekView.snp.leading)
-//        }
-//        weekTextLabel.snp.makeConstraints {
-//            $0.leading.equalTo(weekLabel.snp.trailing).inset(-10)
-//            $0.centerY.equalTo(weekLabel.snp.centerY)
-//        }
-//        monthLabel.snp.makeConstraints {
-//            $0.size.equalTo(12)
-//            $0.leading.equalTo(monthView.snp.leading)
-//        }
-//        monthTextLabel.snp.makeConstraints {
-//            $0.leading.equalTo(monthLabel.snp.trailing).inset(-10)
-//            $0.centerY.equalTo(monthLabel.snp.centerY)
-//        }
+        //        labelVStackView.snp.makeConstraints {
+        //            $0.leading.equalTo(circleContainerView.snp.trailing).inset(-30)
+        //            $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
+        //            $0.top.equalToSuperview().inset(100)
+        //        }
+        //        dayLabel.snp.makeConstraints {
+        //            $0.size.equalTo(12)
+        //            $0.leading.equalTo(dayView.snp.leading)
+        //        }
+        //        dayTextLabel.snp.makeConstraints {
+        //            $0.leading.equalTo(dayLabel.snp.trailing).inset(-10)
+        //            $0.centerY.equalTo(dayLabel.snp.centerY)
+        //        }
+        //        weekLabel.snp.makeConstraints {
+        //            $0.size.equalTo(12)
+        //            $0.leading.equalTo(weekView.snp.leading)
+        //        }
+        //        weekTextLabel.snp.makeConstraints {
+        //            $0.leading.equalTo(weekLabel.snp.trailing).inset(-10)
+        //            $0.centerY.equalTo(weekLabel.snp.centerY)
+        //        }
+        //        monthLabel.snp.makeConstraints {
+        //            $0.size.equalTo(12)
+        //            $0.leading.equalTo(monthView.snp.leading)
+        //        }
+        //        monthTextLabel.snp.makeConstraints {
+        //            $0.leading.equalTo(monthLabel.snp.trailing).inset(-10)
+        //            $0.centerY.equalTo(monthLabel.snp.centerY)
+        //        }
         sectionSeparatorLine.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(sidePaddingSizeValue)
             $0.width.equalTo(353)
@@ -313,40 +313,61 @@ final class UserMainViewController: UIViewController {
             $0.top.equalTo(intakeDescriptionLabel.snp.bottom).inset(-10)
             $0.leading.trailing.bottom.equalToSuperview().inset(sidePaddingSizeValue)
             $0.height.greaterThanOrEqualTo(1)
-//            $0.height.equalTo(100)
+            //            $0.height.equalTo(100)
         }
     }
     
     // MARK: - Set Up Data
     private func readPillDataFromFirestore() {
-        print("#### \(#function)")
+//        print("#### \(#function)")
         guard let UID = UserDefaults.standard.string(forKey: "UID") else { return }
-        print("#### \(UID)")
+//        print("#### \(UID)")
         DataManager.shared.readPillListData(UID: UID) { list in
+//            print("##### readPillListData", list)
             var tempList = [Pill]()
             if let list = list {
                 for pill in list {
-                    let receiver = Pill(title: pill["Title"] as! String,
-                                        type: pill["Type"] as! String,
-                                        day: pill["Day"] as! [String],
-                                        dueDate: pill["DueDate"] as! String,
-                                        intake: pill["Intake"] as! [String],
-                                        dosage: pill["Dosage"] as! String,
-                                        alarmStatus: pill["AlarmStatus"] as! Bool)
+                    let receiver = Pill(title: pill["Title"] as? String ?? "ftitle",
+                                        type: pill["Type"] as? String ?? "ftype",
+                                        day: pill["Day"] as? [String] ?? ["fday"],
+                                        dueDate: pill["DueDate"] as? String ?? "fduedate",
+                                        intake: pill["Intake"] as? [String] ?? ["fintake"],
+                                        dosage: pill["Dosage"] as? String ?? "fdosage",
+                                        alarmStatus: pill["AlarmStatus"] as? Bool ?? true)
+                    //                    if let tempTitle = pill["Title"] as? String,
+                    //                        let tempType = pill["Type"] as? String,
+                    //                        let tempDay = pill["Day"] as? [String],
+                    //                        let tempDueDate = pill["DueDate"] as? String,
+                    //                        let tempIntake = pill["Intake"] as? [String],
+                    //                        let tempDosage = pill["Dosage"] as? String,
+                    //                        let tempBool = pill["AlarmStatus"] as? Bool {
+                    //                        let receiver = Pill(title: tempTitle,
+                    //                                            type: tempType,
+                    //                                            day: tempDay,
+                    //                                            dueDate: tempDueDate,
+                    //                                            intake: tempIntake,
+                    //                                            dosage: tempDosage,
+                    //                                            alarmStatus: tempBool)
+                    self.pillsList.append(receiver)
                     tempList.append(receiver)
+//                    print("#######TempList in UserMainViewCo", tempList)
+//                    print("#######self.pillsList in UserMainViewCo", self.pillsList)
+                    self.intakePillListCollectionView.reloadData()
+                    self.setUpLabelsTextWithUserInformation()
                 }
-                print(tempList)
+                //                    print("#######TempList in UserMainViewCo", tempList)
                 self.pillsList = tempList
                 self.intakePillListCollectionView.reloadData()
                 self.setUpLabelsTextWithUserInformation()
+                
             }
         }
     }
     
     private func setUpLabelsTextWithUserInformation() {
-
-        print("#### \(#function)")
-
+        
+//        print("#### \(#function)")
+        
         guard let nickname = UserDefaults.standard.string(forKey: "Nickname") else { return }
         nameLabel.text = "\(nickname)님"
         infoLabel.text = "\(nickname)님! 오늘도 잊지않고 약 챙겨드세요! :)" // 다 먹기 전/ 후 분기처리 필요
@@ -358,20 +379,20 @@ final class UserMainViewController: UIViewController {
             intakeDescriptionLabel.text = "\(nickname)님이 복용중인 약은 \(pillsList.count) 개 입니다"
         }
     }
-
+    
     //MARK: - Attainment Circle
     // 하루, 일주일, 월별 -> 하루 달성률만 표시되도록 축소
     private func createCircle() {
         let dayCircleRadius: CGFloat = 100
-//        let weekCircleRadius: CGFloat = 67
-//        let monthCircleRadius: CGFloat = 40
+        //        let weekCircleRadius: CGFloat = 67
+        //        let monthCircleRadius: CGFloat = 40
         let circleLineWidth: CGFloat = 30.0
         
         //원경로
         let dayCircularPath = UIBezierPath(arcCenter: CGPoint(x: 110, y: 110), radius: dayCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 2 , clockwise: true)
         let dayBackgroundCircularPath = UIBezierPath(arcCenter: CGPoint(x: 110, y: 110), radius: dayCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi , clockwise: true)
-//        let weekCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: weekCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 2 , clockwise: true)
-//        let monthCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: monthCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 3, clockwise: true)
+        //        let weekCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: weekCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 2 , clockwise: true)
+        //        let monthCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: monthCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 3, clockwise: true)
         
         //정답률 테두리
         let dayBorderLine = CAShapeLayer()
@@ -391,23 +412,23 @@ final class UserMainViewController: UIViewController {
         circleContainerView.layer.addSublayer(dayBorderLine)
         
         
-//        let weekBorderLine = CAShapeLayer()
-//        weekBorderLine.path = weekCircularPath.cgPath
-//        weekBorderLine.strokeColor = UIColor(hexCode: "FF9898").cgColor
-//        weekBorderLine.lineWidth = circleLineWidth
-//        weekBorderLine.fillColor = UIColor.clear.cgColor
-//        weekBorderLine.lineCap = CAShapeLayerLineCap.round
-//        
-//        circleContainerView.layer.addSublayer(weekBorderLine)
-//        
-//        let monthBorderLine = CAShapeLayer()
-//        monthBorderLine.path = monthCircularPath.cgPath
-//        monthBorderLine.strokeColor = UIColor(hexCode: "FFD188").cgColor
-//        monthBorderLine.lineWidth = circleLineWidth
-//        monthBorderLine.fillColor = UIColor.clear.cgColor
-//        monthBorderLine.lineCap = CAShapeLayerLineCap.round
-//        
-//        circleContainerView.layer.addSublayer(monthBorderLine)
+        //        let weekBorderLine = CAShapeLayer()
+        //        weekBorderLine.path = weekCircularPath.cgPath
+        //        weekBorderLine.strokeColor = UIColor(hexCode: "FF9898").cgColor
+        //        weekBorderLine.lineWidth = circleLineWidth
+        //        weekBorderLine.fillColor = UIColor.clear.cgColor
+        //        weekBorderLine.lineCap = CAShapeLayerLineCap.round
+        //
+        //        circleContainerView.layer.addSublayer(weekBorderLine)
+        //
+        //        let monthBorderLine = CAShapeLayer()
+        //        monthBorderLine.path = monthCircularPath.cgPath
+        //        monthBorderLine.strokeColor = UIColor(hexCode: "FFD188").cgColor
+        //        monthBorderLine.lineWidth = circleLineWidth
+        //        monthBorderLine.fillColor = UIColor.clear.cgColor
+        //        monthBorderLine.lineCap = CAShapeLayerLineCap.round
+        //
+        //        circleContainerView.layer.addSublayer(monthBorderLine)
         
         // 정답률 label
         let attainmentLabel = UILabel()
@@ -426,10 +447,11 @@ final class UserMainViewController: UIViewController {
         animation.toValue = 1
         animation.duration = 1.5
         dayBorderLine.add(animation,forKey: "progressAnimation")
-//        weekBorderLine.add(animation,forKey: "progressAnimation")
-//        monthBorderLine.add(animation,forKey: "progressAnimation")
+        //        weekBorderLine.add(animation,forKey: "progressAnimation")
+        //        monthBorderLine.add(animation,forKey: "progressAnimation")
     }
 }
+
 
 //MARK: - Pill CollectionView
 
@@ -446,11 +468,11 @@ extension UserMainViewController: UICollectionViewDelegate, UICollectionViewData
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = true
         cell.pillListViewDelegate = self
-
-//        cell.typeLabel.text = "일반"
-//        cell.nameLabel.text = "유산균"
-//        cell.alarmLabel.text = "off"
-//        cell.pillnumLabel.text = "하루 1정"
+        
+        //        cell.typeLabel.text = "일반"
+        //        cell.nameLabel.text = "유산균"
+        //        cell.alarmLabel.text = "off"
+        //        cell.pillnumLabel.text = "하루 1정"
         cell.configureCell(with: pill)
         
         return cell

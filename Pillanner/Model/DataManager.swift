@@ -174,8 +174,8 @@ final class DataManager {
     
     func readPillListData(UID: String, completion: @escaping ([[String: Any]]?) -> Void) {
         var result = [[String: Any]]()
-        print(#function)
-        print(UID)
+        print("#####", #function)
+        print("###### UID ", UID)
         if let userDocumentID = UserDefaults.standard.string(forKey: "UID") {
             let pillCollection = self.db.collection("Users").document(userDocumentID).collection("Pills")
             
@@ -192,37 +192,16 @@ final class DataManager {
                                 "Intake": document.data()["Intake"],
                                 "Dosage": document.data()["Dosage"],
                                 "AlarmStatus": document.data()["AlarmStatus"]]
-                    result.append(docs as [String : Any])
+                    result.append(docs)
                 }
+                print("##### result in readPillListData Function", result)
+                print(result[0]["Title"])
                 completion(result)
             }
         }
     }
     
     // 약 이름 받아서 -> 그거랑 같은 데이터 먼저 찾고 -> 접근해서 새로운 데이터로 바꾸기
-
-    func updatePillData(oldTitle: String, newTitle: String, type: String, day: [String], dueDate: String, intake: [String], dosage: String, alarmStatus: Bool) {
-        if let UID = UserDefaults.standard.string(forKey: "UID") {
-            let pillCollection = db.collection("Users").document(UID).collection("Pills")
-            let query = pillCollection.whereField("Title", isEqualTo: oldTitle)
-            
-            query.getDocuments{(snapshot, error) in
-                guard let snapshot = snapshot, !snapshot.isEmpty else {
-                    print("잘못된 접근입니다...")
-                    return
-                }
-                print("약 정보 수정을 시작합니다.")
-                
-                let oldRef = pillCollection.document(oldTitle)
-                let newRef = pillCollection.document(newTitle)
-                
-                oldRef.delete()
-                newRef.setData(["Title": newTitle ,"Type": type, "Day": day, "DueDate": dueDate, "Intake": intake, "Dosage": dosage, "AlarmStatus": alarmStatus])
-            }
-            print("약 정보가 업데이트 되었습니다.")
-        }
-        
-    }
     
     func updatePillData(oldTitle: String, pill: Pill) {
         if let userDocumentID = UserDefaults.standard.string(forKey: "UID") {
@@ -240,9 +219,9 @@ final class DataManager {
                 // oldTitle == newTitle 일 때, 아닐 때 경우를 나누어서 로직을 구현해야 됨
                 
                 let oldRef = pillCollection.document(oldTitle)
-                let newRef = pillCollection.document(pill.title)
-                
                 oldRef.delete()
+                
+                let newRef = pillCollection.document(pill.title)
                 newRef.setData(["Title": pill.title ,"Type": pill.type, "Day": pill.day, "DueDate": pill.dueDate, "Intake": pill.intake, "Dosage": pill.dosage, "AlarmStatus": pill.alarmStatus])
             }
             print("약 정보가 업데이트 되었습니다.")

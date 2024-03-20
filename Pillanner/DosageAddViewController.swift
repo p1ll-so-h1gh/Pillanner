@@ -12,9 +12,8 @@ import SnapKit
 
 // DosageAddDelegate 프로토콜 수정
 protocol DosageAddDelegate: AnyObject {
-    func updateAlarmStatus(isOn: Bool)
-    func updateTimeData(time: String)
-    func updateDosageInfo(dosage: String, unit: String)
+    func updateDataFromDosageAddViewController(alarmStatus: Bool, intake: String, dosage: String, unit: String)
+    
 }
 
 
@@ -141,7 +140,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
             }
 
             let timeString = String(format: "%02d:%@", hour, minute)
-            intake = timeString
+            self.intake = timeString
             selectedTimeDisplayLabel.text = timeString
         }
         hidePickerView()
@@ -221,25 +220,21 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     // 저장버튼 누르면 동작하는 거
     @objc private func saveButtonTapped() {
         
-        print("저장 버튼이 탭되었습니다.")
+//        delegate?.cellHeightChanged()
         
-//        if let dosage = self.dosageInputTextField.text {
-//            delegate?.updateDosageInfo(dosage: dosage, unit: self.dosageUnit)
-//        } else {
-//            print("Failed to Add Dosage")
-//        }
+        print("저장 버튼이 탭되었습니다.")
 
         // 사용자 입력 데이터 처리
-        let isAlarmOn = alarmToggle.isOn
-        let timeData = self.intake // 시간 데이터는 사용자가 시간을 선택할 때 저장되어 있어야 합니다.
-        let dosage = dosageInputTextField.text ?? ""
-        let unit = dosageUnitSelectionButton.title(for: .normal) ?? ""
+        let isAlarmOn = self.alarmToggle.isOn
+        let intakeData = self.intake // 시간 데이터는 사용자가 시간을 선택할 때 저장되어 있어야 합니다.
+        let dosage = self.dosageInputTextField.text ?? ""
+        let unit = self.dosageUnitSelectionButton.title(for: .normal) ?? ""
         
-        // delegate를 통해 데이터 전달
-        delegate?.updateAlarmStatus(isOn: isAlarmOn)
-        delegate?.updateTimeData(time: timeData)
-        delegate?.updateDosageInfo(dosage: dosage, unit: unit)
-        
+        // delegate를 통해 데이터 전달 -> PillAdd 혹은 PillEditVC로 데이터 전달
+        delegate?.updateDataFromDosageAddViewController(alarmStatus: isAlarmOn,
+                                                        intake: intakeData,
+                                                        dosage: dosage,
+                                                        unit: unit)
         // 현재 ViewController 닫기
         navigationController?.popViewController(animated: true)
     }

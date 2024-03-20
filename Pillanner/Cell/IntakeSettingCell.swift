@@ -5,11 +5,19 @@
 //  Created by 박민정 on 2/29/24.
 //
 
+// ################################################################################################
+// 섭취 설정은 할 떄 마다 dosage, unit을 결정하도록 하는 것이 아니라
+// 횟수 추가 시에는 시간만 설정할 수 있도록 하고,
+// 알람 여부, dosage, unit은 PillAdd, PillEdit, InitialSetting 뷰 에서 한 번만 설정할 수 있도록
+// 수정이 필요
+// ################################################################################################
+
 import UIKit
 import SnapKit
 
 protocol IntakeSettingDelegate: AnyObject {
     func addDosage()
+    
 }
 
 final class PillTableView: UITableView {
@@ -37,6 +45,11 @@ final class IntakeSettingCell: UITableViewCell {
     private var dosage = [String]()
     private var unit = [String]()
     
+//    private var intake = ["11:20", "12:20"]
+//    private var alarmStatus = [true, false]
+//    private var dosage = ["1", "2"]
+//    private var unit = ["개", "정"]
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "섭취 설정"
@@ -87,9 +100,7 @@ final class IntakeSettingCell: UITableViewCell {
         self.pillTableView.dataSource = self
         self.pillTableView.delegate = self
         self.pillTableView.rowHeight = UITableView.automaticDimension
-        // 섭취 횟수 저장 필요
-//        self.setupLayout()
-        self.pillTableView.reloadData()
+//        self.pillTableView.reloadData()
         print("########", self.intake)
     }
     
@@ -97,15 +108,29 @@ final class IntakeSettingCell: UITableViewCell {
         fatalError()
     }
     
-    func setupLayoutOnEditingProcess(numberOfIntake: Int) {
+    func setupLayoutOnEditingProcess(alarm: Bool, intake: [String], dosage: String, unit: String) {
         
-        self.infoLabel.text = "복용횟수 \(numberOfIntake)회"
+        self.infoLabel.text = "복용횟수 \(intake.count)회"
+        
+        self.intake = intake
+        if self.alarmStatus == [false] {
+            self.alarmStatus = [alarm]
+            self.dosage = [dosage]
+            self.unit = [unit]
+        } else {
+            self.alarmStatus.append(alarm)
+            self.dosage.append(dosage)
+            self.unit.append(unit)
+        }
+        print("##########", self.intake, self.alarmStatus, self.dosage, self.unit)
         
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(infoLabel)
         self.contentView.addSubview(pillTableView)
         self.contentView.addSubview(intakeAddButtonView)
+        
         intakeAddButtonView.addSubview(intakeAddButton)
+        
         self.titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(sidePaddingSizeValue)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)
@@ -119,7 +144,8 @@ final class IntakeSettingCell: UITableViewCell {
             $0.top.equalTo(titleLabel.snp.bottom).inset(-10)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)
             $0.right.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.height.greaterThanOrEqualTo(1)
+//            $0.height.greaterThanOrEqualTo(1)
+            $0.height.equalTo(120)
         }
         self.intakeAddButton.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
@@ -131,6 +157,8 @@ final class IntakeSettingCell: UITableViewCell {
             $0.width.equalTo(339)
             $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
         }
+        
+        self.pillTableView.reloadData()
     }
     
     func setupLayout() {
@@ -138,7 +166,9 @@ final class IntakeSettingCell: UITableViewCell {
         self.contentView.addSubview(infoLabel)
         self.contentView.addSubview(pillTableView)
         self.contentView.addSubview(intakeAddButtonView)
+        
         intakeAddButtonView.addSubview(intakeAddButton)
+        
         self.titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(sidePaddingSizeValue)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)
@@ -152,7 +182,8 @@ final class IntakeSettingCell: UITableViewCell {
             $0.top.equalTo(titleLabel.snp.bottom).inset(-10)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)
             $0.right.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.height.greaterThanOrEqualTo(1)
+//            $0.height.greaterThanOrEqualTo(1)
+            $0.height.equalTo(120)
         }
         self.intakeAddButton.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
@@ -172,34 +203,25 @@ final class IntakeSettingCell: UITableViewCell {
 }
 
 extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("####", self.intake.count)
         return self.intake.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IntakePillCell.identifier, for: indexPath) as! IntakePillCell
-        cell.timeLabel.text = "\(self.intake[indexPath.row]) \(self.dosage[indexPath.row])\(self.unit[indexPath.row])"
-        cell.alarmLabel.text = "알림 \(self.alarmStatus[indexPath.row])"
+        print("#####", self.intake[indexPath.row], indexPath.row)
+        cell.setupLayoutOnEditingProcess(intake: self.intake[indexPath.row],
+                                         dosage: self.dosage[indexPath.row],
+                                         unit: self.unit[indexPath.row],
+                                         alarm: self.alarmStatus[indexPath.row])
         return cell
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        // 높이 동적으로 주지말고 그냥 고정? 아니면 처음 데이터 들어갔을 떄 높이 반영 안되는 부분 해결이 필요
         tableView.invalidateIntrinsicContentSize()
         tableView.layoutIfNeeded()
-    }
-}
-
-extension IntakeSettingCell: DosageAddDelegate {
-    func updateAlarmStatus(isOn: Bool) {
-        self.alarmStatus.append(isOn)
-    }
-    
-    func updateTimeData(time: String) {
-        self.intake.append(time)
-    }
-    
-    func updateDosageInfo(dosage: String, unit: String) {
-        self.dosage.append(dosage)
-        self.unit.append(unit)
     }
 }
