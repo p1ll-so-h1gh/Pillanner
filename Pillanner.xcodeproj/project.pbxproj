@@ -98,6 +98,7 @@
 		CC1697A02B90221B008276B0 /* PillTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16979F2B90221B008276B0 /* PillTypeCell.swift */; };
 		CC1697A32B90223D008276B0 /* DueDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697A22B90223D008276B0 /* DueDateCell.swift */; };
 		CC1697A52B903DAD008276B0 /* PillAddMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697A42B903DAD008276B0 /* PillAddMainViewController.swift */; };
+		CC7117192BA9877B005D9841 /* Attainment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7117182BA9877B005D9841 /* Attainment.swift */; };
 		CC7DB3CD2B95536C00809665 /* IntakePillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */; };
 		CC7DB3F62B95C3FF00809665 /* MonthYearBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3F52B95C3FF00809665 /* MonthYearBarView.swift */; };
 		CC7DB3F82B95CBFF00809665 /* WeekdaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3F72B95CBFF00809665 /* WeekdaysView.swift */; };
@@ -160,6 +161,7 @@
 		CC16979F2B90221B008276B0 /* PillTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTypeCell.swift; sourceTree = "<group>"; };
 		CC1697A22B90223D008276B0 /* DueDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DueDateCell.swift; sourceTree = "<group>"; };
 		CC1697A42B903DAD008276B0 /* PillAddMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillAddMainViewController.swift; sourceTree = "<group>"; };
+		CC7117182BA9877B005D9841 /* Attainment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attainment.swift; sourceTree = "<group>"; };
 		CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakePillCell.swift; sourceTree = "<group>"; };
 		CC7DB3F52B95C3FF00809665 /* MonthYearBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthYearBarView.swift; sourceTree = "<group>"; };
 		CC7DB3F72B95CBFF00809665 /* WeekdaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdaysView.swift; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 				14D2BE692B84BBBF0006AC51 /* Pillanner.xcdatamodeld */,
 				C4346D8E2B8DA90D00110DEF /* UserData.swift */,
 				C490C8912B8EE9AB00DFACD8 /* DataManager.swift */,
+				CC7117182BA9877B005D9841 /* Attainment.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -581,6 +584,7 @@
 				C40136AA2B887DBA00577C17 /* CALayer+Extension.swift in Sources */,
 				C4A55A052B999EEC0084AF16 /* LoginVC_KAKAO_Login.swift in Sources */,
 				C40136AC2B887DE100577C17 /* LoginViewController.swift in Sources */,
+				CC7117192BA9877B005D9841 /* Attainment.swift in Sources */,
 				C447B56A2BA02CDA001D4913 /* SNSLoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
