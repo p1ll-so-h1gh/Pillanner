@@ -35,13 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         // 앱 실행 시 사용자에게 알림 허용 권한
         UNUserNotificationCenter.current().delegate = self
 
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-            if granted {
-                print("알림 권한이 허용되었습니다.")
-            } else {
-                print("알림 권한이 거부되었습니다.")
-            }
-        }
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
 
         application.registerForRemoteNotifications()
 

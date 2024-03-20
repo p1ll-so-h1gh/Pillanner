@@ -35,30 +35,31 @@ class NotificationHelper {
     }
 
     // 사용자의 약 정보 읽어와 약 만료일에 대한 알림 예약
-//    func readUserPills() {
-//        guard let userUID = UserDefaults.standard.string(forKey: "UID") else {
-//            print("UserDefaults에 User UID 값 없음.")
-//            return
-//        }
-//        DataManager.shared.readPillListData(UID: userUID) { pillsData in
-//            guard let pillsData = pillsData else {
-//                print("약 데이터 가져오기 실패")
-//                return
-//            }
-//            let pills = self.fetchPills(from: pillsData)
-//
-//            for pill in pills {
-//                self.notificationForPillIntakeTime(pill)
-//                self.notificationForPillDueDate(pill)
-//            }
-//        }
-//    }
+    //    func readUserPills() {
+    //        guard let userUID = UserDefaults.standard.string(forKey: "UID") else {
+    //            print("UserDefaults에 User UID 값 없음.")
+    //            return
+    //        }
+    //        DataManager.shared.readPillListData(UID: userUID) { pillsData in
+    //            guard let pillsData = pillsData else {
+    //                print("약 데이터 가져오기 실패")
+    //                return
+    //            }
+    //            let pills = self.fetchPills(from: pillsData)
+    //
+    //            for pill in pills {
+    //                self.notificationForPillIntakeTime(pill)
+    //                self.notificationForPillDueDate(pill)
+    //            }
+    //        }
+    //    }
 
     func readUserPills() {
         let dummyData: [[String: Any]] = [
-            ["Title": "약 1", "Type": "일반", "Day": ["Mon", "Tue"], "DueDate": "2024-04-10", "Intake": ["12:55", "18:55"], "Dosage": 1.0],
-            ["Title": "약 2", "Type": "처방", "Day": ["Wed", "Sun"], "DueDate": "2024-03-18", "Intake": ["20:50", "18:54"], "Dosage": 2.0]
+            ["Title": "약 1", "Type": "일반", "Day": ["Mon", "Tue"], "DueDate": "2024-03-18", "Intake": ["23:58", "20:29"], "Dosage": "1 정", "AlarmStatus": true],
+            ["Title": "약 2", "Type": "처방", "Day": ["Wed", "Tue"], "DueDate": "2024-04-20", "Intake": ["19:48", "18:54"], "Dosage": "2 정", "AlarmStatus": false]
         ]
+
         let pills = self.fetchPills(from: dummyData)
 
         for pill in pills {
@@ -69,42 +70,49 @@ class NotificationHelper {
 
     // 약 복용 시간 10분 전 알림
     private func notificationForPillIntakeTime(_ pill: Pill) {
-        let today = Calendar.current.component(.weekday, from: Date())
-
-        // 오늘 요일에 해당하는 복용 시간 필터링
-        for (index, intakeTime) in pill.intake.enumerated() {
-            let intakeDay = pill.day[index % pill.day.count]
-            guard let weekday = convertToEnglishWeekday(intakeDay), weekday == today else {
+        for day in pill.day {
+            guard let weekday = convertToEnglishWeekday(day), weekday == Calendar.current.component(.weekday, from: Date()) else {
                 continue
             }
 
-            guard let intakeComponents = convertStringToDate(intakeTime),
-                  let dueDate = dateFormatter.date(from: pill.dueDate) else {
-                continue
+            // 해당 요일에 해당하는 복용 시간들 가져옴
+            var intakeTimes: [DateComponents] = []
+            for intakeTime in pill.intake {
+                if let components = convertStringToDate(intakeTime) {
+                    intakeTimes.append(components)
+                }
             }
 
-            // 알림 예약
-            let title = "약 복용 알림"
-            let body = "\(pill.title) 복용 10분 전"
-            let triggerDate = calculateNotificationDate(for: intakeComponents)    // 현재 시간을 기준으로 intake 시간 10분 전 계산
-            let identifier = "복용_\(pill.title)_\(intakeTime)"
+            for intakeTime in intakeTimes {
+                let notificationDate = calculateNotificationDate(for: intakeTime)
 
-            self.scheduleNotification(title: title, body: body, date: triggerDate, identifier: identifier)
+                // 약 만료일이 현재 날짜보다 이후인지
+                guard let dueDate = dateFormatter.date(from: pill.dueDate), dueDate > Date() else {
+                    continue
+                }
+
+                let title = "약 복용 알림"
+                let body = "\(pill.title) 복용 10분 전입니다!"
+                let identifier = "복용_\(pill.title)"
+
+                scheduleNotification(title: title, body: body, date: notificationDate, identifier: identifier)
+            }
         }
     }
 
-    // 약 만료일 하루 전 알림
+
+    // 약 만료일 일주일 전 알림
     private func notificationForPillDueDate(_ pill: Pill) {
         guard let dueDate = dateFormatter.date(from: pill.dueDate) else { return }
 
         if dueDate > Date() {
             let title = "약 만료 알림"
-            let body = "\(pill.title)이 내일 만료됩니다!"
+            let body = "\(pill.title)이 곧 만료됩니다!"
 
-            let triggerHour = 19
-            let triggerMinute = 20
+            let triggerHour = 12
+            let triggerMinute = 0
             var triggerDate = Calendar.current.date(bySettingHour: triggerHour, minute: triggerMinute, second: 0, of: dueDate)!
-            triggerDate = Calendar.current.date(byAdding: .day, value: -1, to: triggerDate)! // 만료일 하루 전 알림
+            triggerDate = Calendar.current.date(byAdding: .day, value: -7, to: triggerDate)! // 만료일 일주일 전 알림
 
             let identifier = "만료일_\(pill.title)"
 
@@ -120,10 +128,10 @@ class NotificationHelper {
 extension NotificationHelper {
 
     // 알림 권한 설정
-//    func setAuthorization() {
-//        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-//        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, _ in }
-//    }
+    func setAuthorization() {
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, _ in }
+    }
 
     private func scheduleNotification(title: String, body: String, date: Date, identifier: String) {
         // 알림 내용
@@ -152,7 +160,7 @@ extension NotificationHelper {
                let dueDate = pillData["DueDate"] as? String,
                let intake = pillData["Intake"] as? [String],
                let dosage = pillData["Dosage"] as? String,
-               let alarmStatus = pillData["alarmStatus"] as? Bool,
+               let alarmStatus = pillData["AlarmStatus"] as? Bool,
                alarmStatus == true {
                 let pill = Pill(title: title, type: type, day: day, dueDate: dueDate, intake: intake, dosage: dosage, alarmStatus: alarmStatus)
                 pills.append(pill)
