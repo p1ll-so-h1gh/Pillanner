@@ -35,36 +35,22 @@ class NotificationHelper {
     }
 
     // 사용자의 약 정보 읽어와 약 만료일에 대한 알림 예약
-    //    func readUserPills() {
-    //        guard let userUID = UserDefaults.standard.string(forKey: "UID") else {
-    //            print("UserDefaults에 User UID 값 없음.")
-    //            return
-    //        }
-    //        DataManager.shared.readPillListData(UID: userUID) { pillsData in
-    //            guard let pillsData = pillsData else {
-    //                print("약 데이터 가져오기 실패")
-    //                return
-    //            }
-    //            let pills = self.fetchPills(from: pillsData)
-    //
-    //            for pill in pills {
-    //                self.notificationForPillIntakeTime(pill)
-    //                self.notificationForPillDueDate(pill)
-    //            }
-    //        }
-    //    }
-
     func readUserPills() {
-        let dummyData: [[String: Any]] = [
-            ["Title": "약 1", "Type": "일반", "Day": ["Mon", "Tue"], "DueDate": "2024-03-18", "Intake": ["23:58", "20:29"], "Dosage": "1 정", "AlarmStatus": true],
-            ["Title": "약 2", "Type": "처방", "Day": ["Wed", "Tue"], "DueDate": "2024-04-20", "Intake": ["19:48", "18:54"], "Dosage": "2 정", "AlarmStatus": false]
-        ]
+        guard let userUID = UserDefaults.standard.string(forKey: "UID") else {
+            print("UserDefaults에 User UID 값 없음.")
+            return
+        }
+        DataManager.shared.readPillListData(UID: userUID) { pillsData in
+            guard let pillsData = pillsData else {
+                print("약 데이터 가져오기 실패")
+                return
+            }
+            let pills = self.fetchPills(from: pillsData)
 
-        let pills = self.fetchPills(from: dummyData)
-
-        for pill in pills {
-            self.notificationForPillIntakeTime(pill)
-            self.notificationForPillDueDate(pill)
+            for pill in pills {
+                self.notificationForPillIntakeTime(pill)
+                self.notificationForPillDueDate(pill)
+            }
         }
     }
 
