@@ -153,7 +153,7 @@ final class DataManager {
                                 "DueDate": pill.dueDate,
                                 "Intake": pill.intake,
                                 "Dosage": pill.dosage,
-                                "alarmStatus": pill.alarmStatus
+                                "AlarmStatus": pill.alarmStatus
                             ])
                             print("약 등록 완료")
                             return
