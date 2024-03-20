@@ -12,8 +12,8 @@ import FirebaseAuth
 class CustomLaunchScreenViewController: UIViewController {
     private lazy var backgroundLayer = CAGradientLayer.dayBackgroundLayer(view: self.view)
     let credential = PhoneAuthProvider.provider().credential(
-        withVerificationID: UserDefaults.standard.string(forKey: "firebaseVerificationID")!,
-        verificationCode: UserDefaults.standard.string(forKey: "firebaseVerificationCode")!
+        withVerificationID: UserDefaults.standard.string(forKey: "firebaseVerificationID") ?? "",
+        verificationCode: UserDefaults.standard.string(forKey: "firebaseVerificationCode") ?? ""
     )
     var myID: String {
         return UserDefaults.standard.string(forKey: "ID")!

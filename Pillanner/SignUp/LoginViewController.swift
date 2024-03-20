@@ -296,8 +296,8 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     // 로그인 버튼
     @objc func logInButtonTapped() {
         let credential = PhoneAuthProvider.provider().credential(
-            withVerificationID: UserDefaults.standard.string(forKey: "firebaseVerificationID")!,
-            verificationCode: UserDefaults.standard.string(forKey: "firebaseVerificationCode")!
+            withVerificationID: UserDefaults.standard.string(forKey: "firebaseVerificationID") ?? "",
+            verificationCode: UserDefaults.standard.string(forKey: "firebaseVerificationCode") ?? ""
         )
         if let id = idTextfield.text, let password = pwdTextfield.text {
             
