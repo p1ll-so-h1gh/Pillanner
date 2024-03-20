@@ -16,11 +16,11 @@ class CustomLaunchScreenViewController: UIViewController {
         verificationCode: UserDefaults.standard.string(forKey: "firebaseVerificationCode") ?? ""
     )
     var myID: String {
-        return UserDefaults.standard.string(forKey: "ID")!
+        return UserDefaults.standard.string(forKey: "ID") ?? ""
     }
     
     var myPW: String {
-        return UserDefaults.standard.string(forKey: "Password")!
+        return UserDefaults.standard.string(forKey: "Password") ?? ""
     }
     
     var autoLoginActivate: Bool {
@@ -76,7 +76,12 @@ class CustomLaunchScreenViewController: UIViewController {
         switch(autoLoginActivate){
         case true :
             DataManager.shared.readUserData(userID: myID) { userData in
-                guard let userData = userData else { return }
+                guard let userData = userData else {
+                    let navVC = UINavigationController(rootViewController: LoginViewController())
+                    navVC.modalPresentationStyle = .fullScreen
+                    self.present(navVC, animated: true)
+                    return
+                }
                 if self.myID == userData["ID"] && self.myPW == userData["Password"] && userData["SignUpPath"] == "일반회원가입" {
                     Auth.auth().signIn(with: self.credential) { authData, error in
                         let currentUser = Auth.auth().currentUser

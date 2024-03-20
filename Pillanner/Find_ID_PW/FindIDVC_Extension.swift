@@ -1,8 +1,8 @@
 //
-//  FindPWVC_Extension.swift
+//  FindIDVC_Extension.swift
 //  Pillanner
 //
-//  Created by 윤규호 on 3/4/24.
+//  Created by 윤규호 on 3/20/24.
 //
 
 import UIKit
@@ -10,7 +10,7 @@ import Firebase
 import FirebaseFirestore
 import FirebaseAuth
 
-extension FindPWViewController {
+extension FindIDViewController {
     @objc func dismissView() {
         navigationController?.popViewController(animated: true)
     }
@@ -45,7 +45,7 @@ extension FindPWViewController {
                         // 에러가 없다면 사용자에게 인증코드와 verifiacationID(인증 ID) 전달
                         print("@@@@@@@@@@@@@@@@@@@ 인증번호 발송 @@@@@@@@@@@@@@@@@@")
                         self.myVerificationID = verificationID!
-                        self.availableFindPWFlag = false
+                        self.availableFindIDFlag = false
                         self.getSetTime()
                         self.ifPhoneNumberIsEmptyLabel.text = ""
                         self.certNumberAvailableLabel.text = "인증번호가 발송되었습니다."
@@ -108,14 +108,14 @@ extension FindPWViewController {
             if let error = error {
                 print("errorCode: \(error)")
                 print("인증번호가 일치하지 않습니다.")
-                self.availableFindPWFlag = false
+                self.availableFindIDFlag = false
                 self.certNumberTextField.text = ""
                 // 인증번호 매칭 에러 - Alert
                 let alert = UIAlertController(title: "인증 실패", message: "인증번호가 올바르지 않습니다.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "확인", style: .default))
                 self.present(alert, animated: true)
             }
-            self.availableFindPWFlag = true
+            self.availableFindIDFlag = true
             self.timerLabel.isHidden = true
             self.limitTime = 180
             self.certNumberTextField.text = ""
@@ -127,7 +127,7 @@ extension FindPWViewController {
     
     // 텍스트필드 위임자 선언
     func setUpTextFieldDelegate() {
-        [nameTextField, idTextField, phoneCertTextField, certNumberTextField] .forEach({
+        [nameTextField, phoneCertTextField, certNumberTextField] .forEach({
             $0.delegate = self
         })
     }
@@ -148,7 +148,6 @@ extension FindPWViewController {
         UIView.animate(withDuration: 0.4) {
             switch(textField) {
             case self.nameTextField : self.nameTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.idTextField : self.idTextFieldUnderLine.setProgress(1.0, animated: true)
             case self.phoneCertTextField : self.phoneCertTextFieldUnderLine.setProgress(1.0, animated: true)
             default : break
             }
@@ -160,7 +159,6 @@ extension FindPWViewController {
         UIView.animate(withDuration: 0.3) {
             switch(textField) {
             case self.nameTextField : self.nameTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.idTextField : self.idTextFieldUnderLine.setProgress(0.0, animated: true)
             case self.phoneCertTextField : self.phoneCertTextFieldUnderLine.setProgress(0.0, animated: true)
             default : break
             }
@@ -173,41 +171,23 @@ extension FindPWViewController {
     }
     
     // 아이디 찾기 버튼
-    @objc func findPWButtonTapped() {
+    @objc func findIDButtonTapped() {
         // 인증번호 확인 완료 시
-        if availableFindPWFlag {
-            DataManager.shared.readUserData(userID: idTextField.text!) { userData in
-                guard let userData = userData else {
-                    let pwAlert = UIAlertController(title: "찾기 실패", message: "입력 형식을 다시 확인해주세요.", preferredStyle: .alert)
-                    let failAction = UIAlertAction(title: "확인", style: .default)
-                    pwAlert.addAction(failAction)
-                    self.present(pwAlert, animated: true)
-                    return
-                }
-                let userName = userData["Nickname"] ?? "Error"
-                let userPW = userData["Password"] ?? "Error"
-                if userPW == "sns" { // 소셜 로그인으로 가입한 경우 비밀번호가 없음을 알려줌
-                    let snsAlert = UIAlertController(title: "찾기 실패", message: "고객님은 소셜로그인 가입회원입니다.", preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "확인", style: .default, handler: { _ in
-                        self.dismissView()
-                    })
-                    snsAlert.addAction(okAction)
-                    self.present(snsAlert, animated: true)
-                } else if userPW != "sns" && userName == self.nameTextField.text! {
-                    let pwAlert = UIAlertController(title: "ID 찾기", message: "회원님의 비밀번호는 [\(userPW)]입니다.", preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "확인", style: .default, handler: { _ in
-                        self.dismissView()
-                    })
-                    pwAlert.addAction(okAction)
-                    self.present(pwAlert, animated: true)
-                }
+        if availableFindIDFlag {
+            DataManager.shared.findIDUserData(userNickName: nameTextField.text!) { userID in
+                guard let userID = userID else { return }
+                let idAlert = UIAlertController(title: "ID 찾기", message: "회원님의 아이디는 [\(userID)]입니다.", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "확인", style: .default, handler: { _ in
+                    self.dismissView()
+                })
+                idAlert.addAction(okAction)
+                self.present(idAlert, animated: true)
             }
         } else {
-            let pwAlert = UIAlertController(title: "찾기 실패", message: "입력 형식을 다시 확인해주세요.", preferredStyle: .alert)
+            let idAlert = UIAlertController(title: "찾기 실패", message: "입력 형식을 다시 확인해주세요.", preferredStyle: .alert)
             let failAction = UIAlertAction(title: "확인", style: .default)
-            pwAlert.addAction(failAction)
-            self.present(pwAlert, animated: true)
+            idAlert.addAction(failAction)
+            self.present(idAlert, animated: true)
         }
-        
     }
 }

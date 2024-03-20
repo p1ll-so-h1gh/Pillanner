@@ -100,7 +100,6 @@ extension SignUpViewController {
     }
     
     // 인증번호 타이머 감소 메서드
-
     @objc func getSetTime() {
         secToTime(sec: limitTime)
         limitTime -= 1
