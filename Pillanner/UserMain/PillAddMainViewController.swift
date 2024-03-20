@@ -29,7 +29,7 @@ final class PillAddMainViewController: UIViewController{
     private var alarmStatus: Bool = false
     private var timeData: String = ""
     private var dosage: String = ""
-    private var dosageUnit: String = ""
+    private var dosageUnitForAdd: String = ""
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -123,6 +123,7 @@ final class PillAddMainViewController: UIViewController{
     //뷰가 나타날 때 네비게이션 바 숨김
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
+        self.totalTableView.reloadData()
         print(dayForAdd)
     }
     
@@ -169,7 +170,7 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillCell", for: indexPath) as! PillCell
-            cell.setupLayout()
+            cell.setupLayoutOnEditingProcess(title: self.titleForAdd)
             cell.delegate = self
             return cell
         case 1:
@@ -179,17 +180,24 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
-            cell.setupLayout()
+            print("#####", #function)
+            print("#####", self.alarmStatusForAdd, self.intakeForAdd, self.dosageForAdd, self.dosageUnitForAdd)
+                cell.setupLayoutOnEditingProcess(alarm: self.alarmStatusForAdd,
+                                                 intake: self.intakeForAdd,
+                                                 dosage: self.dosageForAdd,
+                                                 unit: self.dosageUnitForAdd)
+            
+//            cell.setupLayout()
             cell.delegate = self
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillTypeCell", for: indexPath) as! PillTypeCell
-            cell.setupLayout()
+            cell.setupLayoutOnEditingProcess(type: self.typeForAdd)
             cell.delegate = self
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DueDateCell
-            cell.setupLayout()
+            cell.setupLayoutOnEditingProcess(dueDate: self.dueDateForAdd)
             cell.delegate = self
             return cell
         default:
@@ -218,21 +226,41 @@ extension PillAddMainViewController: IntakeSettingDelegate {
 }
 
 extension PillAddMainViewController: PillCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
-    func updateAlarmStatus(isOn: Bool) {
-            self.alarmStatus = isOn
-            // 여기에 필요한 UI 업데이트 로직 추가
-        }
+    
+    func cellHeightChanged() {
+        self.totalTableView.reloadData()
+    }
+    
+    func updateDataFromDosageAddViewController(alarmStatus: Bool, intake: String, dosage: String, unit: String) {
         
-        func updateTimeData(time: String) {
-            self.timeData = time
-            // 여기에 필요한 UI 업데이트 로직 추가
-        }
-        
-        func updateDosageInfo(dosage: String, unit: String) {
-            self.dosage = dosage
-            self.dosageUnit = unit
-            // 여기에 필요한 UI 업데이트 로직 추가
-        }
+        self.alarmStatusForAdd = alarmStatus
+        self.intakeForAdd.append(intake)
+        self.dosageForAdd = dosage
+        self.dosageUnitForAdd = unit
+        print("######", #function, self.intakeForAdd, alarmStatusForAdd, self.dosageForAdd, self.dosageUnitForAdd)
+        self.totalTableView.reloadData()
+    }
+    
+    
+    // 함수 합치기
+//    func updateAlarmStatus(isOn: Bool) {
+//        self.alarmStatusForAdd = isOn
+//        print("######", alarmStatusForAdd)
+//        // 여기에 필요한 UI 업데이트 로직 추가
+//    }
+//    
+//    func updateTimeData(time: String) {
+//        self.intakeForAdd.append(time)
+//        print("######", intakeForAdd)
+//        // 여기에 필요한 UI 업데이트 로직 추가
+//    }
+//    
+//    func updateDosageInfo(dosage: String, unit: String) {
+//        self.dosageForAdd = dosage
+//        self.dosageUnitForAdd = unit
+//        print("######", dosageForAdd, dosageUnitForAdd)
+//        // 여기에 필요한 UI 업데이트 로직 추가
+//    }
     
     func updateDays(_ days: [String]) {
         print(#function, self.dayForAdd)

@@ -12,9 +12,8 @@ import SnapKit
 
 // DosageAddDelegate 프로토콜 수정
 protocol DosageAddDelegate: AnyObject {
-    func updateAlarmStatus(isOn: Bool)
-    func updateTimeData(time: String)
-    func updateDosageInfo(dosage: String, unit: String)
+    func updateDataFromDosageAddViewController(alarmStatus: Bool, intake: String, dosage: String, unit: String)
+    
 }
 
 
@@ -22,10 +21,10 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     weak var delegate: DosageAddDelegate?
     
     // 유저 입력을 저장할 변수
-        var isAlarmOn: Bool = false
-        var timeData: String = ""
-        var dosage: String = ""
-        var unit: String = ""
+    var alarmStatus: Bool = false
+    var intake: String = ""
+    var dosage: String = ""
+    var dosageUnit: String = ""
     
     private var pageTitleLabel: UILabel!
     private var alarmSettingLabel: UILabel!
@@ -38,7 +37,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     private var confirmButton: UIButton!
     
     private var selectTimeButton: UIButton!
-       private var selectedTimeDisplayLabel: UILabel!
+    private var selectedTimeDisplayLabel: UILabel!
     
     private var alarmStatusLabel: UILabel!
     
@@ -86,10 +85,10 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         setupDosageUnitTableView()
         
         setupSelectTimeButton()
-                setupSelectedTimeDisplayLabel()
+        setupSelectedTimeDisplayLabel()
     }
-
-        
+    
+    
     private func setupSelectTimeButton() {
         selectTimeButton = UIButton(type: .system)
         selectTimeButton.setTitle("섭취시간 선택", for: .normal)
@@ -105,23 +104,23 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
             make.centerY.equalTo(timeSettingLabel.snp.centerY)
             make.left.equalTo(timeSettingLabel.snp.right).offset(30)
             make.right.equalToSuperview().inset(20)
-
+            
             make.height.equalTo(40)
         }
     }
-        
-        private func setupSelectedTimeDisplayLabel() {
-            selectedTimeDisplayLabel = UILabel()
-            selectedTimeDisplayLabel.font = FontLiteral.title3(style: .bold)
-            view.addSubview(selectedTimeDisplayLabel)
-            
-            selectedTimeDisplayLabel.snp.makeConstraints { make in
-                make.top.equalTo(timeSettingLabel.snp.bottom).offset(15)
-                make.left.equalToSuperview().offset(30)
-            }
-        }
     
-
+    private func setupSelectedTimeDisplayLabel() {
+        selectedTimeDisplayLabel = UILabel()
+        selectedTimeDisplayLabel.font = FontLiteral.title3(style: .bold)
+        view.addSubview(selectedTimeDisplayLabel)
+        
+        selectedTimeDisplayLabel.snp.makeConstraints { make in
+            make.top.equalTo(timeSettingLabel.snp.bottom).offset(15)
+            make.left.equalToSuperview().offset(30)
+        }
+    }
+    
+    
     @objc private func alarmToggleChanged(_ toggle: UISwitch) {
         updateAlarmStatusLabel(isOn: toggle.isOn)
     }
@@ -131,6 +130,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         if let meridiem = tempSelectedMeridiem,
            let hourString = tempSelectedHour,
            let minute = tempSelectedMinute {
+
             var hour = Int(hourString) ?? 0
 
             if meridiem == "오후" && hour != 12 {
@@ -140,12 +140,12 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
             }
 
             let timeString = String(format: "%02d:%@", hour, minute)
-            timeData = timeString
+            self.intake = timeString
             selectedTimeDisplayLabel.text = timeString
         }
         hidePickerView()
     }
-
+    
     
     private func setupDosageUnitSelectionButton() {
         dosageUnitSelectionButton = UIButton(type: .system)
@@ -156,7 +156,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         dosageUnitSelectionButton.layer.cornerRadius = 10
         dosageUnitSelectionButton.backgroundColor = UIColor.pointThemeColor2
         
-
+        
         dosageUnitSelectionButton.addTarget(self, action: #selector(toggleDropdown), for: .touchUpInside)
         view.addSubview(dosageUnitSelectionButton)
         
@@ -200,14 +200,16 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         dosageUnitSelectionButton.setTitle(dosageUnits[indexPath.row], for: .normal)
+        self.dosageUnit = dosageUnits[indexPath.row]
         toggleDropdown()
     }
     
-   
+    
     @objc private func dosageInputContainerTapped() {
         dosageInputTextField.becomeFirstResponder()
     }
     
+    // 저장버튼 셋업
     private func setupSaveButton() {
         let saveButtonItem = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveButtonTapped))
         saveButtonItem.setTitleTextAttributes([NSAttributedString.Key.font: FontLiteral.title3(style: .bold)], for: .normal)
@@ -215,19 +217,24 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         self.navigationItem.rightBarButtonItem = saveButtonItem
     }
     
-
+    // 저장버튼 누르면 동작하는 거
     @objc private func saveButtonTapped() {
+        
+//        delegate?.cellHeightChanged()
+        
+        print("저장 버튼이 탭되었습니다.")
+
         // 사용자 입력 데이터 처리
-        let isAlarmOn = alarmToggle.isOn
-        let timeData = self.timeData // 시간 데이터는 사용자가 시간을 선택할 때 저장되어 있어야 합니다.
-        let dosage = dosageInputTextField.text ?? ""
-        let unit = dosageUnitSelectionButton.title(for: .normal) ?? ""
-
-        // delegate를 통해 데이터 전달
-        delegate?.updateAlarmStatus(isOn: isAlarmOn)
-        delegate?.updateTimeData(time: timeData)
-        delegate?.updateDosageInfo(dosage: dosage, unit: unit)
-
+        let isAlarmOn = self.alarmToggle.isOn
+        let intakeData = self.intake // 시간 데이터는 사용자가 시간을 선택할 때 저장되어 있어야 합니다.
+        let dosage = self.dosageInputTextField.text ?? ""
+        let unit = self.dosageUnitSelectionButton.title(for: .normal) ?? ""
+        
+        // delegate를 통해 데이터 전달 -> PillAdd 혹은 PillEditVC로 데이터 전달
+        delegate?.updateDataFromDosageAddViewController(alarmStatus: isAlarmOn,
+                                                        intake: intakeData,
+                                                        dosage: dosage,
+                                                        unit: unit)
         // 현재 ViewController 닫기
         navigationController?.popViewController(animated: true)
     }
@@ -272,7 +279,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         updateAlarmStatusLabel(isOn: alarmToggle.isOn)
     }
     
-
+    
     
     private func updateAlarmStatusLabel(isOn: Bool) {
         alarmStatusLabel.text = isOn ? "on" : "off"
@@ -325,7 +332,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
         confirmButton.backgroundColor = UIColor.pointThemeColor2
         confirmButton.layer.cornerRadius = 20
         confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
-                view.addSubview(confirmButton) // 뷰에 confirmButton 추가
+        view.addSubview(confirmButton) // 뷰에 confirmButton 추가
         pickerContainerView.addSubview(confirmButton)
         
         confirmButton.snp.makeConstraints { make in
@@ -385,7 +392,7 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
             make.left.equalToSuperview().offset(20)
         }
         
-
+        
     }
     
     private func setupDosageInputContainer() {
@@ -466,7 +473,6 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-
                 let meridiemIndex = pickerView.selectedRow(inComponent: 0)
                 let hourIndex = pickerView.selectedRow(inComponent: 1)
                 let minuteIndex = pickerView.selectedRow(inComponent: 2)

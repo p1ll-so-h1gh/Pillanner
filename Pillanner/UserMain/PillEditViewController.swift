@@ -23,6 +23,7 @@ final class PillEditViewController: UIViewController {
     private var dueDateForEdit = String()
     private var intakeForEdit = [String]()
     private var dosageForEdit = String()
+    private var dosageUnitForEdit = String()
     private var alarmStatusForEdit = Bool()
 
     private var oldPillDataForEdit: Pill
@@ -113,7 +114,7 @@ final class PillEditViewController: UIViewController {
         
         DataManager.shared.readPillListData(UID: UserDefaults.standard.string(forKey: "UID")!) { pillList in
             if let pillList = pillList {
-                print(pillList)
+                print("########", pillList)
             }
         }
         
@@ -189,7 +190,7 @@ extension PillEditViewController: UITableViewDataSource {
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
-            cell.setupLayoutOnEditingProcess(numberOfIntake: self.oldPillDataForEdit.intake.count)
+            cell.setupLayoutOnEditingProcess(alarm: self.alarmStatusForEdit, intake: self.intakeForEdit, dosage: self.dosageForEdit, unit: self.dosageUnitForEdit)
             cell.delegate = self
             return cell
         case 3:
@@ -227,52 +228,43 @@ extension PillEditViewController: IntakeSettingDelegate {
 }
 
 extension PillEditViewController: PillCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
-    func updateAlarmStatus(isOn: Bool) {
-            self.alarmStatus = isOn
-            // 여기에 필요한 UI 업데이트 로직 추가
-        }
-        
-        func updateTimeData(time: String) {
-            self.timeData = time
-            // 여기에 필요한 UI 업데이트 로직 추가
-        }
-        
-        func updateDosageInfo(dosage: String, unit: String) {
-            self.dosage = dosage
-            self.dosageUnit = unit
-            // 여기에 필요한 UI 업데이트 로직 추가
-        }
     
+    func updateDataFromDosageAddViewController(alarmStatus: Bool, intake: String, dosage: String, unit: String) {
+        self.alarmStatusForEdit = alarmStatus
+        self.intakeForEdit.append(intake)
+        self.dosageForEdit = dosage
+        self.dosageUnitForEdit = unit
+    }
     
     func updatePillTitle(_ title: String) {
         self.titleForEdit = title
-        print(#function," : \(self.titleForEdit)")
+        print("########" + #function," : \(self.titleForEdit)")
     }
     
     func updatePillType(_ type: String) {
         self.typeForEdit = type
-        print(#function," : \(self.typeForEdit)")
+        print("########" + #function," : \(self.typeForEdit)")
     }
     
     func updateDays(_ day: [String]) {
         self.dayForEdit = day
-        print(#function," : \(self.dayForEdit)")
+        print("########" + #function," : \(self.dayForEdit)")
         self.totalTableView.reloadData()
     }
     
     func updateDueDate(date: String) {
         self.dueDateForEdit = date
-        print(#function," : \(self.dueDateForEdit)")
+        print("########" + #function," : \(self.dueDateForEdit)")
     }
     
     func updateDosage(_ dosage: String) {
         self.dosageForEdit = dosage
-        print(#function," : \(self.dosageForEdit)")
+        print("########" + #function," : \(self.dosageForEdit)")
     }
     
     func updateIntake(_ intake: String) {
         self.intakeForEdit.append(intake)
-        print(#function," : \(self.intakeForEdit)")
+        print("########" + #function," : \(self.intakeForEdit)")
     }
     
     

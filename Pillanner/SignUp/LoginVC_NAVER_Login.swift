@@ -43,9 +43,11 @@ extension LoginViewController: NaverThirdPartyLoginConnectionDelegate {
             return
         }
 
+
         guard let tokenType = naverLoginInstance?.tokenType,
               let accessToken = naverLoginInstance?.accessToken,
               let refreshToken = naverLoginInstance?.refreshToken else { return }
+
 
         let urlStr = "https://openapi.naver.com/v1/nid/me"
         let url = URL(string: urlStr)!

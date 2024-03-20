@@ -131,6 +131,8 @@ class CheckPillCell: UITableViewCell {
     }
     
     func configure(with pill: Pill) {
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:mm"
         self.pill = pill
         nameLabel.text = pill.title
         dosageLabel.text = String(pill.dosage)

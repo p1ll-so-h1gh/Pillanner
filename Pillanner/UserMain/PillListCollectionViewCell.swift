@@ -106,13 +106,13 @@ class PillListCollectionViewCell: UICollectionViewCell {
             DataManager.shared.readPillData(pillTitle: title) { pillData in
                 if let pillData = pillData {
                     print(pillData)
-                    let pill = Pill(title: pillData["Title"] as! String,
-                                    type: pillData["Type"] as! String,
-                                    day: pillData["Day"] as! [String],
-                                    dueDate: pillData["DueDate"] as! String,
-                                    intake: pillData["Intake"] as! [String],
-                                    dosage: pillData["Dosage"] as! String,
-                                    alarmStatus: pillData["AlarmStatus"] as! Bool)
+                    let pill = Pill(title: pillData["Title"] as? String ?? "ftitle",
+                                    type: pillData["Type"] as? String ?? "ftype",
+                                    day: pillData["Day"] as? [String] ?? ["fday"],
+                                    dueDate: pillData["DueDate"] as? String ?? "fduedate",
+                                    intake: pillData["Intake"] as? [String] ?? ["fintake"],
+                                    dosage: pillData["Dosage"] as? String ?? "fdosage",
+                                    alarmStatus: pillData["AlarmStatus"] as? Bool ?? true)
                     self.pillListViewDelegate?.editPill(pillData: pill)
                 }
             }

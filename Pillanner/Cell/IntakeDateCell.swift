@@ -16,8 +16,6 @@ protocol IntakeDateCellDelegate: AnyObject {
 
 final class IntakeDateCell: UITableViewCell {
     
-    
-    
     private var selectedDate = [String]()
     static let identifier = "IntakeDateCell"
     private let sidePaddingSizeValue = 20
