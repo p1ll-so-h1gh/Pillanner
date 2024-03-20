@@ -445,18 +445,6 @@ final class UserMainViewController: UIViewController {
                 $0.centerX.centerY.equalToSuperview()
             }
         }
-//        // 정답률 label
-//        let attainmentLabel = UILabel()
-//        attainmentLabel.text = "\(self.attainmentRate) %"
-//        attainmentLabel.tag = 20240320426
-//        attainmentLabel.textColor = UIColor(hexCode: "F97474")
-//        attainmentLabel.font = FontLiteral.title2(style: .bold).withSize(30)
-//        
-//        
-//        circleContainerView.addSubview(attainmentLabel)
-//        attainmentLabel.snp.makeConstraints {
-//            $0.centerX.centerY.equalToSuperview()
-//        }
         
         //테두리 애니메이션
         let animation = CABasicAnimation(keyPath: "strokeEnd")
