@@ -67,7 +67,7 @@ class InitialSetupEndViewController: UIViewController {
         
         let descriptionLabel = UILabel()
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.text = "앞으로 Pillanner가 OOO님의 약을 챙겨드릴 준비가 모두 끝났어요."
+        descriptionLabel.text = "앞으로 Pillanner가 \(UserDefaults.standard.string(forKey: "Nickname")!)님의 약을 챙겨드릴 준비가 모두 끝났어요."
         descriptionLabel.textAlignment = .center
         descriptionLabel.font = FontLiteral.body(style: .regular)
         view.addSubview(descriptionLabel)
