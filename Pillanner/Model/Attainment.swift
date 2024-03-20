@@ -7,14 +7,16 @@
 
 import UIKit
 
+// 타이머 지정해서 타이머 리셋 메소드 추가 필요
+// 이후 MainUser viewWillAppear될 때, app 진입 시에 이 메소드 호출해서 리셋이 필요한지 안한지 확인 필요
 class Attainment: CalendarViewDelegate {
     var totalEvent: Int = 0
     var takenEvent: Int = 0
     
     var attainmentDidChange: ((Int) -> Void)?
     
-    init() {
-        takenPillChanged()
+    init(vc: CalendarViewController) {
+        vc.delegate = self
     }
     
     //전달받은 토탈 이벤트 저장해줌
@@ -60,7 +62,7 @@ class Attainment: CalendarViewDelegate {
     }
     
     //하루 달성률 계산하기
-    func calculateAttainment() -> Int {
+    private func calculateAttainment() -> Int {
         if totalEvent != 0 {
             let calculatedData = Double(takenEvent) / Double(totalEvent) * 100
             return Int(calculatedData)
