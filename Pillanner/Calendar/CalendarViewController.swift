@@ -26,23 +26,6 @@ class CalendarViewController: UIViewController {
     private let cellHeight: CGFloat = 90
     private let cellSpacing: CGFloat = 10
     
-    
-    // PillCategory TableViewCell 탭했을 때, 변수 추가한 Pill 데이터를 Firestore에 저장할 것임
-    // 1.
-    
-    // TableViewCell 한 번 탭해서 약을 먹은 상태로 바꾸면 다시 돌아오지 못하도록 만들어야 함
-    // 대신 한 번 먹는거 체크할 때 확실하게 할 수 있도록 하는 방법 고안해야 할 듯
-    
-//    var medicationSections: [MedicationSection] = [
-//        MedicationSection(headerTitle: "오전", medications: [
-//            Medicine(name: "오메가 3", dosage: "1정", time: "10:30", type: "일반"),
-//        ]),
-//        MedicationSection(headerTitle: "오후", medications: [
-//            Medicine(name: "유산균", dosage: "1정", time: "13:30", type: "처방"),
-//            Medicine(name: "종합 비타민", dosage: "1정", time: "13:40", type: "처방"),
-//        ]),
-//    ]
-    
     private var listOfPills = [Pill]()
     private var categoryOfPills = [PillCategory]()
     

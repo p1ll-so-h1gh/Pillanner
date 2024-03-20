@@ -79,6 +79,7 @@ final class PillEditViewController: UIViewController {
         self.oldPillDataForEdit = pill
         self.originalPillTitle = pill.title
         super.init(nibName: nil, bundle: nil)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
