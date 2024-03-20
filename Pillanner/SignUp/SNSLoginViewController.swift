@@ -115,9 +115,10 @@ class SNSLoginViewController: UIViewController, UITextFieldDelegate {
             UserDefaults.standard.set(true, forKey: "isAutoLoginActivate") //SNS 회원가입은 자동로그인을 기본값으로 설정(true)
             UserDefaults.standard.set(self.setNameTextField.text!, forKey: "Nickname")
             DataManager.shared.updateUserData(userID: userID, changedPassword: "sns", changedName: self.setNameTextField.text!)
-            let nextVC = CustomLaunchScreenViewController(message: "\(self.setNameTextField.text!)님 PILLANNER 가입을\n축하합니다!")
-            nextVC.modalPresentationStyle = .fullScreen
-            self.present(nextVC, animated: true)
+            
+            let initialSetUpStartVC = UINavigationController(rootViewController: InitialSetupStartViewController(nickName: self.setNameTextField.text!))
+            initialSetUpStartVC.modalPresentationStyle = .fullScreen
+            self.present(initialSetUpStartVC, animated: true)
         }))
         self.present(alert, animated: true)
     }

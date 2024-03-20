@@ -358,7 +358,9 @@ extension SignUpViewController {
             // 회원가입 완료 - Alert
             let alert = UIAlertController(title: "가입 성공", message: "회원가입이 완료되었습니다 !", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "확인", style: .default) { _ in
-                self.navigationController?.popToRootViewController(animated: true)
+                let initialSetUpStartVC = UINavigationController(rootViewController: InitialSetupStartViewController(nickName: self.nameTextField.text!))
+                initialSetUpStartVC.modalPresentationStyle = .fullScreen
+                self.present(initialSetUpStartVC, animated: true)
             })
             self.present(alert, animated: true)
             
