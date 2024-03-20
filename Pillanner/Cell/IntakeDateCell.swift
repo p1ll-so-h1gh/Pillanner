@@ -161,6 +161,7 @@ final class IntakeDateCell: UITableViewCell {
     
     func checkWeekdayViewWithIntakeData(days: [String]) {
         print("####################### \(days)")
+        setWeekdayViewDefaultBackgroundColor()
         for day in days {
             if day == "Mon" {
                 monView.backgroundColor = .pointThemeColor2
@@ -178,6 +179,16 @@ final class IntakeDateCell: UITableViewCell {
                 sunView.backgroundColor = .pointThemeColor2
             }
         }
+    }
+    
+    func setWeekdayViewDefaultBackgroundColor() {
+        monView.backgroundColor = UIColor(hexCode: "E6E6E6")
+        tueView.backgroundColor = UIColor(hexCode: "E6E6E6")
+        wedView.backgroundColor = UIColor(hexCode: "E6E6E6")
+        thuView.backgroundColor = UIColor(hexCode: "E6E6E6")
+        friView.backgroundColor = UIColor(hexCode: "E6E6E6")
+        satView.backgroundColor = UIColor(hexCode: "E6E6E6")
+        sunView.backgroundColor = UIColor(hexCode: "E6E6E6")
     }
     
     func setupLayoutOnEditingProcess(days: [String]) {

@@ -190,7 +190,10 @@ extension PillEditViewController: UITableViewDataSource {
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
-            cell.setupLayoutOnEditingProcess(alarm: self.alarmStatusForEdit, intake: self.intakeForEdit, dosage: self.dosageForEdit, unit: self.dosageUnitForEdit)
+            cell.setupLayoutOnEditingProcess(alarm: self.alarmStatusForEdit,
+                                             intake: self.intakeForEdit,
+                                             dosage: self.dosageForEdit,
+                                             unit: self.dosageUnitForEdit)
             cell.delegate = self
             return cell
         case 3:
@@ -234,6 +237,7 @@ extension PillEditViewController: PillCellDelegate, IntakeDateCellDelegate, Pill
         self.intakeForEdit.append(intake)
         self.dosageForEdit = dosage
         self.dosageUnitForEdit = unit
+        self.totalTableView.reloadData()
     }
     
     func updatePillTitle(_ title: String) {

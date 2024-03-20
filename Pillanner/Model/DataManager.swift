@@ -166,8 +166,8 @@ final class DataManager {
         }
     }
     
-    func readPillData(pillTitle: String, completion: @escaping ([String: Any]?) -> Void) {
-        var output = [String: Any]()
+    func readPillData(pillTitle: String, completion: @escaping (Pill?) -> Void) {
+        //        var output = Pill(title: <#String#>, type: <#String#>, day: <#[String]#>, dueDate: <#String#>, intake: <#[String]#>, dosage: <#String#>, alarmStatus: <#Bool#>)
         if let documentID = UserDefaults.standard.string(forKey: "UID") {
             let pillCollection = self.db.collection("Users").document(documentID).collection("Pills")
             let query = pillCollection.whereField("Title", isEqualTo: pillTitle)
@@ -178,21 +178,29 @@ final class DataManager {
                     return
                 }
                 for document in snapshot.documents {
-                    if let title = document.data()["Title"],
-                       let type = document.data()["Type"],
-                       let day = document.data()["Day"],
-                       let dueDate = document.data()["DueDate"],
-                       let intake = document.data()["Intake"],
-                       let dosage = document.data()["Dosage"],
-                       let alarmStatus = document.data()["AlarmStatus"] {
-                        let dict = ["Title": title ,"Type": type, "Day": day, "DueDate": dueDate, "Intake": intake, "Dosage": dosage, "AlarmStatus": alarmStatus]
-                        output = dict
-                    }
+                    let dict = Pill(title: document.data()["Title"] as? String ?? "ftitle",
+                                    type: document.data()["Type"] as? String ?? "ftype",
+                                    day: document.data()["Day"] as? [String] ?? ["fday"],
+                                    dueDate: document.data()["DueDate"] as? String ?? "fduedate",
+                                    intake: document.data()["Intake"] as? [String] ?? ["fintake"],
+                                    dosage: document.data()["Dosage"] as? String ?? "fdosage",
+                                    alarmStatus: document.data()["AlarmStatus"] as? Bool ?? true)
+                    //                    if let title = document.data()["Title"],
+                    //                       let type = document.data()["Type"],
+                    //                       let day = document.data()["Day"],
+                    //                       let dueDate = document.data()["DueDate"],
+                    //                       let intake = document.data()["Intake"],
+                    //                       let dosage = document.data()["Dosage"],
+                    //                       let alarmStatus = document.data()["AlarmStatus"] {
+                    //                        let dict = ["Title": title ,"Type": type, "Day": day, "DueDate": dueDate, "Intake": intake, "Dosage": dosage, "AlarmStatus": alarmStatus]
+                    //                    output = dict
+                    completion(dict)
                 }
-                completion(output)
             }
+            //            completion(output)
         }
     }
+    
     
     func readPillListData(UID: String, completion: @escaping ([[String: Any]]?) -> Void) {
         var result = [[String: Any]]()
@@ -334,6 +342,7 @@ final class DataManager {
             }
         }
     }
+    
     
     func readPillRecordData(UID: String, completion: @escaping ([[String: Any]]?) -> Void) {
         var result = [[String: Any]]()
