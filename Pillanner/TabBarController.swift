@@ -18,16 +18,17 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     private func setupTabBar() {
         tabBar.backgroundColor = .clear
-
-        let userMainVC = UserMainViewController()
+        
+        let calendarVC = CalendarViewController()
+        setupTabBarItem(for: calendarVC, imageName: "tabCalendar", selectedImageName: "tabCalendar.fill")
+        
+        let attainment: Attainment = .init(vc: calendarVC)
+        let userMainVC = UserMainViewController(attainment: attainment)
         setupTabBarItem(for: userMainVC, imageName: "tabHome", selectedImageName: "tabHome.fill")
 
         let pillAddVC = PillAddMainViewController()
         setupTabBarItem(for: pillAddVC, imageName: "tabAdd")
-
-        let calendarVC = CalendarViewController()
-        setupTabBarItem(for: calendarVC, imageName: "tabCalendar", selectedImageName: "tabCalendar.fill")
-
+        
         viewControllers = [userMainVC, pillAddVC, calendarVC]
     }
 
