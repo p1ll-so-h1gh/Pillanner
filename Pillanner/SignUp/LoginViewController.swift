@@ -295,7 +295,10 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     //MARK: - Button Actions
     // 로그인 버튼
     @objc func logInButtonTapped() {
-
+        let credential = PhoneAuthProvider.provider().credential(
+            withVerificationID: UserDefaults.standard.string(forKey: "firebaseVerificationID")!,
+            verificationCode: UserDefaults.standard.string(forKey: "firebaseVerificationCode")!
+        )
         if let id = idTextfield.text, let password = pwdTextfield.text {
             
             DataManager.shared.readUserData(userID: id) { userData in
@@ -306,6 +309,13 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
                     UserDefaults.standard.set(userData["Password"]!, forKey: "Password")
                     UserDefaults.standard.set(userData["Nickname"]!, forKey: "Nickname")
                     UserDefaults.standard.set(userData["SignUpPath"]!, forKey: "SignUpPath")
+                    
+                    Auth.auth().signIn(with: credential) { authData, error in
+                        let currentUser = Auth.auth().currentUser
+                        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+                            if let error = error { return }
+                        }
+                    }
                     let mainVC = TabBarController()
                     mainVC.modalPresentationStyle = .fullScreen
                     self.present(mainVC, animated: true, completion: nil)

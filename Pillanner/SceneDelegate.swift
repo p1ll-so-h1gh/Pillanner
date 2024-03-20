@@ -29,11 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         print("UserDefaults 자동로그인 : ", UserDefaults.standard.bool(forKey: "isAutoLoginActivate")) // true : 자동 로그인 체크
         print("====================================================================")
         window = UIWindow(windowScene: windowScene)
-        let password = UserDefaults.standard.string(forKey: "Password") ?? nil
-        let startVC: UIViewController
-        let autoLoginActivate: Bool = UserDefaults.standard.bool(forKey: "isAutoLoginActivate")
-        
-        startVC = CustomLaunchScreenViewController(message: "알약, 달력 넘기듯 간편하게") // 런치스크린 -> 메인탭바뷰컨으로 이동
+        let startVC = CustomLaunchScreenViewController(message: "알약, 달력 넘기듯 간편하게")
         
         window?.rootViewController = startVC
         window?.makeKeyAndVisible()
