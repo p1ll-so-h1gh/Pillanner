@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import FirebaseAuth
 
 class SNSLoginViewController: UIViewController, UITextFieldDelegate {
     
@@ -117,6 +118,7 @@ class SNSLoginViewController: UIViewController, UITextFieldDelegate {
             UserDefaults.standard.set(self.setNameTextField.text!, forKey: "Nickname")
             DataManager.shared.updateUserData(userID: userID, changedPassword: "sns", changedName: self.setNameTextField.text!)
             
+            Auth.auth().signIn(withEmail: userID, password: "123456")
             let initialSetUpStartVC = UINavigationController(rootViewController: InitialSetupStartViewController(nickName: self.setNameTextField.text!))
             initialSetUpStartVC.modalPresentationStyle = .fullScreen
             self.present(initialSetUpStartVC, animated: true)

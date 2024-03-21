@@ -34,8 +34,17 @@ final class UserMainViewController: UIViewController {
     // CollectionView에 뿌려줄 데이터 타입 정의 필요
     private var pillsList = [Pill]()
     
-    private let attainment = Attainment()
+    private let attainment: Attainment
     private var attainmentRate: Int = 0
+    
+    init(attainment: Attainment) {
+        self.attainment = attainment
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: - UI Properties
     private let topView: UIView = {
@@ -213,9 +222,9 @@ final class UserMainViewController: UIViewController {
         
     }
     
+    //이후에 타이머 초기화 해주는 것 호출 추가 필요
     override func viewWillAppear(_ animated: Bool) {
         //뷰가 나타날때마다 애니메이션 효과 주기 위해
-        //여기에 attainmentRate를 불러오면 될 것 같음
         attainment.attainmentDidChange = { calculatedData in
             self.attainmentRate = calculatedData
         }
@@ -453,15 +462,21 @@ final class UserMainViewController: UIViewController {
         //
         //        circleContainerView.layer.addSublayer(monthBorderLine)
         
-        // 정답률 label
-        let attainmentLabel = UILabel()
-        attainmentLabel.text = "\(self.attainmentRate) %"
-        attainmentLabel.textColor = UIColor(hexCode: "F97474")
-        attainmentLabel.font = FontLiteral.title2(style: .bold).withSize(30)
-        
-        circleContainerView.addSubview(attainmentLabel)
-        attainmentLabel.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
+        if  let newAttainmentLabel = circleContainerView.viewWithTag(20240320426) as? UILabel {
+            newAttainmentLabel.text = "\(self.attainmentRate) %"
+        } else {
+            // 정답률 label
+            let attainmentLabel = UILabel()
+            attainmentLabel.text = "\(self.attainmentRate) %"
+            attainmentLabel.tag = 20240320426
+            attainmentLabel.textColor = UIColor(hexCode: "F97474")
+            attainmentLabel.font = FontLiteral.title2(style: .bold).withSize(30)
+            
+            
+            circleContainerView.addSubview(attainmentLabel)
+            attainmentLabel.snp.makeConstraints {
+                $0.centerX.centerY.equalToSuperview()
+            }
         }
         
         //테두리 애니메이션

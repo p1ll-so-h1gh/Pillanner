@@ -80,7 +80,7 @@ extension SignUpViewController {
                             print(error.localizedDescription)
                             return
                         }
-                        // 에러가 없다면 사용자에게 인증코드와 verifiacationID(인증 ID) 전달
+                        // 에러가 없다면 사용자에게 인증코드와 verificationID(인증 ID) 전달
                         print("@@@@@@@@@@@@@@@@@@@ 인증번호 발송 @@@@@@@@@@@@@@@@@@")
                         self.getSetTime()
                         self.ifPhoneNumberIsEmptyLabel.text = ""
@@ -100,7 +100,6 @@ extension SignUpViewController {
     }
     
     // 인증번호 타이머 감소 메서드
-
     @objc func getSetTime() {
         secToTime(sec: limitTime)
         limitTime -= 1

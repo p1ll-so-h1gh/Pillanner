@@ -6,11 +6,15 @@
 
 import UIKit
 import UserNotifications
+import Firebase
+import FirebaseFirestore
 
 class NotificationHelper {
     static let shared = NotificationHelper()
 
     private init() { }
+
+    let db = Firestore.firestore()
 
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -36,15 +40,43 @@ class NotificationHelper {
 
     // 사용자의 약 정보 읽어와 약 만료일에 대한 알림 예약
     func readUserPills() {
-        guard let userUID = UserDefaults.standard.string(forKey: "UID") else {
-            print("UserDefaults에 User UID 값 없음.")
+//        guard let userUID = UserDefaults.standard.string(forKey: "UID") else {
+//            print("UserDefaults에 User UID 값 없음.")
+//            return
+//        }
+//        DataManager.shared.readPillListData(UID: userUID) { pillsData in
+//            guard let pillsData = pillsData else {
+//                print("약 데이터 가져오기 실패")
+//                return
+//            }
+//            print ("데이터 가져옴")
+//            let pills = self.fetchPills(from: pillsData)
+//
+//            for pill in pills {
+//                self.notificationForPillIntakeTime(pill)
+//                self.notificationForPillDueDate(pill)
+//            }
+//        }
+        guard let userUID = Auth.auth().currentUser?.uid else {
+            print("Firebase에 사용자가 로그인되어 있지 않습니다.")
             return
         }
-        DataManager.shared.readPillListData(UID: userUID) { pillsData in
-            guard let pillsData = pillsData else {
-                print("약 데이터 가져오기 실패")
+        print("User UID: \(userUID)")
+
+        // Firestore에서 사용자 Pills 정보 가져오기
+        db.collection("Users").document(userUID).collection("Pills").addSnapshotListener { (querySnapshot, error) in
+            if let error = error {
+                print("Pills 가져오기 에러: \(error)")
                 return
             }
+
+            guard let documents = querySnapshot?.documents else {
+                print("documents 없음")
+                return
+            }
+
+            let pillsData = documents.map { $0.data() }
+
             let pills = self.fetchPills(from: pillsData)
 
             for pill in pills {
@@ -140,6 +172,9 @@ extension NotificationHelper {
     private func fetchPills(from data: [[String: Any]]) -> [Pill] {
         var pills: [Pill] = []
         for pillData in data {
+            print("=====================")
+            print("파싱된 데이터:", data)
+            print("=====================")
             if let title = pillData["Title"] as? String,
                let type = pillData["Type"] as? String,
                let day = pillData["Day"] as? [String],

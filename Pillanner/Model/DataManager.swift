@@ -45,6 +45,26 @@ final class DataManager {
         }
     }
     
+    // 아이디 찾기
+    func findIDUserData(userNickName: String, completion: @escaping (String?) -> Void) {
+        var returnID = ""
+        let query = db.collection("Users").whereField("Nickname", isEqualTo: userNickName)
+        
+        query.getDocuments { (snapshot, error) in
+            guard let snapshot = snapshot, !snapshot.isEmpty else {
+                // 데이터 없을 때
+                print("사용자 이름으로 된 ID가 없습니다.")
+                completion(nil)
+                return
+            }
+            // 데이터 있을 때
+            for document in snapshot.documents {
+                returnID = document.data()["ID"] as! String
+            }
+            completion(returnID) // 닉네임을 입력받아서 해당 닉네임의 아이디를 리턴 (해당 메서드는 무조건 번호인증 완료된 이후에 사용됨.)
+        }
+    }
+    
     func readUserData(userID: String, completion: @escaping ([String: String]?) -> Void){
         
         var output = ["": ""]
@@ -54,6 +74,7 @@ final class DataManager {
             guard let snapshot = snapshot, !snapshot.isEmpty else {
                 // 데이터 없을 때
                 print("사용자의 ID로 된 데이터가 없습니다.")
+                completion(nil)
                 return
             }
             // 데이터 있을 때
@@ -98,26 +119,12 @@ final class DataManager {
         }
     }
     
-    func deleteUserData(userID: String) {
+    // 회원탈퇴 메서드
+    func deleteUserData(UID: String) {
+        // Firestore DB 삭제 (Document 통째로 삭제)
         let userCollection = db.collection("Users")
-        let query = userCollection.whereField("ID", isEqualTo: userID)
+        userCollection.document(UID).delete()
         
-        // Firestore DB 삭제 & UserDefaults 삭제
-        query.getDocuments{ (snapshot, error) in
-            guard let snapshot = snapshot, !snapshot.isEmpty else {
-                print("데이터가 없어용")
-                return
-            }
-            let ref = userCollection.document(snapshot.documents[0].documentID)
-            UserDefaults.standard.removeObject(forKey: "UID")
-            UserDefaults.standard.removeObject(forKey: "ID")
-            UserDefaults.standard.removeObject(forKey: "Password")
-            UserDefaults.standard.removeObject(forKey: "Nickname")
-            UserDefaults.standard.removeObject(forKey: "SignUpPath")
-            UserDefaults.standard.removeObject(forKey: "isAutoLoginActivate")
-            ref.delete()
-            print("데이터 삭제 완료")
-        }
         // Firebase Auth 탈퇴
         if let user = Auth.auth().currentUser {
             print("Firebase 탈퇴를 진행합니다.")
@@ -153,7 +160,7 @@ final class DataManager {
                                 "DueDate": pill.dueDate,
                                 "Intake": pill.intake,
                                 "Dosage": pill.dosage,
-                                "alarmStatus": pill.alarmStatus
+                                "AlarmStatus": pill.alarmStatus
                             ])
                             print("약 등록 완료")
                             return
@@ -284,11 +291,7 @@ final class DataManager {
     // 위의 데이터 형태는 똑같지만, 한 약에 대한 관리가 아닌 단순히 복용된 약들을 통째로 저장하는 형태
     // 하나의 레코드가 이름 - 섭취 날짜 - 섭취량
     
-    // ->
-    // 1. TakenPills Collection 접근
-    // 2. 약 이름이 존재하는지 안하는지 확인
-    // 3. 약 이름이 존재하지 않으면 새롭게 doc 만듬
-    // 4. 약 이름 존재하면 doc에 접근해 intake 값을 더 저장해줌
+    // 2번째 형태로 저장
     
     func createPillRecordData(pill: TakenPill) {
         if let userID = UserDefaults.standard.string(forKey: "ID") {
@@ -296,50 +299,14 @@ final class DataManager {
                 if let userData = userData {
                     let userDocumentID = userData["UID"]
                     let takenPillsCollection = self.db.collection("Users").document(userDocumentID!).collection("TakenPills")
-                    let dateQuery = takenPillsCollection.whereField("TakenDate", isEqualTo: pill.takenDate)
-                    let titleQuery = takenPillsCollection.whereField("Title", isEqualTo: pill.title)
                     
-                    dateQuery.getDocuments{ (snapshot, error) in
-                        guard let captured = snapshot, !captured.isEmpty else {
-                            //title, date 모두 존재 안하는 경우
-                            takenPillsCollection.document("\(pill.title)").setData([
-                                "Title": pill.title,
-                                "TakenDate": pill.takenDate,
-                                "Intake": [pill.intake],
-                                "Dosage": pill.dosage
-                            ])
-                            print("복용 기록 등록 완료")
-                            return
-                        }
-                        //date가 존재하는 경우
-                        titleQuery.getDocuments { (snapshot, error) in
-                            guard let captured = snapshot, !captured.isEmpty else {
-                                //date는 존재하는데 title 존재 안하는 경우
-                                takenPillsCollection.document("\(pill.title)").setData([
-                                    "Title": pill.title,
-                                    "TakenDate": pill.takenDate,
-                                    "Intake": [pill.intake],
-                                    "Dosage": pill.dosage
-                                ])
-                                print("복용 기록 등록 완료")
-                                return
-                            }
-                            //date도 존재하고 title도 존재하는 경우
-                            if let pillDocument = captured.documents.first {
-                                var currentIntake = pillDocument.data()["Intake"] as? [String] ?? []
-                                currentIntake.append(pill.intake)
-                                takenPillsCollection.document("\(pill.title)").updateData([
-                                    "Intake": currentIntake
-                                ]) { error in
-                                    if let error = error {
-                                        print("Error updating document: \(error)")
-                                    } else {
-                                        print("복용 기록 업데이트 완료")
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    //복용 약 개별로 다 저장 - 기본키: TakenDate + Intake
+                    takenPillsCollection.document("\(pill.title)").setData([
+                        "Title": pill.title,
+                        "TakenDate": pill.takenDate,
+                        "Intake": pill.intake,
+                        "Dosage": pill.dosage
+                    ])
                 }
             }
         }
@@ -359,7 +326,7 @@ final class DataManager {
             }
             for document in snapshot.documents {
                 let docs = ["Title": document.data()["Title"],
-                            "DueDate": document.data()["DueDate"],
+                            "TakenDate": document.data()["TakenDate"],
                             "Intake": document.data()["Intake"],
                             "Dosage": document.data()["Dosage"]
                 ]

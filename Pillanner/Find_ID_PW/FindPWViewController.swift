@@ -10,10 +10,9 @@ import SnapKit
 
 class FindPWViewController: UIViewController, UITextFieldDelegate {
     var myVerificationID: String = ""
-    var myIDToken: String = ""
-    var limitTime: Int = 10 // 3분
+    var limitTime: Int = 180 // 3분
     var availableGetCertNumberFlag: Bool = true // 인증번호 받고 나서 3분 동안만 false. false 상태에선 인증번호를 받을 수 없다.
-    var availableSetUpNewPassWordFlag: Bool = false // 개인정보 확인 절차 Flag (이름, 아이디, 번호 인증까지 완료되면 true)
+    var availableFindPWFlag: Bool = false // 번호인증이 완료 될 경우 true 값으로 전환.
     
     private let sidePaddingValue = 20
     private let topPaddingValue = 40
@@ -63,7 +62,7 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
     
     let idTextField: UITextField = {
         let textfield = UITextField()
-        textfield.placeholder = "아이디를 입력해주세요."
+        textfield.placeholder = "아이디 혹은 이메일을 입력해주세요."
         textfield.font = FontLiteral.subheadline(style: .regular)
         return textfield
     }()
@@ -175,7 +174,7 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         view.backgroundColor = .white
     
-        //setUpTextFieldDelegate()
+        setUpTextFieldDelegate()
         addView()
         setUpConstraint()
 
@@ -295,9 +294,5 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
             $0.height.equalTo(50)
         })
-    }
-
-    @objc func dismissView() {
-        navigationController?.popViewController(animated: true)
     }
 }
