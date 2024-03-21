@@ -40,6 +40,16 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
 //        return button
 //    }()
     
+    init(selectedWeekdaysInString: [String]) {
+        super.init(nibName: nil, bundle: nil)
+        self.selectedWeekdaysInString = selectedWeekdaysInString
+        print(selectedWeekdaysInString)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .primaryBackgroundColor
@@ -49,19 +59,14 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
         setupTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tableView.reloadData()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         didSaveButtonTapped()
-    }
-
-    init(selectedWeekdaysInString: [String]) {
-        super.init(nibName: nil, bundle: nil)
-        self.selectedWeekdaysInString = selectedWeekdaysInString
-        print(selectedWeekdaysInString)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     func setupTableView() {
@@ -81,20 +86,20 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
     
     func yeah(array: [String]) {
         for selectedWeekday in array {
-            if selectedWeekday == "Mon" && !array.contains("Mon") {
-                selectedWeekdays.insert(0)
-            } else if selectedWeekday == "Tue" && !array.contains("Tue") {
-                selectedWeekdays.insert(1)
-            } else if selectedWeekday == "Wed" && !array.contains("Wed") {
-                selectedWeekdays.insert(2)
-            } else if selectedWeekday == "Thu" && !array.contains("Thu") {
-                selectedWeekdays.insert(3)
-            } else if selectedWeekday == "Fri" && !array.contains("Fri") {
-                selectedWeekdays.insert(4)
-            } else if selectedWeekday == "Sat" && !array.contains("Sat") {
-                selectedWeekdays.insert(5)
-            } else if selectedWeekday == "Sun" && !array.contains("Sun") {
-                selectedWeekdays.insert(6)
+            if selectedWeekday == "Mon" {
+                self.selectedWeekdays.insert(0)
+            } else if selectedWeekday == "Tue" {
+                self.selectedWeekdays.insert(1)
+            } else if selectedWeekday == "Wed" {
+                self.selectedWeekdays.insert(2)
+            } else if selectedWeekday == "Thu" {
+                self.selectedWeekdays.insert(3)
+            } else if selectedWeekday == "Fri" {
+                self.selectedWeekdays.insert(4)
+            } else if selectedWeekday == "Sat" {
+                self.selectedWeekdays.insert(5)
+            } else if selectedWeekday == "Sun" {
+                self.selectedWeekdays.insert(6)
             }
         }
     }
@@ -127,23 +132,25 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
     
     // 로직 수정
     func saveSelectedWeekdaysInString() {
+        var array = [String]()
         for selectedWeekday in selectedWeekdays {
             if selectedWeekday == 0 {
-                selectedWeekdaysInString.append("Mon")
+                array.append("Mon")
             } else if selectedWeekday == 1 {
-                selectedWeekdaysInString.append("Tue")
+                array.append("Tue")
             } else if selectedWeekday == 2 {
-                selectedWeekdaysInString.append("Wed")
+                array.append("Wed")
             } else if selectedWeekday == 3 {
-                selectedWeekdaysInString.append("Thu")
+                array.append("Thu")
             } else if selectedWeekday == 4 {
-                selectedWeekdaysInString.append("Fri")
+                array.append("Fri")
             } else if selectedWeekday == 5 {
-                selectedWeekdaysInString.append("Sat")
+                array.append("Sat")
             } else if selectedWeekday == 6 {
-                selectedWeekdaysInString.append("Sun")
+                array.append("Sun")
             }
         }
+        self.selectedWeekdaysInString = array
     }
     
     @objc private func didSaveButtonTapped() {

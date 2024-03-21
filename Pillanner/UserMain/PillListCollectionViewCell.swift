@@ -100,29 +100,29 @@ class PillListCollectionViewCell: UICollectionViewCell {
         configureButton(title: pill.title)
     }
 
-    // pill name 대신 pill data 넘겨서 사용할 수 있도록 수정해야 됨
+//    pillData 를 Pill 구조체로 변경해서 매개변수에 넣었음
     private func configureButton(title: String) {
         let edit = UIAction(title: "수정", state: .off) { _ in
             DataManager.shared.readPillData(pillTitle: title) { pillData in
                 if let pillData = pillData {
-                    print(pillData)
-                    let pill = Pill(title: pillData["Title"] as? String ?? "ftitle",
-                                    type: pillData["Type"] as? String ?? "ftype",
-                                    day: pillData["Day"] as? [String] ?? ["fday"],
-                                    dueDate: pillData["DueDate"] as? String ?? "fduedate",
-                                    intake: pillData["Intake"] as? [String] ?? ["fintake"],
-                                    dosage: pillData["Dosage"] as? String ?? "fdosage",
-                                    alarmStatus: pillData["AlarmStatus"] as? Bool ?? true)
-                    self.pillListViewDelegate?.editPill(pillData: pill)
+//                    print(pillData)
+//                    let pill = Pill(title: pillData["Title"] as? String ?? "ftitle",
+//                                    type: pillData["Type"] as? String ?? "ftype",
+//                                    day: pillData["Day"] as? [String] ?? ["fday"],
+//                                    dueDate: pillData["DueDate"] as? String ?? "fduedate",
+//                                    intake: pillData["Intake"] as? [String] ?? ["fintake"],
+//                                    dosage: pillData["Dosage"] as? String ?? "fdosage",
+//                                    alarmStatus: pillData["AlarmStatus"] as? Bool ?? true)
+                    self.pillListViewDelegate?.editPill(pillData: pillData)
                 }
             }
-
 //            guard let pillname = self.nameLabel.text else { return }
 //            self.pillListViewDelegate?.editPill(pillData: pillname)
         }
         let delete = UIAction(title: "삭제", state: .off) { _ in
-            guard let pillname = self.nameLabel.text else { return }
-            self.pillListViewDelegate?.deletePill(pillData: pillname)
+            guard let pillName = self.nameLabel.text else { return }
+            print("########", pillName)
+            self.pillListViewDelegate?.deletePill(pillData: pillName)
         }
         let menu = UIMenu(title: "", options: .displayInline, children: [edit, delete])
         editButton.menu = menu

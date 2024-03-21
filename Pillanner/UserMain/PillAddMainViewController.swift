@@ -90,18 +90,26 @@ final class PillAddMainViewController: UIViewController{
     
     // 추가버튼 눌렀을 떄, 알럿 및 화면 빠져나오기 기능 구현
     @objc private func addButtonTapped() {
-        let newPillData = Pill(title: self.titleForAdd, type: self.typeForAdd, day: self.dayForAdd, dueDate: self.dueDateForAdd, intake: self.intakeForAdd, dosage: self.dosageForAdd, alarmStatus: self.alarmStatusForAdd)
+        
+        if self.titleForAdd != "" && self.typeForAdd != "" && self.dayForAdd != [] && self.dueDateForAdd != "" && self.intakeForAdd != [] && self.dosageForAdd != "" {
+            let newPillData = Pill(title: self.titleForAdd, type: self.typeForAdd, day: self.dayForAdd, dueDate: self.dueDateForAdd, intake: self.intakeForAdd, dosage: self.dosageForAdd, alarmStatus: self.alarmStatusForAdd)
 
-        DataManager.shared.createPillData(pill: newPillData)
-        
-        let addAlert = UIAlertController(title: "추가 완료", message: "약 추가가 정상적으로 완료되었습니다!", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default) { _  in
-//            self.navigationController?.popViewController(animated: true)
-            self.dismiss(animated: true)
+            DataManager.shared.createPillData(pill: newPillData)
+            
+            let addAlert = UIAlertController(title: "추가 완료", message: "약 추가가 정상적으로 완료되었습니다!", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default) { _  in
+    //            self.navigationController?.popViewController(animated: true)
+                self.dismiss(animated: true)
+            }
+            addAlert.addAction(okAction)
+            
+            present(addAlert, animated: true)
         }
-        addAlert.addAction(okAction)
-        
-        present(addAlert, animated: true)
+        let alert = UIAlertController(title: "저장할 수 없습니다.", message: "입력하지 않은 정보가 있는지 확인해주세요.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .destructive, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+        return
     }
     
     @objc func dismissView() {
@@ -186,7 +194,6 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
                                                  intake: self.intakeForAdd,
                                                  dosage: self.dosageForAdd,
                                                  unit: self.dosageUnitForAdd)
-            
 //            cell.setupLayout()
             cell.delegate = self
             return cell
@@ -240,27 +247,6 @@ extension PillAddMainViewController: PillCellDelegate, IntakeDateCellDelegate, P
         print("######", #function, self.intakeForAdd, alarmStatusForAdd, self.dosageForAdd, self.dosageUnitForAdd)
         self.totalTableView.reloadData()
     }
-    
-    
-    // 함수 합치기
-//    func updateAlarmStatus(isOn: Bool) {
-//        self.alarmStatusForAdd = isOn
-//        print("######", alarmStatusForAdd)
-//        // 여기에 필요한 UI 업데이트 로직 추가
-//    }
-//    
-//    func updateTimeData(time: String) {
-//        self.intakeForAdd.append(time)
-//        print("######", intakeForAdd)
-//        // 여기에 필요한 UI 업데이트 로직 추가
-//    }
-//    
-//    func updateDosageInfo(dosage: String, unit: String) {
-//        self.dosageForAdd = dosage
-//        self.dosageUnitForAdd = unit
-//        print("######", dosageForAdd, dosageUnitForAdd)
-//        // 여기에 필요한 UI 업데이트 로직 추가
-//    }
     
     func updateDays(_ days: [String]) {
         print(#function, self.dayForAdd)

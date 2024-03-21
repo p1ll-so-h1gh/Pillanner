@@ -9,6 +9,19 @@ import SnapKit
 
 class InitialSetUpViewController: UIViewController {
     
+    private var titleForAdd = String()
+    private var typeForAdd = String()
+    private var dayForAdd = [String]()
+    private var dueDateForAdd = String()
+    private var intakeForAdd = [String]()
+    private var dosageForAdd = String()
+    private var alarmStatusForAdd = Bool()
+    
+    private var alarmStatus: Bool = false
+    private var timeData: String = ""
+    private var dosage: String = ""
+    private var dosageUnitForAdd: String = ""
+    
     private let sidePaddingSizeValue = 20
     private let cornerRadiusValue: CGFloat = 13
     private var count = 1
@@ -37,21 +50,21 @@ class InitialSetUpViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var addBtnView: UIView = {
+    private lazy var addButtonView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.pointThemeColor2
         view.layer.cornerRadius = cornerRadiusValue
         return view
     }()
     
-    private let addBtn: UIButton = {
+    private let addButton: UIButton = {
         let button = UIButton()
         button.setTitle("등록하기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         return button
     }()
     
-    private lazy var navBackBtn = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    private lazy var navigationBackButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,10 +76,10 @@ class InitialSetUpViewController: UIViewController {
         self.totalTableView.delegate = self
         self.totalTableView.rowHeight = UITableView.automaticDimension
         
-        addBtn.addTarget(self, action: #selector(addPill), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(addPill), for: .touchUpInside)
         
-        navBackBtn.tintColor = .black
-        self.navigationItem.backBarButtonItem = navBackBtn
+        navigationBackButton.tintColor = .black
+        self.navigationItem.backBarButtonItem = navigationBackButton
         
         setupView()
     }
@@ -89,24 +102,59 @@ class InitialSetUpViewController: UIViewController {
      }
     
     @objc func addPill() {
+        
+        // 약을 더 추가할 때 나오는 얼럿 설정
         let title = "추가적으로 등록할 약이 있을까요?"
         let alert = UIAlertController(title: title, message: "", preferredStyle: .alert)
         //addAdditionalPill 시 서버에 약 저장, 화면 초기화, count 증가
-        let addAdditionalPill = UIAlertAction(title: "네", style: .default) { _ in
+        let addAdditionalPillAction = UIAlertAction(title: "네", style: .default) { _ in
             self.count += 1
-            self.resetInputValue()
+//            self.resetInputValue()
             self.numberLabel.text = "\(self.count)"
+            self.resetEveryCellsInView()
         }
         //finish 시 약 정보 입력 페이지 나가고 InitialSetUpEndVC로 이동
         let finish = UIAlertAction(title: "아니요", style: .default) { _ in
             let initialSetUpEndVC = InitialSetupEndViewController()
             self.navigationController?.pushViewController(initialSetUpEndVC, animated: true)
         }
-        alert.addAction(addAdditionalPill)
+        alert.addAction(addAdditionalPillAction)
         alert.addAction(finish)
         self.present(alert, animated: true, completion: nil)
+        
+        
     }
     
+    private func setupView() {
+        addButtonView.addSubview(addButton)
+        addButton.snp.makeConstraints {
+            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
+        }
+        [numberLabel, titleLabel, totalTableView, addButtonView].forEach {
+            view.addSubview($0)
+        }
+        numberLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(sidePaddingSizeValue*2)
+            $0.leading.equalTo(sidePaddingSizeValue)
+        }
+        titleLabel.snp.makeConstraints {
+            $0.centerY.equalTo(numberLabel.snp.centerY)
+            $0.leading.equalTo(numberLabel.snp.trailing).inset(-5)
+        }
+        totalTableView.snp.makeConstraints {
+            $0.top.equalTo(numberLabel.snp.bottom).inset(-10)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(addButtonView.snp.top).inset(-sidePaddingSizeValue)
+        }
+        addButtonView.snp.makeConstraints {
+            $0.width.equalTo(339)
+            $0.height.equalTo(53)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
+        }
+    }
+    
+    // 화면 내부의 각 셀의 값들을 초기화해주는 메서드
     private func resetInputValue() {
         if let pillCell = self.totalTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PillCell {
             pillCell.reset()
@@ -125,35 +173,24 @@ class InitialSetUpViewController: UIViewController {
         }
     }
     
-    private func setupView() {
-        addBtnView.addSubview(addBtn)
-        addBtn.snp.makeConstraints {
-            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
-        }
-        [numberLabel, titleLabel, totalTableView, addBtnView].forEach {
-            view.addSubview($0)
-        }
-        numberLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(sidePaddingSizeValue*2)
-            $0.leading.equalTo(sidePaddingSizeValue)
-        }
-        titleLabel.snp.makeConstraints {
-            $0.centerY.equalTo(numberLabel.snp.centerY)
-            $0.leading.equalTo(numberLabel.snp.trailing).inset(-5)
-        }
-        totalTableView.snp.makeConstraints {
-            $0.top.equalTo(numberLabel.snp.bottom).inset(-10)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(addBtnView.snp.top).inset(-sidePaddingSizeValue)
-        }
-        addBtnView.snp.makeConstraints {
-            $0.width.equalTo(339)
-            $0.height.equalTo(53)
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
-        }
+    private func resetEveryCellsInView() {
+        titleForAdd = ""
+        typeForAdd = ""
+        dayForAdd = []
+        dueDateForAdd = ""
+        intakeForAdd = []
+        dosageForAdd = ""
+        alarmStatusForAdd = false
+        
+        alarmStatus = false
+        timeData = ""
+        dosage = ""
+        dosageUnitForAdd = ""
+        self.totalTableView.reloadData()
     }
 }
+
+
 
 //MARK: - TableView DataSource, Delegate
 extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate {
@@ -166,24 +203,33 @@ extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillCell", for: indexPath) as! PillCell
-            cell.setupLayout()
+            cell.setupLayoutOnEditingProcess(title: self.titleForAdd)
+            cell.delegate = self
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
-            cell.setupLayout()
+            cell.setupLayoutOnEditingProcess(days: self.dayForAdd)
+//            cell.delegate = self
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
-            cell.setupLayout()
+            print("#####", #function)
+            print("#####", self.alarmStatusForAdd, self.intakeForAdd, self.dosageForAdd, self.dosageUnitForAdd)
+                cell.setupLayoutOnEditingProcess(alarm: self.alarmStatusForAdd,
+                                                 intake: self.intakeForAdd,
+                                                 dosage: self.dosageForAdd,
+                                                 unit: self.dosageUnitForAdd)
+//            cell.setupLayout()
             cell.delegate = self
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillTypeCell", for: indexPath) as! PillTypeCell
-            cell.setupLayout()
+            cell.setupLayoutOnEditingProcess(type: self.typeForAdd)
+            cell.delegate = self
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DueDateCell
-            cell.setupLayout()
+            cell.setupLayoutOnEditingProcess(dueDate: self.dueDateForAdd)
             cell.delegate = self
             return cell
         default:
@@ -200,6 +246,7 @@ extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate
     }
 }
 
+// DosageAddViewController 로 이동하기 위한 Delegate
 extension InitialSetUpViewController: IntakeSettingDelegate {
     func addDosage() {
         let dosageAddVC = DosageAddViewController()
@@ -208,11 +255,46 @@ extension InitialSetUpViewController: IntakeSettingDelegate {
     }
 }
 
-extension InitialSetUpViewController: DueDateCellDelegate {
+extension InitialSetUpViewController: PillCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
+    
+    func cellHeightChanged() {
+        self.totalTableView.reloadData()
+    }
+    
+    func updateDataFromDosageAddViewController(alarmStatus: Bool, intake: String, dosage: String, unit: String) {
+        
+        self.alarmStatusForAdd = alarmStatus
+        self.intakeForAdd.append(intake)
+        self.dosageForAdd = dosage
+        self.dosageUnitForAdd = unit
+        print("######", #function, self.intakeForAdd, alarmStatusForAdd, self.dosageForAdd, self.dosageUnitForAdd)
+        self.totalTableView.reloadData()
+    }
+    
+    func updateDays(_ days: [String]) {
+        print(#function, self.dayForAdd)
+        self.dayForAdd = days
+        self.totalTableView.reloadData()
+    }
+    
+    func updatePillTitle(_ title: String) {
+        self.titleForAdd = title
+    }
+    
+    func updatePillType(_ type: String) {
+        self.typeForAdd = type
+    }
+    
     func updateDueDate(date: String) {
-
-//        <#code#>
-      
+        self.dueDateForAdd = date
+    }
+    
+    func updateDosage(_ dosage: String) {
+        self.dosageForAdd = dosage
+    }
+    
+    func updateIntake(_ intake: String) {
+        self.intakeForAdd.append(intake)
     }
     
     func sendDate(date: String) {
@@ -223,4 +305,13 @@ extension InitialSetUpViewController: DueDateCellDelegate {
         self.totalTableView.reloadData()
         self.totalTableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
     }
+
+//    func updateAlarmStatus(isOn: Bool) {
+//        if isOn {
+//            self.alarmStatusForAdd = isOn
+//            NotificationHelper.shared.readUserPills()
+//        } else {
+//
+//        }
+//    }
 }

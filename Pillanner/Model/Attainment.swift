@@ -40,11 +40,12 @@ class Attainment: CalendarViewDelegate {
         
         if let UID = UserDefaults.standard.string(forKey: "UID") {
             DataManager.shared.readPillRecordData(UID: UID) { list in
-                guard let list = list else {
+                guard let list = list, !list.isEmpty else {
                     print("복용한 약의 데이터가 없습니다.")
                     return
                 }
                 
+
                 //오늘 날짜 약들만 가져오기
                 for pill in list {
                     if todaysDate == pill["TakenDate"] as! String {

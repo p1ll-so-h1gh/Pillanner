@@ -139,7 +139,8 @@ class DosageAddViewController: UIViewController, UITextFieldDelegate, UIPickerVi
                 hour = 0
             }
 
-            let timeString = String(format: "%02d:%@", hour, minute)
+//            let timeString = String(format: "%02d:%@", hour, minute)
+            let timeString = "\(hour):\(minute)"
             self.intake = timeString
             selectedTimeDisplayLabel.text = timeString
         }
