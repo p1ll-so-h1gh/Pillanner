@@ -69,23 +69,34 @@ class NoticeDetailViewController: UIViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "닫기", style: .plain, target: self, action: #selector(closeModal))
         
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+        
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
         let noticeContainerView = UIView()
         noticeContainerView.layer.borderWidth = 1.0
         noticeContainerView.layer.borderColor = UIColor(hex: "F4F4F4").cgColor
         noticeContainerView.layer.cornerRadius = 10
         noticeContainerView.backgroundColor = UIColor(hex: "FAFAFA")
-        view.addSubview(noticeContainerView)
-        
         noticeContainerView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(noticeContainerView)
+        
         NSLayoutConstraint.activate([
-            noticeContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            noticeContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            noticeContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            noticeContainerView.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+            noticeContainerView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 20),
+            noticeContainerView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 20),
+            noticeContainerView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -20),
+            noticeContainerView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20),
+            noticeContainerView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -40)
         ])
         
         
-        // 공지사항 내용 레이블 추가
         let noticeContentLabel = UILabel()
         noticeContentLabel.text = """
 
@@ -111,10 +122,10 @@ class NoticeDetailViewController: UIViewController {
 
 """
         noticeContentLabel.numberOfLines = 0
-        noticeContentLabel.textAlignment = .left // 좌측 정렬
-        noticeContainerView.addSubview(noticeContentLabel) // noticeContainerView에 추가
-        
+        noticeContentLabel.textAlignment = .left
         noticeContentLabel.translatesAutoresizingMaskIntoConstraints = false
+        noticeContainerView.addSubview(noticeContentLabel)
+        
         NSLayoutConstraint.activate([
             noticeContentLabel.topAnchor.constraint(equalTo: noticeContainerView.topAnchor, constant: 10),
             noticeContentLabel.leadingAnchor.constraint(equalTo: noticeContainerView.leadingAnchor, constant: 10),
@@ -125,22 +136,5 @@ class NoticeDetailViewController: UIViewController {
     
     @objc private func closeModal() {
         self.dismiss(animated: true, completion: nil)
-    }
-}
-
-extension UIColor {
-    convenience init(hex: String) {
-        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
-        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
-        
-        var rgb: UInt64 = 0
-        
-        Scanner(string: hexSanitized).scanHexInt64(&rgb)
-        
-        let red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
-        let green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
-        let blue = CGFloat(rgb & 0x0000FF) / 255.0
-        
-        self.init(red: red, green: green, blue: blue, alpha: 1.0)
     }
 }
