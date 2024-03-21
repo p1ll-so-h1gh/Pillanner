@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import SwiftUI
 
 // 약 추가하는 부분에서는 다른 데이터 가져올 필요 없이, 반환되는 값들로 Pill 구조체 하나 뚝딱해서 만들어내야됨
 // 데이터를 어떻게 반환받을 것인지 로직 구성 필요
@@ -91,14 +90,24 @@ final class PillAddMainViewController: UIViewController{
     // 추가버튼 눌렀을 떄, 알럿 및 화면 빠져나오기 기능 구현
     @objc private func addButtonTapped() {
         
-        if self.titleForAdd != "" && self.typeForAdd != "" && self.dayForAdd != [] && self.dueDateForAdd != "" && self.intakeForAdd != [] && self.dosageForAdd != "" {
-            let newPillData = Pill(title: self.titleForAdd, type: self.typeForAdd, day: self.dayForAdd, dueDate: self.dueDateForAdd, intake: self.intakeForAdd, dosage: self.dosageForAdd, alarmStatus: self.alarmStatusForAdd)
-
+        if self.titleForAdd != "" 
+            && self.typeForAdd != ""
+            && self.dayForAdd != []
+            && self.dueDateForAdd != ""
+            && self.intakeForAdd != []
+            && self.dosageForAdd != "" {
+            let newPillData = Pill(title: self.titleForAdd, 
+                                   type: self.typeForAdd,
+                                   day: self.dayForAdd,
+                                   dueDate: self.dueDateForAdd,
+                                   intake: self.intakeForAdd,
+                                   dosage: self.dosageForAdd,
+                                   alarmStatus: self.alarmStatusForAdd)
+            
             DataManager.shared.createPillData(pill: newPillData)
             
             let addAlert = UIAlertController(title: "추가 완료", message: "약 추가가 정상적으로 완료되었습니다!", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "확인", style: .default) { _  in
-    //            self.navigationController?.popViewController(animated: true)
                 self.dismiss(animated: true)
             }
             addAlert.addAction(okAction)

@@ -66,6 +66,8 @@ class InitialSetUpViewController: UIViewController {
     
     private lazy var navigationBackButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     
+    
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -102,7 +104,6 @@ class InitialSetUpViewController: UIViewController {
      }
     
     @objc func addPill() {
-        
         // 약을 더 추가할 때 나오는 얼럿 설정
         let title = "추가적으로 등록할 약이 있을까요?"
         let alert = UIAlertController(title: title, message: "", preferredStyle: .alert)
@@ -121,8 +122,6 @@ class InitialSetUpViewController: UIViewController {
         alert.addAction(addAdditionalPillAction)
         alert.addAction(finish)
         self.present(alert, animated: true, completion: nil)
-        
-        
     }
     
     private func setupView() {
@@ -209,7 +208,6 @@ extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
             cell.setupLayoutOnEditingProcess(days: self.dayForAdd)
-//            cell.delegate = self
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
@@ -219,7 +217,6 @@ extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate
                                                  intake: self.intakeForAdd,
                                                  dosage: self.dosageForAdd,
                                                  unit: self.dosageUnitForAdd)
-//            cell.setupLayout()
             cell.delegate = self
             return cell
         case 3:
@@ -239,7 +236,8 @@ extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 1 {
-            let weekSelectVC = WeekdaySelectionViewController(selectedWeekdaysInString: [])
+            let weekSelectVC = WeekdaySelectionViewController(selectedWeekdaysInString: self.dayForAdd)
+            weekSelectVC.delegate = self
             self.navigationController?.isNavigationBarHidden = false
             self.navigationController?.pushViewController(weekSelectVC, animated: true)
         }
@@ -250,6 +248,7 @@ extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate
 extension InitialSetUpViewController: IntakeSettingDelegate {
     func addDosage() {
         let dosageAddVC = DosageAddViewController()
+        dosageAddVC.delegate = self
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(dosageAddVC, animated: true)
     }
