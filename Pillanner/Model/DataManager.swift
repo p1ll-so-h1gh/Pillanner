@@ -295,11 +295,7 @@ final class DataManager {
     // 위의 데이터 형태는 똑같지만, 한 약에 대한 관리가 아닌 단순히 복용된 약들을 통째로 저장하는 형태
     // 하나의 레코드가 이름 - 섭취 날짜 - 섭취량
     
-    // ->
-    // 1. TakenPills Collection 접근
-    // 2. 약 이름이 존재하는지 안하는지 확인
-    // 3. 약 이름이 존재하지 않으면 새롭게 doc 만듬
-    // 4. 약 이름 존재하면 doc에 접근해 intake 값을 더 저장해줌
+    // 2번째 형태로 저장
     
     func createPillRecordData(pill: TakenPill) {
         if let userID = UserDefaults.standard.string(forKey: "ID") {
@@ -307,50 +303,14 @@ final class DataManager {
                 if let userData = userData {
                     let userDocumentID = userData["UID"]
                     let takenPillsCollection = self.db.collection("Users").document(userDocumentID!).collection("TakenPills")
-                    let dateQuery = takenPillsCollection.whereField("TakenDate", isEqualTo: pill.takenDate)
-                    let titleQuery = takenPillsCollection.whereField("Title", isEqualTo: pill.title)
                     
-                    dateQuery.getDocuments{ (snapshot, error) in
-                        guard let captured = snapshot, !captured.isEmpty else {
-                            //title, date 모두 존재 안하는 경우
-                            takenPillsCollection.document("\(pill.title)").setData([
-                                "Title": pill.title,
-                                "TakenDate": pill.takenDate,
-                                "Intake": [pill.intake],
-                                "Dosage": pill.dosage
-                            ])
-                            print("복용 기록 등록 완료")
-                            return
-                        }
-                        //date가 존재하는 경우
-                        titleQuery.getDocuments { (snapshot, error) in
-                            guard let captured = snapshot, !captured.isEmpty else {
-                                //date는 존재하는데 title 존재 안하는 경우
-                                takenPillsCollection.document("\(pill.title)").setData([
-                                    "Title": pill.title,
-                                    "TakenDate": pill.takenDate,
-                                    "Intake": [pill.intake],
-                                    "Dosage": pill.dosage
-                                ])
-                                print("복용 기록 등록 완료")
-                                return
-                            }
-                            //date도 존재하고 title도 존재하는 경우
-                            if let pillDocument = captured.documents.first {
-                                var currentIntake = pillDocument.data()["Intake"] as? [String] ?? []
-                                currentIntake.append(pill.intake)
-                                takenPillsCollection.document("\(pill.title)").updateData([
-                                    "Intake": currentIntake
-                                ]) { error in
-                                    if let error = error {
-                                        print("Error updating document: \(error)")
-                                    } else {
-                                        print("복용 기록 업데이트 완료")
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    //복용 약 개별로 다 저장 - 기본키: TakenDate + Intake
+                    takenPillsCollection.document("\(pill.title)").setData([
+                        "Title": pill.title,
+                        "TakenDate": pill.takenDate,
+                        "Intake": pill.intake,
+                        "Dosage": pill.dosage
+                    ])
                 }
             }
         }
@@ -369,7 +329,7 @@ final class DataManager {
             }
             for document in snapshot.documents {
                 let docs = ["Title": document.data()["Title"],
-                            "DueDate": document.data()["DueDate"],
+                            "TakenDate": document.data()["TakenDate"],
                             "Intake": document.data()["Intake"],
                             "Dosage": document.data()["Dosage"]
                 ]
