@@ -18,7 +18,6 @@ protocol CalendarViewDelegate: AnyObject {
 }
 
 class CalendarViewController: UIViewController {
-    
     private lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
     
     private var isWeeklyMode: Bool = true
@@ -28,7 +27,8 @@ class CalendarViewController: UIViewController {
     
     private var listOfPills = [Pill]()
     private var categoryOfPills = [PillCategory]()
-    
+    private var selectedCells: [IndexPath] = []
+
     weak var delegate: CalendarViewDelegate?
     
     // MARK: - Properties
@@ -85,17 +85,17 @@ class CalendarViewController: UIViewController {
         setupConstraint()
         setupSwipeGesture()
         setupRefreshControl()
+        loadSelectedCells()
+        removeSelectedCells()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         // 테스트
         setUpPillData()
         print("##### categoryOfPills", categoryOfPills)
     }
-    
-    
+
     // MARK: - Setup
     
     // Pill List 만드는 순서 (viewWillAppear 함수 내부에 구현하기)
@@ -364,76 +364,89 @@ class CalendarViewController: UIViewController {
 // MARK: - Extension
 
 extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITableViewDataSource, UITableViewDelegate, UNUserNotificationCenterDelegate {
-    
+
     // MARK: FSCalendar Delegate
-    
+
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         calendar.snp.updateConstraints {
             $0.height.equalTo(bounds.height)
         }
-        
+
         UIView.animate(withDuration: 0.5) {
             self.view.layoutIfNeeded()
         }
     }
-    
+
     func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
         return false
     }
-    
+
     // MARK: UITableView DataSource
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return categoryOfPills.count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categoryOfPills[section].pills.count
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return createHeaderView(for: section)
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return Constants.sectionHeaderHeight
     }
-    
+
     // 셀
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as! CheckPillCell
         let pill = categoryOfPills[indexPath.section].pills[indexPath.row]
-        
+
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
         cell.configure(with: pill)
-        
+
+        // 셀 상태 업데이트
+        if selectedCells.contains(indexPath) {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+            cell.setSelected(true, animated: false)
+        } else {
+            tableView.deselectRow(at: indexPath, animated: false)
+            cell.setSelected(false, animated: false)
+        }
+
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return cellHeight
     }
-    
+
     // MARK: - UITableView Delegate
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // 선택된 셀의 IndexPath 추가
+        selectedCells.append(indexPath)
+        saveSelectedCells(indexPath)
+
         // 모두 선택 시
         if let selectedIndexPaths = tableView.indexPathsForSelectedRows, selectedIndexPaths.count == categoryOfPills.flatMap({ $0.pills }).count {
             showFireworkAnimation(at: tableView.center)
         }
-        
+
         // 알림
         let pill = categoryOfPills[indexPath.section].pills[indexPath.row]
         showNotification(message: "'\(pill.title) - \(pill.dosage)'을 복용하셨습니다.")
-        
+
         // 셀 선택 시 복용된 약 저장
         // 날짜는 캘린더에 표시되는 당일 값을 넣어줌
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let takenPill = TakenPill(title: pill.title, takenDate: dateFormatter.string(from: calendar.today!), intake: pill.intake[0], dosage: pill.dosage)
         DataManager.shared.createPillRecordData(pill: takenPill)
-        
+
         //복용 업데이트 사실 알려줌
         self.delegate?.takenPillChanged()
     }
@@ -444,23 +457,52 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
     }
 
     // MARK: - UserNotification
-    
+
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .sound, .badge])
     }
-    
+
     private func showNotification(message: String) {
         let content = UNMutableNotificationContent()
         //content.title = "알림"
         content.body = message
         content.sound = UNNotificationSound.default
-        
+
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
-        
+
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
                 print("알림 요청이 실패했습니다. 오류: \(error.localizedDescription)")
             }
+        }
+    }
+
+    // MARK: - 선택된 셀 관련
+
+    private func saveSelectedCells(_ indexPath: IndexPath) {
+        var selectedIndexPaths = UserDefaults.standard.array(forKey: "SelectedCells") as? [[Int]] ?? []
+        let indexPathArray = [indexPath.section, indexPath.row]
+        selectedIndexPaths.append(indexPathArray)
+        UserDefaults.standard.set(selectedIndexPaths, forKey: "SelectedCells")
+    }
+    private func loadSelectedCells() {
+        if let selectedIndexPaths = UserDefaults.standard.array(forKey: "SelectedCells") as? [[Int]] {
+            for indexPathArray in selectedIndexPaths {
+                let indexPath = IndexPath(row: indexPathArray[1], section: indexPathArray[0])
+                selectedCells.append(indexPath)
+            }
+        }
+    }
+    // 다음날이 되면 저장된 IndexPath 삭제
+    private func removeSelectedCells() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+
+        let currentTimeString = dateFormatter.string(from: Date())
+
+        if currentTimeString >= "24:00" {
+            selectedCells.removeAll()
+            UserDefaults.standard.removeObject(forKey: "SelectedCells")
         }
     }
 }
