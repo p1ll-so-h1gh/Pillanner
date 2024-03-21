@@ -324,7 +324,7 @@ extension UserSettingViewController: UITableViewDataSource, UITableViewDelegate 
             cell.titleLabel.text = SettingSection.policyList[indexPath.row]
         case .appInfo:
             cell.titleLabel.text = "버전 정보"
-            cell.versionLabel.text = "1.0.2" // 예시 버전 정보
+            cell.versionLabel.text = "1.0.0" // 예시 버전 정보
             cell.pageBtn.isHidden = true
         }
         return cell
@@ -439,7 +439,7 @@ class settingCell: UITableViewCell {
     var versionLabel: UILabel = {
         let label = UILabel()
         label.font = FontLiteral.body(style: .regular).withSize(16)
-        label.textColor = UIColor.black // 적절한 색상 설정
+        label.textColor = UIColor.black
         return label
     }()
     
@@ -461,13 +461,33 @@ class settingCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+//    private func setupCell() {
+//        contentView.addSubview(titleLabel)
+//        titleLabel.snp.makeConstraints {
+//            $0.top.bottom.equalToSuperview().inset(5)
+//            $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
+//        }
+//        contentView.addSubview(pageBtn)
+//        pageBtn.snp.makeConstraints {
+//            $0.top.bottom.equalToSuperview().inset(5)
+//            $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
+//        }
+//    }
     private func setupCell() {
         contentView.addSubview(titleLabel)
+        contentView.addSubview(versionLabel) // versionLabel 추가
+        contentView.addSubview(pageBtn)
+
         titleLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(5)
             $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
         }
-        contentView.addSubview(pageBtn)
+
+        versionLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview() // 세로 중앙 정렬
+            make.trailing.equalTo(pageBtn.snp.leading).offset(-10) // pageBtn의 왼쪽에 위치, 10 포인트 간격
+        }
+
         pageBtn.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(5)
             $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)

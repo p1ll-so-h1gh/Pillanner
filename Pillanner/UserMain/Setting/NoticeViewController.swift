@@ -10,11 +10,11 @@ import UIKit
 class NoticeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var tableView: UITableView!
-    let notices = ["공지사항 1", "공지사항 2", "공지사항 3"] // 예시 데이터
+    let notices = ["건강한 약 루틴, 필래너와 함께해요"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "공지사항"
+        self.navigationItem.title = "필래너 소식"
         view.backgroundColor = .white
         self.navigationController?.isNavigationBarHidden = false
         setupTableView()
@@ -48,10 +48,10 @@ class NoticeViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = NoticeDetailViewController()
-        detailVC.noticeTitle = notices[indexPath.row] // 상세 뷰에 데이터 전달
-        let navigationController = UINavigationController(rootViewController: detailVC) // 네비게이션 컨트롤러 생성
-        navigationController.modalPresentationStyle = .fullScreen // 모달 프레젠테이션 스타일 설정
-        self.present(navigationController, animated: true, completion: nil) // 모달로 상세 뷰 표시
+        detailVC.noticeTitle = notices[indexPath.row]
+        let navigationController = UINavigationController(rootViewController: detailVC)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true, completion: nil)
     }
 }
 
@@ -67,21 +67,70 @@ class NoticeDetailViewController: UIViewController {
     private func setupUI() {
         self.navigationItem.title = noticeTitle ?? "공지사항 상세"
         
-        // 닫기 버튼 추가
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "닫기", style: .plain, target: self, action: #selector(closeModal))
         
-        // 공지사항 내용 레이블 추가
-        let noticeContentLabel = UILabel()
-        noticeContentLabel.text = "이것은 공지사항 test 입니다"
-        noticeContentLabel.numberOfLines = 0 // 여러 줄 표시 가능하도록 설정
-        noticeContentLabel.textAlignment = .center
-        view.addSubview(noticeContentLabel)
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
         
-        noticeContentLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            noticeContentLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            noticeContentLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            noticeContentLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        let noticeContainerView = UIView()
+        noticeContainerView.layer.borderWidth = 1.0
+        noticeContainerView.layer.borderColor = UIColor(hex: "F4F4F4").cgColor
+        noticeContainerView.layer.cornerRadius = 10
+        noticeContainerView.backgroundColor = UIColor(hex: "FAFAFA")
+        noticeContainerView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(noticeContainerView)
+        
+        NSLayoutConstraint.activate([
+            noticeContainerView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 20),
+            noticeContainerView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 20),
+            noticeContainerView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -20),
+            noticeContainerView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20),
+            noticeContainerView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -40)
+        ])
+        
+        
+        let noticeContentLabel = UILabel()
+        noticeContentLabel.text = """
+
+안녕하세요.
+필래너 개발 팀입니다.
+
+
+약 복용 시간을 잊는 불편함에서 출발해,
+사용자가 약 복용 시간을 쉽게 기억할 수 있도록 돕는 필래너를 개발하게 되었습니다.
+
+
+이를 통해 사용자분들이 더 건강한 약 복용 루틴을 구축할 수 있기를 바랍니다.
+
+
+저희 서비스를 이용하시며 느끼신
+개선 사항이나 불편한 점이 있으시다면
+앱스토어 리뷰나 1:1 문의를 통해
+소중한 의견을 남겨주세요.
+
+필래너는 항상 여러분의 건강한 루틴 유지를 위해 최선을 다할 것입니다. 감사합니다.
+
+
+
+"""
+        noticeContentLabel.numberOfLines = 0
+        noticeContentLabel.textAlignment = .left
+        noticeContentLabel.translatesAutoresizingMaskIntoConstraints = false
+        noticeContainerView.addSubview(noticeContentLabel)
+        
+        NSLayoutConstraint.activate([
+            noticeContentLabel.topAnchor.constraint(equalTo: noticeContainerView.topAnchor, constant: 10),
+            noticeContentLabel.leadingAnchor.constraint(equalTo: noticeContainerView.leadingAnchor, constant: 10),
+            noticeContentLabel.trailingAnchor.constraint(equalTo: noticeContainerView.trailingAnchor, constant: -10),
+            noticeContentLabel.bottomAnchor.constraint(equalTo: noticeContainerView.bottomAnchor, constant: -10)
         ])
     }
     

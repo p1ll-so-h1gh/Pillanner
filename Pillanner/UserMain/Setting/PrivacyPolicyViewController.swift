@@ -18,18 +18,7 @@ class PrivacyPolicyViewController: UIViewController {
         view.backgroundColor = .white
         self.navigationController?.isNavigationBarHidden = false
         setupUI()
-        setupPrivacyPolicy()
     }
-    
-    // 개인정보 처리방침 내용 레이블
-    private let privacyPolicyLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0 // 여러 줄 표시 가능하도록 설정
-        label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 14.0) // 폰트 크기 조절
-        label.textColor = .black // 텍스트 색상 설정
-        return label
-    }()
     
     private func setupUI() {
         // ScrollView 추가
@@ -37,31 +26,56 @@ class PrivacyPolicyViewController: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         
-        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
+        // 컨테이너 뷰 추가
+        let noticeContainerView = UIView()
+        noticeContainerView.layer.borderWidth = 1.0
+        noticeContainerView.layer.borderColor = UIColor(hex: "F4F4F4").cgColor
+        noticeContainerView.layer.cornerRadius = 5
+        noticeContainerView.backgroundColor = UIColor(hex: "FAFAFA")
+        noticeContainerView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(noticeContainerView)
+        
+        NSLayoutConstraint.activate([
+            noticeContainerView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 20),
+            noticeContainerView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 20),
+            noticeContainerView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -20),
+            noticeContainerView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -40)
+        ])
         
         // 개인정보 처리방침 내용 레이블 추가
-        scrollView.addSubview(privacyPolicyLabel)
+        let privacyPolicyLabel = UILabel()
+        privacyPolicyLabel.numberOfLines = 0
+        privacyPolicyLabel.textAlignment = .left
+        privacyPolicyLabel.font = UIFont.systemFont(ofSize: 14.0)
+        privacyPolicyLabel.textColor = .black
+        noticeContainerView.addSubview(privacyPolicyLabel)
         
         privacyPolicyLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            privacyPolicyLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20),
-            privacyPolicyLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
-            privacyPolicyLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
-            privacyPolicyLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -40) // ScrollView와 같은 너비로 설정하여 가로 스크롤이 나타나지 않도록 함
+            privacyPolicyLabel.topAnchor.constraint(equalTo: noticeContainerView.topAnchor, constant: 10),
+            privacyPolicyLabel.leadingAnchor.constraint(equalTo: noticeContainerView.leadingAnchor, constant: 10),
+            privacyPolicyLabel.trailingAnchor.constraint(equalTo: noticeContainerView.trailingAnchor, constant: -10),
+            privacyPolicyLabel.bottomAnchor.constraint(equalTo: noticeContainerView.bottomAnchor, constant: -10)
         ])
         
-        // 마지막 서브뷰의 하단을 ScrollView의 contentSize의 하단에 맞춰줌
         NSLayoutConstraint.activate([
-            privacyPolicyLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20)
+            noticeContainerView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20)
         ])
+        
+        setupPrivacyPolicy(privacyPolicyLabel: privacyPolicyLabel)
     }
     
- 
-    private func setupPrivacyPolicy() {
+    private func setupPrivacyPolicy(privacyPolicyLabel: UILabel) {
         let privacyPolicyText = """
+    
+    
      본 개인정보 처리방침은 Pillanner 앱(이하 '서비스')을 이용하는 사용자(이하 '이용자')의 개인정보 보호를 위해 제공자가 준수해야 하는 사항을 규정합니다.
     
     
@@ -109,12 +123,13 @@ class PrivacyPolicyViewController: UIViewController {
     
     
     본 개인정보 처리방침은 법령, 정부지침 또는 서비스의 변경에 따라 변경될 수 있습니다. 변경 시에는 변경 내용을 서비스 내에 공지하겠습니다.
+    
+    
     """
         
         let attributedString = NSMutableAttributedString(string: privacyPolicyText)
         let boldFontAttribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16.0)]
         
-        // 각 번호에 해당하는 부분의 범위를 찾아서 볼드 처리
         let boldStrings = ["본 개인정보 처리방침은 Pillanner 앱(이하 '서비스')을 이용하는 사용자(이하 '이용자')의 개인정보 보호를 위해 제공자가 준수해야 하는 사항을 규정합니다.","1. 수집하는 개인정보 항목", "2. 개인정보의 수집 및 이용목적", "3. 개인정보의 보유 및 이용기간", "4. 개인정보의 제공 및 위탁", "5. 개인정보의 보호조치", "6. 이용자의 권리와 행사", "7. 개인정보의 파기절차 및 방법", "8. 개인정보 관련 문의"]
         for boldString in boldStrings {
             let range = (privacyPolicyText as NSString).range(of: boldString)
@@ -122,5 +137,6 @@ class PrivacyPolicyViewController: UIViewController {
         }
         
         privacyPolicyLabel.attributedText = attributedString
+        
     }
 }

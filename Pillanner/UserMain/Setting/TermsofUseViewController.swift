@@ -18,49 +18,65 @@ override func viewDidLoad() {
     view.backgroundColor = .white
     self.navigationController?.isNavigationBarHidden = false
     setupUI()
-    setupTermsOfService()
+
 }
 
 // 개인정보 처리방침 내용 레이블
-private let setupTermsOfServiceLabel: UILabel = {
-    let label = UILabel()
-    label.numberOfLines = 0 // 여러 줄 표시 가능하도록 설정
-    label.textAlignment = .left
-    label.font = UIFont.systemFont(ofSize: 14.0) // 폰트 크기 조절
-    label.textColor = .black // 텍스트 색상 설정
-    return label
-}()
+    private func setupUI() {
+            let scrollView = UIScrollView()
+            scrollView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(scrollView)
+            
+            NSLayoutConstraint.activate([
+                scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            ])
+            
+            let termsContainerView = UIView()
+            termsContainerView.layer.borderWidth = 1.0
+            termsContainerView.layer.borderColor = UIColor(hex: "F4F4F4").cgColor
+            termsContainerView.layer.cornerRadius = 10
+            termsContainerView.backgroundColor = UIColor(hex: "FAFAFA")
+            termsContainerView.translatesAutoresizingMaskIntoConstraints = false
+            scrollView.addSubview(termsContainerView)
+            
+            NSLayoutConstraint.activate([
+                termsContainerView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 20),
+                termsContainerView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 20),
+                termsContainerView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -20),
+                termsContainerView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -40)
+            ])
+            
+            let termsOfServiceLabel = UILabel()
+            termsOfServiceLabel.numberOfLines = 0
+            termsOfServiceLabel.textAlignment = .left
+            termsOfServiceLabel.font = UIFont.systemFont(ofSize: 14.0)
+            termsOfServiceLabel.textColor = .black
+            termsContainerView.addSubview(termsOfServiceLabel)
+            
+            termsOfServiceLabel.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                termsOfServiceLabel.topAnchor.constraint(equalTo: termsContainerView.topAnchor, constant: 10),
+                termsOfServiceLabel.leadingAnchor.constraint(equalTo: termsContainerView.leadingAnchor, constant: 10),
+                termsOfServiceLabel.trailingAnchor.constraint(equalTo: termsContainerView.trailingAnchor, constant: -10),
+                termsOfServiceLabel.bottomAnchor.constraint(equalTo: termsContainerView.bottomAnchor, constant: -10)
+            ])
+            
+            // 마지막 서브뷰의 하단을 ScrollView의 contentSize의 하단에 맞춰줌
+            NSLayoutConstraint.activate([
+                termsContainerView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20)
+            ])
+            
+            setupTermsOfService(termsOfServiceLabel: termsOfServiceLabel)
+        }
 
-private func setupUI() {
-    let scrollView = UIScrollView()
-    scrollView.translatesAutoresizingMaskIntoConstraints = false
-    view.addSubview(scrollView)
-    
-    scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-    scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-    scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-    scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-    
-    // 개인정보 처리방침 내용 레이블 추가
-    scrollView.addSubview(setupTermsOfServiceLabel)
-    
-    setupTermsOfServiceLabel.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-        setupTermsOfServiceLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20),
-        setupTermsOfServiceLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
-        setupTermsOfServiceLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
-        setupTermsOfServiceLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -40) // ScrollView와 같은 너비로 설정하여 가로 스크롤이 나타나지 않도록 함
-    ])
-    
-    // 마지막 서브뷰의 하단을 ScrollView의 contentSize의 하단에 맞춰줌
-    NSLayoutConstraint.activate([
-        setupTermsOfServiceLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20)
-    ])
-}
+
+    private func setupTermsOfService(termsOfServiceLabel: UILabel) {
+    let termsOfServiceText = """
 
 
-private func setupTermsOfService() {
-    let privacyPolicyText = """
   1. 목적
 
 본 약관은 Pillanner 서비스(이하 '서비스')의 이용에 관한 조건 및 절차, 이용자와 서비스 제공자의 권리, 의무 및 책임사항 등 기본적인 사항을 규정함을 목적으로 합니다.
@@ -94,18 +110,18 @@ private func setupTermsOfService() {
 
 본 약관은 서비스 제공자의 사전 공지 없이 변경될 수 있습니다.
 
+
 """
     
-    let attributedString = NSMutableAttributedString(string: privacyPolicyText)
-    let boldFontAttribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16.0)]
-    
-    // 각 번호에 해당하는 부분의 범위를 찾아서 볼드 처리
-    let boldStrings = ["1. 목적","2. 서비스 이용", "3. 개인정보 수집 및 이용", "4. 서비스 제공 중지 및 변경", "5. 책임제한", "6. 분쟁해결", "7. 약관 효력 및 변경"]
-    for boldString in boldStrings {
-        let range = (privacyPolicyText as NSString).range(of: boldString)
-        attributedString.addAttributes(boldFontAttribute, range: range)
-    }
-    
-    setupTermsOfServiceLabel.attributedText = attributedString
-}
-}
+        let attributedString = NSMutableAttributedString(string: termsOfServiceText)
+                let boldFontAttribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16.0)]
+                
+                let boldStrings = ["1. 목적", "2. 서비스 이용", "3. 개인정보 수집 및 이용", "4. 서비스 제공 중지 및 변경", "5. 책임제한", "6. 분쟁해결", "7. 약관 효력 및 변경"]
+                for boldString in boldStrings {
+                    let range = (termsOfServiceText as NSString).range(of: boldString)
+                    attributedString.addAttributes(boldFontAttribute, range: range)
+                }
+                
+                termsOfServiceLabel.attributedText = attributedString
+            }
+        }
