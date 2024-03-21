@@ -111,7 +111,6 @@ class PillListCollectionViewCell: UICollectionViewCell {
         }
         let delete = UIAction(title: "삭제", state: .off) { _ in
             guard let pillName = self.nameLabel.text else { return }
-            print("########", pillName)
             self.pillListViewDelegate?.deletePill(pillData: pillName)
         }
         let menu = UIMenu(title: "", options: .displayInline, children: [edit, delete])

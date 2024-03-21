@@ -44,8 +44,6 @@ class Attainment: CalendarViewDelegate {
                     print("복용한 약의 데이터가 없습니다.")
                     return
                 }
-                
-
                 //오늘 날짜 약들만 가져오기
                 for pill in list {
                     if todaysDate == pill["TakenDate"] as! String {
@@ -53,7 +51,6 @@ class Attainment: CalendarViewDelegate {
                         takenPills.append(data)
                     }
                 }
-                
                 // 복용한 이벤트 수 저장
                 self.takenEvent = takenPills.count
                 // 달성률 계산 후 클로저 호출
@@ -82,5 +79,4 @@ class Attainment: CalendarViewDelegate {
     // collection에서 약이 삭제 될 경우
     // 삭제 액션이 일어날 때 캘린더에서 다시 토탈 이벤트 받아와야 함
     // 그리고 복용 기록 업데이트 해서 계산해야함
-
 }

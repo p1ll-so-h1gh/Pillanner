@@ -141,7 +141,6 @@ final class PillAddMainViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
         self.totalTableView.reloadData()
-        print(dayForAdd)
     }
     
     private func setupView() {
@@ -193,17 +192,13 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
             cell.setupLayoutOnEditingProcess(days: self.dayForAdd)
-//            cell.delegate = self
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
-            print("#####", #function)
-            print("#####", self.alarmStatusForAdd, self.intakeForAdd, self.dosageForAdd, self.dosageUnitForAdd)
                 cell.setupLayoutOnEditingProcess(alarm: self.alarmStatusForAdd,
                                                  intake: self.intakeForAdd,
                                                  dosage: self.dosageForAdd,
                                                  unit: self.dosageUnitForAdd)
-//            cell.setupLayout()
             cell.delegate = self
             return cell
         case 3:
@@ -225,7 +220,6 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
         if indexPath.row == 1 {
             let weekSelectVC = WeekdaySelectionViewController(selectedWeekdaysInString: self.dayForAdd)
             weekSelectVC.delegate = self
-            print(self.dayForAdd)
             self.navigationController?.isNavigationBarHidden = false
             self.navigationController?.pushViewController(weekSelectVC, animated: true)
         }
@@ -253,12 +247,10 @@ extension PillAddMainViewController: PillCellDelegate, IntakeDateCellDelegate, P
         self.intakeForAdd.append(intake)
         self.dosageForAdd = dosage
         self.dosageUnitForAdd = unit
-        print("######", #function, self.intakeForAdd, alarmStatusForAdd, self.dosageForAdd, self.dosageUnitForAdd)
         self.totalTableView.reloadData()
     }
     
     func updateDays(_ days: [String]) {
-        print(#function, self.dayForAdd)
         self.dayForAdd = days
         self.totalTableView.reloadData()
     }

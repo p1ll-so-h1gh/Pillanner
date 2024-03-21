@@ -100,8 +100,6 @@ final class IntakeSettingCell: UITableViewCell {
         self.pillTableView.dataSource = self
         self.pillTableView.delegate = self
         self.pillTableView.rowHeight = UITableView.automaticDimension
-//        self.pillTableView.reloadData()
-        print("########", self.intake)
     }
     
     required init?(coder: NSCoder) {
@@ -122,7 +120,6 @@ final class IntakeSettingCell: UITableViewCell {
             self.dosage.append(dosage)
             self.unit.append(unit)
         }
-        print("##########", self.intake, self.alarmStatus, self.dosage, self.unit)
         
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(infoLabel)
@@ -205,13 +202,11 @@ final class IntakeSettingCell: UITableViewCell {
 extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("####", self.intake.count)
         return self.intake.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IntakePillCell.identifier, for: indexPath) as! IntakePillCell
-        print("#####", self.intake[indexPath.row], indexPath.row)
         cell.setupLayoutOnEditingProcess(intake: self.intake[indexPath.row],
                                          dosage: self.dosage[indexPath.row],
                                          unit: self.unit[indexPath.row],

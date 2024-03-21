@@ -43,7 +43,6 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
     init(selectedWeekdaysInString: [String]) {
         super.init(nibName: nil, bundle: nil)
         self.selectedWeekdaysInString = selectedWeekdaysInString
-        print(selectedWeekdaysInString)
     }
     
     required init?(coder: NSCoder) {
@@ -126,8 +125,6 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
             self.selectedWeekdays.insert(indexPath.row)
         }
         tableView.reloadRows(at: [indexPath], with: .fade)
-        print(#function, selectedWeekdays)
-        print(#function, selectedWeekdaysInString)
     }
     
     // 로직 수정
@@ -157,7 +154,6 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
         saveSelectedWeekdaysInString()
         
         delegate?.updateDays(selectedWeekdaysInString)
-        print(#function, selectedWeekdaysInString)
     }
 }
 

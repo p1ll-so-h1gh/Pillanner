@@ -129,7 +129,6 @@ final class PillEditViewController: UIViewController {
         let addAlert = UIAlertController(title: "수정 완료", message: "약 정보 수정이 정상적으로 완료되었습니다!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { _  in
             self.navigationController?.popViewController(animated: true)
-//            self.dismiss(animated: true)
         }
         addAlert.addAction(okAction)
         
@@ -194,7 +193,6 @@ extension PillEditViewController: UITableViewDataSource {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
             cell.setupLayoutOnEditingProcess(days: self.oldPillDataForEdit.day)
-//            cell.delegate = self
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
@@ -250,33 +248,27 @@ extension PillEditViewController: PillCellDelegate, IntakeDateCellDelegate, Pill
     
     func updatePillTitle(_ title: String) {
         self.titleForEdit = title
-        print("########" + #function," : \(self.titleForEdit)")
     }
     
     func updatePillType(_ type: String) {
         self.typeForEdit = type
-        print("########" + #function," : \(self.typeForEdit)")
     }
     
     func updateDays(_ day: [String]) {
         self.dayForEdit = day
-        print("########" + #function," : \(self.dayForEdit)")
         self.totalTableView.reloadData()
     }
     
     func updateDueDate(date: String) {
         self.dueDateForEdit = date
-        print("########" + #function," : \(self.dueDateForEdit)")
     }
     
     func updateDosage(_ dosage: String) {
         self.dosageForEdit = dosage
-        print("########" + #function," : \(self.dosageForEdit)")
     }
     
     func updateIntake(_ intake: String) {
         self.intakeForEdit.append(intake)
-        print("########" + #function," : \(self.intakeForEdit)")
     }
     
     
