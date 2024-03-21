@@ -211,8 +211,6 @@ extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
-            print("#####", #function)
-            print("#####", self.alarmStatusForAdd, self.intakeForAdd, self.dosageForAdd, self.dosageUnitForAdd)
                 cell.setupLayoutOnEditingProcess(alarm: self.alarmStatusForAdd,
                                                  intake: self.intakeForAdd,
                                                  dosage: self.dosageForAdd,
@@ -266,12 +264,10 @@ extension InitialSetUpViewController: PillCellDelegate, IntakeDateCellDelegate, 
         self.intakeForAdd.append(intake)
         self.dosageForAdd = dosage
         self.dosageUnitForAdd = unit
-        print("######", #function, self.intakeForAdd, alarmStatusForAdd, self.dosageForAdd, self.dosageUnitForAdd)
         self.totalTableView.reloadData()
     }
     
     func updateDays(_ days: [String]) {
-        print(#function, self.dayForAdd)
         self.dayForAdd = days
         self.totalTableView.reloadData()
     }

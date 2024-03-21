@@ -334,8 +334,6 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     
     // 회원가입하기 버튼
     @objc func signInButtonTapped() {
-        print(#function)
-
         let signUpVC = SignUpViewController()
         self.navigationController?.pushViewController(signUpVC, animated: true)
 

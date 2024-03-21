@@ -229,7 +229,6 @@ final class UserMainViewController: UIViewController {
             self.attainmentRate = calculatedData
         }
         createCircle()
-        //        setUpLabelsTextWithUserInformation()
         
         if self.pillsList.isEmpty {
             setUpLabelsTextWithUserInformation()
@@ -337,16 +336,16 @@ final class UserMainViewController: UIViewController {
     
     // MARK: - Set Up Data
     private func readPillDataFromFirestore() {
-        //        print("#### \(#function)")
         guard let UID = UserDefaults.standard.string(forKey: "UID") else { return }
-        //        print("#### \(UID)")
         DataManager.shared.readPillListData(UID: UID) { list in
-            self.setUpLabelsTextWithUserInformation()
-            self.intakePillListCollectionView.reloadData()
             var tempList = [Pill]()
             guard let list = list else {
-                self.setUpLabelsTextWithUserInformation()
-                self.intakePillListCollectionView.reloadData()
+                if list == nil {
+                    self.pillsList = []
+                    self.setUpLabelsTextWithUserInformation()
+                    self.intakePillListCollectionView.reloadData()
+                    return
+                }
                 return
             }
             for pill in list {
@@ -357,39 +356,16 @@ final class UserMainViewController: UIViewController {
                                     intake: pill["Intake"] as? [String] ?? ["fintake"],
                                     dosage: pill["Dosage"] as? String ?? "fdosage",
                                     alarmStatus: pill["AlarmStatus"] as? Bool ?? true)
-                //                    if let tempTitle = pill["Title"] as? String,
-                //                        let tempType = pill["Type"] as? String,
-                //                        let tempDay = pill["Day"] as? [String],
-                //                        let tempDueDate = pill["DueDate"] as? String,
-                //                        let tempIntake = pill["Intake"] as? [String],
-                //                        let tempDosage = pill["Dosage"] as? String,
-                //                        let tempBool = pill["AlarmStatus"] as? Bool {
-                //                        let receiver = Pill(title: tempTitle,
-                //                                            type: tempType,
-                //                                            day: tempDay,
-                //                                            dueDate: tempDueDate,
-                //                                            intake: tempIntake,
-                //                                            dosage: tempDosage,
-                //                                            alarmStatus: tempBool)
-                self.pillsList.append(receiver)
                 tempList.append(receiver)
-                //                    print("#######TempList in UserMainViewCo", tempList)
-                print("#######self.pillsList in UserMainViewCo", self.pillsList)
+                self.pillsList = tempList
                 self.intakePillListCollectionView.reloadData()
                 self.setUpLabelsTextWithUserInformation()
             }
-            //                    print("#######TempList in UserMainViewCo", tempList)
-            self.pillsList = tempList
-            self.intakePillListCollectionView.reloadData()
-            self.setUpLabelsTextWithUserInformation()
-            
         }
     }
     
     
     private func setUpLabelsTextWithUserInformation() {
-        
-//        print("#### \(#function)")
         
         guard let nickname = UserDefaults.standard.string(forKey: "Nickname") else { return }
         nameLabel.text = "\(nickname)님"
@@ -423,8 +399,6 @@ final class UserMainViewController: UIViewController {
                                                      startAngle: -CGFloat.pi / 2,
                                                      endAngle: 2 * CGFloat.pi,
                                                      clockwise: true)
-//        let weekCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: weekCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 2 , clockwise: true)
-//        let monthCircularPath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: monthCircleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi / 3, clockwise: true)
         
         //정답률 테두리
         let dayBorderLine = CAShapeLayer()
@@ -442,26 +416,7 @@ final class UserMainViewController: UIViewController {
         
         circleContainerView.layer.addSublayer(dayBackgroundCircularLine)
         circleContainerView.layer.addSublayer(dayBorderLine)
-        
-        
-        //        let weekBorderLine = CAShapeLayer()
-        //        weekBorderLine.path = weekCircularPath.cgPath
-        //        weekBorderLine.strokeColor = UIColor(hexCode: "FF9898").cgColor
-        //        weekBorderLine.lineWidth = circleLineWidth
-        //        weekBorderLine.fillColor = UIColor.clear.cgColor
-        //        weekBorderLine.lineCap = CAShapeLayerLineCap.round
-        //
-        //        circleContainerView.layer.addSublayer(weekBorderLine)
-        //
-        //        let monthBorderLine = CAShapeLayer()
-        //        monthBorderLine.path = monthCircularPath.cgPath
-        //        monthBorderLine.strokeColor = UIColor(hexCode: "FFD188").cgColor
-        //        monthBorderLine.lineWidth = circleLineWidth
-        //        monthBorderLine.fillColor = UIColor.clear.cgColor
-        //        monthBorderLine.lineCap = CAShapeLayerLineCap.round
-        //
-        //        circleContainerView.layer.addSublayer(monthBorderLine)
-        
+
         if  let newAttainmentLabel = circleContainerView.viewWithTag(20240320426) as? UILabel {
             newAttainmentLabel.text = "\(self.attainmentRate) %"
         } else {
@@ -485,8 +440,6 @@ final class UserMainViewController: UIViewController {
         animation.toValue = 1
         animation.duration = 1.5
         dayBorderLine.add(animation,forKey: "progressAnimation")
-        //        weekBorderLine.add(animation,forKey: "progressAnimation")
-        //        monthBorderLine.add(animation,forKey: "progressAnimation")
     }
 }
 

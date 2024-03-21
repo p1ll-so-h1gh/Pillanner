@@ -160,7 +160,6 @@ final class IntakeDateCell: UITableViewCell {
     }
     
     func checkWeekdayViewWithIntakeData(days: [String]) {
-        print("####################### \(days)")
         setWeekdayViewDefaultBackgroundColor()
         for day in days {
             if day == "Mon" {
