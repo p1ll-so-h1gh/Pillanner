@@ -96,25 +96,22 @@ class CalendarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         view.layer.addSublayer(gradientLayer)
-        
-        // 테스트
-        setUpPillData()
-        print("##### categoryOfPills", categoryOfPills)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         setupCalendar()
         setupTableView()
         setupConstraint()
         setupSwipeGesture()
         setupRefreshControl()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // 테스트
+        setUpPillData()
+        print("##### categoryOfPills", categoryOfPills)
+    }
+    
     
     // MARK: - Setup
     
@@ -218,6 +215,7 @@ class CalendarViewController: UIViewController {
             }
         }
         let combinedCategories = [pillsListAM, pillsListPM]
+        self.delegate?.sendTotalEvent(event: pillsListAM.pills.count + pillsListPM.pills.count)
         categoryOfPills = combinedCategories
     }
     
