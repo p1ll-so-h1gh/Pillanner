@@ -168,8 +168,8 @@ class CalendarViewController: UIViewController {
     private func categorizePillData() {
         print(#function)
         // 시간 변환하는 포매터 설정
-        var pillsListAM = PillCategory(meridiem: "AM", pills: [])
-        var pillsListPM = PillCategory(meridiem: "PM", pills: [])
+        var pillsListAM = PillCategory(meridiem: "오전", pills: [])
+        var pillsListPM = PillCategory(meridiem: "오후", pills: [])
         let timeFormatter: DateFormatter = {
             let formatter = DateFormatter()
             formatter.dateFormat = "HH:mm"

@@ -5,6 +5,8 @@
 //  Created by 영현 on 2/22/24.
 //
 
+// 약 지우거나, 업데이트 하거나 했을 때, 바로바로 업데이트 안되는 문제 해결해야 함
+
 import UIKit
 import SnapKit
 
@@ -326,50 +328,55 @@ final class UserMainViewController: UIViewController {
     
     // MARK: - Set Up Data
     private func readPillDataFromFirestore() {
-//        print("#### \(#function)")
+        //        print("#### \(#function)")
         guard let UID = UserDefaults.standard.string(forKey: "UID") else { return }
-//        print("#### \(UID)")
+        //        print("#### \(UID)")
         DataManager.shared.readPillListData(UID: UID) { list in
-//            print("##### readPillListData", list)
+            self.setUpLabelsTextWithUserInformation()
+            self.intakePillListCollectionView.reloadData()
             var tempList = [Pill]()
-            if let list = list {
-                for pill in list {
-                    let receiver = Pill(title: pill["Title"] as? String ?? "ftitle",
-                                        type: pill["Type"] as? String ?? "ftype",
-                                        day: pill["Day"] as? [String] ?? ["fday"],
-                                        dueDate: pill["DueDate"] as? String ?? "fduedate",
-                                        intake: pill["Intake"] as? [String] ?? ["fintake"],
-                                        dosage: pill["Dosage"] as? String ?? "fdosage",
-                                        alarmStatus: pill["AlarmStatus"] as? Bool ?? true)
-                    //                    if let tempTitle = pill["Title"] as? String,
-                    //                        let tempType = pill["Type"] as? String,
-                    //                        let tempDay = pill["Day"] as? [String],
-                    //                        let tempDueDate = pill["DueDate"] as? String,
-                    //                        let tempIntake = pill["Intake"] as? [String],
-                    //                        let tempDosage = pill["Dosage"] as? String,
-                    //                        let tempBool = pill["AlarmStatus"] as? Bool {
-                    //                        let receiver = Pill(title: tempTitle,
-                    //                                            type: tempType,
-                    //                                            day: tempDay,
-                    //                                            dueDate: tempDueDate,
-                    //                                            intake: tempIntake,
-                    //                                            dosage: tempDosage,
-                    //                                            alarmStatus: tempBool)
-                    self.pillsList.append(receiver)
-                    tempList.append(receiver)
-//                    print("#######TempList in UserMainViewCo", tempList)
-//                    print("#######self.pillsList in UserMainViewCo", self.pillsList)
-                    self.intakePillListCollectionView.reloadData()
-                    self.setUpLabelsTextWithUserInformation()
-                }
+            guard let list = list else {
+                self.setUpLabelsTextWithUserInformation()
+                self.intakePillListCollectionView.reloadData()
+                return
+            }
+            for pill in list {
+                let receiver = Pill(title: pill["Title"] as? String ?? "ftitle",
+                                    type: pill["Type"] as? String ?? "ftype",
+                                    day: pill["Day"] as? [String] ?? ["fday"],
+                                    dueDate: pill["DueDate"] as? String ?? "fduedate",
+                                    intake: pill["Intake"] as? [String] ?? ["fintake"],
+                                    dosage: pill["Dosage"] as? String ?? "fdosage",
+                                    alarmStatus: pill["AlarmStatus"] as? Bool ?? true)
+                //                    if let tempTitle = pill["Title"] as? String,
+                //                        let tempType = pill["Type"] as? String,
+                //                        let tempDay = pill["Day"] as? [String],
+                //                        let tempDueDate = pill["DueDate"] as? String,
+                //                        let tempIntake = pill["Intake"] as? [String],
+                //                        let tempDosage = pill["Dosage"] as? String,
+                //                        let tempBool = pill["AlarmStatus"] as? Bool {
+                //                        let receiver = Pill(title: tempTitle,
+                //                                            type: tempType,
+                //                                            day: tempDay,
+                //                                            dueDate: tempDueDate,
+                //                                            intake: tempIntake,
+                //                                            dosage: tempDosage,
+                //                                            alarmStatus: tempBool)
+                self.pillsList.append(receiver)
+                tempList.append(receiver)
                 //                    print("#######TempList in UserMainViewCo", tempList)
-                self.pillsList = tempList
+                print("#######self.pillsList in UserMainViewCo", self.pillsList)
                 self.intakePillListCollectionView.reloadData()
                 self.setUpLabelsTextWithUserInformation()
-                
             }
+            //                    print("#######TempList in UserMainViewCo", tempList)
+            self.pillsList = tempList
+            self.intakePillListCollectionView.reloadData()
+            self.setUpLabelsTextWithUserInformation()
+            
         }
     }
+    
     
     private func setUpLabelsTextWithUserInformation() {
         
@@ -524,6 +531,9 @@ extension UserMainViewController: PillListViewDelegate {
         let cancel = UIAlertAction(title: "아니요", style: .default)
         let delete = UIAlertAction(title: "네", style: .default) { _ in
             DataManager.shared.deletePillData(title: pillData)
+//            self.intakePillListCollectionView.reloadData()
+            self.readPillDataFromFirestore()
+            self.intakePillListCollectionView.reloadData()
         }
         alert.addAction(delete)
         alert.addAction(cancel)

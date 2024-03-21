@@ -211,7 +211,9 @@ final class DataManager {
             
             pillCollection.getDocuments{ (snapshot, error) in
                 guard let snapshot = snapshot, !snapshot.isEmpty else {
+                    // 마지막 남은 pilllistcollectionView에 있는 셀 삭제하면 여기서 걸려서 클로저 실행이 안됨
                     print("데이터가 없습니다.")
+                    completion(nil)
                     return
                 }
                 for document in snapshot.documents {

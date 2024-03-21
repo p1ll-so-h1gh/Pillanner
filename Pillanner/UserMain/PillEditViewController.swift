@@ -107,6 +107,13 @@ final class PillEditViewController: UIViewController {
     
     // 저장버튼 눌렀을 때, 데이터 업데이트 및 알럿, 화면 빠져나오기 기능 추가
     @objc private func editButtonTapped() {
+        
+        if self.titleForEdit == "" {
+            let alert = UIAlertController(title: "약의 이름을 확인해주세요.", message: "약의 이름은 공백일 수 없습니다. 다시 한 번 확인해주세요.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .destructive, handler: nil)
+            alert.addAction(okAction)
+            present(alert, animated: true)
+        }
         // 빈 내용이 있으면 어떻게 처리할 지 고민해야 함
         
         let newPill = Pill(title: self.titleForEdit, type: self.typeForEdit, day: self.dayForEdit, dueDate: self.dueDateForEdit, intake: self.intakeForEdit, dosage: self.dosageForEdit, alarmStatus: self.alarmStatusForEdit)
@@ -191,10 +198,10 @@ extension PillEditViewController: UITableViewDataSource {
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
-            cell.setupLayoutOnEditingProcess(alarm: self.alarmStatusForEdit,
-                                             intake: self.intakeForEdit,
-                                             dosage: self.dosageForEdit,
-                                             unit: self.dosageUnitForEdit)
+            cell.setupLayoutOnEditingProcess(alarm: self.oldPillDataForEdit.alarmStatus,
+                                             intake: self.oldPillDataForEdit.intake,
+                                             dosage: self.oldPillDataForEdit.dosage,
+                                             unit: "정")
             cell.delegate = self
             return cell
         case 3:

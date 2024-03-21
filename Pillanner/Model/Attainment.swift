@@ -35,18 +35,20 @@ class Attainment: CalendarViewDelegate {
         var takenPills = [TakenPill]()
         if let UID = UserDefaults.standard.string(forKey: "UID") {
             DataManager.shared.readPillRecordData(UID: UID) { list in
-                guard let list = list else {
+                guard let list = list, !list.isEmpty else {
                     print("복용한 약의 데이터가 없습니다.")
                     return
                 }
                 
-                //오늘 날짜 약들만 가져오기
-                for pill in list {
-                    if todaysDate == dateFormatter.date(from: pill["TakenDate"] as! String) {
-                        let data = TakenPill(title: pill["Title"] as! String, takenDate: pill["TakenDate"] as! String, intake: pill["Intake"] as! String, dosage: pill["Dosage"] as! String)
-                        takenPills.append(data)
-                    }
-                }
+                // 주석처리하고 테스트 필요
+                // forced wraping 때문에 앱이 터짐 >> 하지마
+                // 오늘 날짜 약들만 가져오기
+//                for pill in list {
+//                    if todaysDate == dateFormatter.date(from: pill["TakenDate"] as! String) {
+//                        let data = TakenPill(title: pill["Title"] as! String, takenDate: pill["TakenDate"] as! String, intake: pill["Intake"] as! String, dosage: pill["Dosage"] as! String)
+//                        takenPills.append(data)
+//                    }
+//                }
                 // 복용한 이벤트 수 저장
                 self.takenEvent = takenPills.count
                 
