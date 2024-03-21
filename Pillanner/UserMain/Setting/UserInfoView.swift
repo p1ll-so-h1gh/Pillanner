@@ -14,6 +14,11 @@ class UserInfoView: UIViewController, UITextFieldDelegate {
     private let topPaddingValue = 40
     private let buttonHeightValue = 35
     private let withdrawalButton = UIButton()
+    
+    var myUID: String {
+        return UserDefaults.standard.string(forKey: "UID") ?? ""
+    }
+    
     var myID: String {
         return UserDefaults.standard.string(forKey: "ID") ?? ""
     }
@@ -52,7 +57,7 @@ class UserInfoView: UIViewController, UITextFieldDelegate {
                 currentViewController = presentingViewController
             }
             currentViewController?.dismiss(animated: true, completion: nil)
-            DataManager.shared.deleteUserData(userID: self.myID)
+            DataManager.shared.deleteUserData(UID: self.myUID)
         }))
         alert.addAction(UIAlertAction(title: "아니오", style: .cancel, handler: nil))
         present(alert, animated: true)

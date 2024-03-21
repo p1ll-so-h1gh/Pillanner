@@ -119,26 +119,12 @@ final class DataManager {
         }
     }
     
-    func deleteUserData(userID: String) {
+    // 회원탈퇴 메서드
+    func deleteUserData(UID: String) {
+        // Firestore DB 삭제 (Document 통째로 삭제)
         let userCollection = db.collection("Users")
-        let query = userCollection.whereField("ID", isEqualTo: userID)
+        userCollection.document(UID).delete()
         
-        // Firestore DB 삭제 & UserDefaults 삭제
-        query.getDocuments{ (snapshot, error) in
-            guard let snapshot = snapshot, !snapshot.isEmpty else {
-                print("데이터가 없어용")
-                return
-            }
-            let ref = userCollection.document(snapshot.documents[0].documentID)
-            UserDefaults.standard.removeObject(forKey: "UID")
-            UserDefaults.standard.removeObject(forKey: "ID")
-            UserDefaults.standard.removeObject(forKey: "Password")
-            UserDefaults.standard.removeObject(forKey: "Nickname")
-            UserDefaults.standard.removeObject(forKey: "SignUpPath")
-            UserDefaults.standard.removeObject(forKey: "isAutoLoginActivate")
-            ref.delete()
-            print("데이터 삭제 완료")
-        }
         // Firebase Auth 탈퇴
         if let user = Auth.auth().currentUser {
             print("Firebase 탈퇴를 진행합니다.")

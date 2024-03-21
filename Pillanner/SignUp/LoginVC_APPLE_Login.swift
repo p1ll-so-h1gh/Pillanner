@@ -51,28 +51,6 @@ extension LoginViewController {
                 if let error = error {
                     let code = (error as NSError).code
                     print("firebase auth error code : ", code)
-                    switch code {
-                    case 17007 :
-                        DataManager.shared.readUserData(userID: idTokenString) { userData in
-                            guard let userData = userData else { return }
-                            if userData["SignUpPath"]! == "애플" {
-                                UserDefaults.standard.set(userData["UID"]!, forKey: "UID")
-                                UserDefaults.standard.set(userData["ID"]!, forKey: "ID")
-                                UserDefaults.standard.set(userData["Password"]!, forKey: "Password")
-                                UserDefaults.standard.set(userData["Nickname"]!, forKey: "Nickname")
-                                UserDefaults.standard.set(userData["SignUpPath"]!, forKey: "SignUpPath")
-                                UserDefaults.standard.set(true, forKey: "isAutoLoginActivate")
-                                let nextVC = TabBarController()
-                                    nextVC.modalPresentationStyle = .fullScreen
-                                self.present(nextVC, animated: true)
-                            } else {
-                                let alert = UIAlertController(title: "로그인 실패", message: "이미 가입된 이메일입니다.", preferredStyle: .alert)
-                                alert.addAction(UIAlertAction(title: "확인", style: .cancel))
-                                self.present(alert, animated: true)
-                            }
-                        }
-                    default : print(error.localizedDescription)
-                    }
                 }
                 print("애플 로그인에 성공했습니다.")
                 print("appleIDCredential : ", appleIDCredential)
