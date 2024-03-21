@@ -195,7 +195,7 @@ class CheckPillCell: UITableViewCell {
     // MARK: - 셀 선택
     
     private func updateCellSelection() {
-        if isSelectedCell, let medicine = pill {
+        if isSelectedCell {
             contentView.layer.backgroundColor = UIColor.white.cgColor
             if let originalImage = UIImage(named: "pill"),
                let adjustedImage = originalImage.withSaturation(0.1) {
