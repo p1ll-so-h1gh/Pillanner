@@ -335,7 +335,7 @@ extension SignUpViewController {
             
         }
     }
-
+    
     
     // 가입 하기 버튼 로직 (회원가입이 되는 상태인지를 판별하고 Firestore DB 에 해당 값들 저장)
     @objc func SignUpButtonClicked() {
@@ -345,14 +345,14 @@ extension SignUpViewController {
         if availableSignUpFlag && !idTextField.text!.isEmpty && !nameTextField.text!.isEmpty && !passwordTextField.text!.isEmpty && !passwordReTextField.text!.isEmpty && !phoneCertTextField.text!.isEmpty {
             
             // Firestore DB에 회원 정보 저장
-
+            
             DataManager.shared.createUserData(user: UserData(
-                    UID: self.myUID,
-                    ID: idTextField.text!,
-                    password: passwordTextField.text!,
-                    nickname: nameTextField.text!,
-                    signUpPath: "일반회원가입"
-                )
+                UID: self.myUID,
+                ID: idTextField.text!,
+                password: passwordTextField.text!,
+                nickname: nameTextField.text!,
+                signUpPath: "일반회원가입"
+            )
             )
             // 회원가입 완료 - Alert
             let alert = UIAlertController(title: "가입 성공", message: "회원가입이 완료되었습니다 !", preferredStyle: .alert)

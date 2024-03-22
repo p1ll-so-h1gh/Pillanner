@@ -461,33 +461,33 @@ class settingCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    private func setupCell() {
-//        contentView.addSubview(titleLabel)
-//        titleLabel.snp.makeConstraints {
-//            $0.top.bottom.equalToSuperview().inset(5)
-//            $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
-//        }
-//        contentView.addSubview(pageBtn)
-//        pageBtn.snp.makeConstraints {
-//            $0.top.bottom.equalToSuperview().inset(5)
-//            $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
-//        }
-//    }
+    //    private func setupCell() {
+    //        contentView.addSubview(titleLabel)
+    //        titleLabel.snp.makeConstraints {
+    //            $0.top.bottom.equalToSuperview().inset(5)
+    //            $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
+    //        }
+    //        contentView.addSubview(pageBtn)
+    //        pageBtn.snp.makeConstraints {
+    //            $0.top.bottom.equalToSuperview().inset(5)
+    //            $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
+    //        }
+    //    }
     private func setupCell() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(versionLabel) // versionLabel 추가
         contentView.addSubview(pageBtn)
-
+        
         titleLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(5)
             $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
         }
-
+        
         versionLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview() // 세로 중앙 정렬
             make.trailing.equalTo(pageBtn.snp.leading).offset(-10) // pageBtn의 왼쪽에 위치, 10 포인트 간격
         }
-
+        
         pageBtn.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(5)
             $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)

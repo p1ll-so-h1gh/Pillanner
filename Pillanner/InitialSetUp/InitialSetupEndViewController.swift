@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class InitialSetupEndViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()

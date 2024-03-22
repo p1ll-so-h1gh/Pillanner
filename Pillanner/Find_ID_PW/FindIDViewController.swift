@@ -16,13 +16,13 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
     
     private let sidePaddingValue = 20
     private let topPaddingValue = 40
-
+    
     private lazy var backButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "xmark")?.withRenderingMode(.alwaysOriginal).withTintColor(.black),
                                      style: .plain, target: self, action: #selector(dismissView))
         return button
     }()
-
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "ID 찾기"
@@ -30,21 +30,21 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
         label.sizeToFit()
         return label
     }()
-
+    
     let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "이름"
         label.font = FontLiteral.body(style: .bold)
         return label
     }()
-
+    
     let nameTextField: UITextField = {
         let textfield = UITextField()
         textfield.placeholder = "이름을 입력해주세요."
         textfield.font = FontLiteral.subheadline(style: .regular)
         return textfield
     }()
-
+    
     let nameTextFieldUnderLine: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
@@ -52,7 +52,7 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
         line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
         return line
     }()
-
+    
     let phoneCertLabel: UILabel = {
         let label = UILabel()
         label.text = "휴대전화 번호인증"
@@ -148,10 +148,10 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
         button.addTarget(target, action: #selector(findIDButtonTapped), for: .touchUpInside)
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.backgroundColor = .white
         addView()
         setContstraints()
@@ -165,7 +165,7 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(nameLabel)
         view.addSubview(nameTextField)
         view.addSubview(nameTextFieldUnderLine)
-
+        
         view.addSubview(phoneCertLabel)
         view.addSubview(phoneCertTextField)
         view.addSubview(phoneCertTextFieldUnderLine)
@@ -179,7 +179,7 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
         certContentStackView.addArrangedSubview(checkCertNumberButton)
         view.addSubview(certUIView)
         view.addSubview(certNumberAvailableLabel)
-
+        
         view.addSubview(findIDButton)
     }
     
@@ -199,7 +199,7 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.width.equalTo(nameTextField.snp.width)
         })
-
+        
         phoneCertLabel.snp.makeConstraints({
             $0.top.equalTo(nameTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
@@ -252,5 +252,5 @@ class FindIDViewController: UIViewController, UITextFieldDelegate {
             $0.height.equalTo(50)
         })
     }
-
+    
 }

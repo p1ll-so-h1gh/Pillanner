@@ -100,75 +100,75 @@ final class UserMainViewController: UIViewController {
         return view
     }()
     
-//    private let labelVStackView: UIStackView = {
-//        let stackView = UIStackView()
-//        stackView.axis = .vertical
-//        stackView.spacing = 50
-//        return stackView
-//    }()
-//    
-//    private let dayLabel: UILabel = {
-//        let label = UILabel()
-//        label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
-//        label.layer.cornerRadius = label.frame.size.width/2
-//        label.clipsToBounds = true
-//        label.backgroundColor = UIColor(hexCode: "9BDCFD")
-//        return label
-//    }()
-//    
-//    private let dayTextLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "하루"
-//        label.font = FontLiteral.body(style: .regular).withSize(18)
-//        return label
-//    }()
-//    
-//    private let dayView: UIView = {
-//        let view = UIView()
-//        return view
-//    }()
-//    
-//    private let weekLabel: UILabel = {
-//        let label = UILabel()
-//        label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
-//        label.layer.cornerRadius = label.frame.size.width/2
-//        label.clipsToBounds = true
-//        label.backgroundColor = UIColor(hexCode: "FF9898")
-//        return label
-//    }()
-//    
-//    private let weekTextLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "일주일"
-//        label.font = FontLiteral.body(style: .regular).withSize(18)
-//        return label
-//    }()
-//    
-//    private let weekView: UIView = {
-//        let view = UIView()
-//        return view
-//    }()
-//    
-//    private let monthLabel: UILabel = {
-//        let label = UILabel()
-//        label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
-//        label.layer.cornerRadius = label.frame.size.width/2
-//        label.clipsToBounds = true
-//        label.backgroundColor = UIColor(hexCode: "FFD188")
-//        return label
-//    }()
-//    
-//    private let monthTextLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "월별"
-//        label.font = FontLiteral.body(style: .regular).withSize(18)
-//        return label
-//    }()
-//    
-//    private let monthView: UIView = {
-//        let view = UIView()
-//        return view
-//    }()
+    //    private let labelVStackView: UIStackView = {
+    //        let stackView = UIStackView()
+    //        stackView.axis = .vertical
+    //        stackView.spacing = 50
+    //        return stackView
+    //    }()
+    //    
+    //    private let dayLabel: UILabel = {
+    //        let label = UILabel()
+    //        label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
+    //        label.layer.cornerRadius = label.frame.size.width/2
+    //        label.clipsToBounds = true
+    //        label.backgroundColor = UIColor(hexCode: "9BDCFD")
+    //        return label
+    //    }()
+    //    
+    //    private let dayTextLabel: UILabel = {
+    //        let label = UILabel()
+    //        label.text = "하루"
+    //        label.font = FontLiteral.body(style: .regular).withSize(18)
+    //        return label
+    //    }()
+    //    
+    //    private let dayView: UIView = {
+    //        let view = UIView()
+    //        return view
+    //    }()
+    //    
+    //    private let weekLabel: UILabel = {
+    //        let label = UILabel()
+    //        label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
+    //        label.layer.cornerRadius = label.frame.size.width/2
+    //        label.clipsToBounds = true
+    //        label.backgroundColor = UIColor(hexCode: "FF9898")
+    //        return label
+    //    }()
+    //    
+    //    private let weekTextLabel: UILabel = {
+    //        let label = UILabel()
+    //        label.text = "일주일"
+    //        label.font = FontLiteral.body(style: .regular).withSize(18)
+    //        return label
+    //    }()
+    //    
+    //    private let weekView: UIView = {
+    //        let view = UIView()
+    //        return view
+    //    }()
+    //    
+    //    private let monthLabel: UILabel = {
+    //        let label = UILabel()
+    //        label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
+    //        label.layer.cornerRadius = label.frame.size.width/2
+    //        label.clipsToBounds = true
+    //        label.backgroundColor = UIColor(hexCode: "FFD188")
+    //        return label
+    //    }()
+    //    
+    //    private let monthTextLabel: UILabel = {
+    //        let label = UILabel()
+    //        label.text = "월별"
+    //        label.font = FontLiteral.body(style: .regular).withSize(18)
+    //        return label
+    //    }()
+    //    
+    //    private let monthView: UIView = {
+    //        let view = UIView()
+    //        return view
+    //    }()
     
     private let sectionSeparatorLine: UIView = {
         let view = UIView()
@@ -416,7 +416,7 @@ final class UserMainViewController: UIViewController {
         
         circleContainerView.layer.addSublayer(dayBackgroundCircularLine)
         circleContainerView.layer.addSublayer(dayBorderLine)
-
+        
         if  let newAttainmentLabel = circleContainerView.viewWithTag(20240320426) as? UILabel {
             newAttainmentLabel.text = "\(self.attainmentRate) %"
         } else {
@@ -499,7 +499,7 @@ extension UserMainViewController: PillListViewDelegate {
         let cancel = UIAlertAction(title: "아니요", style: .default)
         let delete = UIAlertAction(title: "네", style: .default) { _ in
             DataManager.shared.deletePillData(title: pillData)
-//            self.intakePillListCollectionView.reloadData()
+            //            self.intakePillListCollectionView.reloadData()
             self.readPillDataFromFirestore()
             self.intakePillListCollectionView.reloadData()
         }

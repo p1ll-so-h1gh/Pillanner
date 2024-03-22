@@ -16,13 +16,13 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
     
     private let sidePaddingValue = 20
     private let topPaddingValue = 40
-
+    
     private lazy var backButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "xmark")?.withRenderingMode(.alwaysOriginal).withTintColor(.black),
                                      style: .plain, target: self, action: #selector(dismissView))
         return button
     }()
-
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "PW 찾기"
@@ -30,7 +30,7 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
         label.sizeToFit()
         return label
     }()
-
+    
     let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "이름"
@@ -169,15 +169,15 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
         button.addTarget(target, action: #selector(findPWButtonTapped), for: .touchUpInside)
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-    
+        
         setUpTextFieldDelegate()
         addView()
         setUpConstraint()
-
+        
         navigationItem.leftBarButtonItem = backButton
         navigationItem.titleView = titleLabel
     }

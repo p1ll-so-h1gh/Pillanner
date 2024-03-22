@@ -25,7 +25,7 @@ final class PillEditViewController: UIViewController {
     private var dosageForEdit = String()
     private var dosageUnitForEdit = String()
     private var alarmStatusForEdit = Bool()
-
+    
     private var oldPillDataForEdit: Pill
     private var originalPillTitle: String
     
@@ -33,7 +33,7 @@ final class PillEditViewController: UIViewController {
     private var timeData: String = ""
     private var dosage: String = ""
     private var dosageUnit: String = ""
-
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "내 영양제 수정하기"
@@ -117,7 +117,7 @@ final class PillEditViewController: UIViewController {
         // 빈 내용이 있으면 어떻게 처리할 지 고민해야 함
         
         let newPill = Pill(title: self.titleForEdit, type: self.typeForEdit, day: self.dayForEdit, dueDate: self.dueDateForEdit, intake: self.intakeForEdit, dosage: self.dosageForEdit, alarmStatus: self.alarmStatusForEdit)
-
+        
         DataManager.shared.updatePillData(oldTitle: originalPillTitle, pill: newPill)
         
         DataManager.shared.readPillListData(UID: UserDefaults.standard.string(forKey: "UID")!) { pillList in
@@ -137,15 +137,15 @@ final class PillEditViewController: UIViewController {
     
     //키보드 외부 터치 시 키보드 숨김처리
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-       self.view.endEditing(true)
-     }
+        self.view.endEditing(true)
+    }
     
-     // 키보드 리턴 버튼 누를경우 키보드 숨김처리
-     func textFieldShouldReturn(_ textField: UITextField) {
-         if let pillCell = self.totalTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PillCell {
-             pillCell.hideKeyboard()
-         }
-     }
+    // 키보드 리턴 버튼 누를경우 키보드 숨김처리
+    func textFieldShouldReturn(_ textField: UITextField) {
+        if let pillCell = self.totalTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PillCell {
+            pillCell.hideKeyboard()
+        }
+    }
     
     private func setupView() {
         editButtonView.addSubview(editButton)

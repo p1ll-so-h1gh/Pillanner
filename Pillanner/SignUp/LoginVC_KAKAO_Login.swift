@@ -75,7 +75,7 @@ extension LoginViewController {
                                     UserDefaults.standard.set(true, forKey: "isAutoLoginActivate")
                                     Auth.auth().signIn(withEmail: (user?.kakaoAccount?.email)!, password: "123456")
                                     let nextVC = TabBarController()
-                                        nextVC.modalPresentationStyle = .fullScreen
+                                    nextVC.modalPresentationStyle = .fullScreen
                                     self.present(nextVC, animated: true)
                                 } else {
                                     let alert = UIAlertController(title: "로그인 실패", message: "이미 가입된 이메일입니다.", preferredStyle: .alert)

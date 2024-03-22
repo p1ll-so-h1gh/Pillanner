@@ -41,12 +41,12 @@ class UserInfoView: UIViewController, UITextFieldDelegate {
     func configureWithdrawalButton() {
         withdrawalButton.setTitle("회원탈퇴", for: .normal)
         withdrawalButton.titleLabel?.font = FontLiteral.body(style: .regular)
-
+        
         withdrawalButton.setTitleColor(UIColor.secondaryLabel, for: .normal)
         withdrawalButton.addTarget(self, action: #selector(handleWithdrawal), for: .touchUpInside)
         view.addSubview(withdrawalButton)
     }
-
+    
     
     @objc func handleWithdrawal() {
         // Show logout alert
@@ -94,15 +94,15 @@ class UserInfoView: UIViewController, UITextFieldDelegate {
         button.addTarget(target, action: #selector(nameChangeButtonClicked), for: .touchUpInside)
         return button
     }()
- 
+    
     private func addView() {
         view.addSubview(nameLabel)
         view.addSubview(nameTextField)
         view.addSubview(nameChangeButton)
         view.addSubview(nameTextFieldUnderLine)
-
+        
         view.addSubview(withdrawalButton)
-
+        
     }
     
     private func setUpConstraint() {

@@ -127,15 +127,15 @@ final class PillAddMainViewController: UIViewController{
     
     //키보드 외부 터치 시 키보드 숨김처리
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-       self.view.endEditing(true)
-     }
+        self.view.endEditing(true)
+    }
     
-     // 키보드 리턴 버튼 누를경우 키보드 숨김처리
-     func textFieldShouldReturn(_ textField: UITextField) {
-         if let pillCell = self.totalTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PillCell {
-             pillCell.hideKeyboard()
-         }
-     }
+    // 키보드 리턴 버튼 누를경우 키보드 숨김처리
+    func textFieldShouldReturn(_ textField: UITextField) {
+        if let pillCell = self.totalTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PillCell {
+            pillCell.hideKeyboard()
+        }
+    }
     
     //뷰가 나타날 때 네비게이션 바 숨김
     override func viewWillAppear(_ animated: Bool) {
@@ -195,10 +195,10 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
-                cell.setupLayoutOnEditingProcess(alarm: self.alarmStatusForAdd,
-                                                 intake: self.intakeForAdd,
-                                                 dosage: self.dosageForAdd,
-                                                 unit: self.dosageUnitForAdd)
+            cell.setupLayoutOnEditingProcess(alarm: self.alarmStatusForAdd,
+                                             intake: self.intakeForAdd,
+                                             dosage: self.dosageForAdd,
+                                             unit: self.dosageUnitForAdd)
             cell.delegate = self
             return cell
         case 3:
@@ -283,14 +283,14 @@ extension PillAddMainViewController: PillCellDelegate, IntakeDateCellDelegate, P
         self.totalTableView.reloadData()
         self.totalTableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
     }
-
-//    func updateAlarmStatus(isOn: Bool) {
-//        if isOn {
-//            self.alarmStatusForAdd = isOn
-//            NotificationHelper.shared.readUserPills()
-//        } else {
-//
-//        }
-//    }
+    
+    //    func updateAlarmStatus(isOn: Bool) {
+    //        if isOn {
+    //            self.alarmStatusForAdd = isOn
+    //            NotificationHelper.shared.readUserPills()
+    //        } else {
+    //
+    //        }
+    //    }
 }
 

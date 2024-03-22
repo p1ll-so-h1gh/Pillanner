@@ -16,29 +16,29 @@ protocol WeekdaySelectionDelegate: AnyObject {
 
 class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-//    weak var delegate: WeekdaySelectionDelegate?
+    //    weak var delegate: WeekdaySelectionDelegate?
     weak var delegate: IntakeDateCellDelegate?
     
     
     var tableView: UITableView!
     var selectedWeekdays = Set<Int>()
     var selectedWeekdaysInString = [String]()
-//    var selectedWeekdaysInString = Set<String>()
+    //    var selectedWeekdaysInString = Set<String>()
     
     
     let weekdays = ["월요일마다", "화요일마다", "수요일마다", "목요일마다", "금요일마다", "토요일마다", "일요일마다"]
     private var pageTitleLabel: UILabel!
     
-//    private let loginButton: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("저장하기", for: .normal)
-//        button.titleLabel?.font = FontLiteral.body(style: .bold)
-//        button.setTitleColor(.white, for: .normal)
-//        button.backgroundColor = UIColor.pointThemeColor2
-//        button.layer.cornerRadius = 8
-//        button.addTarget(target, action: #selector(didSaveButtonTapped), for: .touchUpInside)
-//        return button
-//    }()
+    //    private let loginButton: UIButton = {
+    //        let button = UIButton()
+    //        button.setTitle("저장하기", for: .normal)
+    //        button.titleLabel?.font = FontLiteral.body(style: .bold)
+    //        button.setTitleColor(.white, for: .normal)
+    //        button.backgroundColor = UIColor.pointThemeColor2
+    //        button.layer.cornerRadius = 8
+    //        button.addTarget(target, action: #selector(didSaveButtonTapped), for: .touchUpInside)
+    //        return button
+    //    }()
     
     init(selectedWeekdaysInString: [String]) {
         super.init(nibName: nil, bundle: nil)
@@ -116,7 +116,7 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
         cell.configure(with: self.weekdays[indexPath.row], isSelected: self.selectedWeekdays.contains(indexPath.row))
         return cell
     }
-
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.selectedWeekdays.contains(indexPath.row) {
@@ -163,21 +163,21 @@ class WeekdayTableViewCell: UITableViewCell {
     let weekdayLabel = UILabel()
     let paddingView = UIView()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
-            setupLayout()
-
-            contentView.addSubview(paddingView)
-            paddingView.snp.makeConstraints { make in
-                make.top.equalToSuperview().offset(50)
-                make.bottom.equalToSuperview().offset(50)
-                make.left.right.equalToSuperview()
-            }
-
-            paddingView.addSubview(containerView)
-            containerView.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
-            }
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupLayout()
+        
+        contentView.addSubview(paddingView)
+        paddingView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(50)
+            make.bottom.equalToSuperview().offset(50)
+            make.left.right.equalToSuperview()
         }
+        
+        paddingView.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
     
     
     required init?(coder: NSCoder) {
@@ -207,7 +207,7 @@ class WeekdayTableViewCell: UITableViewCell {
     func configure(with weekday: String, isSelected: Bool) {
         weekdayLabel.text = weekday
         weekdayLabel.font = FontLiteral.subheadline(style: .regular)
-      
+        
         UIView.animate(withDuration: 0.3) {
             self.containerView.backgroundColor = isSelected ? UIColor.pointThemeColor2 : .white
         }

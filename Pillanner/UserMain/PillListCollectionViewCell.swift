@@ -89,7 +89,7 @@ class PillListCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
-//        configureButton(title: "유산균")
+        //        configureButton(title: "유산균")
     }
     
     func configureCell(with pill: Pill) {
@@ -99,8 +99,8 @@ class PillListCollectionViewCell: UICollectionViewCell {
         self.pillnumLabel.text = "하루 \(pill.dosage)정" // 복용단위 업데이트
         configureButton(title: pill.title)
     }
-
-//    pillData 를 Pill 구조체로 변경해서 매개변수에 넣었음
+    
+    //    pillData 를 Pill 구조체로 변경해서 매개변수에 넣었음
     private func configureButton(title: String) {
         let edit = UIAction(title: "수정", state: .off) { _ in
             DataManager.shared.readPillData(pillTitle: title) { pillData in

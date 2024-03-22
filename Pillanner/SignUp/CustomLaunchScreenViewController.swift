@@ -49,7 +49,7 @@ class CustomLaunchScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
     
@@ -99,7 +99,7 @@ class CustomLaunchScreenViewController: UIViewController {
                     self.present(mainVC, animated: true, completion: nil)
                 } else {
                     let navVC = UINavigationController(rootViewController: LoginViewController())
-                        navVC.modalPresentationStyle = .fullScreen
+                    navVC.modalPresentationStyle = .fullScreen
                     self.present(navVC, animated: true)
                 }
             }
@@ -132,13 +132,13 @@ class CustomLaunchScreenViewController: UIViewController {
         }
     }
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

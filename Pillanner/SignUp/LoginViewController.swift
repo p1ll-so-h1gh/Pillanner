@@ -16,7 +16,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     var currentNonce: String?
     private let sidePaddingValue = 20
     private let paddingBetweenComponents = 30
-
+    
     lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
     
     private let pillannerFlagImage: UIImageView = {
@@ -165,9 +165,9 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
         view.backgroundColor = .white
         
         // 자동 로그인 기능 활성화 되어있을 때, 로그인화면 거치지 않고 바로 메인화면으로 이동할 수 있도록 하는 기능
-//        if let id = UserDefaults.standard.string(forKey: "ID"), let password = UserDefaults.standard.string(forKey: "Password") {
-//            
-//        }
+        //        if let id = UserDefaults.standard.string(forKey: "ID"), let password = UserDefaults.standard.string(forKey: "Password") {
+        //            
+        //        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -193,10 +193,10 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     
     // 키보드 리턴 버튼 누를경우 키보드 숨김처리
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-      textField.resignFirstResponder()
-      return true
+        textField.resignFirstResponder()
+        return true
     }
-
+    
     
     //MARK: - UI Settings
     private func addViews() {
@@ -336,7 +336,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     @objc func signInButtonTapped() {
         let signUpVC = SignUpViewController()
         self.navigationController?.pushViewController(signUpVC, animated: true)
-
+        
     }
     
     // 자동로그인

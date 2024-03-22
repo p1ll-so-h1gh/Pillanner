@@ -12,69 +12,69 @@ import UIKit
 
 class TermsofUseViewController: UIViewController {
     
-override func viewDidLoad() {
-    super.viewDidLoad()
-    self.navigationItem.title = "이용약관"
-    view.backgroundColor = .white
-    self.navigationController?.isNavigationBarHidden = false
-    setupUI()
-
-}
-
-// 개인정보 처리방침 내용 레이블
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationItem.title = "이용약관"
+        view.backgroundColor = .white
+        self.navigationController?.isNavigationBarHidden = false
+        setupUI()
+        
+    }
+    
+    // 개인정보 처리방침 내용 레이블
     private func setupUI() {
-            let scrollView = UIScrollView()
-            scrollView.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(scrollView)
-            
-            NSLayoutConstraint.activate([
-                scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-            ])
-            
-            let termsContainerView = UIView()
-            termsContainerView.layer.borderWidth = 1.0
-            termsContainerView.layer.borderColor = UIColor(hex: "F4F4F4").cgColor
-            termsContainerView.layer.cornerRadius = 10
-            termsContainerView.backgroundColor = UIColor(hex: "FAFAFA")
-            termsContainerView.translatesAutoresizingMaskIntoConstraints = false
-            scrollView.addSubview(termsContainerView)
-            
-            NSLayoutConstraint.activate([
-                termsContainerView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 20),
-                termsContainerView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 20),
-                termsContainerView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -20),
-                termsContainerView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -40)
-            ])
-            
-            let termsOfServiceLabel = UILabel()
-            termsOfServiceLabel.numberOfLines = 0
-            termsOfServiceLabel.textAlignment = .left
-            termsOfServiceLabel.font = UIFont.systemFont(ofSize: 14.0)
-            termsOfServiceLabel.textColor = .black
-            termsContainerView.addSubview(termsOfServiceLabel)
-            
-            termsOfServiceLabel.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                termsOfServiceLabel.topAnchor.constraint(equalTo: termsContainerView.topAnchor, constant: 10),
-                termsOfServiceLabel.leadingAnchor.constraint(equalTo: termsContainerView.leadingAnchor, constant: 10),
-                termsOfServiceLabel.trailingAnchor.constraint(equalTo: termsContainerView.trailingAnchor, constant: -10),
-                termsOfServiceLabel.bottomAnchor.constraint(equalTo: termsContainerView.bottomAnchor, constant: -10)
-            ])
-            
-            // 마지막 서브뷰의 하단을 ScrollView의 contentSize의 하단에 맞춰줌
-            NSLayoutConstraint.activate([
-                termsContainerView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20)
-            ])
-            
-            setupTermsOfService(termsOfServiceLabel: termsOfServiceLabel)
-        }
-
-
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+        
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
+        let termsContainerView = UIView()
+        termsContainerView.layer.borderWidth = 1.0
+        termsContainerView.layer.borderColor = UIColor(hex: "F4F4F4").cgColor
+        termsContainerView.layer.cornerRadius = 10
+        termsContainerView.backgroundColor = UIColor(hex: "FAFAFA")
+        termsContainerView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(termsContainerView)
+        
+        NSLayoutConstraint.activate([
+            termsContainerView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 20),
+            termsContainerView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 20),
+            termsContainerView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -20),
+            termsContainerView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -40)
+        ])
+        
+        let termsOfServiceLabel = UILabel()
+        termsOfServiceLabel.numberOfLines = 0
+        termsOfServiceLabel.textAlignment = .left
+        termsOfServiceLabel.font = UIFont.systemFont(ofSize: 14.0)
+        termsOfServiceLabel.textColor = .black
+        termsContainerView.addSubview(termsOfServiceLabel)
+        
+        termsOfServiceLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            termsOfServiceLabel.topAnchor.constraint(equalTo: termsContainerView.topAnchor, constant: 10),
+            termsOfServiceLabel.leadingAnchor.constraint(equalTo: termsContainerView.leadingAnchor, constant: 10),
+            termsOfServiceLabel.trailingAnchor.constraint(equalTo: termsContainerView.trailingAnchor, constant: -10),
+            termsOfServiceLabel.bottomAnchor.constraint(equalTo: termsContainerView.bottomAnchor, constant: -10)
+        ])
+        
+        // 마지막 서브뷰의 하단을 ScrollView의 contentSize의 하단에 맞춰줌
+        NSLayoutConstraint.activate([
+            termsContainerView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20)
+        ])
+        
+        setupTermsOfService(termsOfServiceLabel: termsOfServiceLabel)
+    }
+    
+    
     private func setupTermsOfService(termsOfServiceLabel: UILabel) {
-    let termsOfServiceText = """
+        let termsOfServiceText = """
 
 
   1. 목적
@@ -112,16 +112,16 @@ override func viewDidLoad() {
 
 
 """
-    
+        
         let attributedString = NSMutableAttributedString(string: termsOfServiceText)
-                let boldFontAttribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16.0)]
-                
-                let boldStrings = ["1. 목적", "2. 서비스 이용", "3. 개인정보 수집 및 이용", "4. 서비스 제공 중지 및 변경", "5. 책임제한", "6. 분쟁해결", "7. 약관 효력 및 변경"]
-                for boldString in boldStrings {
-                    let range = (termsOfServiceText as NSString).range(of: boldString)
-                    attributedString.addAttributes(boldFontAttribute, range: range)
-                }
-                
-                termsOfServiceLabel.attributedText = attributedString
-            }
+        let boldFontAttribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16.0)]
+        
+        let boldStrings = ["1. 목적", "2. 서비스 이용", "3. 개인정보 수집 및 이용", "4. 서비스 제공 중지 및 변경", "5. 책임제한", "6. 분쟁해결", "7. 약관 효력 및 변경"]
+        for boldString in boldStrings {
+            let range = (termsOfServiceText as NSString).range(of: boldString)
+            attributedString.addAttributes(boldFontAttribute, range: range)
         }
+        
+        termsOfServiceLabel.attributedText = attributedString
+    }
+}

@@ -45,11 +45,11 @@ final class IntakeSettingCell: UITableViewCell {
     private var dosage = [String]()
     private var unit = [String]()
     
-//    private var intake = ["11:20", "12:20"]
-//    private var alarmStatus = [true, false]
-//    private var dosage = ["1", "2"]
-//    private var unit = ["개", "정"]
-
+    //    private var intake = ["11:20", "12:20"]
+    //    private var alarmStatus = [true, false]
+    //    private var dosage = ["1", "2"]
+    //    private var unit = ["개", "정"]
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "섭취 설정"
@@ -141,7 +141,7 @@ final class IntakeSettingCell: UITableViewCell {
             $0.top.equalTo(titleLabel.snp.bottom).inset(-10)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)
             $0.right.equalToSuperview().inset(sidePaddingSizeValue)
-//            $0.height.greaterThanOrEqualTo(1)
+            //            $0.height.greaterThanOrEqualTo(1)
             $0.height.equalTo(120)
         }
         self.intakeAddButton.snp.makeConstraints {
@@ -179,7 +179,7 @@ final class IntakeSettingCell: UITableViewCell {
             $0.top.equalTo(titleLabel.snp.bottom).inset(-10)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)
             $0.right.equalToSuperview().inset(sidePaddingSizeValue)
-//            $0.height.greaterThanOrEqualTo(1)
+            //            $0.height.greaterThanOrEqualTo(1)
             $0.height.equalTo(120)
         }
         self.intakeAddButton.snp.makeConstraints {
