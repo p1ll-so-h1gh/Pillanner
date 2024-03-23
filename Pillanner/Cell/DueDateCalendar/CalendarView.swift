@@ -92,7 +92,7 @@ class CalendarView: UIView, MonthYearBarViewDelegate {
         dayCollectionView.dataSource = self
         dayCollectionView.register(dateCVCell.self, forCellWithReuseIdentifier: "Cell1")
     }
-
+    
     private func setupView() {
         self.addSubview(monthView)
         monthView.delegate = self
@@ -190,7 +190,7 @@ extension CalendarView: UICollectionViewDelegateFlowLayout, UICollectionViewData
         let height: CGFloat = 32
         return CGSize(width: width, height: height)
     }
-   
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 4
     }
@@ -214,7 +214,7 @@ class dateCVCell: UICollectionViewCell {
         label.font = FontLiteral.body(style: .bold).withSize(16)
         return label
     }()
-  
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
@@ -223,7 +223,7 @@ class dateCVCell: UICollectionViewCell {
         
         setupViews()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
