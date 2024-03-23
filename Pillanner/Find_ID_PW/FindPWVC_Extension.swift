@@ -30,9 +30,6 @@ extension FindPWViewController {
         if !phoneCertTextField.text!.isEmpty && availableGetCertNumberFlag == true {
             timerLabel.isHidden = false
             if availableGetCertNumberFlag == true {
-                //가상전화번호로 테스트하기 위한 코드 ---------------------------------------
-                Auth.auth().settings?.isAppVerificationDisabledForTesting = true
-                //------------------------------------------------------------------
                 PhoneAuthProvider.provider()
                     .verifyPhoneNumber(formatPhoneNumberForFirebase(phoneCertTextField.text!), uiDelegate: nil) { (verificationID, error) in
                         if let error = error {
