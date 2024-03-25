@@ -11,7 +11,11 @@ import FirebaseFirestore
 import FirebaseAuth
 
 extension SignUpViewController {
-    
+
+    @objc func dismissView() {
+        navigationController?.popViewController(animated: true)
+    }
+
     // ID 중복체크 버튼 메서드 (firestore 내부 필드 값과 비교)
     @objc func IDCheckButtonClicked(_ sender: UIButton) {
         guard let id = idTextField.text, !id.isEmpty else {
