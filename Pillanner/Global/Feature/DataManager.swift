@@ -125,6 +125,14 @@ final class DataManager {
         let userCollection = db.collection("Users")
         userCollection.document(UID).delete()
         
+        // UserDefaults 삭제
+        UserDefaults.standard.removeObject(forKey: "UID")
+        UserDefaults.standard.removeObject(forKey: "ID")
+        UserDefaults.standard.removeObject(forKey: "Password")
+        UserDefaults.standard.removeObject(forKey: "Nickname")
+        UserDefaults.standard.removeObject(forKey: "SignUpPath")
+        UserDefaults.standard.set(false, forKey: "isAutoLoginActivate")
+        
         // Firebase Auth 탈퇴
         if let user = Auth.auth().currentUser {
             print("Firebase 탈퇴를 진행합니다.")

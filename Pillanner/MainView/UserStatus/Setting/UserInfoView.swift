@@ -52,6 +52,17 @@ class UserInfoView: UIViewController, UITextFieldDelegate {
         // Show logout alert
         let alert = UIAlertController(title: "회원탈퇴", message: "정말 탈퇴하시겠습니까? 탈퇴시 PILLANNER에 기록된 정보들이 모두 삭제됩니다.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "네", style: .destructive, handler: { _ in
+            // 만약 카카오 로그인 한 경우, 카카오 토큰해제
+            if UserDefaults.standard.string(forKey: "SignUpPath")! == "카카오" {
+                UserApi.shared.unlink {(error) in
+                    if let error = error {
+                        print(error)
+                    }
+                    else {
+                        print("unlink() success.")
+                    }
+                }
+            }
             var currentViewController: UIViewController? = self.presentingViewController
             while let presentingViewController = currentViewController?.presentingViewController {
                 currentViewController = presentingViewController
@@ -138,6 +149,7 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 import FirebaseAuth
+import KakaoSDKUser
 
 extension UserInfoView {
     

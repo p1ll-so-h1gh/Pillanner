@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import KakaoSDKUser
 
 enum SettingSection: CaseIterable {
     case userInfo
@@ -175,6 +176,17 @@ class UserSettingViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "네", style: .destructive, handler: { _ in
             // 로그아웃 처리
             print("로그아웃 합니다.")
+            if UserDefaults.standard.string(forKey: "SignUpPath")! == "카카오" {
+                // 카카오 로그아웃처리
+                UserApi.shared.unlink {(error) in
+                    if let error = error {
+                        print(error)
+                    }
+                    else {
+                        print("unlink() success.")
+                    }
+                }
+            }
             UserDefaults.standard.set(false, forKey: "isAutoLoginActivate")
             var currentViewController: UIViewController? = self.presentingViewController
             while let presentingViewController = currentViewController?.presentingViewController {
