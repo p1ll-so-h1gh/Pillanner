@@ -36,6 +36,7 @@ enum SettingSection: CaseIterable {
 
 class UserSettingViewController: UIViewController {
     private let sidePaddingSizeValue = 20
+    private var alarmStatus: Bool = false
     //MARK: - Properties
     private let topView: UIView = {
         let view = UIView()
@@ -151,6 +152,14 @@ class UserSettingViewController: UIViewController {
         configureLogoutButton()
         
         setupView()
+
+        // 알림 설정 가져오기
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            self.alarmStatus = settings.authorizationStatus == .authorized
+            DispatchQueue.main.async {
+                self.alarmActivateSwitch.isOn = self.alarmStatus
+            }
+        }
     }
     
     func configureLogoutButton() {
@@ -168,7 +177,7 @@ class UserSettingViewController: UIViewController {
         ])
         bottomTableView.tableFooterView = footerView
     }
-    
+
     @objc func handleLogout() {
         print(#function)
         let alert = UIAlertController(title: "로그아웃", message: "정말 로그아웃 하시겠습니까?", preferredStyle: .alert)

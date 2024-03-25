@@ -26,7 +26,13 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
     private let sidePaddingValue = 20
     private let topPaddingValue = 40
     private let buttonHeightValue = 35
-    
+
+    private lazy var backButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(named: "leftmove")?.withRenderingMode(.alwaysOriginal).withTintColor(.black),
+                                     style: .plain, target: self, action: #selector(dismissView))
+        return button
+    }()
+
     let idLabel: UILabel = {
         let label = UILabel()
         label.text = "아이디"
@@ -261,6 +267,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
         addView()
         setUpConstraint()
         setupKeyboardEvent()
+        
+        navigationItem.leftBarButtonItem = backButton
     }
     
     override func viewDidDisappear(_ animated: Bool) {
