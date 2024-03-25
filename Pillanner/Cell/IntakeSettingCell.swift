@@ -41,9 +41,9 @@ final class IntakeSettingCell: UITableViewCell {
     weak var delegate: IntakeSettingDelegate?
     
     private var intake = [String]()
-    private var alarmStatus = [Bool]()
-    private var dosage = [String]()
-    private var unit = [String]()
+    private var alarmStatus = Bool()
+    private var dosage = String()
+    private var unit = String()
     
     //    private var intake = ["11:20", "12:20"]
     //    private var alarmStatus = [true, false]
@@ -111,15 +111,15 @@ final class IntakeSettingCell: UITableViewCell {
         self.infoLabel.text = "복용횟수 \(intake.count)회"
         
         self.intake = intake
-        if self.alarmStatus == [false] {
-            self.alarmStatus = [alarm]
-            self.dosage = [dosage]
-            self.unit = [unit]
-        } else {
-            self.alarmStatus.append(alarm)
-            self.dosage.append(dosage)
-            self.unit.append(unit)
-        }
+//        if self.alarmStatus == [false] {
+//            self.alarmStatus = [alarm]
+//            self.dosage = [dosage]
+//            self.unit = [unit]
+//        } else {
+        self.alarmStatus = alarm
+        self.dosage = dosage
+        self.unit = unit
+//        }
         
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(infoLabel)
@@ -208,9 +208,10 @@ extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IntakePillCell.identifier, for: indexPath) as! IntakePillCell
         cell.setupLayoutOnEditingProcess(intake: self.intake[indexPath.row],
-                                         dosage: self.dosage[indexPath.row],
-                                         unit: self.unit[indexPath.row],
-                                         alarm: self.alarmStatus[indexPath.row])
+//                                         dosage: self.dosage[indexPath.row],
+                                         dosage: self.dosage,
+                                         unit: self.unit,
+                                         alarm: self.alarmStatus)
         return cell
     }
     

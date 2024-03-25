@@ -42,8 +42,15 @@ class IntakePillCell: UITableViewCell {
     
     func setupLayoutOnEditingProcess(intake: String, dosage: String, unit: String, alarm: Bool) {
         
-        self.timeLabel.text = "\(intake) \(dosage)\(unit)"
-        self.alarmLabel.text = "알림 \(alarm)"
+//        self.timeLabel.text = "\(intake) \(dosage)\(unit)"
+        self.timeLabel.text = "\(intake)"
+        if alarm {
+            self.alarmLabel.text = "알람 ON"
+            self.alarmLabel.textColor = .pointThemeColor2
+        } else {
+            self.alarmLabel.text = "알람 OFF"
+        }
+//        self.alarmLabel.text = "알림 \(alarm)"
         
         self.contentView.addSubview(timeLabel)
         self.contentView.addSubview(alarmLabel)
