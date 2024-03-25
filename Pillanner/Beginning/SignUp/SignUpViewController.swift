@@ -28,7 +28,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
     private let buttonHeightValue = 35
 
     private lazy var backButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(systemName: "xmark")?.withRenderingMode(.alwaysOriginal).withTintColor(.black),
+        let button = UIBarButtonItem(image: UIImage(named: "leftmove")?.withRenderingMode(.alwaysOriginal).withTintColor(.black),
                                      style: .plain, target: self, action: #selector(dismissView))
         return button
     }()
