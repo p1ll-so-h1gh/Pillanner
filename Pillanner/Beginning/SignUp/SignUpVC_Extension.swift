@@ -68,6 +68,9 @@ extension SignUpViewController {
         if !phoneCertTextField.text!.isEmpty && availableGetCertNumberFlag == true {
             timerLabel.isHidden = false
             if availableGetCertNumberFlag == true {
+                // 가상번호 테스트용 코드 (에러수정 시 사용예정)==============================
+                //Auth.auth().settings?.isAppVerificationDisabledForTesting = true
+                //=================================================================
                 PhoneAuthProvider.provider()
                     .verifyPhoneNumber(formatPhoneNumberForFirebase(phoneCertTextField.text!), uiDelegate: nil) { (verificationID, error) in
                         if let error = error {
@@ -83,7 +86,7 @@ extension SignUpViewController {
                         self.ifPhoneNumberIsEmptyLabel.text = ""
                         self.certNumberAvailableLabel.text = "인증번호가 발송되었습니다."
                         self.getCertNumberButton.setTitle("재전송", for: .normal)
-                        self.getCertNumberButton.setTitleColor(UIColor.lightGray, for: .normal)
+                        self.getCertNumberButton.isEnabled = false
                         self.certNumberAvailableLabel.textColor = .systemBlue
                         self.certNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                         UserDefaults.standard.setValue(verificationID!, forKey: "firebaseVerificationID")
@@ -125,7 +128,7 @@ extension SignUpViewController {
             timerLabel.isHidden = true
             limitTime = 180
             availableGetCertNumberFlag = true
-            getCertNumberButton.setTitleColor(UIColor.black, for: .normal)
+            getCertNumberButton.isEnabled = true
             certNumberAvailableLabel.text = "인증번호 유효시간이 초과했습니다."
             certNumberAvailableLabel.textColor = .red
             certNumberAvailableLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
@@ -141,12 +144,20 @@ extension SignUpViewController {
         Auth.auth().signIn(with: credential) { authData, error in
             if let error = error {
                 print("errorCode: \(error)")
-                print("인증번호가 일치하지 않습니다.")
-                self.certNumberTextField.text = ""
-                // 인증번호 매칭 에러 - Alert
-                let alert = UIAlertController(title: "인증 실패", message: "인증번호가 올바르지 않습니다.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "확인", style: .default))
-                self.present(alert, animated: true)
+                let code = (error as NSError).code
+                switch code {
+                case 17051 :
+                    let alert = UIAlertController(title: "전화번호 인증", message: "처리중입니다.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "확인", style: .default))
+                    self.present(alert, animated: true)
+                case 17044 :
+                    self.certNumberTextField.text = ""
+                    // 인증번호 매칭 에러 - Alert
+                    let alert = UIAlertController(title: "인증 실패", message: "인증번호가 올바르지 않습니다.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "확인", style: .default))
+                    self.present(alert, animated: true)
+                default : print(error.localizedDescription)
+                }
             } else {
                 guard let authData = authData else { return }
                 self.myUID = authData.user.uid // 가입하기 버튼 눌렀을 때 넣어줄 UID값 미리 받는 부분
@@ -293,43 +304,28 @@ extension SignUpViewController {
     func unavailableSignUp() {
         if !idTextFieldFlag {
             idLabel.textColor = .red
-            
         }else {
             idLabel.textColor = .black
-            
         }
         if !nameTextFieldFlag {
             nameLabel.textColor = .red
-            
         }else {
             nameLabel.textColor = .black
-            
         }
         if !passwordTextFieldFlag {
             passwordLabel.textColor = .red
-            
         }else {
             passwordLabel.textColor = .black
-            
         }
         if !passwordReTextFieldFlag {
             passwordReLabel.textColor = .red
-            
         }else {
             passwordReLabel.textColor = .black
-            
         }
         if !phoneCertTextFieldFlag {
             phoneCertLabel.textColor = .red
-            
         }else {
             phoneCertLabel.textColor = .black
-            
-        }
-        if !certNumberTextFieldFlag {
-            
-        }else {
-            
         }
     }
     
