@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import KakaoSDKUser
 
 class UserInfoView: UIViewController, UITextFieldDelegate {
     private let sidePaddingValue = 20
@@ -144,26 +145,25 @@ class UserInfoView: UIViewController, UITextFieldDelegate {
     }
 }
 
-
-import Foundation
-import Firebase
-import FirebaseFirestore
-import FirebaseAuth
-import KakaoSDKUser
-
 extension UserInfoView {
     
     // 이름(닉네임) 변경 버튼 클릭 메서드
     @objc func nameChangeButtonClicked(_ sender: UIButton) {
         let newName: String = nameTextField.text!
         
-        let alert = UIAlertController(title: "이름 변경", message: "\(newName)으로 변경하시겠습니까?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "네", style: .destructive, handler: { _ in
-            DataManager.shared.updateUserData(userID: self.myID, changedPassword: self.myPW, changedName: newName)
-            self.dismiss(animated: true)
-        }))
-        alert.addAction(UIAlertAction(title: "아니오", style: .cancel, handler: nil))
-        present(alert, animated: true)
+        if newName == "" {
+            let alert = UIAlertController(title: "변경 실패", message: "변경할 이름을 입력해주세요.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "확인", style: .cancel))
+            self.present(alert, animated: true)
+        } else {
+            let alert = UIAlertController(title: "이름 변경", message: "\(newName)으로 변경하시겠습니까?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "네", style: .destructive, handler: { _ in
+                DataManager.shared.updateUserData(userID: self.myID, changedPassword: self.myPW, changedName: newName)
+                self.dismiss(animated: true)
+            }))
+            alert.addAction(UIAlertAction(title: "아니오", style: .cancel, handler: nil))
+            present(alert, animated: true)
+        }
     }
     
     // 키보드 외부 터치할 경우 키보드 숨김처리
