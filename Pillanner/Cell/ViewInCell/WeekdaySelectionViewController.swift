@@ -10,21 +10,12 @@ import SnapKit
 
 // 약 정보 수정하는 뷰에서 접근할 때, 약 정보 받아올 수 있는 방법 필요 -> 이미 선택된 날짜 셀은 선택이 된 상태로 보여질 수 있도록
 
-protocol WeekdaySelectionDelegate: AnyObject {
-    func updateIntakeDate(_ date: [String])
-}
-
 class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    //    weak var delegate: WeekdaySelectionDelegate?
     weak var delegate: IntakeDateCellDelegate?
-    
     
     var tableView: UITableView!
     var selectedWeekdays = Set<Int>()
     var selectedWeekdaysInString = [String]()
-    //    var selectedWeekdaysInString = Set<String>()
-    
     
     let weekdays = ["월요일마다", "화요일마다", "수요일마다", "목요일마다", "금요일마다", "토요일마다", "일요일마다"]
     private var pageTitleLabel: UILabel!

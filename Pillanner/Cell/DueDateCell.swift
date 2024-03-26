@@ -91,7 +91,6 @@ final class DueDateCell: UITableViewCell {
         self.calendarView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(sidePaddingSizeValue)
             $0.width.equalTo(351)
-            //            $0.height.equalTo(320)
         }
         self.verticalStackView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()

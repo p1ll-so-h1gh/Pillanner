@@ -50,6 +50,8 @@ final class PillEditViewController: UIViewController {
     private let totalTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.identifier)
+        tableView.register(AlarmCell.self, forCellReuseIdentifier: AlarmCell.identifier)
+        tableView.register(IntakeNumberCell.self, forCellReuseIdentifier: IntakeNumberCell.identifier)
         tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.identifier)
         tableView.register(IntakeSettingCell.self, forCellReuseIdentifier: IntakeSettingCell.identifier)
         tableView.register(PillTypeCell.self, forCellReuseIdentifier: PillTypeCell.identifier)
@@ -116,7 +118,7 @@ final class PillEditViewController: UIViewController {
         }
         // 빈 내용이 있으면 어떻게 처리할 지 고민해야 함
         
-        let newPill = Pill(title: self.titleForEdit, type: self.typeForEdit, day: self.dayForEdit, dueDate: self.dueDateForEdit, intake: self.intakeForEdit, dosage: self.dosageForEdit, alarmStatus: self.alarmStatusForEdit)
+        let newPill = Pill(title: self.titleForEdit, type: self.typeForEdit, day: self.dayForEdit, dueDate: self.dueDateForEdit, intake: self.intakeForEdit, dosage: self.dosageForEdit, dosageUnit: self.dosageUnitForEdit, alarmStatus: self.alarmStatusForEdit)
         
         DataManager.shared.updatePillData(oldTitle: originalPillTitle, pill: newPill)
         
@@ -223,7 +225,7 @@ extension PillEditViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 1 {
+        if indexPath.row == 3 {
             let weekSelectVC = WeekdaySelectionViewController(selectedWeekdaysInString: oldPillDataForEdit.day)
             weekSelectVC.delegate = self
             self.navigationController?.isNavigationBarHidden = false

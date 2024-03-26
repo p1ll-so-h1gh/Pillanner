@@ -43,6 +43,8 @@ class InitialSetUpViewController: UIViewController {
     private let totalTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.identifier)
+        tableView.register(AlarmCell.self, forCellReuseIdentifier: AlarmCell.identifier)
+        tableView.register(IntakeNumberCell.self, forCellReuseIdentifier: IntakeNumberCell.identifier)
         tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.identifier)
         tableView.register(IntakeSettingCell.self, forCellReuseIdentifier: IntakeSettingCell.identifier)
         tableView.register(PillTypeCell.self, forCellReuseIdentifier: PillTypeCell.identifier)
@@ -238,7 +240,7 @@ extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 1 {
+        if indexPath.row == 3 {
             let weekSelectVC = WeekdaySelectionViewController(selectedWeekdaysInString: self.dayForAdd)
             weekSelectVC.delegate = self
             self.navigationController?.isNavigationBarHidden = false
@@ -292,10 +294,6 @@ extension InitialSetUpViewController: PillCellDelegate, IntakeDateCellDelegate, 
     
     func updateIntake(_ intake: String) {
         self.intakeForAdd.append(intake)
-    }
-    
-    func sendDate(date: String) {
-        print(date)
     }
     
     func updateDueDateCellHeight() {

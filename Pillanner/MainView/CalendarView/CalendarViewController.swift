@@ -139,6 +139,7 @@ class CalendarViewController: UIViewController {
                                             dueDate: pill["DueDate"] as? String ?? "fduedate",
                                             intake: pill["Intake"] as? [String] ?? ["fintake"],
                                             dosage: pill["Dosage"] as? String ?? "fdosage",
+                                            dosageUnit: pill["DosageUnit"] as? String ?? "fdosageUnit",
                                             alarmStatus: pill["AlarmStatus"] as? Bool ?? true)
                             todaysPill.append(data)
                         }
@@ -182,6 +183,7 @@ class CalendarViewController: UIViewController {
                                                   dueDate: pill.dueDate,
                                                   intake: [time],
                                                   dosage: pill.dosage,
+                                                  dosageUnit: pill.dosageUnit,
                                                   alarmStatus: pill.alarmStatus))
                 } else {
                     pillsListAM.pills.append(Pill(title: pill.title,
@@ -190,6 +192,7 @@ class CalendarViewController: UIViewController {
                                                   dueDate: pill.dueDate,
                                                   intake: [time],
                                                   dosage: pill.dosage,
+                                                  dosageUnit: pill.dosageUnit,
                                                   alarmStatus: pill.alarmStatus))
                 }
             }

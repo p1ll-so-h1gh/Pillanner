@@ -97,13 +97,15 @@ final class PillAddMainViewController: UIViewController{
             && self.dayForAdd != []
             && self.dueDateForAdd != ""
             && self.intakeForAdd != []
-            && self.dosageForAdd != "" {
-            let newPillData = Pill(title: self.titleForAdd, 
+            && self.dosageForAdd != ""
+            && self.dosageUnitForAdd != "" {
+            let newPillData = Pill(title: self.titleForAdd,
                                    type: self.typeForAdd,
                                    day: self.dayForAdd,
                                    dueDate: self.dueDateForAdd,
                                    intake: self.intakeForAdd,
                                    dosage: self.dosageForAdd,
+                                   dosageUnit: self.dosageUnitForAdd,
                                    alarmStatus: self.alarmStatusForAdd)
             
             DataManager.shared.createPillData(pill: newPillData)
@@ -244,10 +246,6 @@ extension PillAddMainViewController: IntakeSettingDelegate {
 
 extension PillAddMainViewController: PillCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
     
-    func cellHeightChanged() {
-        self.totalTableView.reloadData()
-    }
-    
     func updateDataFromDosageAddViewController(intake: String) {
         self.intakeForAdd.append(intake)
         self.totalTableView.reloadData()
@@ -278,22 +276,9 @@ extension PillAddMainViewController: PillCellDelegate, IntakeDateCellDelegate, P
         self.intakeForAdd.append(intake)
     }
     
-    func sendDate(date: String) {
-        print(date)
-    }
-    
     func updateDueDateCellHeight() {
         self.totalTableView.reloadData()
         self.totalTableView.scrollToRow(at: IndexPath(row: 6, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
     }
-    
-    //    func updateAlarmStatus(isOn: Bool) {
-    //        if isOn {
-    //            self.alarmStatusForAdd = isOn
-    //            NotificationHelper.shared.readUserPills()
-    //        } else {
-    //
-    //        }
-    //    }
 }
 

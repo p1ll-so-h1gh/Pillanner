@@ -26,6 +26,7 @@ struct Pill: Equatable {
     var dueDate: String // 데이터 타입 변화할 가능성이 있음...
     var intake: [String] // [10:30, 12:30]
     var dosage: String
+    var dosageUnit: String
     var alarmStatus: Bool
 }
 
@@ -35,11 +36,9 @@ struct PillCategory: Equatable {
         guard lhs.pills == rhs.pills else { return false }
         return true
     }
-    
     var meridiem: String
     var pills: [Pill]
 }
-
 
 struct TakenPill {
     let title: String
