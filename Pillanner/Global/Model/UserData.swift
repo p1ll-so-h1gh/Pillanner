@@ -43,9 +43,9 @@ struct PillCategory: Equatable {
 
 struct TakenPill {
     let title: String
-    var takenDate: String // 데이터 타입 변화할 가능성이 있음...
-    var intake: String // 섭취 시간, 이후 서버에는 배열로 저장됨
-    var dosage: String //섭취량
+    var takenDate: String
+    var intake: String
+    var dosage: String
 }
 
 enum Weekday: String {

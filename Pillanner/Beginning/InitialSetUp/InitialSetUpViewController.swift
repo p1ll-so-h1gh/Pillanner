@@ -302,13 +302,4 @@ extension InitialSetUpViewController: PillCellDelegate, IntakeDateCellDelegate, 
         self.totalTableView.reloadData()
         self.totalTableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
     }
-    
-    //    func updateAlarmStatus(isOn: Bool) {
-    //        if isOn {
-    //            self.alarmStatusForAdd = isOn
-    //            NotificationHelper.shared.readUserPills()
-    //        } else {
-    //
-    //        }
-    //    }
 }

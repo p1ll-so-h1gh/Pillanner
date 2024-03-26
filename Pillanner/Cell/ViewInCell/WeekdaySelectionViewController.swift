@@ -29,17 +29,6 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
     let weekdays = ["월요일마다", "화요일마다", "수요일마다", "목요일마다", "금요일마다", "토요일마다", "일요일마다"]
     private var pageTitleLabel: UILabel!
     
-    //    private let loginButton: UIButton = {
-    //        let button = UIButton()
-    //        button.setTitle("저장하기", for: .normal)
-    //        button.titleLabel?.font = FontLiteral.body(style: .bold)
-    //        button.setTitleColor(.white, for: .normal)
-    //        button.backgroundColor = UIColor.pointThemeColor2
-    //        button.layer.cornerRadius = 8
-    //        button.addTarget(target, action: #selector(didSaveButtonTapped), for: .touchUpInside)
-    //        return button
-    //    }()
-    
     init(selectedWeekdaysInString: [String]) {
         super.init(nibName: nil, bundle: nil)
         self.selectedWeekdaysInString = selectedWeekdaysInString
