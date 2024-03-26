@@ -13,13 +13,13 @@ protocol MonthYearBarViewDelegate: AnyObject {
 }
 
 final class MonthYearBarView: UIView {
-    private let labelBtn1: UIButton = {
+    private let labelButton1: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Down"), for: .normal)
         return button
     }()
     
-    private let labelBtn2: UIButton = {
+    private let labelButton2: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Down"), for: .normal)
         return button
@@ -55,31 +55,31 @@ final class MonthYearBarView: UIView {
         return label
     }()
     
-    private let btnRightView: UIView = {
+    private let buttonRightView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 19
         return view
     }()
     
-    lazy var btnRight: UIButton = {
+    lazy var buttonRight: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "rightmove"), for: .normal)
-        button.addTarget(self, action: #selector(btnLeftRightAction(sender:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(buttonLeftRightAction(sender:)), for: .touchUpInside)
         return button
     }()
     
-    private let btnLeftView: UIView = {
+    private let buttonLeftView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 19
         return view
     }()
     
-    lazy var btnLeft: UIButton = {
+    lazy var buttonLeft: UIButton = {
         let button=UIButton()
         button.setImage(UIImage(named: "leftmove"), for: .normal)
-        button.addTarget(self, action: #selector(btnLeftRightAction(sender:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(buttonLeftRightAction(sender:)), for: .touchUpInside)
         button.setTitleColor(UIColor.lightGray, for: .disabled)
         return button
     }()
@@ -97,15 +97,15 @@ final class MonthYearBarView: UIView {
         currentYear = Calendar.current.component(.year, from: Date())
         setupView()
         
-        btnLeft.isEnabled = false
+        buttonLeft.isEnabled = false
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func btnLeftRightAction(sender: UIButton) {
-        if sender == btnRight {
+    @objc func buttonLeftRightAction(sender: UIButton) {
+        if sender == buttonRight {
             currentMonthIndex += 1
             if currentMonthIndex > 11 {
                 currentMonthIndex = 0
@@ -124,43 +124,43 @@ final class MonthYearBarView: UIView {
     }
     
     func setupView() {
-        btnLeftView.addSubview(btnLeft)
-        btnLeft.snp.makeConstraints {
+        buttonLeftView.addSubview(buttonLeft)
+        buttonLeft.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
-        btnRightView.addSubview(btnRight)
-        btnRight.snp.makeConstraints {
+        buttonRightView.addSubview(buttonRight)
+        buttonRight.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
         }
         monthLabelView.addSubview(monthLabel)
-        monthLabelView.addSubview(labelBtn1)
+        monthLabelView.addSubview(labelButton1)
         monthLabel.snp.makeConstraints {
             $0.top.left.bottom.equalToSuperview().inset(3)
         }
-        labelBtn1.snp.makeConstraints {
+        labelButton1.snp.makeConstraints {
             $0.left.equalTo(monthLabel.snp.right).inset(1)
             $0.top.bottom.right.equalToSuperview().inset(3)
             $0.size.equalTo(6)
         }
         yearLabelView.addSubview(yearLabel)
-        yearLabelView.addSubview(labelBtn2)
+        yearLabelView.addSubview(labelButton2)
         yearLabel.snp.makeConstraints {
             $0.top.left.bottom.equalToSuperview().inset(3)
         }
-        labelBtn2.snp.makeConstraints {
+        labelButton2.snp.makeConstraints {
             $0.left.equalTo(yearLabel.snp.right).inset(-1)
             $0.top.bottom.right.equalToSuperview().inset(3)
             $0.size.equalTo(6)
         }
-        [btnLeftView, monthLabelView, yearLabelView, btnRightView].forEach {
+        [buttonLeftView, monthLabelView, yearLabelView, buttonRightView].forEach {
             self.addSubview($0)
         }
-        btnLeftView.snp.makeConstraints {
+        buttonLeftView.snp.makeConstraints {
             $0.size.equalTo(38)
             $0.leading.top.bottom.equalToSuperview()
         }
         monthLabelView.snp.makeConstraints {
-            $0.left.equalTo(btnLeftView.snp.right).inset(-70)
+            $0.left.equalTo(buttonLeftView.snp.right).inset(-70)
             $0.top.bottom.equalToSuperview()
             $0.width.equalTo(43)
         }
@@ -171,7 +171,7 @@ final class MonthYearBarView: UIView {
             $0.width.equalTo(78)
         }
         yearLabel.text = "\(currentYear)"
-        btnRightView.snp.makeConstraints {
+        buttonRightView.snp.makeConstraints {
             $0.size.equalTo(38)
             $0.trailing.top.bottom.equalToSuperview()
         }

@@ -250,71 +250,8 @@ final class IntakeDateCell: UITableViewCell {
         }
     }
     
-    func setupLayout() {
-        [intakedateLabel, editButton, HorizontalStackView].forEach {
-            self.contentView.addSubview($0)
-        }
-        monView.addSubview(monLabel)
-        tueView.addSubview(tueLabel)
-        wedView.addSubview(wedLabel)
-        thuView.addSubview(thuLabel)
-        friView.addSubview(friLabel)
-        satView.addSubview(satLabel)
-        sunView.addSubview(sunLabel)
-        [monView, tueView, wedView, thuView, friView, satView, sunView].forEach {
-            self.HorizontalStackView.addArrangedSubview($0)
-        }
-        self.monLabel.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(8)
-            $0.left.right.equalToSuperview().inset(10)
-        }
-        self.tueLabel.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(8)
-            $0.left.right.equalToSuperview().inset(10)
-        }
-        self.wedLabel.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(8)
-            $0.left.right.equalToSuperview().inset(10)
-        }
-        self.thuLabel.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(8)
-            $0.left.right.equalToSuperview().inset(10)
-        }
-        self.friLabel.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(8)
-            $0.left.right.equalToSuperview().inset(10)
-        }
-        self.satLabel.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(8)
-            $0.left.right.equalToSuperview().inset(10)
-        }
-        self.sunLabel.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(8)
-            $0.left.right.equalToSuperview().inset(10)
-        }
-        self.intakedateLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.left.equalToSuperview().inset(sidePaddingSizeValue)
-        }
-        self.editButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.right.equalToSuperview().inset(sidePaddingSizeValue)
-        }
-        self.HorizontalStackView.snp.makeConstraints {
-            $0.top.equalTo(intakedateLabel.snp.bottom).inset(-sidePaddingSizeValue)
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
-        }
-    }
-    
     //cell 초기화 함수 - 색깔이 변한 섭취요일 다시 원상복구
     internal func reset() {
     }
 }
 
-//extension IntakeDateCell: WeekdaySelectionDelegate {
-//    func updateIntakeDate(_ date: [String]) {
-//        print(#function, self.selectedDate)
-//        self.selectedDate = date
-//    }
-//}

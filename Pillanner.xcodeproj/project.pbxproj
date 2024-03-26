@@ -104,6 +104,8 @@
 		CC7DB3FE2B96F72C00809665 /* PillEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3FD2B96F72C00809665 /* PillEditViewController.swift */; };
 		CC7DB4002B96FD0E00809665 /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3FF2B96FD0E00809665 /* UserSettingViewController.swift */; };
 		CC7DB4052B981DFE00809665 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB4042B981DFE00809665 /* UserInfoView.swift */; };
+		CCA6A7B92BB13EC700BC3800 /* AlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA6A7B82BB13EC700BC3800 /* AlarmCell.swift */; };
+		CCA6A7BB2BB13EE800BC3800 /* IntakeNumberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA6A7BA2BB13EE800BC3800 /* IntakeNumberCell.swift */; };
 		CCD759352B9F183500878CEF /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD759342B9F183400878CEF /* Keyboard.swift */; };
 		CCD759372BA00DE300878CEF /* InitialSetupEndViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD759362BA00DE300878CEF /* InitialSetupEndViewController.swift */; };
 /* End PBXBuildFile section */
@@ -164,6 +166,8 @@
 		CC7DB3FD2B96F72C00809665 /* PillEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillEditViewController.swift; sourceTree = "<group>"; };
 		CC7DB3FF2B96FD0E00809665 /* UserSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
 		CC7DB4042B981DFE00809665 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
+		CCA6A7B82BB13EC700BC3800 /* AlarmCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmCell.swift; sourceTree = "<group>"; };
+		CCA6A7BA2BB13EE800BC3800 /* IntakeNumberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakeNumberCell.swift; sourceTree = "<group>"; };
 		CCD759342B9F183400878CEF /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		CCD759362BA00DE300878CEF /* InitialSetupEndViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSetupEndViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -441,6 +445,8 @@
 			children = (
 				147505862BAEBBBB00A646AB /* ViewInCell */,
 				CC1697992B9021C0008276B0 /* PillCell.swift */,
+				CCA6A7B82BB13EC700BC3800 /* AlarmCell.swift */,
+				CCA6A7BA2BB13EE800BC3800 /* IntakeNumberCell.swift */,
 				CC16979B2B9021D2008276B0 /* IntakeDateCell.swift */,
 				CC16979D2B9021F2008276B0 /* IntakeSettingCell.swift */,
 				CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */,
@@ -618,6 +624,7 @@
 				C45D90542B95BB7200676CEA /* FindPWVC_Extension.swift in Sources */,
 				CCD759352B9F183500878CEF /* Keyboard.swift in Sources */,
 				C4A55A072B99B9E40084AF16 /* SNSLogin_Apple.swift in Sources */,
+				CCA6A7BB2BB13EE800BC3800 /* IntakeNumberCell.swift in Sources */,
 				CC16976F2B8DDA13008276B0 /* PillListCollectionViewCell.swift in Sources */,
 				CC1697A52B903DAD008276B0 /* PillAddMainViewController.swift in Sources */,
 				5672C88F2BA3349B004D4DAD /* TermsofUseViewController.swift in Sources */,
@@ -626,6 +633,7 @@
 				14D2BE612B84BBBF0006AC51 /* AppDelegate.swift in Sources */,
 				7C365CA52B9F1F25003C8CF8 /* SNSLogin_Naver.swift in Sources */,
 				560EC5BB2B98991800FF0D37 /* WeekdaySelectionViewController.swift in Sources */,
+				CCA6A7B92BB13EC700BC3800 /* AlarmCell.swift in Sources */,
 				560EC5B92B9898F400FF0D37 /* DosageAddViewController.swift in Sources */,
 				CC7DB3CD2B95536C00809665 /* IntakePillCell.swift in Sources */,
 				5672C8912BA334AA004D4DAD /* PrivacyPolicyViewController.swift in Sources */,

@@ -179,7 +179,7 @@ final class PillEditViewController: UIViewController {
 
 extension PillEditViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -191,23 +191,28 @@ extension PillEditViewController: UITableViewDataSource {
             cell.delegate = self
             return cell
         case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath) as! AlarmCell
+            cell.setupLayoutOnEditingProcess(alarmStatus: self.oldPillDataForEdit.alarmStatus)
+            return cell
+        case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeNumberCell", for: indexPath) as! IntakeNumberCell
+            cell.setupLayoutOnEditingProcess(dosage: self.oldPillDataForEdit.dosage, unit: "정")
+            return cell
+        case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
             cell.setupLayoutOnEditingProcess(days: self.oldPillDataForEdit.day)
             return cell
-        case 2:
+        case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
-            cell.setupLayoutOnEditingProcess(alarm: self.oldPillDataForEdit.alarmStatus,
-                                             intake: self.oldPillDataForEdit.intake,
-                                             dosage: self.oldPillDataForEdit.dosage,
-                                             unit: "정")
+            cell.setupLayoutOnEditingProcess(intake: self.oldPillDataForEdit.intake)
             cell.delegate = self
             return cell
-        case 3:
+        case 5:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillTypeCell", for: indexPath) as! PillTypeCell
             cell.setupLayoutOnEditingProcess(type: self.oldPillDataForEdit.type)
             cell.delegate = self
             return cell
-        case 4:
+        case 6:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DueDateCell
             cell.setupLayoutOnEditingProcess(dueDate: self.oldPillDataForEdit.dueDate)
             cell.delegate = self
@@ -238,11 +243,8 @@ extension PillEditViewController: IntakeSettingDelegate {
 
 extension PillEditViewController: PillCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
     
-    func updateDataFromDosageAddViewController(alarmStatus: Bool, intake: String, dosage: String, unit: String) {
-        self.alarmStatusForEdit = alarmStatus
+    func updateDataFromDosageAddViewController(intake: String) {
         self.intakeForEdit.append(intake)
-        self.dosageForEdit = dosage
-        self.dosageUnitForEdit = unit
         self.totalTableView.reloadData()
     }
     
@@ -272,7 +274,7 @@ extension PillEditViewController: PillCellDelegate, IntakeDateCellDelegate, Pill
     }
     
     
-    func updateCellHeight() {
+    func updateDueDateCellHeight() {
         self.totalTableView.reloadData()
         self.totalTableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
     }
