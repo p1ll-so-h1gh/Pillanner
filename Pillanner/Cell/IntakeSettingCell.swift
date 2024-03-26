@@ -17,7 +17,6 @@ import SnapKit
 
 protocol IntakeSettingDelegate: AnyObject {
     func addDosage()
-    
 }
 
 final class PillTableView: UITableView {

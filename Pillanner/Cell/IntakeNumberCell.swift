@@ -98,7 +98,7 @@ final class IntakeNumberCell: UITableViewCell {
     
     func setupLayoutOnEditingProcess(dosage: String, unit: String) {
         self.dosageNumberInputTextField.text = dosage
-        self.dosageUnitButton.setTitle(unit, for: .normal)
+        if unit != "" { self.dosageUnitButton.setTitle(unit, for: .normal) }
         
         self.contentView.addSubview(dosageCountLabel)
         self.contentView.addSubview(dosageInputContainer)

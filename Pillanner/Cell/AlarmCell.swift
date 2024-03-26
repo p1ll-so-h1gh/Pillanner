@@ -28,7 +28,7 @@ final class AlarmCell: UITableViewCell {
         return label
     }()
     
-    private let alarmStatusLabel: UILabel = {
+    private var alarmStatusLabel: UILabel = {
         let label = UILabel()
         label.font = FontLiteral.body(style: .bold)
         label.textColor = UIColor.pointThemeColor2
@@ -66,8 +66,10 @@ final class AlarmCell: UITableViewCell {
     func setupLayoutOnEditingProcess(alarmStatus: Bool) {
         if alarmStatus == true {
             self.alarmToggle.isOn = true
+            self.alarmStatusLabel.text = "on"
         } else {
             self.alarmToggle.isOn = false
+            self.alarmStatusLabel.text = "off"
         }
         
         self.contentView.addSubview(alarmSettingLabel)
