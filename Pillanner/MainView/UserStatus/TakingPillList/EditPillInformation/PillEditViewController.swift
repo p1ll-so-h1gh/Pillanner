@@ -195,10 +195,12 @@ extension PillEditViewController: UITableViewDataSource {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath) as! AlarmCell
             cell.setupLayoutOnEditingProcess(alarmStatus: self.oldPillDataForEdit.alarmStatus)
+            cell.delegate = self
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeNumberCell", for: indexPath) as! IntakeNumberCell
             cell.setupLayoutOnEditingProcess(dosage: self.oldPillDataForEdit.dosage, unit: "정")
+            cell.delegate = self
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
@@ -243,7 +245,14 @@ extension PillEditViewController: IntakeSettingDelegate {
     }
 }
 
-extension PillEditViewController: PillCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
+extension PillEditViewController:PillCellDelegate, AlarmCellDelegate,intakeNumberCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
+    func updateAlarmStatus(status: Bool) {
+        self.alarmStatusForEdit = status
+    }
+    
+    func updateUnit(unit: String) {
+        self.dosageUnitForEdit = unit
+    }
     
     func updateDataFromDosageAddViewController(intake: String) {
         self.intakeForEdit.append(intake)
@@ -267,7 +276,7 @@ extension PillEditViewController: PillCellDelegate, IntakeDateCellDelegate, Pill
         self.dueDateForEdit = date
     }
     
-    func updateDosage(_ dosage: String) {
+    func updateDosage(dosage: String) {
         self.dosageForEdit = dosage
     }
     

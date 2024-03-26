@@ -8,10 +8,16 @@
 import UIKit
 import SnapKit
 
+protocol AlarmCellDelegate: AnyObject {
+    func updateAlarmStatus(status: Bool)
+}
+
 final class AlarmCell: UITableViewCell {
     
     static let identifier = "AlarmCell"
     private let sidePaddingSizeValue = 20
+    
+    weak var delegate: AlarmCellDelegate?
     
     private let alarmSettingLabel: UILabel = {
         let label = UILabel()
@@ -40,6 +46,7 @@ final class AlarmCell: UITableViewCell {
     // 토글 액션 줄 때 상태 레이블 업데이트 함수 호출
     @objc func alarmToggleChanged(_ toggle: UISwitch) {
         updateAlarmStatusLabel(isOn: toggle.isOn)
+        self.delegate?.updateAlarmStatus(status: toggle.isOn)
     }
     
     // 토글에 따라 상태 레이블 업데이트
@@ -57,6 +64,11 @@ final class AlarmCell: UITableViewCell {
     }
     
     func setupLayoutOnEditingProcess(alarmStatus: Bool) {
+        if alarmStatus == true {
+            self.alarmToggle.isOn = true
+        } else {
+            self.alarmToggle.isOn = false
+        }
         
         self.contentView.addSubview(alarmSettingLabel)
         self.contentView.addSubview(alarmStatusLabel)

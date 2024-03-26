@@ -8,12 +8,19 @@
 import UIKit
 import SnapKit
 
+protocol intakeNumberCellDelegate: AnyObject {
+    func updateDosage(dosage: String)
+    func updateUnit(unit: String)
+}
+
 final class IntakeNumberCell: UITableViewCell {
     
     static let identifier = "IntakeNumberCell"
     private let sidePaddingSizeValue = 20
     private let dosageUnits = ["캡슐", "정", "개", "포", "병", "g", "ml"]
     private var isDropdownVisible = false
+    
+    weak var delegate: intakeNumberCellDelegate?
     
     private let dosageCountLabel: UILabel = {
         let label = UILabel()
@@ -33,13 +40,18 @@ final class IntakeNumberCell: UITableViewCell {
         return view
     }()
     
-    private var dosageNumberInputTextField: UITextField = {
+    private lazy var dosageNumberInputTextField: UITextField = {
         let textfield = UITextField()
         textfield.keyboardType = .numberPad
         textfield.placeholder = "복용량 개수 입력"
         textfield.textAlignment = .center
+        textfield.addTarget(self, action: #selector(textFieldDidChanged), for: .editingChanged)
         return textfield
     }()
+    
+    @objc private func textFieldDidChanged(_ sender: Any) {
+        self.delegate?.updateDosage(dosage: self.dosageNumberInputTextField.text ?? "")
+    }
     
     private let dosageUnitButtonView: UIView = {
         let view = UIView()
@@ -61,7 +73,7 @@ final class IntakeNumberCell: UITableViewCell {
         return button
     }()
     
-    @objc func toggleDropdown() {
+    @objc private func toggleDropdown() {
         isDropdownVisible.toggle()
         dosageUnitTableView.isHidden = !isDropdownVisible
     }
@@ -85,6 +97,9 @@ final class IntakeNumberCell: UITableViewCell {
     }
     
     func setupLayoutOnEditingProcess(dosage: String, unit: String) {
+        self.dosageNumberInputTextField.text = dosage
+        self.dosageUnitButton.setTitle(unit, for: .normal)
+        
         self.contentView.addSubview(dosageCountLabel)
         self.contentView.addSubview(dosageInputContainer)
         dosageInputContainer.addSubview(dosageNumberInputTextField)
@@ -129,6 +144,7 @@ extension IntakeNumberCell: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         dosageUnitButton.setTitle(dosageUnits[indexPath.row], for: .normal)
+        self.delegate?.updateUnit(unit: dosageUnits[indexPath.row])
         toggleDropdown()
     }
 }

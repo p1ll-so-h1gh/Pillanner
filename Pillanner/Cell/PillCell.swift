@@ -64,10 +64,6 @@ final class PillCell: UITableViewCell {
         }
     }
     
-    func titleChanged(_ title: String) {
-        delegate?.updatePillTitle(title)
-    }
-    
     //cell 초기화 함수 - 제품명 사라지게 하기
     internal func reset() {
         self.pillNameTextField.text = ""
