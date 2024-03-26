@@ -17,7 +17,6 @@ import SnapKit
 
 protocol IntakeSettingDelegate: AnyObject {
     func addDosage()
-    
 }
 
 final class PillTableView: UITableView {
@@ -45,14 +44,9 @@ final class IntakeSettingCell: UITableViewCell {
     private var dosage = String()
     private var unit = String()
     
-    //    private var intake = ["11:20", "12:20"]
-    //    private var alarmStatus = [true, false]
-    //    private var dosage = ["1", "2"]
-    //    private var unit = ["개", "정"]
-    
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "섭취 설정"
+        label.text = "시간 설정"
         label.font = FontLiteral.subheadline(style: .bold).withSize(18)
         label.alpha = 0.6
         return label
@@ -83,7 +77,7 @@ final class IntakeSettingCell: UITableViewCell {
     
     private lazy var intakeAddButton: UIButton = {
         let button = UIButton()
-        button.setTitle("복용 횟수 추가하기", for: .normal)
+        button.setTitle("섭취 횟수 추가하기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         button.frame = CGRect(x: 0, y: 0, width: 439, height: 45)
         button.addTarget(self, action: #selector(goDosageAddVC), for: .touchUpInside)
@@ -106,20 +100,10 @@ final class IntakeSettingCell: UITableViewCell {
         fatalError()
     }
     
-    func setupLayoutOnEditingProcess(alarm: Bool, intake: [String], dosage: String, unit: String) {
+    func setupLayoutOnEditingProcess(intake: [String]) {
         
-        self.infoLabel.text = "복용횟수 \(intake.count)회"
-        
+        self.infoLabel.text = "섭취횟수 \(intake.count)회"
         self.intake = intake
-//        if self.alarmStatus == [false] {
-//            self.alarmStatus = [alarm]
-//            self.dosage = [dosage]
-//            self.unit = [unit]
-//        } else {
-        self.alarmStatus = alarm
-        self.dosage = dosage
-        self.unit = unit
-//        }
         
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(infoLabel)
@@ -141,7 +125,6 @@ final class IntakeSettingCell: UITableViewCell {
             $0.top.equalTo(titleLabel.snp.bottom).inset(-10)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)
             $0.right.equalToSuperview().inset(sidePaddingSizeValue)
-            //            $0.height.greaterThanOrEqualTo(1)
             $0.height.equalTo(120)
         }
         self.intakeAddButton.snp.makeConstraints {
@@ -158,42 +141,6 @@ final class IntakeSettingCell: UITableViewCell {
         self.pillTableView.reloadData()
     }
     
-    func setupLayout() {
-        self.contentView.addSubview(titleLabel)
-        self.contentView.addSubview(infoLabel)
-        self.contentView.addSubview(pillTableView)
-        self.contentView.addSubview(intakeAddButtonView)
-        
-        intakeAddButtonView.addSubview(intakeAddButton)
-        
-        self.titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.left.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.height.equalTo(24)
-        }
-        self.infoLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.right.equalToSuperview().inset(sidePaddingSizeValue)
-        }
-        self.pillTableView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).inset(-10)
-            $0.left.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.right.equalToSuperview().inset(sidePaddingSizeValue)
-            //            $0.height.greaterThanOrEqualTo(1)
-            $0.height.equalTo(120)
-        }
-        self.intakeAddButton.snp.makeConstraints {
-            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
-        }
-        self.intakeAddButtonView.snp.makeConstraints {
-            $0.top.equalTo(self.pillTableView.snp.bottom).inset(-15)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(45)
-            $0.width.equalTo(339)
-            $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
-        }
-    }
-    
     //cell 초기화 함수 - 테이블에 추가된 항목들 삭제하고 섭취횟수 0회로 초기화
     internal func reset() {
     }
@@ -207,11 +154,7 @@ extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IntakePillCell.identifier, for: indexPath) as! IntakePillCell
-        cell.setupLayoutOnEditingProcess(intake: self.intake[indexPath.row],
-//                                         dosage: self.dosage[indexPath.row],
-                                         dosage: self.dosage,
-                                         unit: self.unit,
-                                         alarm: self.alarmStatus)
+        cell.setupLayoutOnEditingProcess(intake: self.intake[indexPath.row])
         return cell
     }
     

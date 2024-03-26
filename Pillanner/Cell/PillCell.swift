@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import SwiftUI
 
 protocol PillCellDelegate: AnyObject {
     func updatePillTitle(_ title: String)
@@ -29,7 +28,7 @@ final class PillCell: UITableViewCell {
         return label
     }()
     
-    private let pillNameTextField: UITextField = {
+    private lazy var pillNameTextField: UITextField = {
         let field = UITextField()
         field.placeholder = "제품명"
         field.textAlignment = .left
@@ -40,7 +39,6 @@ final class PillCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        //        self.setupLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -49,20 +47,6 @@ final class PillCell: UITableViewCell {
     
     @objc private func textFieldDidChanged(_ sender: Any) {
         delegate?.updatePillTitle(self.pillNameTextField.text ?? "")
-    }
-    
-    func setupLayout() {
-        self.contentView.addSubview(self.pillnameLabel)
-        self.contentView.addSubview(self.pillNameTextField)
-        self.pillnameLabel.snp.makeConstraints {
-            $0.top.left.bottom.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.width.equalTo(50)
-        }
-        self.pillNameTextField.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(20)
-            $0.left.equalTo(self.pillnameLabel.snp.right).inset(-8)
-            $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
-        }
     }
     
     func setupLayoutOnEditingProcess(title: String) {
@@ -78,10 +62,6 @@ final class PillCell: UITableViewCell {
             $0.left.equalTo(self.pillnameLabel.snp.right).inset(-8)
             $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
         }
-    }
-    
-    func titleChanged(_ title: String) {
-        delegate?.updatePillTitle(title)
     }
     
     //cell 초기화 함수 - 제품명 사라지게 하기

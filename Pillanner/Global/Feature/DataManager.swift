@@ -198,6 +198,7 @@ final class DataManager {
                                     dueDate: document.data()["DueDate"] as? String ?? "fduedate",
                                     intake: document.data()["Intake"] as? [String] ?? ["fintake"],
                                     dosage: document.data()["Dosage"] as? String ?? "fdosage",
+                                    dosageUnit: document.data()["DosageUnit"] as? String ?? "fdosageUnit",
                                     alarmStatus: document.data()["AlarmStatus"] as? Bool ?? true)
                     completion(dict)
                 }

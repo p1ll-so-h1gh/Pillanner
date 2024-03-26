@@ -46,6 +46,8 @@ final class PillAddMainViewController: UIViewController{
     private let totalTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.identifier)
+        tableView.register(AlarmCell.self, forCellReuseIdentifier: AlarmCell.identifier)
+        tableView.register(IntakeNumberCell.self, forCellReuseIdentifier: IntakeNumberCell.identifier)
         tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.identifier)
         tableView.register(IntakeSettingCell.self, forCellReuseIdentifier: IntakeSettingCell.identifier)
         tableView.register(PillTypeCell.self, forCellReuseIdentifier: PillTypeCell.identifier)
@@ -95,13 +97,15 @@ final class PillAddMainViewController: UIViewController{
             && self.dayForAdd != []
             && self.dueDateForAdd != ""
             && self.intakeForAdd != []
-            && self.dosageForAdd != "" {
-            let newPillData = Pill(title: self.titleForAdd, 
+            && self.dosageForAdd != ""
+            && self.dosageUnitForAdd != "" {
+            let newPillData = Pill(title: self.titleForAdd,
                                    type: self.typeForAdd,
                                    day: self.dayForAdd,
                                    dueDate: self.dueDateForAdd,
                                    intake: self.intakeForAdd,
                                    dosage: self.dosageForAdd,
+                                   dosageUnit: self.dosageUnitForAdd,
                                    alarmStatus: self.alarmStatusForAdd)
             
             DataManager.shared.createPillData(pill: newPillData)
@@ -178,7 +182,7 @@ final class PillAddMainViewController: UIViewController{
 //MARK: - TableView DataSource, Delegate
 extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -190,23 +194,30 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
             cell.delegate = self
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
-            cell.setupLayoutOnEditingProcess(days: self.dayForAdd)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath) as! AlarmCell
+            cell.setupLayoutOnEditingProcess(alarmStatus: self.alarmStatusForAdd)
+            cell.delegate = self
             return cell
         case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
-            cell.setupLayoutOnEditingProcess(alarm: self.alarmStatusForAdd,
-                                             intake: self.intakeForAdd,
-                                             dosage: self.dosageForAdd,
-                                             unit: self.dosageUnitForAdd)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeNumberCell", for: indexPath) as! IntakeNumberCell
+            cell.setupLayoutOnEditingProcess(dosage: self.dosageForAdd, unit: self.dosageUnitForAdd)
             cell.delegate = self
             return cell
         case 3:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
+            cell.setupLayoutOnEditingProcess(days: self.dayForAdd)
+            return cell
+        case 4:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
+            cell.setupLayoutOnEditingProcess(intake: self.intakeForAdd)
+            cell.delegate = self
+            return cell
+        case 5:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillTypeCell", for: indexPath) as! PillTypeCell
             cell.setupLayoutOnEditingProcess(type: self.typeForAdd)
             cell.delegate = self
             return cell
-        case 4:
+        case 6:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DueDateCell
             cell.setupLayoutOnEditingProcess(dueDate: self.dueDateForAdd)
             cell.delegate = self
@@ -217,7 +228,7 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 1 {
+        if indexPath.row == 3 {
             let weekSelectVC = WeekdaySelectionViewController(selectedWeekdaysInString: self.dayForAdd)
             weekSelectVC.delegate = self
             self.navigationController?.isNavigationBarHidden = false
@@ -235,18 +246,17 @@ extension PillAddMainViewController: IntakeSettingDelegate {
     }
 }
 
-extension PillAddMainViewController: PillCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
-    
-    func cellHeightChanged() {
-        self.totalTableView.reloadData()
+extension PillAddMainViewController: PillCellDelegate, AlarmCellDelegate,intakeNumberCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
+    func updateUnit(unit: String) {
+        self.dosageUnitForAdd = unit
     }
     
-    func updateDataFromDosageAddViewController(alarmStatus: Bool, intake: String, dosage: String, unit: String) {
-        
-        self.alarmStatusForAdd = alarmStatus
+    func updateAlarmStatus(status: Bool) {
+        self.alarmStatusForAdd = status
+    }
+    
+    func updateDataFromDosageAddViewController(intake: String) {
         self.intakeForAdd.append(intake)
-        self.dosageForAdd = dosage
-        self.dosageUnitForAdd = unit
         self.totalTableView.reloadData()
     }
     
@@ -267,7 +277,7 @@ extension PillAddMainViewController: PillCellDelegate, IntakeDateCellDelegate, P
         self.dueDateForAdd = date
     }
     
-    func updateDosage(_ dosage: String) {
+    func updateDosage(dosage: String) {
         self.dosageForAdd = dosage
     }
     
@@ -275,22 +285,9 @@ extension PillAddMainViewController: PillCellDelegate, IntakeDateCellDelegate, P
         self.intakeForAdd.append(intake)
     }
     
-    func sendDate(date: String) {
-        print(date)
-    }
-    
-    func updateCellHeight() {
+    func updateDueDateCellHeight() {
         self.totalTableView.reloadData()
-        self.totalTableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
+        self.totalTableView.scrollToRow(at: IndexPath(row: 6, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
     }
-    
-    //    func updateAlarmStatus(isOn: Bool) {
-    //        if isOn {
-    //            self.alarmStatusForAdd = isOn
-    //            NotificationHelper.shared.readUserPills()
-    //        } else {
-    //
-    //        }
-    //    }
 }
 

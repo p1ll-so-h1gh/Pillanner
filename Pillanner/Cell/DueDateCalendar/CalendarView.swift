@@ -139,7 +139,7 @@ extension CalendarView {
         firstWeekDayOfMonth = getFirstWeekDay()
         dayCollectionView.reloadData()
         //현재 기준보다 이 전 년으로는 이동 불가능
-        monthView.btnLeft.isEnabled = !(currentMonthIndex == presentMonthIndex && currentYear == presentYear)
+        monthView.buttonLeft.isEnabled = !(currentMonthIndex == presentMonthIndex && currentYear == presentYear)
     }
 }
 

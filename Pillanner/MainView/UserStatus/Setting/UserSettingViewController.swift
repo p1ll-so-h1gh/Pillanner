@@ -52,7 +52,7 @@ class UserSettingViewController: UIViewController {
         return label
     }()
     
-    private lazy var backBtn: UIButton = {
+    private lazy var backButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "xmark")?.withRenderingMode(.alwaysOriginal).withTintColor(.black), for: .normal)
         button.addTarget(self, action: #selector(goBackPage), for: .touchUpInside)
@@ -139,14 +139,14 @@ class UserSettingViewController: UIViewController {
     }()
     
     private var sectionList: [SettingSection] = SettingSection.allCases
-    private lazy var navBackBtn = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    private lazy var navigationBackButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        navBackBtn.tintColor = .black
-        self.navigationItem.backBarButtonItem = navBackBtn
+        navigationBackButton.tintColor = .black
+        self.navigationItem.backBarButtonItem = navigationBackButton
         
         bottomTableView.delegate = self
         bottomTableView.dataSource = self
@@ -221,7 +221,7 @@ class UserSettingViewController: UIViewController {
     func setupView() {
         // 뷰를 뷰 계층에 추가
         view.addSubview(topView)
-        topView.addSubview(backBtn)
+        topView.addSubview(backButton)
         topView.addSubview(titleLabel)
         
         view.addSubview(seperateLine1)
@@ -242,14 +242,14 @@ class UserSettingViewController: UIViewController {
             make.height.equalTo(60)
         }
         
-        // backBtn 제약 조건 설정
-        backBtn.snp.makeConstraints { make in
+        // backButton 제약 조건 설정
+        backButton.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().inset(sidePaddingSizeValue)
         }
         
         // titleLabel 제약 조건 설정
         titleLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(backBtn.snp.centerY)
+            make.centerY.equalTo(backButton.snp.centerY)
             make.centerX.equalToSuperview()
         }
         
@@ -353,7 +353,7 @@ extension UserSettingViewController: UITableViewDataSource, UITableViewDelegate 
         case .appInfo:
             cell.titleLabel.text = "버전 정보"
             cell.versionLabel.text = "1.0.0" // 예시 버전 정보
-            cell.pageBtn.isHidden = true
+            cell.pageButton.isHidden = true
         }
         return cell
     }
@@ -471,8 +471,8 @@ class settingCell: UITableViewCell {
         return label
     }()
     
-    // pageBtn 접근 제한자 변경 (예: internal)
-    internal let pageBtn: UIButton = {
+    // pageButton 접근 제한자 변경 (예: internal)
+    internal let pageButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "button"), for: .normal)
         button.tintColor = UIColor(hexCode: "5F5F5F")
@@ -489,22 +489,10 @@ class settingCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //    private func setupCell() {
-    //        contentView.addSubview(titleLabel)
-    //        titleLabel.snp.makeConstraints {
-    //            $0.top.bottom.equalToSuperview().inset(5)
-    //            $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
-    //        }
-    //        contentView.addSubview(pageBtn)
-    //        pageBtn.snp.makeConstraints {
-    //            $0.top.bottom.equalToSuperview().inset(5)
-    //            $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
-    //        }
-    //    }
     private func setupCell() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(versionLabel) // versionLabel 추가
-        contentView.addSubview(pageBtn)
+        contentView.addSubview(pageButton)
         
         titleLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(5)
@@ -513,10 +501,10 @@ class settingCell: UITableViewCell {
         
         versionLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview() // 세로 중앙 정렬
-            make.trailing.equalTo(pageBtn.snp.leading).offset(-10) // pageBtn의 왼쪽에 위치, 10 포인트 간격
+            make.trailing.equalTo(pageButton.snp.leading).offset(-10) // pageButton의 왼쪽에 위치, 10 포인트 간격
         }
         
-        pageBtn.snp.makeConstraints {
+        pageButton.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(5)
             $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
         }
