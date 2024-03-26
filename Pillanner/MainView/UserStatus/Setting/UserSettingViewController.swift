@@ -84,6 +84,7 @@ class UserSettingViewController: UIViewController {
     private let alarmActivateSwitch: UISwitch = {
         let switchControl = UISwitch()
         switchControl.onTintColor = UIColor.mainThemeColor
+        switchControl.addTarget(self, action: #selector(moveToAlarmSetting), for: .valueChanged)
         return switchControl
     }()
     
@@ -176,6 +177,12 @@ class UserSettingViewController: UIViewController {
             logoutButton.centerYAnchor.constraint(equalTo: footerView.centerYAnchor)
         ])
         bottomTableView.tableFooterView = footerView
+    }
+
+    @objc private func moveToAlarmSetting() {
+        if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+        }
     }
 
     @objc func handleLogout() {

@@ -291,40 +291,44 @@ class CalendarViewController: UIViewController {
         if swipe.direction == .up {
             calendar.appearance.headerTitleFont = .systemFont(ofSize: 17)
             calendar.setScope(.week, animated: true)
+            chevronImage.image = UIImage(systemName: "chevron.down")
         } else if swipe.direction == .down {
             calendar.appearance.headerTitleFont = .boldSystemFont(ofSize: 20)
             calendar.setScope(.month, animated: true)
+            chevronImage.image = UIImage(systemName: "chevron.up")
         }
         
-        flipChevronImage()
-    }
-    
-    // chevron 탭
-    @objc private func handleChevronTap() {
-        if isWeeklyMode {
-            calendar.setScope(.month, animated: true)
-        } else {
-            calendar.setScope(.week, animated: true)
-        }
-        
-        flipChevronImage()
-        isWeeklyMode = !isWeeklyMode
+        //flipChevronImage()
     }
     
     // MARK: - Chevron
-    
+
     private func setupChevronTap() {
         let chevronTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleChevronTap))
         chevronImage.isUserInteractionEnabled = true
         chevronImage.addGestureRecognizer(chevronTapGesture)
     }
-    
-    // chevron 뒤집는 애니메이션
-    private func flipChevronImage() {
-        UIView.transition(with: chevronImage, duration: 0.5, options: .transitionFlipFromBottom, animations: {
-            self.chevronImage.transform = self.chevronImage.transform.scaledBy(x: 1, y: -1)
-        }, completion: nil)
+
+    // chevron 탭
+    @objc private func handleChevronTap() {
+        if isWeeklyMode {
+            calendar.setScope(.month, animated: true)
+            chevronImage.image = UIImage(systemName: "chevron.up")
+        } else {
+            calendar.setScope(.week, animated: true)
+            chevronImage.image = UIImage(systemName: "chevron.down")
+        }
+
+        //flipChevronImage()
+        isWeeklyMode = !isWeeklyMode
     }
+
+//    // chevron 뒤집는 애니메이션
+//    private func flipChevronImage() {
+//        UIView.transition(with: chevronImage, duration: 0.5, options: .transitionFlipFromBottom, animations: {
+//            self.chevronImage.transform = self.chevronImage.transform.scaledBy(x: 1, y: -1)
+//        }, completion: nil)
+//    }
     
     // MARK: - 테이블 뷰 헤더
     
