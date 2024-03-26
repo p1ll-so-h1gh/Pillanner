@@ -15,6 +15,7 @@ private let naverLoginInstance = NaverThirdPartyLoginConnection.getSharedInstanc
 extension LoginViewController: NaverThirdPartyLoginConnectionDelegate {
     
     @objc func naverLoginButtonTapped() {
+        UserDefaults.standard.set("네이버", forKey: "SignUpPath")
         naverLoginInstance?.delegate = self
         naverLoginInstance?.requestThirdPartyLogin()
     }
@@ -102,7 +103,7 @@ extension LoginViewController: NaverThirdPartyLoginConnectionDelegate {
                             UID: result.user.uid,
                             ID: email,
                             password: "sns",
-                            nickname: "아직 설정 전",
+                            nickname: "(이름 없음)",
                             signUpPath: "네이버"
                         )
                     )
