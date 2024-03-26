@@ -71,6 +71,10 @@ final class DueDateCell: UITableViewCell {
     }
     
     func setupLayoutOnEditingProcess(dueDate: String) {
+        if dueDate != "" {
+            self.popSwitch.isOn = true
+            self.calendarView.isHidden = false
+        }
         
         self.topView.addSubview(titleLabel)
         self.topView.addSubview(popSwitch)
