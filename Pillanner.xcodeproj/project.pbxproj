@@ -63,6 +63,7 @@
 		7C365CA92B9F22B9003C8CF8 /* NaverThirdPartyLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 7C365CA82B9F22B9003C8CF8 /* NaverThirdPartyLogin */; };
 		7C365CBD2BA8022E003C8CF8 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C365CBC2BA8022E003C8CF8 /* NotificationHelper.swift */; };
 		7C3F798A2B906A7700DD1AC7 /* CheckPillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */; };
+		7C8C9A8C2BB42C7900EEF6AA /* CalendarVC_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8C9A8B2BB42C7900EEF6AA /* CalendarVC_Extension.swift */; };
 		7CEBD66E2B96A8BC00F63F78 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEBD66D2B96A8BC00F63F78 /* TabBarController.swift */; };
 		C40136A42B887D4500577C17 /* CAGradientLayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A32B887D4500577C17 /* CAGradientLayer+Extension.swift */; };
 		C40136A62B887D6100577C17 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A52B887D6100577C17 /* UIColor+Extension.swift */; };
@@ -130,6 +131,7 @@
 		7C365CA42B9F1F25003C8CF8 /* SNSLogin_Naver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SNSLogin_Naver.swift; sourceTree = "<group>"; };
 		7C365CBC2BA8022E003C8CF8 /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPillCell.swift; sourceTree = "<group>"; };
+		7C8C9A8B2BB42C7900EEF6AA /* CalendarVC_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVC_Extension.swift; sourceTree = "<group>"; };
 		7CEBD66D2B96A8BC00F63F78 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		C40136A32B887D4500577C17 /* CAGradientLayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Extension.swift"; sourceTree = "<group>"; };
 		C40136A52B887D6100577C17 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 			isa = PBXGroup;
 			children = (
 				14F2CFB62B87080E007F354B /* CalendarViewController.swift */,
+				7C8C9A8B2BB42C7900EEF6AA /* CalendarVC_Extension.swift */,
 				7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */,
 			);
 			path = CalendarView;
@@ -653,6 +656,7 @@
 				C40136AA2B887DBA00577C17 /* CALayer+Extension.swift in Sources */,
 				C4A55A052B999EEC0084AF16 /* SNSLogin_Kakao.swift in Sources */,
 				C40136AC2B887DE100577C17 /* LoginViewController.swift in Sources */,
+				7C8C9A8C2BB42C7900EEF6AA /* CalendarVC_Extension.swift in Sources */,
 				C447B56A2BA02CDA001D4913 /* SNSLoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
