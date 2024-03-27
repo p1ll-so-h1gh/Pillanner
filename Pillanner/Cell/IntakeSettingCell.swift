@@ -23,9 +23,17 @@ final class PillTableView: UITableView {
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override var contentSize: CGSize {
+        didSet {
+            self.invalidateIntrinsicContentSize()
+        }
+    }
+    
     override var intrinsicContentSize: CGSize {
         let height = self.contentSize.height + self.contentInset.top + self.contentInset.bottom
         return CGSize(width: self.contentSize.width, height: height)
@@ -125,7 +133,7 @@ final class IntakeSettingCell: UITableViewCell {
             $0.top.equalTo(titleLabel.snp.bottom).inset(-10)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)
             $0.right.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.height.equalTo(120)
+            $0.height.greaterThanOrEqualTo(1)
         }
         self.intakeAddButton.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
@@ -137,7 +145,6 @@ final class IntakeSettingCell: UITableViewCell {
             $0.width.equalTo(339)
             $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
         }
-        
         self.pillTableView.reloadData()
     }
     
@@ -159,7 +166,6 @@ extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        // 높이 동적으로 주지말고 그냥 고정? 아니면 처음 데이터 들어갔을 떄 높이 반영 안되는 부분 해결이 필요
         tableView.invalidateIntrinsicContentSize()
         tableView.layoutIfNeeded()
     }
