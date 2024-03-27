@@ -10,13 +10,6 @@ import SnapKit
 import FSCalendar
 import UserNotifications
 
-protocol CalendarViewDelegate: AnyObject {
-    //전체 복용 pill개수 저장함
-    func sendTotalEvent(event: Int)
-    //셀이 더 선택되어 복용이 바뀐 것을 알려줌
-    func takenPillChanged()
-}
-
 class CalendarViewController: UIViewController {
     private lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
     
@@ -28,8 +21,6 @@ class CalendarViewController: UIViewController {
     private var listOfPills = [Pill]()
     private var categoryOfPills = [PillCategory]()
     private var selectedCells: [IndexPath] = []
-    
-    weak var delegate: CalendarViewDelegate?
     
     // MARK: - Properties
     
@@ -198,7 +189,6 @@ class CalendarViewController: UIViewController {
             }
         }
         let combinedCategories = [pillsListAM, pillsListPM]
-        self.delegate?.sendTotalEvent(event: pillsListAM.pills.count + pillsListPM.pills.count)
         categoryOfPills = combinedCategories
     }
     
@@ -450,9 +440,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UITa
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let takenPill = TakenPill(title: pill.title, takenDate: dateFormatter.string(from: calendar.today!), intake: pill.intake[0], dosage: pill.dosage)
         DataManager.shared.createPillRecordData(pill: takenPill)
-        
-        //복용 업데이트 사실 알려줌
-        self.delegate?.takenPillChanged()
+
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
