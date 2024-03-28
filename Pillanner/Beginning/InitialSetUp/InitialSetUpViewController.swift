@@ -106,6 +106,8 @@ class InitialSetUpViewController: UIViewController {
     }
     
     @objc func addPill() {
+        // 데이터 저장( firestore )
+        DataManager.shared.createPillData(pill: Pill(title: self.titleForAdd, type: self.typeForAdd, day: self.dayForAdd, dueDate: self.dueDateForAdd, intake: self.intakeForAdd, dosage: self.dosageForAdd, dosageUnit: self.dosageUnitForAdd, alarmStatus: self.alarmStatusForAdd))
         // 약을 더 추가할 때 나오는 얼럿 설정
         let title = "추가적으로 등록할 약이 있을까요?"
         let alert = UIAlertController(title: title, message: "", preferredStyle: .alert)
@@ -115,6 +117,7 @@ class InitialSetUpViewController: UIViewController {
             //            self.resetInputValue()
             self.numberLabel.text = "\(self.count)"
             self.resetEveryCellsInView()
+            self.totalTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
         }
         //finish 시 약 정보 입력 페이지 나가고 InitialSetUpEndVC로 이동
         let finish = UIAlertAction(title: "아니요", style: .default) { _ in
