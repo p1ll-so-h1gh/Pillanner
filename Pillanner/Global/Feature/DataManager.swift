@@ -323,6 +323,7 @@ final class DataManager {
         takenPillsCollection.getDocuments{ (snapshot, error) in
             guard let snapshot = snapshot, !snapshot.isEmpty else {
                 print("데이터가 없습니다.")
+                completion(nil)
                 return
             }
             for document in snapshot.documents {
