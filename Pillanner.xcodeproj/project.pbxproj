@@ -45,6 +45,7 @@
 		142BC7772B8870DD0046D8AB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 142BC7762B8870DD0046D8AB /* FirebaseStorage */; };
 		142BC7792B8870DD0046D8AB /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 142BC7782B8870DD0046D8AB /* FirebaseStorageCombine-Community */; };
 		1438F6AC2B8F0A53006D2939 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1438F6AB2B8F0A52006D2939 /* GoogleService-Info.plist */; };
+		149AE3732BB2E73F0062D854 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 149AE3722BB2E73F0062D854 /* Secrets.plist */; };
 		14D2BE612B84BBBF0006AC51 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2BE602B84BBBF0006AC51 /* AppDelegate.swift */; };
 		14D2BE632B84BBBF0006AC51 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2BE622B84BBBF0006AC51 /* SceneDelegate.swift */; };
 		14D2BE6B2B84BBBF0006AC51 /* Pillanner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 14D2BE692B84BBBF0006AC51 /* Pillanner.xcdatamodeld */; };
@@ -52,7 +53,7 @@
 		14F2CFB72B87080E007F354B /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFB62B87080E007F354B /* CalendarViewController.swift */; };
 		14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFB82B870818007F354B /* UserMainViewController.swift */; };
 		14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */; };
-		560EC5B92B9898F400FF0D37 /* DosageAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560EC5B82B9898F400FF0D37 /* DosageAddViewController.swift */; };
+		560EC5B92B9898F400FF0D37 /* IntakeAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560EC5B82B9898F400FF0D37 /* IntakeAddViewController.swift */; };
 		560EC5BB2B98991800FF0D37 /* WeekdaySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560EC5BA2B98991800FF0D37 /* WeekdaySelectionViewController.swift */; };
 		560EC5BD2B98995100FF0D37 /* InitialSetupStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560EC5BC2B98995100FF0D37 /* InitialSetupStartViewController.swift */; };
 		5672C88B2BA33474004D4DAD /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5672C88A2BA33474004D4DAD /* NoticeViewController.swift */; };
@@ -113,6 +114,7 @@
 /* Begin PBXFileReference section */
 		1408A5CF2B972DF2006DA21D /* CustomLaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLaunchScreenViewController.swift; sourceTree = "<group>"; };
 		1438F6AB2B8F0A52006D2939 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		149AE3722BB2E73F0062D854 /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		14D2BE5D2B84BBBF0006AC51 /* Pillanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pillanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14D2BE602B84BBBF0006AC51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14D2BE622B84BBBF0006AC51 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -122,7 +124,7 @@
 		14F2CFB62B87080E007F354B /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		14F2CFB82B870818007F354B /* UserMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMainViewController.swift; sourceTree = "<group>"; };
 		14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSetUpViewController.swift; sourceTree = "<group>"; };
-		560EC5B82B9898F400FF0D37 /* DosageAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DosageAddViewController.swift; sourceTree = "<group>"; };
+		560EC5B82B9898F400FF0D37 /* IntakeAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakeAddViewController.swift; sourceTree = "<group>"; };
 		560EC5BA2B98991800FF0D37 /* WeekdaySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdaySelectionViewController.swift; sourceTree = "<group>"; };
 		560EC5BC2B98995100FF0D37 /* InitialSetupStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSetupStartViewController.swift; sourceTree = "<group>"; };
 		5672C88A2BA33474004D4DAD /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
@@ -302,7 +304,7 @@
 		147505862BAEBBBB00A646AB /* ViewInCell */ = {
 			isa = PBXGroup;
 			children = (
-				560EC5B82B9898F400FF0D37 /* DosageAddViewController.swift */,
+				560EC5B82B9898F400FF0D37 /* IntakeAddViewController.swift */,
 				560EC5BA2B98991800FF0D37 /* WeekdaySelectionViewController.swift */,
 			);
 			path = ViewInCell;
@@ -340,11 +342,11 @@
 			children = (
 				C40136A22B887D2400577C17 /* Global */,
 				147505832BAEB8DD00A646AB /* Beginning */,
-				C4346D902B8DAD1B00110DEF /* Pillanner.entitlements */,
 				14F2CFB42B86E011007F354B /* MainView */,
 				14D2BE6C2B84BBC20006AC51 /* Assets.xcassets */,
 				1438F6AB2B8F0A52006D2939 /* GoogleService-Info.plist */,
 				14D2BE712B84BBC20006AC51 /* Info.plist */,
+				C4346D902B8DAD1B00110DEF /* Pillanner.entitlements */,
 			);
 			path = Pillanner;
 			sourceTree = "<group>";
@@ -634,7 +636,7 @@
 				7C365CA52B9F1F25003C8CF8 /* SNSLogin_Naver.swift in Sources */,
 				560EC5BB2B98991800FF0D37 /* WeekdaySelectionViewController.swift in Sources */,
 				CCA6A7B92BB13EC700BC3800 /* AlarmCell.swift in Sources */,
-				560EC5B92B9898F400FF0D37 /* DosageAddViewController.swift in Sources */,
+				560EC5B92B9898F400FF0D37 /* IntakeAddViewController.swift in Sources */,
 				CC7DB3CD2B95536C00809665 /* IntakePillCell.swift in Sources */,
 				5672C8912BA334AA004D4DAD /* PrivacyPolicyViewController.swift in Sources */,
 				1408A5D02B972DF2006DA21D /* CustomLaunchScreenViewController.swift in Sources */,
@@ -792,7 +794,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 77S5ZSPZ66;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -808,7 +810,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.p1llsoh1gh.Pillanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -833,7 +835,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 77S5ZSPZ66;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -849,7 +851,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.p1llsoh1gh.Pillanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";

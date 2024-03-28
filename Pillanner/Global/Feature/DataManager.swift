@@ -168,6 +168,7 @@ final class DataManager {
                                 "DueDate": pill.dueDate,
                                 "Intake": pill.intake,
                                 "Dosage": pill.dosage,
+                                "DosageUnit": pill.dosageUnit,
                                 "AlarmStatus": pill.alarmStatus
                             ])
                             print("약 등록 완료")
@@ -229,6 +230,7 @@ final class DataManager {
                                 "DueDate": document.data()["DueDate"],
                                 "Intake": document.data()["Intake"],
                                 "Dosage": document.data()["Dosage"],
+                                "DosageUnit": document.data()["DosageUnit"],
                                 "AlarmStatus": document.data()["AlarmStatus"]]
                     result.append(docs)
                 }
@@ -260,7 +262,7 @@ final class DataManager {
                 oldRef.delete()
                 
                 let newRef = pillCollection.document(pill.title)
-                newRef.setData(["Title": pill.title ,"Type": pill.type, "Day": pill.day, "DueDate": pill.dueDate, "Intake": pill.intake, "Dosage": pill.dosage, "AlarmStatus": pill.alarmStatus])
+                newRef.setData(["Title": pill.title ,"Type": pill.type, "Day": pill.day, "DueDate": pill.dueDate, "Intake": pill.intake, "Dosage": pill.dosage, "DosageUnit": pill.dosageUnit, "AlarmStatus": pill.alarmStatus])
             }
             print("약 정보가 업데이트 되었습니다.")
         }

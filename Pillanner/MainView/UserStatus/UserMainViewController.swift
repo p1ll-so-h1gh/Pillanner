@@ -478,7 +478,7 @@ extension UserMainViewController: PillListViewDelegate {
     }
     
     func editPill(pillData: Pill) {
-        let VC = PillEditViewController(pill: pillData)
+        let VC = UINavigationController(rootViewController: PillEditViewController(pill: pillData))
         VC.modalPresentationStyle = .fullScreen
         present(VC, animated: true, completion: nil)
     }

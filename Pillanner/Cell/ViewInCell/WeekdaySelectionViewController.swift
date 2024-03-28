@@ -34,7 +34,7 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
         view.backgroundColor = .primaryBackgroundColor
         self.navigationItem.title = "반복"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: FontLiteral.title3(style: .bold)]
-        yeah(array: self.selectedWeekdaysInString)
+        presentSelectedWeekday(array: self.selectedWeekdaysInString)
         setupTableView()
     }
     
@@ -63,7 +63,7 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
     
-    func yeah(array: [String]) {
+    func presentSelectedWeekday(array: [String]) {
         for selectedWeekday in array {
             if selectedWeekday == "Mon" {
                 self.selectedWeekdays.insert(0)

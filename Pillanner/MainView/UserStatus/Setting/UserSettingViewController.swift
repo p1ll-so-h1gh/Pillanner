@@ -352,7 +352,7 @@ extension UserSettingViewController: UITableViewDataSource, UITableViewDelegate 
             cell.titleLabel.text = SettingSection.policyList[indexPath.row]
         case .appInfo:
             cell.titleLabel.text = "버전 정보"
-            cell.versionLabel.text = "1.0.0" // 예시 버전 정보
+            cell.versionLabel.text = "1.0.3" // 예시 버전 정보
             cell.pageButton.isHidden = true
         }
         return cell

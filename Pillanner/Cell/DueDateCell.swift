@@ -16,11 +16,16 @@ protocol DueDateCellDelegate: AnyObject {
     func updateDueDate(date: String)
 }
 
+protocol DueDateCellToCalendarDelegate: AnyObject {
+    func sendDueDateToCalendarVC(dueDate: String)
+}
+
 final class DueDateCell: UITableViewCell {
     static let identifier = "DeadlineCell"
     private let sidePaddingSizeValue = 20
     
     weak var delegate: DueDateCellDelegate?
+    weak var calendarDelegate: DueDateCellToCalendarDelegate?
     
     private let topView: UIView = {
         let view = UIView()
@@ -75,6 +80,9 @@ final class DueDateCell: UITableViewCell {
             self.popSwitch.isOn = true
             self.calendarView.isHidden = false
         }
+        
+        // calendarVC로 미리 선택되어있던 duedate 데이터 전달
+        calendarDelegate?.sendDueDateToCalendarVC(dueDate: dueDate)
         
         self.topView.addSubview(titleLabel)
         self.topView.addSubview(popSwitch)

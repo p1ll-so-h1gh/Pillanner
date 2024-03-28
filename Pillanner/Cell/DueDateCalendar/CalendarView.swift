@@ -28,6 +28,13 @@ final class CalendarCollectionView: UICollectionView {
 }
 
 class CalendarView: UIView, MonthYearBarViewDelegate {
+//    어케해야될지 생각중...
+    private var selectedDueDate: String {
+        didSet {
+//            selectedDueDate.
+        }
+    }
+    
     private let sidePaddingSizeValue = 10
     private let betweenPadidngSizeValue = 10
     private var numOfDaysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31]
@@ -205,6 +212,13 @@ extension CalendarView: UICollectionViewDelegateFlowLayout, UICollectionViewData
     }
 }
 
+//MARK: - duedate 데이터 받기 ( duedatecell -> calendarView )
+extension CalendarView: DueDateCellToCalendarDelegate {
+    func sendDueDateToCalendarVC(dueDate: String) {
+        self.selectedDueDate = dueDate
+    }
+}
+
 //MARK: - dateCVCell Class(CollectionView Custom Cell)
 
 class dateCVCell: UICollectionViewCell {
@@ -257,3 +271,5 @@ extension String {
         return String.dateFormatter.date(from: self)
     }
 }
+
+// 데이터넣고 캘린더 뷰 틀면 선택돼있게...
