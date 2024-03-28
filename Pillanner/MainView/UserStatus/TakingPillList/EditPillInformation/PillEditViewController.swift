@@ -239,18 +239,22 @@ extension PillEditViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension PillEditViewController: IntakeSettingDelegate {
-    func addDosage() {
-        let dosageAddVC = DosageAddViewController()
-        dosageAddVC.delegate = self
+    func addIntakeWithData() {
+        <#code#>
+    }
+    
+    func addIntake() {
+        let intakeAddVC = IntakeAddViewController()
+        intakeAddVC.delegate = self
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.pushViewController(dosageAddVC, animated: true)
+        self.navigationController?.pushViewController(intakeAddVC, animated: true)
 //        let dosageNavVC = UINavigationController(rootViewController: dosageAddVC)
 //        dosageNavVC.modalPresentationStyle = .fullScreen
 //        self.present(dosageNavVC, animated: true)
     }
 }
 
-extension PillEditViewController:PillCellDelegate, AlarmCellDelegate,intakeNumberCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
+extension PillEditViewController:PillCellDelegate, AlarmCellDelegate,intakeNumberCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, IntakeAddDelegate {
     func updateAlarmStatus(status: Bool) {
         self.alarmStatusForEdit = status
         self.oldPillDataForEdit.alarmStatus = status
@@ -261,7 +265,7 @@ extension PillEditViewController:PillCellDelegate, AlarmCellDelegate,intakeNumbe
         self.oldPillDataForEdit.dosageUnit = unit
     }
     
-    func updateDataFromDosageAddViewController(intake: String) {
+    func updateDataFromIntakeAddViewController(intake: String) {
         print(#function)
         self.intakeForEdit.append(intake)
         self.oldPillDataForEdit.intake.append(intake)

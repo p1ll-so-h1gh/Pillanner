@@ -16,7 +16,8 @@ import UIKit
 import SnapKit
 
 protocol IntakeSettingDelegate: AnyObject {
-    func addDosage()
+    func addIntake()
+    func addIntakeWithData()
 }
 
 final class PillTableView: UITableView {
@@ -85,7 +86,7 @@ final class IntakeSettingCell: UITableViewCell {
     }()
     
     @objc func goDosageAddVC() {
-        self.delegate?.addDosage()
+        self.delegate?.addIntake()
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -157,6 +158,10 @@ extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
         cell.setupLayoutOnEditingProcess(intake: self.intake[indexPath.row])
         // delegate 설정 필요
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.goDosageAddVC()
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 
 class IntakePillCell: UITableViewCell {
+    private let sidePaddingValue = 6
+    private let topPaddingValue = 10
     static let identifier = "IntakePillCell"
     
     let timeLabel: UILabel = {
@@ -20,7 +22,7 @@ class IntakePillCell: UITableViewCell {
     
     private let editButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "button"), for: .normal)
+        button.setImage(UIImage(named: "dots"), for: .normal)
         return button
     }()
     
@@ -39,12 +41,12 @@ class IntakePillCell: UITableViewCell {
         self.contentView.addSubview(editButton)
         
         timeLabel.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(10)
-            $0.left.equalToSuperview().inset(6)
+            $0.top.bottom.equalToSuperview().inset(topPaddingValue)
+            $0.left.equalToSuperview().inset(sidePaddingValue)
         }
         editButton.snp.makeConstraints {
             $0.centerY.equalTo(timeLabel.snp.centerY)
-            $0.right.equalToSuperview().inset(6)
+            $0.right.equalToSuperview().inset(sidePaddingValue)
         }
     }
     

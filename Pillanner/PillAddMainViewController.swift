@@ -239,15 +239,19 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
 }
 
 extension PillAddMainViewController: IntakeSettingDelegate {
-    func addDosage() {
-        let dosageAddVC = DosageAddViewController()
-        dosageAddVC.delegate = self
+    func addIntakeWithData() {
+        <#code#>
+    }
+    
+    func addIntake() {
+        let intakeAddVC = IntakeAddViewController()
+        intakeAddVC.delegate = self
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.pushViewController(dosageAddVC, animated: true)
+        self.navigationController?.pushViewController(intakeAddVC, animated: true)
     }
 }
 
-extension PillAddMainViewController: PillCellDelegate, AlarmCellDelegate,intakeNumberCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
+extension PillAddMainViewController: PillCellDelegate, AlarmCellDelegate,intakeNumberCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, IntakeAddDelegate {
     
     func updateUnit(unit: String) {
         self.dosageUnitForAdd = unit
@@ -257,7 +261,7 @@ extension PillAddMainViewController: PillCellDelegate, AlarmCellDelegate,intakeN
         self.alarmStatusForAdd = status
     }
     
-    func updateDataFromDosageAddViewController(intake: String) {
+    func updateDataFromIntakeAddViewController(intake: String) {
         self.intakeForAdd.append(intake)
         self.totalTableView.reloadData()
     }

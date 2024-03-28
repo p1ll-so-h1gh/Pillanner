@@ -11,14 +11,14 @@ import SnapKit
 // 약 정보 수정하는 뷰에서 접근할 때, 약 정보 받아올 수 있는 방법 필요
 
 // DosageAddDelegate 프로토콜 수정
-protocol DosageAddDelegate: AnyObject {
-    func updateDataFromDosageAddViewController(intake: String)
+protocol IntakeAddDelegate: AnyObject {
+    func updateDataFromIntakeAddViewController(intake: String)
 }
 
 
-class DosageAddViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource  {
+class IntakeAddViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource  {
     
-    weak var delegate: DosageAddDelegate?
+    weak var delegate: IntakeAddDelegate?
     
     // 유저 입력을 저장할 변수
     var intake: String = ""
@@ -127,7 +127,7 @@ class DosageAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         // 사용자 입력 데이터 처리
         let intakeData = self.intake
         // delegate를 통해 데이터 전달 -> PillAdd 혹은 PillEditVC로 데이터 전달
-        delegate?.updateDataFromDosageAddViewController(intake: intakeData)
+        delegate?.updateDataFromIntakeAddViewController(intake: intakeData)
         // 현재 ViewController 닫기
         navigationController?.popViewController(animated: true)
     }
@@ -287,7 +287,7 @@ class DosageAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     }
 }
 
-extension DosageAddViewController {
+extension IntakeAddViewController {
     // 키보드 외부 터치할 경우 키보드 숨김처리
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
