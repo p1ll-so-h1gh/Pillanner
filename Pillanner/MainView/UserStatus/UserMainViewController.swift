@@ -195,6 +195,7 @@ final class UserMainViewController: UIViewController {
         sectionSeparatorLine.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(sidePaddingSizeValue)
             $0.width.equalTo(353)
+            $0.centerX.equalToSuperview()
             $0.height.equalTo(1)
             $0.top.equalTo(circleContainerView.snp.bottom).inset(-sidePaddingSizeValue)
         }
@@ -229,6 +230,7 @@ final class UserMainViewController: UIViewController {
         }()
         
         let todaysDate = dateFormatter.string(from: Date())
+        let todaysDay = dayFormatter.string(from: Date())
         var todayPills = [Pill]() // 오늘 먹어야 하는 약 (전체)
         var takenPills = [TakenPill]() // 오늘 먹어야 하는 약중 먹은 약을 담고 있는 변수
         
@@ -256,11 +258,16 @@ final class UserMainViewController: UIViewController {
                                             dosageUnit: pill["DosageUnit"] as? String ?? "fdosageUnit",
                                             alarmStatus: pill["AlarmStatus"] as? Bool ?? true)
                             todayPills.append(data)
-                            self.todayPillCount = todayPills.count
-                            print("todayPillCount : ", self.todayPillCount)
                         }
                     }
                 }
+                var count = 0
+                for pill in todayPills {
+                    if pill.day.contains(todaysDay) {
+                        count += pill.intake.count
+                    }
+                }
+                self.todayPillCount = count
             }
         }
         
@@ -289,13 +296,16 @@ final class UserMainViewController: UIViewController {
                         let calculatedData = Double(self.takenPillCount) / Double(self.todayPillCount) * 100
                         print("calculatedData : ", calculatedData)
                         self.createCircle(calculateRate: Int(calculatedData))
+                        return
                     } else {
                         print("todayPillCount == 0")
                         self.createCircle(calculateRate: 0)
+                        return
                     }
                 }
             }
         }
+        self.createCircle(calculateRate: 0)
     }
     
     // MARK: - Set Up Data
