@@ -240,7 +240,7 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
 
 extension PillAddMainViewController: IntakeSettingDelegate {
     func addIntakeWithData() {
-        <#code#>
+        // <#code#>
     }
     
     func addIntake() {
