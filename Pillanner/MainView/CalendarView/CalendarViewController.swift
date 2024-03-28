@@ -89,85 +89,15 @@ class CalendarViewController: UIViewController {
         setupConstraint()
         setupSwipeGesture()
         setupRefreshControl()
+
+        UserDefaults.standard.removeObject(forKey: "SelectedCells")
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 테스트
         setUpPillData()
-
-//        if let selectedIndexPaths = tableView.indexPathsForSelectedRows {
-//            for indexPath in selectedIndexPaths {
-//                tableView.deselectRow(at: indexPath, animated: false)
-//            }
-//        }
     }
-
-    // TakenPills
-    func readTakenPills() {
-//        guard let userUID = Auth.auth().currentUser?.uid else {
-//            print("Firebase에 사용자가 로그인되어 있지 않습니다.")
-//            return
-//        }
-        guard let userUID = UserDefaults.standard.string(forKey: "UID") else {
-            print("UserDefaults에서 UID를 찾을 수 없습니다.")
-            return
-        }
-        print("User UID: \(userUID)")
-
-        // Firestore에서 사용자 TakenPills 정보 가져오기
-        db.collection("Users").document(userUID).collection("TakenPills").addSnapshotListener { (querySnapshot, error) in
-            if let error = error {
-                print("TakenPills 가져오기 에러: \(error)")
-                return
-            }
-
-            guard let documents = querySnapshot?.documents else {
-                print("documents 없음")
-                return
-            }
-
-            let pillsData = documents.map { $0.data() }
-
-            self.handleFetchedPillData(pillsData)
-
-        }
-    }
-
-
-    private func handleFetchedPillData(_ pillsData: [[String: Any]]) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let currentDateAsString = dateFormatter.string(from: Date())
-
-        // 복용한 약물에 해당하는 셀을 선택 상태로 설정
-        for (sectionIndex, category) in categoryOfPills.enumerated() {
-            for (rowIndex, pill) in category.pills.enumerated() {
-                // 각 셀에 대해 복용한 약물이 포함되어 있는지 확인하고, 포함되어 있다면 해당 셀을 선택 상태로 설정
-                let pillDataExists = pillsData.contains { data in
-                    return data["Title"] as? String == pill.title &&
-                           data["TakenDate"] as? String == currentDateAsString &&
-                           data["Intake"] as? String == pill.intake[0] &&
-                           data["Dosage"] as? String == pill.dosage
-                }
-                print("=====================================================================")
-                print("복용한 약 : ", pillsData)
-                print("복용한 약과 일치하는 약 : ", pillDataExists)
-                print("=====================================================================")
-                if pillDataExists {
-                    let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
-                    // Firebase에서 가져온 데이터와 테이블 뷰의 데이터를 비교하여 선택 상태를 설정
-                    if let index = listOfPills.firstIndex(where: { $0.title == pill.title && $0.intake == pill.intake && $0.dosage == pill.dosage }) {
-                        print("index : ", index)
-                        let updatedIndexPath = IndexPath(row: index, section: sectionIndex)
-                        tableView.selectRow(at: updatedIndexPath, animated: false, scrollPosition: .none)
-                    }
-                }
-            }
-        }
-    }
-
-
 
     // MARK: - Setup
 
@@ -236,7 +166,6 @@ class CalendarViewController: UIViewController {
         
     }
 
-
     private func categorizePillData() {
         // 시간 변환하는 포매터 설정
         var pillsListAM = PillCategory(meridiem: "오전", pills: [])
@@ -273,9 +202,69 @@ class CalendarViewController: UIViewController {
                 }
             }
         }
+        pillsListAM.pills.sort { $0.intake[0] < $1.intake[0] }
+        pillsListPM.pills.sort { $0.intake[0] < $1.intake[0] }
         let combinedCategories = [pillsListAM, pillsListPM]
-        self.delegate?.sendTotalEvent(event: pillsListAM.pills.count + pillsListPM.pills.count)
+        //self.delegate?.sendTotalEvent(event: pillsListAM.pills.count + pillsListPM.pills.count)
         categoryOfPills = combinedCategories
+    }
+
+    // 복용한 약들 가져와서 비교 후 셀 선택 상태로
+    func readTakenPills() {
+        guard let userUID = UserDefaults.standard.string(forKey: "UID") else {
+            print("UserDefaults에서 UID를 찾을 수 없습니다.")
+            return
+        }
+        print("User UID: \(userUID)")
+
+        // Firestore에서 사용자 TakenPills 정보 가져오기
+        db.collection("Users").document(userUID).collection("TakenPills").addSnapshotListener { (querySnapshot, error) in
+            if let error = error {
+                print("TakenPills 가져오기 에러: \(error)")
+                return
+            }
+
+            guard let documents = querySnapshot?.documents else {
+                print("documents 없음")
+                return
+            }
+
+            let pillsData = documents.map { $0.data() }
+
+            self.handleTakenPillsData(pillsData)
+        }
+    }
+    private func handleTakenPillsData(_ pillsData: [[String: Any]]) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let currentDateAsString = dateFormatter.string(from: Date())
+
+        // 복용한 약물에 해당하는 셀을 선택 상태로 설정
+        for (sectionIndex, category) in categoryOfPills.enumerated() {
+            for (rowIndex, pill) in category.pills.enumerated() {
+                // 각 셀에 대해 복용한 약물이 포함되어 있는지 확인하고, 포함되어 있다면 해당 셀을 선택 상태로 설정
+                let pillDataExists = pillsData.contains { data in
+                    return data["Title"] as? String == pill.title &&
+                           data["TakenDate"] as? String == currentDateAsString &&
+                           data["Intake"] as? String == pill.intake[0] &&
+                           data["Dosage"] as? String == pill.dosage
+                }
+                print("=====================================================================")
+                print("복용한 약 : ", pillsData)
+                print("복용한 약과 일치하는 약 : ", pillDataExists)
+                print("=====================================================================")
+                if pillDataExists {
+                    let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
+                    // Firebase에서 가져온 데이터와 테이블 뷰의 데이터를 비교하여 선택 상태를 설정
+                    if let index = listOfPills.firstIndex(where: { $0.title == pill.title && $0.intake == pill.intake && $0.dosage == pill.dosage }) {
+                        print("index : ", index)
+                        let updatedIndexPath = IndexPath(row: index, section: sectionIndex)
+                        tableView.selectRow(at: updatedIndexPath, animated: false, scrollPosition: .none)
+                        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+                    }
+                }
+            }
+        }
     }
 
     // MARK: - Constraint
@@ -376,7 +365,6 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-
         // 모두 선택 시
         if let selectedIndexPaths = tableView.indexPathsForSelectedRows, selectedIndexPaths.count == categoryOfPills.flatMap({ $0.pills }).count {
             showFireworkAnimation(at: tableView.center)
@@ -384,7 +372,7 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
 
         // 알림
         let pill = categoryOfPills[indexPath.section].pills[indexPath.row]
-        showNotification(message: "'\(pill.title) - \(pill.dosage)ㅂ'을 복용하셨습니다.")
+        showNotification(message: "'\(pill.title) - \(pill.dosage)'을 복용하셨습니다.")
 
         // 셀 선택 시 복용된 약 저장
         // 날짜는 캘린더에 표시되는 당일 값을 넣어줌
