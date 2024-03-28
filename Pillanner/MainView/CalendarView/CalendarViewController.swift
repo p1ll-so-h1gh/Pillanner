@@ -153,7 +153,7 @@ class CalendarViewController: UIViewController {
                 self.listOfPills = tempList
                 self.categorizePillData()
                 self.tableView.reloadData()
-                self.readTakenPills()
+                
             }
         }
         
@@ -199,6 +199,7 @@ class CalendarViewController: UIViewController {
         pillsListPM.pills.sort { $0.intake[0] < $1.intake[0] }
         let combinedCategories = [pillsListAM, pillsListPM]
         categoryOfPills = combinedCategories
+        self.readTakenPills()
     }
 
     // 복용한 약들 가져와서 비교 후 셀 선택 상태로
@@ -248,12 +249,13 @@ class CalendarViewController: UIViewController {
                 if pillDataExists {
                     let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
                     // Firebase에서 가져온 데이터와 테이블 뷰의 데이터를 비교하여 선택 상태를 설정
-                    if let index = listOfPills.firstIndex(where: { $0.title == pill.title && $0.intake == pill.intake && $0.dosage == pill.dosage }) {
-                        print("index : ", index)
-                        let updatedIndexPath = IndexPath(row: index, section: sectionIndex)
-                        tableView.selectRow(at: updatedIndexPath, animated: false, scrollPosition: .none)
-                        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-                    }
+//                    if let index = listOfPills.firstIndex(where: { $0.title == pill.title && $0.intake == pill.intake && $0.dosage == pill.dosage }) {
+//                        print("index : ", index)
+//                        let updatedIndexPath = IndexPath(row: index, section: sectionIndex)
+//                        tableView.selectRow(at: updatedIndexPath, animated: false, scrollPosition: .none)
+////                        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+//                    }
+                    tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
                 }
             }
         }

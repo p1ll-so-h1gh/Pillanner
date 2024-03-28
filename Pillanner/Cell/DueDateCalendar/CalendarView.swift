@@ -29,11 +29,11 @@ final class CalendarCollectionView: UICollectionView {
 
 class CalendarView: UIView, MonthYearBarViewDelegate {
 //    어케해야될지 생각중...
-    private var selectedDueDate: String {
-        didSet {
-//            selectedDueDate.
-        }
-    }
+//    private var selectedDueDate: String {
+//        didSet {
+////            selectedDueDate.
+//        }
+//    }
     
     private let sidePaddingSizeValue = 10
     private let betweenPadidngSizeValue = 10
@@ -215,7 +215,7 @@ extension CalendarView: UICollectionViewDelegateFlowLayout, UICollectionViewData
 //MARK: - duedate 데이터 받기 ( duedatecell -> calendarView )
 extension CalendarView: DueDateCellToCalendarDelegate {
     func sendDueDateToCalendarVC(dueDate: String) {
-        self.selectedDueDate = dueDate
+//        self.selectedDueDate = dueDate
     }
 }
 
