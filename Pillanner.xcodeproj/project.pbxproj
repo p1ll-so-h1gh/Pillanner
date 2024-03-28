@@ -52,10 +52,9 @@
 		14F2CFB72B87080E007F354B /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFB62B87080E007F354B /* CalendarViewController.swift */; };
 		14F2CFB92B870818007F354B /* UserMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFB82B870818007F354B /* UserMainViewController.swift */; };
 		14F2CFBB2B870827007F354B /* InitialSetUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */; };
-		560EC5B92B9898F400FF0D37 /* DosageAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560EC5B82B9898F400FF0D37 /* DosageAddViewController.swift */; };
+		560EC5B92B9898F400FF0D37 /* IntakeAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560EC5B82B9898F400FF0D37 /* IntakeAddViewController.swift */; };
 		560EC5BB2B98991800FF0D37 /* WeekdaySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560EC5BA2B98991800FF0D37 /* WeekdaySelectionViewController.swift */; };
 		560EC5BD2B98995100FF0D37 /* InitialSetupStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560EC5BC2B98995100FF0D37 /* InitialSetupStartViewController.swift */; };
-		56244AB12BA971D200702CA1 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 56244AB02BA971D200702CA1 /* Secrets.plist */; };
 		5672C88B2BA33474004D4DAD /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5672C88A2BA33474004D4DAD /* NoticeViewController.swift */; };
 		5672C88F2BA3349B004D4DAD /* TermsofUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5672C88E2BA3349B004D4DAD /* TermsofUseViewController.swift */; };
 		5672C8912BA334AA004D4DAD /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5672C8902BA334AA004D4DAD /* PrivacyPolicyViewController.swift */; };
@@ -64,6 +63,7 @@
 		7C365CA92B9F22B9003C8CF8 /* NaverThirdPartyLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 7C365CA82B9F22B9003C8CF8 /* NaverThirdPartyLogin */; };
 		7C365CBD2BA8022E003C8CF8 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C365CBC2BA8022E003C8CF8 /* NotificationHelper.swift */; };
 		7C3F798A2B906A7700DD1AC7 /* CheckPillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */; };
+		7C8C9A8C2BB42C7900EEF6AA /* CalendarVC_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8C9A8B2BB42C7900EEF6AA /* CalendarVC_Extension.swift */; };
 		7CEBD66E2B96A8BC00F63F78 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEBD66D2B96A8BC00F63F78 /* TabBarController.swift */; };
 		C40136A42B887D4500577C17 /* CAGradientLayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A32B887D4500577C17 /* CAGradientLayer+Extension.swift */; };
 		C40136A62B887D6100577C17 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40136A52B887D6100577C17 /* UIColor+Extension.swift */; };
@@ -86,6 +86,7 @@
 		C45D90502B95B0EA00676CEA /* FindIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45D904F2B95B0EA00676CEA /* FindIDViewController.swift */; };
 		C45D90522B95B0F700676CEA /* FindPWViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45D90512B95B0F700676CEA /* FindPWViewController.swift */; };
 		C45D90542B95BB7200676CEA /* FindPWVC_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45D90532B95BB7200676CEA /* FindPWVC_Extension.swift */; };
+		C47DB28C2BB3A8D6006F01FE /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = C47DB28B2BB3A8D6006F01FE /* Secrets.plist */; };
 		C490C8922B8EE9AB00DFACD8 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C490C8912B8EE9AB00DFACD8 /* DataManager.swift */; };
 		C4A55A052B999EEC0084AF16 /* SNSLogin_Kakao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A55A042B999EEC0084AF16 /* SNSLogin_Kakao.swift */; };
 		C4A55A072B99B9E40084AF16 /* SNSLogin_Apple.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A55A062B99B9E40084AF16 /* SNSLogin_Apple.swift */; };
@@ -96,7 +97,6 @@
 		CC1697A02B90221B008276B0 /* PillTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16979F2B90221B008276B0 /* PillTypeCell.swift */; };
 		CC1697A32B90223D008276B0 /* DueDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697A22B90223D008276B0 /* DueDateCell.swift */; };
 		CC1697A52B903DAD008276B0 /* PillAddMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697A42B903DAD008276B0 /* PillAddMainViewController.swift */; };
-		CC7117192BA9877B005D9841 /* Attainment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7117182BA9877B005D9841 /* Attainment.swift */; };
 		CC7DB3CD2B95536C00809665 /* IntakePillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */; };
 		CC7DB3F62B95C3FF00809665 /* MonthYearBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3F52B95C3FF00809665 /* MonthYearBarView.swift */; };
 		CC7DB3F82B95CBFF00809665 /* WeekdaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3F72B95CBFF00809665 /* WeekdaysView.swift */; };
@@ -104,6 +104,8 @@
 		CC7DB3FE2B96F72C00809665 /* PillEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3FD2B96F72C00809665 /* PillEditViewController.swift */; };
 		CC7DB4002B96FD0E00809665 /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB3FF2B96FD0E00809665 /* UserSettingViewController.swift */; };
 		CC7DB4052B981DFE00809665 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7DB4042B981DFE00809665 /* UserInfoView.swift */; };
+		CCA6A7B92BB13EC700BC3800 /* AlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA6A7B82BB13EC700BC3800 /* AlarmCell.swift */; };
+		CCA6A7BB2BB13EE800BC3800 /* IntakeNumberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA6A7BA2BB13EE800BC3800 /* IntakeNumberCell.swift */; };
 		CCD759352B9F183500878CEF /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD759342B9F183400878CEF /* Keyboard.swift */; };
 		CCD759372BA00DE300878CEF /* InitialSetupEndViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD759362BA00DE300878CEF /* InitialSetupEndViewController.swift */; };
 /* End PBXBuildFile section */
@@ -120,16 +122,16 @@
 		14F2CFB62B87080E007F354B /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		14F2CFB82B870818007F354B /* UserMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMainViewController.swift; sourceTree = "<group>"; };
 		14F2CFBA2B870827007F354B /* InitialSetUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSetUpViewController.swift; sourceTree = "<group>"; };
-		560EC5B82B9898F400FF0D37 /* DosageAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DosageAddViewController.swift; sourceTree = "<group>"; };
+		560EC5B82B9898F400FF0D37 /* IntakeAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakeAddViewController.swift; sourceTree = "<group>"; };
 		560EC5BA2B98991800FF0D37 /* WeekdaySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdaySelectionViewController.swift; sourceTree = "<group>"; };
 		560EC5BC2B98995100FF0D37 /* InitialSetupStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSetupStartViewController.swift; sourceTree = "<group>"; };
-		56244AB02BA971D200702CA1 /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		5672C88A2BA33474004D4DAD /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		5672C88E2BA3349B004D4DAD /* TermsofUseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsofUseViewController.swift; sourceTree = "<group>"; };
 		5672C8902BA334AA004D4DAD /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		7C365CA42B9F1F25003C8CF8 /* SNSLogin_Naver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SNSLogin_Naver.swift; sourceTree = "<group>"; };
 		7C365CBC2BA8022E003C8CF8 /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPillCell.swift; sourceTree = "<group>"; };
+		7C8C9A8B2BB42C7900EEF6AA /* CalendarVC_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVC_Extension.swift; sourceTree = "<group>"; };
 		7CEBD66D2B96A8BC00F63F78 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		C40136A32B887D4500577C17 /* CAGradientLayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Extension.swift"; sourceTree = "<group>"; };
 		C40136A52B887D6100577C17 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 		C45D904F2B95B0EA00676CEA /* FindIDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDViewController.swift; sourceTree = "<group>"; };
 		C45D90512B95B0F700676CEA /* FindPWViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPWViewController.swift; sourceTree = "<group>"; };
 		C45D90532B95BB7200676CEA /* FindPWVC_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPWVC_Extension.swift; sourceTree = "<group>"; };
+		C47DB28B2BB3A8D6006F01FE /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		C490C8912B8EE9AB00DFACD8 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		C4A55A032B999E0A0084AF16 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		C4A55A042B999EEC0084AF16 /* SNSLogin_Kakao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SNSLogin_Kakao.swift; sourceTree = "<group>"; };
@@ -156,7 +159,6 @@
 		CC16979F2B90221B008276B0 /* PillTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTypeCell.swift; sourceTree = "<group>"; };
 		CC1697A22B90223D008276B0 /* DueDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DueDateCell.swift; sourceTree = "<group>"; };
 		CC1697A42B903DAD008276B0 /* PillAddMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillAddMainViewController.swift; sourceTree = "<group>"; };
-		CC7117182BA9877B005D9841 /* Attainment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attainment.swift; sourceTree = "<group>"; };
 		CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakePillCell.swift; sourceTree = "<group>"; };
 		CC7DB3F52B95C3FF00809665 /* MonthYearBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthYearBarView.swift; sourceTree = "<group>"; };
 		CC7DB3F72B95CBFF00809665 /* WeekdaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdaysView.swift; sourceTree = "<group>"; };
@@ -164,6 +166,8 @@
 		CC7DB3FD2B96F72C00809665 /* PillEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillEditViewController.swift; sourceTree = "<group>"; };
 		CC7DB3FF2B96FD0E00809665 /* UserSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
 		CC7DB4042B981DFE00809665 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
+		CCA6A7B82BB13EC700BC3800 /* AlarmCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmCell.swift; sourceTree = "<group>"; };
+		CCA6A7BA2BB13EE800BC3800 /* IntakeNumberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakeNumberCell.swift; sourceTree = "<group>"; };
 		CCD759342B9F183400878CEF /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		CCD759362BA00DE300878CEF /* InitialSetupEndViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSetupEndViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -240,7 +244,6 @@
 			isa = PBXGroup;
 			children = (
 				C490C8912B8EE9AB00DFACD8 /* DataManager.swift */,
-				CC7117182BA9877B005D9841 /* Attainment.swift */,
 				CCD759342B9F183400878CEF /* Keyboard.swift */,
 				7C365CBC2BA8022E003C8CF8 /* NotificationHelper.swift */,
 			);
@@ -299,7 +302,7 @@
 		147505862BAEBBBB00A646AB /* ViewInCell */ = {
 			isa = PBXGroup;
 			children = (
-				560EC5B82B9898F400FF0D37 /* DosageAddViewController.swift */,
+				560EC5B82B9898F400FF0D37 /* IntakeAddViewController.swift */,
 				560EC5BA2B98991800FF0D37 /* WeekdaySelectionViewController.swift */,
 			);
 			path = ViewInCell;
@@ -308,7 +311,7 @@
 		147505872BAEBBF200A646AB /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				56244AB02BA971D200702CA1 /* Secrets.plist */,
+				C47DB28B2BB3A8D6006F01FE /* Secrets.plist */,
 				C4A55A032B999E0A0084AF16 /* Config.xcconfig */,
 			);
 			path = Configuration;
@@ -337,11 +340,11 @@
 			children = (
 				C40136A22B887D2400577C17 /* Global */,
 				147505832BAEB8DD00A646AB /* Beginning */,
-				C4346D902B8DAD1B00110DEF /* Pillanner.entitlements */,
 				14F2CFB42B86E011007F354B /* MainView */,
 				14D2BE6C2B84BBC20006AC51 /* Assets.xcassets */,
 				1438F6AB2B8F0A52006D2939 /* GoogleService-Info.plist */,
 				14D2BE712B84BBC20006AC51 /* Info.plist */,
+				C4346D902B8DAD1B00110DEF /* Pillanner.entitlements */,
 			);
 			path = Pillanner;
 			sourceTree = "<group>";
@@ -380,6 +383,7 @@
 			isa = PBXGroup;
 			children = (
 				14F2CFB62B87080E007F354B /* CalendarViewController.swift */,
+				7C8C9A8B2BB42C7900EEF6AA /* CalendarVC_Extension.swift */,
 				7C3F79892B906A7700DD1AC7 /* CheckPillCell.swift */,
 			);
 			path = CalendarView;
@@ -441,6 +445,8 @@
 			children = (
 				147505862BAEBBBB00A646AB /* ViewInCell */,
 				CC1697992B9021C0008276B0 /* PillCell.swift */,
+				CCA6A7B82BB13EC700BC3800 /* AlarmCell.swift */,
+				CCA6A7BA2BB13EE800BC3800 /* IntakeNumberCell.swift */,
 				CC16979B2B9021D2008276B0 /* IntakeDateCell.swift */,
 				CC16979D2B9021F2008276B0 /* IntakeSettingCell.swift */,
 				CC7DB3CC2B95536C00809665 /* IntakePillCell.swift */,
@@ -587,8 +593,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C47DB28C2BB3A8D6006F01FE /* Secrets.plist in Resources */,
 				1438F6AC2B8F0A53006D2939 /* GoogleService-Info.plist in Resources */,
-				56244AB12BA971D200702CA1 /* Secrets.plist in Resources */,
 				14D2BE6D2B84BBC20006AC51 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -618,6 +624,7 @@
 				C45D90542B95BB7200676CEA /* FindPWVC_Extension.swift in Sources */,
 				CCD759352B9F183500878CEF /* Keyboard.swift in Sources */,
 				C4A55A072B99B9E40084AF16 /* SNSLogin_Apple.swift in Sources */,
+				CCA6A7BB2BB13EE800BC3800 /* IntakeNumberCell.swift in Sources */,
 				CC16976F2B8DDA13008276B0 /* PillListCollectionViewCell.swift in Sources */,
 				CC1697A52B903DAD008276B0 /* PillAddMainViewController.swift in Sources */,
 				5672C88F2BA3349B004D4DAD /* TermsofUseViewController.swift in Sources */,
@@ -626,7 +633,8 @@
 				14D2BE612B84BBBF0006AC51 /* AppDelegate.swift in Sources */,
 				7C365CA52B9F1F25003C8CF8 /* SNSLogin_Naver.swift in Sources */,
 				560EC5BB2B98991800FF0D37 /* WeekdaySelectionViewController.swift in Sources */,
-				560EC5B92B9898F400FF0D37 /* DosageAddViewController.swift in Sources */,
+				CCA6A7B92BB13EC700BC3800 /* AlarmCell.swift in Sources */,
+				560EC5B92B9898F400FF0D37 /* IntakeAddViewController.swift in Sources */,
 				CC7DB3CD2B95536C00809665 /* IntakePillCell.swift in Sources */,
 				5672C8912BA334AA004D4DAD /* PrivacyPolicyViewController.swift in Sources */,
 				1408A5D02B972DF2006DA21D /* CustomLaunchScreenViewController.swift in Sources */,
@@ -648,7 +656,7 @@
 				C40136AA2B887DBA00577C17 /* CALayer+Extension.swift in Sources */,
 				C4A55A052B999EEC0084AF16 /* SNSLogin_Kakao.swift in Sources */,
 				C40136AC2B887DE100577C17 /* LoginViewController.swift in Sources */,
-				CC7117192BA9877B005D9841 /* Attainment.swift in Sources */,
+				7C8C9A8C2BB42C7900EEF6AA /* CalendarVC_Extension.swift in Sources */,
 				C447B56A2BA02CDA001D4913 /* SNSLoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -708,7 +716,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -765,7 +773,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -800,7 +808,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "1.0.0-release1";
+				MARKETING_VERSION = 1.0.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.p1llsoh1gh.Pillanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -823,7 +831,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Pillanner/Pillanner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -841,12 +849,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "1.0.0-release1";
+				MARKETING_VERSION = 1.0.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.p1llsoh1gh.Pillanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = PillannerRelease;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = PillannerDev;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

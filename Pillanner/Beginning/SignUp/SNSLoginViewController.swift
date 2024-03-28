@@ -114,7 +114,6 @@ class SNSLoginViewController: UIViewController, UITextFieldDelegate {
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
             UserDefaults.standard.set(true, forKey: "isAutoLoginActivate") //SNS 회원가입은 자동로그인을 기본값으로 설정(true)
-            // setNameTextField.text 값은 옵셔널 바인딩해서 사용하는게
             UserDefaults.standard.set(self.setNameTextField.text!, forKey: "Nickname")
             DataManager.shared.updateUserData(userID: userID, changedPassword: "sns", changedName: self.setNameTextField.text!)
             

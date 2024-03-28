@@ -12,19 +12,15 @@ import UIKit
 
 extension LoginViewController {
     @objc func kakaoLoginButtonTapped() {
+        UserDefaults.standard.set("카카오", forKey: "SignUpPath")
         // 카카오톡 설치 여부 확인
         if (UserApi.isKakaoTalkLoginAvailable()) {
-            
             //카카오톡 앱을 통해 로그인
             UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
                 if let error = error {
-                    print(error)
-                    print("카카오앱 에러")
+                    print("카카오앱 에러 : ", error)
                 }
                 else {
-                    print("loginWithKakaoTalk() success.")
-                    print("카카오톡 앱으로 실행")
-                    //do something
                     _ = oauthToken
                     print("my kakao Token : ",oauthToken as Any)
                     self.signUpWithKakaoEmail()
@@ -34,13 +30,9 @@ extension LoginViewController {
             // 설치 안되어있으면 카카오 웹뷰로 로그인
             UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
                 if let error = error {
-                    print(error)
-                    print("카카오웹! 에러;")
+                    print("카카오웹 에러 : ", error)
                 }
                 else {
-                    print("loginWithKakaoTalk() success.")
-                    print("카카오톡 앱이 없어용~~")
-                    //do something
                     _ = oauthToken
                     self.signUpWithKakaoEmail()
                 }
@@ -61,9 +53,11 @@ extension LoginViewController {
                 Auth.auth().createUser(withEmail: (user?.kakaoAccount?.email)!, password: "123456") { result, error in
                     if let error = error {
                         let code = (error as NSError).code
+                        print("카카오톡 Firebase 가입 에러")
                         print("firebase auth error code : ", code)
                         switch code {
                         case 17007 :
+                            print("이미 카카오로 가입되어 있습니다.")
                             DataManager.shared.readUserData(userID: (user?.kakaoAccount?.email)!) { userData in
                                 guard let userData = userData else { return }
                                 if userData["SignUpPath"]! == "카카오" {
@@ -88,8 +82,7 @@ extension LoginViewController {
                     }
                     
                     if let result = result {
-                        print(result)
-                        print(result.user.uid)
+                        print("카카오톡으로 회원가입합니다.")
                         UserDefaults.standard.set(true, forKey: "isAutoLoginActivate")
                         // Firestore DB에 회원 정보 저장
                         DataManager.shared.createUserData(
@@ -97,7 +90,7 @@ extension LoginViewController {
                                 UID: result.user.uid,
                                 ID: (user?.kakaoAccount?.email)!,
                                 password: "sns",
-                                nickname: "아직 설정 전",
+                                nickname: "(이름 없음)",
                                 signUpPath: "카카오"
                             )
                         )

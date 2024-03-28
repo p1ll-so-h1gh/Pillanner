@@ -16,17 +16,25 @@ import UIKit
 import SnapKit
 
 protocol IntakeSettingDelegate: AnyObject {
-    func addDosage()
-    
+    func addIntake()
+    func addIntakeWithData()
 }
 
 final class PillTableView: UITableView {
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override var contentSize: CGSize {
+        didSet {
+            self.invalidateIntrinsicContentSize()
+        }
+    }
+    
     override var intrinsicContentSize: CGSize {
         let height = self.contentSize.height + self.contentInset.top + self.contentInset.bottom
         return CGSize(width: self.contentSize.width, height: height)
@@ -41,18 +49,13 @@ final class IntakeSettingCell: UITableViewCell {
     weak var delegate: IntakeSettingDelegate?
     
     private var intake = [String]()
-    private var alarmStatus = [Bool]()
-    private var dosage = [String]()
-    private var unit = [String]()
-    
-    //    private var intake = ["11:20", "12:20"]
-    //    private var alarmStatus = [true, false]
-    //    private var dosage = ["1", "2"]
-    //    private var unit = ["개", "정"]
+    private var alarmStatus = Bool()
+    private var dosage = String()
+    private var unit = String()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "섭취 설정"
+        label.text = "시간 설정"
         label.font = FontLiteral.subheadline(style: .bold).withSize(18)
         label.alpha = 0.6
         return label
@@ -83,7 +86,7 @@ final class IntakeSettingCell: UITableViewCell {
     
     private lazy var intakeAddButton: UIButton = {
         let button = UIButton()
-        button.setTitle("복용 횟수 추가하기", for: .normal)
+        button.setTitle("섭취 횟수 추가하기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         button.frame = CGRect(x: 0, y: 0, width: 439, height: 45)
         button.addTarget(self, action: #selector(goDosageAddVC), for: .touchUpInside)
@@ -91,7 +94,7 @@ final class IntakeSettingCell: UITableViewCell {
     }()
     
     @objc func goDosageAddVC() {
-        self.delegate?.addDosage()
+        self.delegate?.addIntake()
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -106,20 +109,10 @@ final class IntakeSettingCell: UITableViewCell {
         fatalError()
     }
     
-    func setupLayoutOnEditingProcess(alarm: Bool, intake: [String], dosage: String, unit: String) {
+    func setupLayoutOnEditingProcess(intake: [String]) {
         
-        self.infoLabel.text = "복용횟수 \(intake.count)회"
-        
+        self.infoLabel.text = "섭취횟수 \(intake.count)회"
         self.intake = intake
-        if self.alarmStatus == [false] {
-            self.alarmStatus = [alarm]
-            self.dosage = [dosage]
-            self.unit = [unit]
-        } else {
-            self.alarmStatus.append(alarm)
-            self.dosage.append(dosage)
-            self.unit.append(unit)
-        }
         
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(infoLabel)
@@ -141,8 +134,7 @@ final class IntakeSettingCell: UITableViewCell {
             $0.top.equalTo(titleLabel.snp.bottom).inset(-10)
             $0.left.equalToSuperview().inset(sidePaddingSizeValue)
             $0.right.equalToSuperview().inset(sidePaddingSizeValue)
-            //            $0.height.greaterThanOrEqualTo(1)
-            $0.height.equalTo(120)
+            $0.height.greaterThanOrEqualTo(1)
         }
         self.intakeAddButton.snp.makeConstraints {
             $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
@@ -154,44 +146,7 @@ final class IntakeSettingCell: UITableViewCell {
             $0.width.equalTo(339)
             $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
         }
-        
         self.pillTableView.reloadData()
-    }
-    
-    func setupLayout() {
-        self.contentView.addSubview(titleLabel)
-        self.contentView.addSubview(infoLabel)
-        self.contentView.addSubview(pillTableView)
-        self.contentView.addSubview(intakeAddButtonView)
-        
-        intakeAddButtonView.addSubview(intakeAddButton)
-        
-        self.titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.left.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.height.equalTo(24)
-        }
-        self.infoLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.right.equalToSuperview().inset(sidePaddingSizeValue)
-        }
-        self.pillTableView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).inset(-10)
-            $0.left.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.right.equalToSuperview().inset(sidePaddingSizeValue)
-            //            $0.height.greaterThanOrEqualTo(1)
-            $0.height.equalTo(120)
-        }
-        self.intakeAddButton.snp.makeConstraints {
-            $0.top.bottom.leading.trailing.centerX.centerY.equalToSuperview()
-        }
-        self.intakeAddButtonView.snp.makeConstraints {
-            $0.top.equalTo(self.pillTableView.snp.bottom).inset(-15)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(45)
-            $0.width.equalTo(339)
-            $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
-        }
     }
     
     //cell 초기화 함수 - 테이블에 추가된 항목들 삭제하고 섭취횟수 0회로 초기화
@@ -207,16 +162,19 @@ extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IntakePillCell.identifier, for: indexPath) as! IntakePillCell
-        cell.setupLayoutOnEditingProcess(intake: self.intake[indexPath.row],
-                                         dosage: self.dosage[indexPath.row],
-                                         unit: self.unit[indexPath.row],
-                                         alarm: self.alarmStatus[indexPath.row])
+        cell.setupLayoutOnEditingProcess(intake: self.intake[indexPath.row])
+        // delegate 설정 필요
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.goDosageAddVC()
+    }
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        // 높이 동적으로 주지말고 그냥 고정? 아니면 처음 데이터 들어갔을 떄 높이 반영 안되는 부분 해결이 필요
         tableView.invalidateIntrinsicContentSize()
         tableView.layoutIfNeeded()
     }
 }
+
+// 시간 옆에 꺾쇠말고 ...으로 바꾸기

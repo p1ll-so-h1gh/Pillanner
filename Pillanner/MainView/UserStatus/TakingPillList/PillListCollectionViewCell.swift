@@ -89,7 +89,6 @@ class PillListCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
-        //        configureButton(title: "유산균")
     }
     
     func configureCell(with pill: Pill) {

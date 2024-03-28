@@ -38,16 +38,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     // 카카오톡 SDK 초기화
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        let SignUpPath = UserDefaults.standard.string(forKey: "SignUpPath") ?? ""
+        print("mySignUpPath : ", SignUpPath)
         if let url = URLContexts.first?.url {
-            if (AuthApi.isKakaoTalkLoginUrl(url)) {
-                _ = AuthController.handleOpenUrl(url: url)
+            switch(SignUpPath){
+            case "카카오" :
+                if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                    _ = AuthController.handleOpenUrl(url: url)
+                }
+            case "네이버" :
+                NaverThirdPartyLoginConnection
+                    .getSharedInstance()?
+                    .receiveAccessToken(URLContexts.first?.url)
+            default : return
             }
         }
-        
-        // 네이버
-        NaverThirdPartyLoginConnection
-            .getSharedInstance()?
-            .receiveAccessToken(URLContexts.first?.url)
     }
     
     

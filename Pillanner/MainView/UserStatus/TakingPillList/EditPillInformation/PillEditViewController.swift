@@ -50,6 +50,8 @@ final class PillEditViewController: UIViewController {
     private let totalTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.identifier)
+        tableView.register(AlarmCell.self, forCellReuseIdentifier: AlarmCell.identifier)
+        tableView.register(IntakeNumberCell.self, forCellReuseIdentifier: IntakeNumberCell.identifier)
         tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.identifier)
         tableView.register(IntakeSettingCell.self, forCellReuseIdentifier: IntakeSettingCell.identifier)
         tableView.register(PillTypeCell.self, forCellReuseIdentifier: PillTypeCell.identifier)
@@ -91,6 +93,7 @@ final class PillEditViewController: UIViewController {
         view.backgroundColor = .white
         
         self.totalTableView.dataSource = self
+        self.totalTableView.delegate = self
         self.totalTableView.rowHeight = UITableView.automaticDimension
         editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
         backButton.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
@@ -108,7 +111,7 @@ final class PillEditViewController: UIViewController {
     // 저장버튼 눌렀을 때, 데이터 업데이트 및 알럿, 화면 빠져나오기 기능 추가
     @objc private func editButtonTapped() {
         
-        if self.titleForEdit == "" {
+        if self.oldPillDataForEdit.title == "" {
             let alert = UIAlertController(title: "약의 이름을 확인해주세요.", message: "약의 이름은 공백일 수 없습니다. 다시 한 번 확인해주세요.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "확인", style: .destructive, handler: nil)
             alert.addAction(okAction)
@@ -116,9 +119,9 @@ final class PillEditViewController: UIViewController {
         }
         // 빈 내용이 있으면 어떻게 처리할 지 고민해야 함
         
-        let newPill = Pill(title: self.titleForEdit, type: self.typeForEdit, day: self.dayForEdit, dueDate: self.dueDateForEdit, intake: self.intakeForEdit, dosage: self.dosageForEdit, alarmStatus: self.alarmStatusForEdit)
+//        let newPill = Pill(title: self.titleForEdit, type: self.typeForEdit, day: self.dayForEdit, dueDate: self.dueDateForEdit, intake: self.intakeForEdit, dosage: self.dosageForEdit, dosageUnit: self.dosageUnitForEdit, alarmStatus: self.alarmStatusForEdit)
         
-        DataManager.shared.updatePillData(oldTitle: originalPillTitle, pill: newPill)
+        DataManager.shared.updatePillData(oldTitle: originalPillTitle, pill: oldPillDataForEdit)
         
         DataManager.shared.readPillListData(UID: UserDefaults.standard.string(forKey: "UID")!) { pillList in
             if let pillList = pillList {
@@ -128,7 +131,8 @@ final class PillEditViewController: UIViewController {
         
         let addAlert = UIAlertController(title: "수정 완료", message: "약 정보 수정이 정상적으로 완료되었습니다!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { _  in
-            self.navigationController?.popViewController(animated: true)
+//            self.navigationController?.popViewController(animated: true)
+            self.dismissView()
         }
         addAlert.addAction(okAction)
         
@@ -177,9 +181,9 @@ final class PillEditViewController: UIViewController {
     }
 }
 
-extension PillEditViewController: UITableViewDataSource {
+extension PillEditViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -191,23 +195,30 @@ extension PillEditViewController: UITableViewDataSource {
             cell.delegate = self
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
-            cell.setupLayoutOnEditingProcess(days: self.oldPillDataForEdit.day)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath) as! AlarmCell
+            cell.setupLayoutOnEditingProcess(alarmStatus: self.oldPillDataForEdit.alarmStatus)
+            cell.delegate = self
             return cell
         case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
-            cell.setupLayoutOnEditingProcess(alarm: self.oldPillDataForEdit.alarmStatus,
-                                             intake: self.oldPillDataForEdit.intake,
-                                             dosage: self.oldPillDataForEdit.dosage,
-                                             unit: "정")
+            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeNumberCell", for: indexPath) as! IntakeNumberCell
+            cell.setupLayoutOnEditingProcess(dosage: self.oldPillDataForEdit.dosage, unit: "정")
             cell.delegate = self
             return cell
         case 3:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
+            cell.setupLayoutOnEditingProcess(days: self.oldPillDataForEdit.day)
+            return cell
+        case 4:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
+            cell.setupLayoutOnEditingProcess(intake: self.oldPillDataForEdit.intake)
+            cell.delegate = self
+            return cell
+        case 5:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillTypeCell", for: indexPath) as! PillTypeCell
             cell.setupLayoutOnEditingProcess(type: self.oldPillDataForEdit.type)
             cell.delegate = self
             return cell
-        case 4:
+        case 6:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DueDateCell
             cell.setupLayoutOnEditingProcess(dueDate: self.oldPillDataForEdit.dueDate)
             cell.delegate = self
@@ -218,7 +229,7 @@ extension PillEditViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 1 {
+        if indexPath.row == 3 {
             let weekSelectVC = WeekdaySelectionViewController(selectedWeekdaysInString: oldPillDataForEdit.day)
             weekSelectVC.delegate = self
             self.navigationController?.isNavigationBarHidden = false
@@ -228,42 +239,62 @@ extension PillEditViewController: UITableViewDataSource {
 }
 
 extension PillEditViewController: IntakeSettingDelegate {
-    func addDosage() {
-        let dosageAddVC = DosageAddViewController()
-        dosageAddVC.delegate = self
+    func addIntakeWithData() {
+//        <#code#>
+    }
+    
+    func addIntake() {
+        let intakeAddVC = IntakeAddViewController()
+        intakeAddVC.delegate = self
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.pushViewController(dosageAddVC, animated: true)
+        self.navigationController?.pushViewController(intakeAddVC, animated: true)
+//        let dosageNavVC = UINavigationController(rootViewController: dosageAddVC)
+//        dosageNavVC.modalPresentationStyle = .fullScreen
+//        self.present(dosageNavVC, animated: true)
     }
 }
 
-extension PillEditViewController: PillCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
+extension PillEditViewController:PillCellDelegate, AlarmCellDelegate,intakeNumberCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, IntakeAddDelegate {
+    func updateAlarmStatus(status: Bool) {
+        self.alarmStatusForEdit = status
+        self.oldPillDataForEdit.alarmStatus = status
+    }
     
-    func updateDataFromDosageAddViewController(alarmStatus: Bool, intake: String, dosage: String, unit: String) {
-        self.alarmStatusForEdit = alarmStatus
-        self.intakeForEdit.append(intake)
-        self.dosageForEdit = dosage
+    func updateUnit(unit: String) {
         self.dosageUnitForEdit = unit
+        self.oldPillDataForEdit.dosageUnit = unit
+    }
+    
+    func updateDataFromIntakeAddViewController(intake: String) {
+        print(#function)
+        self.intakeForEdit.append(intake)
+        self.oldPillDataForEdit.intake.append(intake)
         self.totalTableView.reloadData()
     }
     
     func updatePillTitle(_ title: String) {
         self.titleForEdit = title
+        self.oldPillDataForEdit.title = title
     }
     
     func updatePillType(_ type: String) {
         self.typeForEdit = type
+        self.oldPillDataForEdit.type = type
     }
     
     func updateDays(_ day: [String]) {
         self.dayForEdit = day
+        self.oldPillDataForEdit.day = day
         self.totalTableView.reloadData()
     }
     
     func updateDueDate(date: String) {
         self.dueDateForEdit = date
+        self.oldPillDataForEdit.dueDate = date
     }
     
-    func updateDosage(_ dosage: String) {
+    func updateDosage(dosage: String) {
+        self.oldPillDataForEdit.dosage = dosage
         self.dosageForEdit = dosage
     }
     
@@ -272,8 +303,8 @@ extension PillEditViewController: PillCellDelegate, IntakeDateCellDelegate, Pill
     }
     
     
-    func updateCellHeight() {
+    func updateDueDateCellHeight() {
         self.totalTableView.reloadData()
-        self.totalTableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
+        self.totalTableView.scrollToRow(at: IndexPath(row: 6, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
     }
 }

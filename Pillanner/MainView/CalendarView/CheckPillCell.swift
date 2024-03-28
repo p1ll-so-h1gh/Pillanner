@@ -9,7 +9,7 @@ import UIKit
 
 class CheckPillCell: UITableViewCell {
     
-    private var isSelectedCell: Bool = false
+    var isSelectedCell: Bool = false
     private var pill: Pill?
     
     // MARK: - Properties

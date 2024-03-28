@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 
 class IntakePillCell: UITableViewCell {
+    private let sidePaddingValue = 6
+    private let topPaddingValue = 10
     static let identifier = "IntakePillCell"
     
     let timeLabel: UILabel = {
@@ -18,16 +20,9 @@ class IntakePillCell: UITableViewCell {
         return label
     }()
     
-    let alarmLabel: UILabel = {
-        let label = UILabel()
-        label.font = FontLiteral.body(style: .bold).withSize(14)
-        label.alpha = 0.6
-        return label
-    }()
-    
     private let editButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "button"), for: .normal)
+        button.setImage(UIImage(named: "dots"), for: .normal)
         return button
     }()
     
@@ -40,43 +35,22 @@ class IntakePillCell: UITableViewCell {
         fatalError()
     }
     
-    func setupLayoutOnEditingProcess(intake: String, dosage: String, unit: String, alarm: Bool) {
-        
-        self.timeLabel.text = "\(intake) \(dosage)\(unit)"
-        self.alarmLabel.text = "알림 \(alarm)"
-        
+    func setupLayoutOnEditingProcess(intake: String) {
+        self.timeLabel.text = "\(intake)"
         self.contentView.addSubview(timeLabel)
-        self.contentView.addSubview(alarmLabel)
         self.contentView.addSubview(editButton)
+        
         timeLabel.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(10)
-            $0.left.equalToSuperview().inset(6)
-        }
-        alarmLabel.snp.makeConstraints {
-            $0.centerY.equalTo(timeLabel.snp.centerY)
-            $0.right.equalTo(editButton.snp.left).inset(-5)
+            $0.top.bottom.equalToSuperview().inset(topPaddingValue)
+            $0.left.equalToSuperview().inset(sidePaddingValue)
         }
         editButton.snp.makeConstraints {
             $0.centerY.equalTo(timeLabel.snp.centerY)
-            $0.right.equalToSuperview().inset(6)
+            $0.right.equalToSuperview().inset(sidePaddingValue)
         }
     }
     
-    func setupLayout() {
-        self.contentView.addSubview(timeLabel)
-        self.contentView.addSubview(alarmLabel)
-        self.contentView.addSubview(editButton)
-        timeLabel.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(10)
-            $0.left.equalToSuperview().inset(6)
-        }
-        alarmLabel.snp.makeConstraints {
-            $0.centerY.equalTo(timeLabel.snp.centerY)
-            $0.right.equalTo(editButton.snp.left).inset(-5)
-        }
-        editButton.snp.makeConstraints {
-            $0.centerY.equalTo(timeLabel.snp.centerY)
-            $0.right.equalToSuperview().inset(6)
-        }
+    @objc private func editButtonTapped() {
+        // 구현 필요
     }
 }
