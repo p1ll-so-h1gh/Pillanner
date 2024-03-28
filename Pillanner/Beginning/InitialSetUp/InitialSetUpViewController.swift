@@ -270,44 +270,36 @@ extension InitialSetUpViewController: IntakeSettingDelegate {
 
 extension InitialSetUpViewController: PillCellDelegate, AlarmCellDelegate,intakeNumberCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, IntakeAddDelegate {
     func updateUnit(unit: String) {
-        print("$$$$$", unit)
         self.dosageUnitForAdd = unit
     }
     
     func updateAlarmStatus(status: Bool) {
-        print("$$$$$", status)
         self.alarmStatusForAdd = status
     }
     
     func updateDataFromIntakeAddViewController(intake: String) {
-        print("$$$$$", intake)
         self.intakeForAdd.append(intake)
         self.totalTableView.reloadData()
     }
     
     func updateDays(_ days: [String]) {
-        print("$$$$$", days)
         self.dayForAdd = days
         self.totalTableView.reloadData()
     }
     
     func updatePillTitle(_ title: String) {
-        print("$$$$$", title)
         self.titleForAdd = title
     }
     
     func updatePillType(_ type: String) {
-        print("$$$$$", type)
         self.typeForAdd = type
     }
     
     func updateDueDate(date: String) {
-        print("$$$$$", date)
         self.dueDateForAdd = date
     }
     
     func updateDosage(dosage: String) {
-        print("$$$$$", dosage)
         self.dosageForAdd = dosage
     }
     
