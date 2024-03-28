@@ -110,6 +110,9 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UNUs
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             sender.endRefreshing()
         }
+
+        //setUpPillData()
+        readTakenPills()
     }
 
     // MARK: - 모두 선택 완료 시 Animation

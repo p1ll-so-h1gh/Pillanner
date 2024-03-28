@@ -9,9 +9,13 @@ import UIKit
 import SnapKit
 import FSCalendar
 import UserNotifications
+import Firebase
+import FirebaseFirestore
 
 class CalendarViewController: UIViewController {
     private lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
+
+    let db = Firestore.firestore()
 
     var isWeeklyMode: Bool = true
     private let sidePadding: CGFloat = 20
@@ -20,6 +24,7 @@ class CalendarViewController: UIViewController {
 
     private var listOfPills = [Pill]()
     private var categoryOfPills = [PillCategory]()
+
     private var selectedCells: [IndexPath] = []
     
     // MARK: - Properties
@@ -77,14 +82,14 @@ class CalendarViewController: UIViewController {
         setupConstraint()
         setupSwipeGesture()
         setupRefreshControl()
-        loadSelectedCells()
+
+        UserDefaults.standard.removeObject(forKey: "SelectedCells")
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 테스트
         setUpPillData()
-        removeSelectedCells()
     }
 
     // MARK: - Setup
@@ -95,7 +100,7 @@ class CalendarViewController: UIViewController {
     // 3. Pill -> intake 정보에 따라 오전에 먹는 약인지, 오후에 먹는 약인지 분류
     // 4. 분류된 결과를 가지고, PillCategories 변수에 담아내기 ( PillCategories = [PillCategory] 타입의 배열 )
     // 5. 정의된 PillCategories 변수로 테이블 셀을 그려내기
-    private func setUpPillData() {
+    func setUpPillData() {
         let dateFormatter: DateFormatter = {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
@@ -148,10 +153,11 @@ class CalendarViewController: UIViewController {
                 self.listOfPills = tempList
                 self.categorizePillData()
                 self.tableView.reloadData()
+                self.readTakenPills()
             }
         }
+        
     }
-
 
     private func categorizePillData() {
         // 시간 변환하는 포매터 설정
@@ -189,8 +195,68 @@ class CalendarViewController: UIViewController {
                 }
             }
         }
+        pillsListAM.pills.sort { $0.intake[0] < $1.intake[0] }
+        pillsListPM.pills.sort { $0.intake[0] < $1.intake[0] }
         let combinedCategories = [pillsListAM, pillsListPM]
         categoryOfPills = combinedCategories
+    }
+
+    // 복용한 약들 가져와서 비교 후 셀 선택 상태로
+    func readTakenPills() {
+        guard let userUID = UserDefaults.standard.string(forKey: "UID") else {
+            print("UserDefaults에서 UID를 찾을 수 없습니다.")
+            return
+        }
+        print("User UID: \(userUID)")
+
+        // Firestore에서 사용자 TakenPills 정보 가져오기
+        db.collection("Users").document(userUID).collection("TakenPills").addSnapshotListener { (querySnapshot, error) in
+            if let error = error {
+                print("TakenPills 가져오기 에러: \(error)")
+                return
+            }
+
+            guard let documents = querySnapshot?.documents else {
+                print("documents 없음")
+                return
+            }
+
+            let pillsData = documents.map { $0.data() }
+
+            self.handleTakenPillsData(pillsData)
+        }
+    }
+    private func handleTakenPillsData(_ pillsData: [[String: Any]]) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let currentDateAsString = dateFormatter.string(from: Date())
+
+        // 복용한 약물에 해당하는 셀을 선택 상태로 설정
+        for (sectionIndex, category) in categoryOfPills.enumerated() {
+            for (rowIndex, pill) in category.pills.enumerated() {
+                // 각 셀에 대해 복용한 약물이 포함되어 있는지 확인하고, 포함되어 있다면 해당 셀을 선택 상태로 설정
+                let pillDataExists = pillsData.contains { data in
+                    return data["Title"] as? String == pill.title &&
+                           data["TakenDate"] as? String == currentDateAsString &&
+                           data["Intake"] as? String == pill.intake[0] &&
+                           data["Dosage"] as? String == pill.dosage
+                }
+                print("=====================================================================")
+                print("복용한 약 : ", pillsData)
+                print("복용한 약과 일치하는 약 : ", pillDataExists)
+                print("=====================================================================")
+                if pillDataExists {
+                    let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
+                    // Firebase에서 가져온 데이터와 테이블 뷰의 데이터를 비교하여 선택 상태를 설정
+                    if let index = listOfPills.firstIndex(where: { $0.title == pill.title && $0.intake == pill.intake && $0.dosage == pill.dosage }) {
+                        print("index : ", index)
+                        let updatedIndexPath = IndexPath(row: index, section: sectionIndex)
+                        tableView.selectRow(at: updatedIndexPath, animated: false, scrollPosition: .none)
+                        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+                    }
+                }
+            }
+        }
     }
 
     // MARK: - Constraint
@@ -264,15 +330,6 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
         cell.selectionStyle = .none
         cell.configure(with: pill)
 
-        // 셀 상태 업데이트
-        if selectedCells.contains(indexPath) {
-            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-            cell.setSelected(true, animated: false)
-        } else {
-            tableView.deselectRow(at: indexPath, animated: false)
-            cell.setSelected(false, animated: false)
-        }
-
         return cell
     }
 
@@ -299,9 +356,6 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - UITableView Delegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // 선택된 셀의 IndexPath 추가
-        selectedCells.append(indexPath)
-        saveSelectedCells(indexPath)
 
         // 모두 선택 시
         if let selectedIndexPaths = tableView.indexPathsForSelectedRows, selectedIndexPaths.count == categoryOfPills.flatMap({ $0.pills }).count {
@@ -326,32 +380,4 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
     }
 
-    // MARK: - 선택된 셀 관련
-
-    private func saveSelectedCells(_ indexPath: IndexPath) {
-        var selectedIndexPaths = UserDefaults.standard.array(forKey: "SelectedCells") as? [[Int]] ?? []
-        let indexPathArray = [indexPath.section, indexPath.row]
-        selectedIndexPaths.append(indexPathArray)
-        UserDefaults.standard.set(selectedIndexPaths, forKey: "SelectedCells")
-    }
-    private func loadSelectedCells() {
-        if let selectedIndexPaths = UserDefaults.standard.array(forKey: "SelectedCells") as? [[Int]] {
-            for indexPathArray in selectedIndexPaths {
-                let indexPath = IndexPath(row: indexPathArray[1], section: indexPathArray[0])
-                selectedCells.append(indexPath)
-            }
-        }
-    }
-    // 다음날이 되면 저장된 IndexPath 삭제
-    private func removeSelectedCells() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-
-        let currentTimeString = dateFormatter.string(from: Date())
-
-        if currentTimeString >= "24:00" {
-            selectedCells.removeAll()
-            UserDefaults.standard.removeObject(forKey: "SelectedCells")
-        }
-    }
 }
