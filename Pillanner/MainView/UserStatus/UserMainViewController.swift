@@ -26,6 +26,9 @@ final class UserMainCollectionView: UICollectionView {
 }
 
 final class UserMainViewController: UIViewController {
+    var todayPillCount:Int = 0
+    var takenPillCount:Int = 0
+    
     //배경 깔아주기
     private lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
     private let sidePaddingSizeValue = 20
@@ -33,18 +36,6 @@ final class UserMainViewController: UIViewController {
     // MARK: - TO DO
     // CollectionView에 뿌려줄 데이터 타입 정의 필요
     private var pillsList = [Pill]()
-    
-    private let attainment: Attainment
-    private var attainmentRate: Int = 0
-    
-    init(attainment: Attainment) {
-        self.attainment = attainment
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     //MARK: - UI Properties
     private let topView: UIView = {
@@ -146,11 +137,8 @@ final class UserMainViewController: UIViewController {
     
     //이후에 타이머 초기화 해주는 것 호출 추가 필요
     override func viewWillAppear(_ animated: Bool) {
-        //뷰가 나타날때마다 애니메이션 효과 주기 위해
-        attainment.attainmentDidChange = { calculatedData in
-            self.attainmentRate = calculatedData
-        }
-        createCircle()
+        // 오늘먹어야하는 약 중 먹은 약에 대한 계산 + 달성률 그래프 그리기
+        calculateAttainment()
         
         if self.pillsList.isEmpty {
             setUpLabelsTextWithUserInformation()
@@ -225,6 +213,91 @@ final class UserMainViewController: UIViewController {
         }
     }
     
+    //MARK: - Calculate Attainment
+    private func calculateAttainment() {
+        let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            return formatter
+        }()
+        let todaysDateString = dateFormatter.date(from: Date().toString())
+        let dayFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "EEE" // Mon, Tue...
+            formatter.locale = Locale(identifier: "en")
+            return formatter
+        }()
+        
+        let todaysDate = dateFormatter.string(from: Date())
+        var todayPills = [Pill]() // 오늘 먹어야 하는 약 (전체)
+        var takenPills = [TakenPill]() // 오늘 먹어야 하는 약중 먹은 약을 담고 있는 변수
+        
+        // 오늘 먹어야 하는 약의 개수 구하는 부분
+        if let UID = UserDefaults.standard.string(forKey: "UID") {
+            DataManager.shared.readPillListData(UID: UID) { list in
+                guard let list = list else {
+                    print("받아올 약의 데이터가 없습니다.")
+                    self.createCircle(calculateRate: 0)
+                    return
+                }
+                
+                // 복용 기한 지난 약들 거름망
+                for pill in list {
+                    if let dueDate = dateFormatter.date(from: pill["DueDate"] as! String) {
+                        if todaysDateString?.compare(dueDate).rawValue == 1 {
+                            print("복용 기한이 지난 약의 데이터입니다.")
+                        } else {
+                            let data = Pill(title: pill["Title"] as? String ?? "ftitle",
+                                            type: pill["Type"] as? String ?? "ftype",
+                                            day: pill["Day"] as? [String] ?? ["fday"],
+                                            dueDate: pill["DueDate"] as? String ?? "fduedate",
+                                            intake: pill["Intake"] as? [String] ?? ["fintake"],
+                                            dosage: pill["Dosage"] as? String ?? "fdosage",
+                                            dosageUnit: pill["DosageUnit"] as? String ?? "fdosageUnit",
+                                            alarmStatus: pill["AlarmStatus"] as? Bool ?? true)
+                            todayPills.append(data)
+                            self.todayPillCount = todayPills.count
+                            print("todayPillCount : ", self.todayPillCount)
+                        }
+                    }
+                }
+            }
+        }
+        
+        // 오늘 먹어야 하는 약 중 먹은 약의 개수
+        if let UID = UserDefaults.standard.string(forKey: "UID") {
+            DataManager.shared.readPillRecordData(UID: UID) { list in
+                guard let list = list, !list.isEmpty else {
+                    print("복용한 약의 데이터가 없습니다.")
+                    self.createCircle(calculateRate: 0)
+                    return
+                }
+                //오늘 날짜 약들만 가져오기
+                for pill in list {
+                    if todaysDate == pill["TakenDate"] as! String {
+                        let data = TakenPill(title: pill["Title"] as! String,
+                                             takenDate: pill["TakenDate"] as! String,
+                                             intake: pill["Intake"] as! String,
+                                             dosage: pill["Dosage"] as! String)
+                        takenPills.append(data)
+                    }
+                }
+                self.takenPillCount = takenPills.count
+                print("takenPillCount : ", self.takenPillCount)
+                DispatchQueue.main.async {
+                    if self.todayPillCount != 0 {
+                        let calculatedData = Double(self.takenPillCount) / Double(self.todayPillCount) * 100
+                        print("calculatedData : ", calculatedData)
+                        self.createCircle(calculateRate: Int(calculatedData))
+                    } else {
+                        print("todayPillCount == 0")
+                        self.createCircle(calculateRate: 0)
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: - Set Up Data
     private func readPillDataFromFirestore() {
         guard let UID = UserDefaults.standard.string(forKey: "UID") else { return }
@@ -273,10 +346,11 @@ final class UserMainViewController: UIViewController {
     
     //MARK: - Attainment Circle
     // 하루, 일주일, 월별 -> 하루 달성률만 표시되도록 축소
-    private func createCircle() {
+    private func createCircle(calculateRate : Int) {
         let dayCircleRadius: CGFloat = 100
         let circleLineWidth: CGFloat = 30.0
-        let attainmentGoal = CGFloat(self.attainmentRate) / 100.0
+        let attainmentRate = calculateRate
+        let attainmentGoal = CGFloat(attainmentRate) / 100.0
         
         //원경로
         let dayCircularPath = UIBezierPath(arcCenter: CGPoint(x: 110, y: 110), 
@@ -308,11 +382,11 @@ final class UserMainViewController: UIViewController {
         circleContainerView.layer.addSublayer(dayBorderLine)
         
         if  let newAttainmentLabel = circleContainerView.viewWithTag(20240320426) as? UILabel {
-            newAttainmentLabel.text = "\(self.attainmentRate) %"
+            newAttainmentLabel.text = "\(attainmentRate) %"
         } else {
             // 정답률 label
             let attainmentLabel = UILabel()
-            attainmentLabel.text = "\(self.attainmentRate) %"
+            attainmentLabel.text = "\(attainmentRate) %"
             attainmentLabel.tag = 20240320426
             attainmentLabel.textColor = UIColor(hexCode: "F97474")
             attainmentLabel.font = FontLiteral.title2(style: .bold).withSize(30)

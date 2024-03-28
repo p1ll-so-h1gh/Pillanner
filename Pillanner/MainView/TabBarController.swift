@@ -22,8 +22,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         let calendarVC = CalendarViewController()
         setupTabBarItem(for: calendarVC, imageName: "tabCalendar", selectedImageName: "tabCalendar.fill")
         
-        let attainment: Attainment = .init(vc: calendarVC)
-        let userMainVC = UserMainViewController(attainment: attainment)
+        let userMainVC = UserMainViewController()
         setupTabBarItem(for: userMainVC, imageName: "tabHome", selectedImageName: "tabHome.fill")
         
         let pillAddVC = PillAddMainViewController()
