@@ -93,6 +93,7 @@ final class PillEditViewController: UIViewController {
         view.backgroundColor = .white
         
         self.totalTableView.dataSource = self
+        self.totalTableView.delegate = self
         self.totalTableView.rowHeight = UITableView.automaticDimension
         editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
         backButton.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
@@ -130,7 +131,8 @@ final class PillEditViewController: UIViewController {
         
         let addAlert = UIAlertController(title: "수정 완료", message: "약 정보 수정이 정상적으로 완료되었습니다!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { _  in
-            self.navigationController?.popViewController(animated: true)
+//            self.navigationController?.popViewController(animated: true)
+            self.dismissView()
         }
         addAlert.addAction(okAction)
         
@@ -179,7 +181,7 @@ final class PillEditViewController: UIViewController {
     }
 }
 
-extension PillEditViewController: UITableViewDataSource {
+extension PillEditViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 7
     }
