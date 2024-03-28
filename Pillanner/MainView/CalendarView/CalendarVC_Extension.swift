@@ -110,6 +110,15 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UNUs
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             sender.endRefreshing()
         }
+
+        if let selectedIndexPaths = tableView.indexPathsForSelectedRows {
+            for indexPath in selectedIndexPaths {
+                tableView.deselectRow(at: indexPath, animated: false)
+            }
+        }
+
+        setUpPillData()
+        //readTakenPills()
     }
 
     // MARK: - 모두 선택 완료 시 Animation

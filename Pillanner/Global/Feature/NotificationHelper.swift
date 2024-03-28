@@ -57,8 +57,13 @@ class NotificationHelper {
         //                self.notificationForPillDueDate(pill)
         //            }
         //        }
-        guard let userUID = Auth.auth().currentUser?.uid else {
-            print("Firebase에 사용자가 로그인되어 있지 않습니다.")
+
+//        guard let userUID = Auth.auth().currentUser?.uid else {
+//            print("Firebase에 사용자가 로그인되어 있지 않습니다.")
+//            return
+//        }
+        guard let userUID = UserDefaults.standard.string(forKey: "UID") else {
+            print("UserDefaults에서 UID를 찾을 수 없습니다.")
             return
         }
         print("User UID: \(userUID)")
