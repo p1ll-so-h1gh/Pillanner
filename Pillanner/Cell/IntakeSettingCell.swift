@@ -155,6 +155,7 @@ extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IntakePillCell.identifier, for: indexPath) as! IntakePillCell
         cell.setupLayoutOnEditingProcess(intake: self.intake[indexPath.row])
+        // delegate 설정 필요
         return cell
     }
     
@@ -164,3 +165,5 @@ extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
         tableView.layoutIfNeeded()
     }
 }
+
+// 시간 옆에 꺾쇠말고 ...으로 바꾸기

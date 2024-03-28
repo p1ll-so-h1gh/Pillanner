@@ -18,6 +18,7 @@ final class PillCell: UITableViewCell {
     private var onEditingProcess = false
     static let identifier = "PillCell"
     private let sidePaddingSizeValue = 20
+    private var title = ""
     
     private let pillnameLabel: UILabel = {
         let label = UILabel()
@@ -50,7 +51,8 @@ final class PillCell: UITableViewCell {
     }
     
     func setupLayoutOnEditingProcess(title: String) {
-        self.pillNameTextField.placeholder = title
+        self.title = title
+        self.pillNameTextField.text = title
         self.contentView.addSubview(self.pillnameLabel)
         self.contentView.addSubview(self.pillNameTextField)
         self.pillnameLabel.snp.makeConstraints {
@@ -62,6 +64,8 @@ final class PillCell: UITableViewCell {
             $0.left.equalTo(self.pillnameLabel.snp.right).inset(-8)
             $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
         }
+        delegate?.updatePillTitle(self.title)
+        print(self.title)
     }
     
     //cell 초기화 함수 - 제품명 사라지게 하기

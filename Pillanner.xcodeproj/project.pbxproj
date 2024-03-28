@@ -45,6 +45,7 @@
 		142BC7772B8870DD0046D8AB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 142BC7762B8870DD0046D8AB /* FirebaseStorage */; };
 		142BC7792B8870DD0046D8AB /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 142BC7782B8870DD0046D8AB /* FirebaseStorageCombine-Community */; };
 		1438F6AC2B8F0A53006D2939 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1438F6AB2B8F0A52006D2939 /* GoogleService-Info.plist */; };
+		149AE3732BB2E73F0062D854 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 149AE3722BB2E73F0062D854 /* Secrets.plist */; };
 		14D2BE612B84BBBF0006AC51 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2BE602B84BBBF0006AC51 /* AppDelegate.swift */; };
 		14D2BE632B84BBBF0006AC51 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2BE622B84BBBF0006AC51 /* SceneDelegate.swift */; };
 		14D2BE6B2B84BBBF0006AC51 /* Pillanner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 14D2BE692B84BBBF0006AC51 /* Pillanner.xcdatamodeld */; };
@@ -88,7 +89,6 @@
 		C490C8922B8EE9AB00DFACD8 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C490C8912B8EE9AB00DFACD8 /* DataManager.swift */; };
 		C4A55A052B999EEC0084AF16 /* SNSLogin_Kakao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A55A042B999EEC0084AF16 /* SNSLogin_Kakao.swift */; };
 		C4A55A072B99B9E40084AF16 /* SNSLogin_Apple.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A55A062B99B9E40084AF16 /* SNSLogin_Apple.swift */; };
-		C4DFE6E82BB133E2004E28B1 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4DFE6E72BB133E2004E28B1 /* Secrets.plist */; };
 		CC16976F2B8DDA13008276B0 /* PillListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16976E2B8DDA12008276B0 /* PillListCollectionViewCell.swift */; };
 		CC16979A2B9021C0008276B0 /* PillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697992B9021C0008276B0 /* PillCell.swift */; };
 		CC16979C2B9021D2008276B0 /* IntakeDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16979B2B9021D2008276B0 /* IntakeDateCell.swift */; };
@@ -113,6 +113,7 @@
 /* Begin PBXFileReference section */
 		1408A5CF2B972DF2006DA21D /* CustomLaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLaunchScreenViewController.swift; sourceTree = "<group>"; };
 		1438F6AB2B8F0A52006D2939 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		149AE3722BB2E73F0062D854 /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		14D2BE5D2B84BBBF0006AC51 /* Pillanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pillanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14D2BE602B84BBBF0006AC51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14D2BE622B84BBBF0006AC51 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -312,7 +313,7 @@
 		147505872BAEBBF200A646AB /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				C4DFE6E72BB133E2004E28B1 /* Secrets.plist */,
+				149AE3722BB2E73F0062D854 /* Secrets.plist */,
 				C4A55A032B999E0A0084AF16 /* Config.xcconfig */,
 			);
 			path = Configuration;
@@ -593,7 +594,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4DFE6E82BB133E2004E28B1 /* Secrets.plist in Resources */,
+				149AE3732BB2E73F0062D854 /* Secrets.plist in Resources */,
 				1438F6AC2B8F0A53006D2939 /* GoogleService-Info.plist in Resources */,
 				14D2BE6D2B84BBC20006AC51 /* Assets.xcassets in Resources */,
 			);

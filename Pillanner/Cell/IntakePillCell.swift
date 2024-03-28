@@ -47,4 +47,8 @@ class IntakePillCell: UITableViewCell {
             $0.right.equalToSuperview().inset(6)
         }
     }
+    
+    @objc private func editButtonTapped() {
+        // 구현 필요
+    }
 }

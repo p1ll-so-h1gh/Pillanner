@@ -24,11 +24,12 @@ final class PillAddMainViewController: UIViewController{
     private var intakeForAdd = [String]()
     private var dosageForAdd = String()
     private var alarmStatusForAdd = Bool()
+    private var dosageUnitForAdd = String()
     
     private var alarmStatus: Bool = false
     private var timeData: String = ""
     private var dosage: String = ""
-    private var dosageUnitForAdd: String = ""
+    
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -247,6 +248,7 @@ extension PillAddMainViewController: IntakeSettingDelegate {
 }
 
 extension PillAddMainViewController: PillCellDelegate, AlarmCellDelegate,intakeNumberCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
+    
     func updateUnit(unit: String) {
         self.dosageUnitForAdd = unit
     }

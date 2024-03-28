@@ -110,7 +110,7 @@ final class PillEditViewController: UIViewController {
     // 저장버튼 눌렀을 때, 데이터 업데이트 및 알럿, 화면 빠져나오기 기능 추가
     @objc private func editButtonTapped() {
         
-        if self.titleForEdit == "" {
+        if self.oldPillDataForEdit.title == "" {
             let alert = UIAlertController(title: "약의 이름을 확인해주세요.", message: "약의 이름은 공백일 수 없습니다. 다시 한 번 확인해주세요.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "확인", style: .destructive, handler: nil)
             alert.addAction(okAction)
@@ -118,9 +118,9 @@ final class PillEditViewController: UIViewController {
         }
         // 빈 내용이 있으면 어떻게 처리할 지 고민해야 함
         
-        let newPill = Pill(title: self.titleForEdit, type: self.typeForEdit, day: self.dayForEdit, dueDate: self.dueDateForEdit, intake: self.intakeForEdit, dosage: self.dosageForEdit, dosageUnit: self.dosageUnitForEdit, alarmStatus: self.alarmStatusForEdit)
+//        let newPill = Pill(title: self.titleForEdit, type: self.typeForEdit, day: self.dayForEdit, dueDate: self.dueDateForEdit, intake: self.intakeForEdit, dosage: self.dosageForEdit, dosageUnit: self.dosageUnitForEdit, alarmStatus: self.alarmStatusForEdit)
         
-        DataManager.shared.updatePillData(oldTitle: originalPillTitle, pill: newPill)
+        DataManager.shared.updatePillData(oldTitle: originalPillTitle, pill: oldPillDataForEdit)
         
         DataManager.shared.readPillListData(UID: UserDefaults.standard.string(forKey: "UID")!) { pillList in
             if let pillList = pillList {
@@ -242,41 +242,53 @@ extension PillEditViewController: IntakeSettingDelegate {
         dosageAddVC.delegate = self
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(dosageAddVC, animated: true)
+//        let dosageNavVC = UINavigationController(rootViewController: dosageAddVC)
+//        dosageNavVC.modalPresentationStyle = .fullScreen
+//        self.present(dosageNavVC, animated: true)
     }
 }
 
 extension PillEditViewController:PillCellDelegate, AlarmCellDelegate,intakeNumberCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
     func updateAlarmStatus(status: Bool) {
         self.alarmStatusForEdit = status
+        self.oldPillDataForEdit.alarmStatus = status
     }
     
     func updateUnit(unit: String) {
         self.dosageUnitForEdit = unit
+        self.oldPillDataForEdit.dosageUnit = unit
     }
     
     func updateDataFromDosageAddViewController(intake: String) {
+        print(#function)
         self.intakeForEdit.append(intake)
+        self.oldPillDataForEdit.intake.append(intake)
         self.totalTableView.reloadData()
     }
     
     func updatePillTitle(_ title: String) {
         self.titleForEdit = title
+        self.oldPillDataForEdit.title = title
     }
     
     func updatePillType(_ type: String) {
         self.typeForEdit = type
+        self.oldPillDataForEdit.type = type
     }
     
     func updateDays(_ day: [String]) {
         self.dayForEdit = day
+        self.oldPillDataForEdit.day = day
         self.totalTableView.reloadData()
     }
     
     func updateDueDate(date: String) {
         self.dueDateForEdit = date
+        self.oldPillDataForEdit.dueDate = date
     }
     
     func updateDosage(dosage: String) {
+        self.oldPillDataForEdit.dosage = dosage
         self.dosageForEdit = dosage
     }
     
@@ -287,6 +299,6 @@ extension PillEditViewController:PillCellDelegate, AlarmCellDelegate,intakeNumbe
     
     func updateDueDateCellHeight() {
         self.totalTableView.reloadData()
-        self.totalTableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
+        self.totalTableView.scrollToRow(at: IndexPath(row: 6, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
     }
 }
