@@ -302,7 +302,7 @@ final class DataManager {
                     let takenPillsCollection = self.db.collection("Users").document(userDocumentID!).collection("TakenPills")
                     
                     //복용 약 개별로 다 저장 - 기본키: TakenDate + Intake
-                    takenPillsCollection.document("\(pill.title)").setData([
+                    takenPillsCollection.document("\(pill.title)_\(pill.intake)_\(pill.takenDate)").setData([
                         "Title": pill.title,
                         "TakenDate": pill.takenDate,
                         "Intake": pill.intake,

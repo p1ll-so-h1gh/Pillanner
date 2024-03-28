@@ -254,7 +254,7 @@ extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate
 // DosageAddViewController 로 이동하기 위한 Delegate
 extension InitialSetUpViewController: IntakeSettingDelegate {
     func addIntakeWithData() {
-        <#code#>
+//        <#code#>
     }
     
     func addIntake() {
