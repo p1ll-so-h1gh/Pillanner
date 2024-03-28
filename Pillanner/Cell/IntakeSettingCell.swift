@@ -16,7 +16,8 @@ import UIKit
 import SnapKit
 
 protocol IntakeSettingDelegate: AnyObject {
-    func addDosage()
+    func addIntake()
+    func addIntakeWithData()
 }
 
 final class PillTableView: UITableView {
@@ -93,7 +94,7 @@ final class IntakeSettingCell: UITableViewCell {
     }()
     
     @objc func goDosageAddVC() {
-        self.delegate?.addDosage()
+        self.delegate?.addIntake()
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -162,7 +163,12 @@ extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IntakePillCell.identifier, for: indexPath) as! IntakePillCell
         cell.setupLayoutOnEditingProcess(intake: self.intake[indexPath.row])
+        // delegate 설정 필요
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.goDosageAddVC()
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -170,3 +176,5 @@ extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
         tableView.layoutIfNeeded()
     }
 }
+
+// 시간 옆에 꺾쇠말고 ...으로 바꾸기

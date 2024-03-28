@@ -12,13 +12,6 @@ import UserNotifications
 import Firebase
 import FirebaseFirestore
 
-protocol CalendarViewDelegate: AnyObject {
-    //전체 복용 pill개수 저장함
-    func sendTotalEvent(event: Int)
-    //셀이 더 선택되어 복용이 바뀐 것을 알려줌
-    func takenPillChanged()
-}
-
 class CalendarViewController: UIViewController {
     private lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
 
@@ -32,8 +25,8 @@ class CalendarViewController: UIViewController {
     private var listOfPills = [Pill]()
     private var categoryOfPills = [PillCategory]()
 
-    weak var delegate: CalendarViewDelegate?
-
+    private var selectedCells: [IndexPath] = []
+    
     // MARK: - Properties
 
     let calendar: FSCalendar = {
@@ -205,7 +198,6 @@ class CalendarViewController: UIViewController {
         pillsListAM.pills.sort { $0.intake[0] < $1.intake[0] }
         pillsListPM.pills.sort { $0.intake[0] < $1.intake[0] }
         let combinedCategories = [pillsListAM, pillsListPM]
-        //self.delegate?.sendTotalEvent(event: pillsListAM.pills.count + pillsListPM.pills.count)
         categoryOfPills = combinedCategories
     }
 
@@ -381,8 +373,6 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
         let takenPill = TakenPill(title: pill.title, takenDate: dateFormatter.string(from: calendar.today!), intake: pill.intake[0], dosage: pill.dosage)
         DataManager.shared.createPillRecordData(pill: takenPill)
 
-        //복용 업데이트 사실 알려줌
-        self.delegate?.takenPillChanged()
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
