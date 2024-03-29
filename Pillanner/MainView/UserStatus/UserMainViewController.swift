@@ -26,6 +26,9 @@ final class UserMainCollectionView: UICollectionView {
 }
 
 final class UserMainViewController: UIViewController {
+    var todayPillCount:Int = 0
+    var takenPillCount:Int = 0
+    
     //배경 깔아주기
     private lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
     private let sidePaddingSizeValue = 20
@@ -33,18 +36,6 @@ final class UserMainViewController: UIViewController {
     // MARK: - TO DO
     // CollectionView에 뿌려줄 데이터 타입 정의 필요
     private var pillsList = [Pill]()
-    
-    private let attainment: Attainment
-    private var attainmentRate: Int = 0
-    
-    init(attainment: Attainment) {
-        self.attainment = attainment
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     //MARK: - UI Properties
     private let topView: UIView = {
@@ -61,7 +52,6 @@ final class UserMainViewController: UIViewController {
     
     private let infoLabel: UILabel = {
         let label = UILabel()
-        //        label.text = "\("")님! 오늘 알약 섭취를 \("") 완료 하셨어요 :)"
         label.font = FontLiteral.body(style: .regular).withSize(14)
         label.alpha = 0.5
         return label
@@ -99,77 +89,7 @@ final class UserMainViewController: UIViewController {
         view.backgroundColor = .clear
         return view
     }()
-    
-    //    private let labelVStackView: UIStackView = {
-    //        let stackView = UIStackView()
-    //        stackView.axis = .vertical
-    //        stackView.spacing = 50
-    //        return stackView
-    //    }()
-    //    
-    //    private let dayLabel: UILabel = {
-    //        let label = UILabel()
-    //        label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
-    //        label.layer.cornerRadius = label.frame.size.width/2
-    //        label.clipsToBounds = true
-    //        label.backgroundColor = UIColor(hexCode: "9BDCFD")
-    //        return label
-    //    }()
-    //    
-    //    private let dayTextLabel: UILabel = {
-    //        let label = UILabel()
-    //        label.text = "하루"
-    //        label.font = FontLiteral.body(style: .regular).withSize(18)
-    //        return label
-    //    }()
-    //    
-    //    private let dayView: UIView = {
-    //        let view = UIView()
-    //        return view
-    //    }()
-    //    
-    //    private let weekLabel: UILabel = {
-    //        let label = UILabel()
-    //        label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
-    //        label.layer.cornerRadius = label.frame.size.width/2
-    //        label.clipsToBounds = true
-    //        label.backgroundColor = UIColor(hexCode: "FF9898")
-    //        return label
-    //    }()
-    //    
-    //    private let weekTextLabel: UILabel = {
-    //        let label = UILabel()
-    //        label.text = "일주일"
-    //        label.font = FontLiteral.body(style: .regular).withSize(18)
-    //        return label
-    //    }()
-    //    
-    //    private let weekView: UIView = {
-    //        let view = UIView()
-    //        return view
-    //    }()
-    //    
-    //    private let monthLabel: UILabel = {
-    //        let label = UILabel()
-    //        label.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
-    //        label.layer.cornerRadius = label.frame.size.width/2
-    //        label.clipsToBounds = true
-    //        label.backgroundColor = UIColor(hexCode: "FFD188")
-    //        return label
-    //    }()
-    //    
-    //    private let monthTextLabel: UILabel = {
-    //        let label = UILabel()
-    //        label.text = "월별"
-    //        label.font = FontLiteral.body(style: .regular).withSize(18)
-    //        return label
-    //    }()
-    //    
-    //    private let monthView: UIView = {
-    //        let view = UIView()
-    //        return view
-    //    }()
-    
+
     private let sectionSeparatorLine: UIView = {
         let view = UIView()
         view.backgroundColor = .black
@@ -187,7 +107,6 @@ final class UserMainViewController: UIViewController {
     
     private let intakeDescriptionLabel: UILabel = {
         let label = UILabel()
-        //        label.text = "\("")님이 복용중인 약은 \("") 개 입니다"
         label.font = FontLiteral.body(style: .regular).withSize(14)
         label.alpha = 0.5
         return label
@@ -214,21 +133,12 @@ final class UserMainViewController: UIViewController {
         intakePillListCollectionView.delegate = self
         intakePillListCollectionView.dataSource = self
         intakePillListCollectionView.register(PillListCollectionViewCell.self, forCellWithReuseIdentifier: PillListCollectionViewCell.id)
-        
-        //        readPillDataFromFirestore()
-        //        DispatchQueue.main.async {
-        //            self.readPillDataFromFirestore()
-        //        }
-        
     }
     
     //이후에 타이머 초기화 해주는 것 호출 추가 필요
     override func viewWillAppear(_ animated: Bool) {
-        //뷰가 나타날때마다 애니메이션 효과 주기 위해
-        attainment.attainmentDidChange = { calculatedData in
-            self.attainmentRate = calculatedData
-        }
-        createCircle()
+        // 오늘먹어야하는 약 중 먹은 약에 대한 계산 + 달성률 그래프 그리기
+        calculateAttainment()
         
         if self.pillsList.isEmpty {
             setUpLabelsTextWithUserInformation()
@@ -279,42 +189,13 @@ final class UserMainViewController: UIViewController {
         }
         circleContainerView.snp.makeConstraints {
             $0.size.equalTo(220)
-            //            $0.leading.equalToSuperview().inset(sidePaddingSizeValue*2)
             $0.centerX.equalToSuperview()
             $0.top.equalTo(attainmentRateLabel.snp.bottom).inset(-30)
         }
-        //        labelVStackView.snp.makeConstraints {
-        //            $0.leading.equalTo(circleContainerView.snp.trailing).inset(-30)
-        //            $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
-        //            $0.top.equalToSuperview().inset(100)
-        //        }
-        //        dayLabel.snp.makeConstraints {
-        //            $0.size.equalTo(12)
-        //            $0.leading.equalTo(dayView.snp.leading)
-        //        }
-        //        dayTextLabel.snp.makeConstraints {
-        //            $0.leading.equalTo(dayLabel.snp.trailing).inset(-10)
-        //            $0.centerY.equalTo(dayLabel.snp.centerY)
-        //        }
-        //        weekLabel.snp.makeConstraints {
-        //            $0.size.equalTo(12)
-        //            $0.leading.equalTo(weekView.snp.leading)
-        //        }
-        //        weekTextLabel.snp.makeConstraints {
-        //            $0.leading.equalTo(weekLabel.snp.trailing).inset(-10)
-        //            $0.centerY.equalTo(weekLabel.snp.centerY)
-        //        }
-        //        monthLabel.snp.makeConstraints {
-        //            $0.size.equalTo(12)
-        //            $0.leading.equalTo(monthView.snp.leading)
-        //        }
-        //        monthTextLabel.snp.makeConstraints {
-        //            $0.leading.equalTo(monthLabel.snp.trailing).inset(-10)
-        //            $0.centerY.equalTo(monthLabel.snp.centerY)
-        //        }
         sectionSeparatorLine.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(sidePaddingSizeValue)
             $0.width.equalTo(353)
+            $0.centerX.equalToSuperview()
             $0.height.equalTo(1)
             $0.top.equalTo(circleContainerView.snp.bottom).inset(-sidePaddingSizeValue)
         }
@@ -330,8 +211,101 @@ final class UserMainViewController: UIViewController {
             $0.top.equalTo(intakeDescriptionLabel.snp.bottom).inset(-10)
             $0.leading.trailing.bottom.equalToSuperview().inset(sidePaddingSizeValue)
             $0.height.greaterThanOrEqualTo(1)
-            //            $0.height.equalTo(100)
         }
+    }
+    
+    //MARK: - Calculate Attainment
+    private func calculateAttainment() {
+        let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            return formatter
+        }()
+        let todaysDateString = dateFormatter.date(from: Date().toString())
+        let dayFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "EEE" // Mon, Tue...
+            formatter.locale = Locale(identifier: "en")
+            return formatter
+        }()
+        
+        let todaysDate = dateFormatter.string(from: Date())
+        let todaysDay = dayFormatter.string(from: Date())
+        var todayPills = [Pill]() // 오늘 먹어야 하는 약 (전체)
+        var takenPills = [TakenPill]() // 오늘 먹어야 하는 약중 먹은 약을 담고 있는 변수
+        
+        // 오늘 먹어야 하는 약의 개수 구하는 부분
+        if let UID = UserDefaults.standard.string(forKey: "UID") {
+            DataManager.shared.readPillListData(UID: UID) { list in
+                guard let list = list else {
+                    print("받아올 약의 데이터가 없습니다.")
+                    self.createCircle(calculateRate: 0)
+                    return
+                }
+                
+                // 복용 기한 지난 약들 거름망
+                for pill in list {
+                    if let dueDate = dateFormatter.date(from: pill["DueDate"] as! String) {
+                        if todaysDateString?.compare(dueDate).rawValue == 1 {
+                            print("복용 기한이 지난 약의 데이터입니다.")
+                        } else {
+                            let data = Pill(title: pill["Title"] as? String ?? "ftitle",
+                                            type: pill["Type"] as? String ?? "ftype",
+                                            day: pill["Day"] as? [String] ?? ["fday"],
+                                            dueDate: pill["DueDate"] as? String ?? "fduedate",
+                                            intake: pill["Intake"] as? [String] ?? ["fintake"],
+                                            dosage: pill["Dosage"] as? String ?? "fdosage",
+                                            dosageUnit: pill["DosageUnit"] as? String ?? "fdosageUnit",
+                                            alarmStatus: pill["AlarmStatus"] as? Bool ?? true)
+                            todayPills.append(data)
+                        }
+                    }
+                }
+                var count = 0
+                for pill in todayPills {
+                    if pill.day.contains(todaysDay) {
+                        count += pill.intake.count
+                    }
+                }
+                self.todayPillCount = count
+            }
+        }
+        
+        // 오늘 먹어야 하는 약 중 먹은 약의 개수
+        if let UID = UserDefaults.standard.string(forKey: "UID") {
+            DataManager.shared.readPillRecordData(UID: UID) { list in
+                guard let list = list, !list.isEmpty else {
+                    print("복용한 약의 데이터가 없습니다.")
+                    self.createCircle(calculateRate: 0)
+                    return
+                }
+                //오늘 날짜 약들만 가져오기
+                for pill in list {
+                    if todaysDate == pill["TakenDate"] as! String {
+                        let data = TakenPill(title: pill["Title"] as! String,
+                                             takenDate: pill["TakenDate"] as! String,
+                                             intake: pill["Intake"] as! String,
+                                             dosage: pill["Dosage"] as! String)
+                        takenPills.append(data)
+                    }
+                }
+                self.takenPillCount = takenPills.count
+                print("takenPillCount : ", self.takenPillCount)
+                DispatchQueue.main.async {
+                    if self.todayPillCount != 0 {
+                        let calculatedData = Double(self.takenPillCount) / Double(self.todayPillCount) * 100
+                        print("calculatedData : ", calculatedData)
+                        self.createCircle(calculateRate: Int(calculatedData))
+                        return
+                    } else {
+                        print("todayPillCount == 0")
+                        self.createCircle(calculateRate: 0)
+                        return
+                    }
+                }
+            }
+        }
+        self.createCircle(calculateRate: 0)
     }
     
     // MARK: - Set Up Data
@@ -355,6 +329,7 @@ final class UserMainViewController: UIViewController {
                                     dueDate: pill["DueDate"] as? String ?? "fduedate",
                                     intake: pill["Intake"] as? [String] ?? ["fintake"],
                                     dosage: pill["Dosage"] as? String ?? "fdosage",
+                                    dosageUnit: pill["DosageUnit"] as? String ?? "fdosageUnit",
                                     alarmStatus: pill["AlarmStatus"] as? Bool ?? true)
                 tempList.append(receiver)
                 self.pillsList = tempList
@@ -381,12 +356,11 @@ final class UserMainViewController: UIViewController {
     
     //MARK: - Attainment Circle
     // 하루, 일주일, 월별 -> 하루 달성률만 표시되도록 축소
-    private func createCircle() {
+    private func createCircle(calculateRate : Int) {
         let dayCircleRadius: CGFloat = 100
-        //        let weekCircleRadius: CGFloat = 67
-        //        let monthCircleRadius: CGFloat = 40
         let circleLineWidth: CGFloat = 30.0
-        let attainmentGoal = CGFloat(self.attainmentRate) / 100.0
+        let attainmentRate = calculateRate
+        let attainmentGoal = CGFloat(attainmentRate) / 100.0
         
         //원경로
         let dayCircularPath = UIBezierPath(arcCenter: CGPoint(x: 110, y: 110), 
@@ -418,11 +392,11 @@ final class UserMainViewController: UIViewController {
         circleContainerView.layer.addSublayer(dayBorderLine)
         
         if  let newAttainmentLabel = circleContainerView.viewWithTag(20240320426) as? UILabel {
-            newAttainmentLabel.text = "\(self.attainmentRate) %"
+            newAttainmentLabel.text = "\(attainmentRate) %"
         } else {
             // 정답률 label
             let attainmentLabel = UILabel()
-            attainmentLabel.text = "\(self.attainmentRate) %"
+            attainmentLabel.text = "\(attainmentRate) %"
             attainmentLabel.tag = 20240320426
             attainmentLabel.textColor = UIColor(hexCode: "F97474")
             attainmentLabel.font = FontLiteral.title2(style: .bold).withSize(30)
@@ -460,10 +434,6 @@ extension UserMainViewController: UICollectionViewDelegate, UICollectionViewData
         cell.layer.masksToBounds = true
         cell.pillListViewDelegate = self
         
-        //        cell.typeLabel.text = "일반"
-        //        cell.nameLabel.text = "유산균"
-        //        cell.alarmLabel.text = "off"
-        //        cell.pillnumLabel.text = "하루 1정"
         cell.configureCell(with: pill)
         
         return cell
@@ -499,7 +469,6 @@ extension UserMainViewController: PillListViewDelegate {
         let cancel = UIAlertAction(title: "아니요", style: .default)
         let delete = UIAlertAction(title: "네", style: .default) { _ in
             DataManager.shared.deletePillData(title: pillData)
-            //            self.intakePillListCollectionView.reloadData()
             self.readPillDataFromFirestore()
             self.intakePillListCollectionView.reloadData()
         }
@@ -509,7 +478,7 @@ extension UserMainViewController: PillListViewDelegate {
     }
     
     func editPill(pillData: Pill) {
-        let VC = PillEditViewController(pill: pillData)
+        let VC = UINavigationController(rootViewController: PillEditViewController(pill: pillData))
         VC.modalPresentationStyle = .fullScreen
         present(VC, animated: true, completion: nil)
     }

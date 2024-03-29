@@ -43,6 +43,8 @@ class InitialSetUpViewController: UIViewController {
     private let totalTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.identifier)
+        tableView.register(AlarmCell.self, forCellReuseIdentifier: AlarmCell.identifier)
+        tableView.register(IntakeNumberCell.self, forCellReuseIdentifier: IntakeNumberCell.identifier)
         tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.identifier)
         tableView.register(IntakeSettingCell.self, forCellReuseIdentifier: IntakeSettingCell.identifier)
         tableView.register(PillTypeCell.self, forCellReuseIdentifier: PillTypeCell.identifier)
@@ -104,6 +106,8 @@ class InitialSetUpViewController: UIViewController {
     }
     
     @objc func addPill() {
+        // 데이터 저장( firestore )
+        DataManager.shared.createPillData(pill: Pill(title: self.titleForAdd, type: self.typeForAdd, day: self.dayForAdd, dueDate: self.dueDateForAdd, intake: self.intakeForAdd, dosage: self.dosageForAdd, dosageUnit: self.dosageUnitForAdd, alarmStatus: self.alarmStatusForAdd))
         // 약을 더 추가할 때 나오는 얼럿 설정
         let title = "추가적으로 등록할 약이 있을까요?"
         let alert = UIAlertController(title: title, message: "", preferredStyle: .alert)
@@ -113,6 +117,7 @@ class InitialSetUpViewController: UIViewController {
             //            self.resetInputValue()
             self.numberLabel.text = "\(self.count)"
             self.resetEveryCellsInView()
+            self.totalTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
         }
         //finish 시 약 정보 입력 페이지 나가고 InitialSetUpEndVC로 이동
         let finish = UIAlertAction(title: "아니요", style: .default) { _ in
@@ -194,7 +199,7 @@ class InitialSetUpViewController: UIViewController {
 //MARK: - TableView DataSource, Delegate
 extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -206,23 +211,30 @@ extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate
             cell.delegate = self
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
-            cell.setupLayoutOnEditingProcess(days: self.dayForAdd)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath) as! AlarmCell
+            cell.setupLayoutOnEditingProcess(alarmStatus: self.alarmStatusForAdd)
+            cell.delegate = self
             return cell
         case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
-            cell.setupLayoutOnEditingProcess(alarm: self.alarmStatusForAdd,
-                                             intake: self.intakeForAdd,
-                                             dosage: self.dosageForAdd,
-                                             unit: self.dosageUnitForAdd)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeNumberCell", for: indexPath) as! IntakeNumberCell
+            cell.setupLayoutOnEditingProcess(dosage: self.dosageForAdd, unit: self.dosageUnitForAdd)
             cell.delegate = self
             return cell
         case 3:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeDateCell", for: indexPath) as! IntakeDateCell
+            cell.setupLayoutOnEditingProcess(days: self.dayForAdd)
+            return cell
+        case 4:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "IntakeSettingCell", for: indexPath) as! IntakeSettingCell
+            cell.setupLayoutOnEditingProcess(intake: self.intakeForAdd)
+            cell.delegate = self
+            return cell
+        case 5:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PillTypeCell", for: indexPath) as! PillTypeCell
             cell.setupLayoutOnEditingProcess(type: self.typeForAdd)
             cell.delegate = self
             return cell
-        case 4:
+        case 6:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DeadlineCell", for: indexPath) as! DueDateCell
             cell.setupLayoutOnEditingProcess(dueDate: self.dueDateForAdd)
             cell.delegate = self
@@ -233,7 +245,7 @@ extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 1 {
+        if indexPath.row == 3 {
             let weekSelectVC = WeekdaySelectionViewController(selectedWeekdaysInString: self.dayForAdd)
             weekSelectVC.delegate = self
             self.navigationController?.isNavigationBarHidden = false
@@ -244,26 +256,29 @@ extension InitialSetUpViewController: UITableViewDataSource, UITableViewDelegate
 
 // DosageAddViewController 로 이동하기 위한 Delegate
 extension InitialSetUpViewController: IntakeSettingDelegate {
-    func addDosage() {
-        let dosageAddVC = DosageAddViewController()
-        dosageAddVC.delegate = self
+    func addIntakeWithData() {
+//        <#code#>
+    }
+    
+    func addIntake() {
+        let intakeAddVC = IntakeAddViewController()
+        intakeAddVC.delegate = self
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.pushViewController(dosageAddVC, animated: true)
+        self.navigationController?.pushViewController(intakeAddVC, animated: true)
     }
 }
 
-extension InitialSetUpViewController: PillCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, DosageAddDelegate {
-    
-    func cellHeightChanged() {
-        self.totalTableView.reloadData()
+extension InitialSetUpViewController: PillCellDelegate, AlarmCellDelegate,intakeNumberCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, IntakeAddDelegate {
+    func updateUnit(unit: String) {
+        self.dosageUnitForAdd = unit
     }
     
-    func updateDataFromDosageAddViewController(alarmStatus: Bool, intake: String, dosage: String, unit: String) {
-        
-        self.alarmStatusForAdd = alarmStatus
+    func updateAlarmStatus(status: Bool) {
+        self.alarmStatusForAdd = status
+    }
+    
+    func updateDataFromIntakeAddViewController(intake: String) {
         self.intakeForAdd.append(intake)
-        self.dosageForAdd = dosage
-        self.dosageUnitForAdd = unit
         self.totalTableView.reloadData()
     }
     
@@ -284,7 +299,7 @@ extension InitialSetUpViewController: PillCellDelegate, IntakeDateCellDelegate, 
         self.dueDateForAdd = date
     }
     
-    func updateDosage(_ dosage: String) {
+    func updateDosage(dosage: String) {
         self.dosageForAdd = dosage
     }
     
@@ -292,21 +307,8 @@ extension InitialSetUpViewController: PillCellDelegate, IntakeDateCellDelegate, 
         self.intakeForAdd.append(intake)
     }
     
-    func sendDate(date: String) {
-        print(date)
-    }
-    
-    func updateCellHeight() {
+    func updateDueDateCellHeight() {
         self.totalTableView.reloadData()
-        self.totalTableView.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
+        self.totalTableView.scrollToRow(at: IndexPath(row: 6, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
     }
-    
-    //    func updateAlarmStatus(isOn: Bool) {
-    //        if isOn {
-    //            self.alarmStatusForAdd = isOn
-    //            NotificationHelper.shared.readUserPills()
-    //        } else {
-    //
-    //        }
-    //    }
 }

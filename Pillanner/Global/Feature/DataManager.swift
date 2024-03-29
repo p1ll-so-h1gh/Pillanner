@@ -125,6 +125,14 @@ final class DataManager {
         let userCollection = db.collection("Users")
         userCollection.document(UID).delete()
         
+        // UserDefaults 삭제
+        UserDefaults.standard.removeObject(forKey: "UID")
+        UserDefaults.standard.removeObject(forKey: "ID")
+        UserDefaults.standard.removeObject(forKey: "Password")
+        UserDefaults.standard.removeObject(forKey: "Nickname")
+        UserDefaults.standard.removeObject(forKey: "SignUpPath")
+        UserDefaults.standard.set(false, forKey: "isAutoLoginActivate")
+        
         // Firebase Auth 탈퇴
         if let user = Auth.auth().currentUser {
             print("Firebase 탈퇴를 진행합니다.")
@@ -160,6 +168,7 @@ final class DataManager {
                                 "DueDate": pill.dueDate,
                                 "Intake": pill.intake,
                                 "Dosage": pill.dosage,
+                                "DosageUnit": pill.dosageUnit,
                                 "AlarmStatus": pill.alarmStatus
                             ])
                             print("약 등록 완료")
@@ -190,6 +199,7 @@ final class DataManager {
                                     dueDate: document.data()["DueDate"] as? String ?? "fduedate",
                                     intake: document.data()["Intake"] as? [String] ?? ["fintake"],
                                     dosage: document.data()["Dosage"] as? String ?? "fdosage",
+                                    dosageUnit: document.data()["DosageUnit"] as? String ?? "fdosageUnit",
                                     alarmStatus: document.data()["AlarmStatus"] as? Bool ?? true)
                     completion(dict)
                 }
@@ -220,6 +230,7 @@ final class DataManager {
                                 "DueDate": document.data()["DueDate"],
                                 "Intake": document.data()["Intake"],
                                 "Dosage": document.data()["Dosage"],
+                                "DosageUnit": document.data()["DosageUnit"],
                                 "AlarmStatus": document.data()["AlarmStatus"]]
                     result.append(docs)
                 }
@@ -251,7 +262,7 @@ final class DataManager {
                 oldRef.delete()
                 
                 let newRef = pillCollection.document(pill.title)
-                newRef.setData(["Title": pill.title ,"Type": pill.type, "Day": pill.day, "DueDate": pill.dueDate, "Intake": pill.intake, "Dosage": pill.dosage, "AlarmStatus": pill.alarmStatus])
+                newRef.setData(["Title": pill.title ,"Type": pill.type, "Day": pill.day, "DueDate": pill.dueDate, "Intake": pill.intake, "Dosage": pill.dosage, "DosageUnit": pill.dosageUnit, "AlarmStatus": pill.alarmStatus])
             }
             print("약 정보가 업데이트 되었습니다.")
         }
@@ -291,7 +302,7 @@ final class DataManager {
                     let takenPillsCollection = self.db.collection("Users").document(userDocumentID!).collection("TakenPills")
                     
                     //복용 약 개별로 다 저장 - 기본키: TakenDate + Intake
-                    takenPillsCollection.document("\(pill.title)").setData([
+                    takenPillsCollection.document("\(pill.title)_\(pill.intake)_\(pill.takenDate)").setData([
                         "Title": pill.title,
                         "TakenDate": pill.takenDate,
                         "Intake": pill.intake,
@@ -312,6 +323,7 @@ final class DataManager {
         takenPillsCollection.getDocuments{ (snapshot, error) in
             guard let snapshot = snapshot, !snapshot.isEmpty else {
                 print("데이터가 없습니다.")
+                completion(nil)
                 return
             }
             for document in snapshot.documents {

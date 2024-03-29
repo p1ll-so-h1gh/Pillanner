@@ -61,7 +61,7 @@ extension LoginViewController {
                         UID: result!.user.uid,
                         ID: result!.user.email!,
                         password: "sns",
-                        nickname: "아직 설정 전",
+                        nickname: "(이름 없음)",
                         signUpPath: "애플"
                     )
                 )

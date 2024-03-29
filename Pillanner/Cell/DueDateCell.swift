@@ -12,8 +12,12 @@ import FSCalendar
 // 날짜 눌렀을 때 반환값 필요 ("yyyy-MM-dd" string값)
 
 protocol DueDateCellDelegate: AnyObject {
-    func updateCellHeight()
+    func updateDueDateCellHeight()
     func updateDueDate(date: String)
+}
+
+protocol DueDateCellToCalendarDelegate: AnyObject {
+    func sendDueDateToCalendarVC(dueDate: String)
 }
 
 final class DueDateCell: UITableViewCell {
@@ -21,6 +25,7 @@ final class DueDateCell: UITableViewCell {
     private let sidePaddingSizeValue = 20
     
     weak var delegate: DueDateCellDelegate?
+    weak var calendarDelegate: DueDateCellToCalendarDelegate?
     
     private let topView: UIView = {
         let view = UIView()
@@ -56,13 +61,12 @@ final class DueDateCell: UITableViewCell {
     
     @objc func switchValueChanged(_ sender: UISwitch) {
         self.calendarView.isHidden = !sender.isOn
-        self.delegate?.updateCellHeight()
+        self.delegate?.updateDueDateCellHeight()
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        self.setupLayout()
         self.calendarView.isHidden = true
         self.calendarView.delegate = self
     }
@@ -72,6 +76,13 @@ final class DueDateCell: UITableViewCell {
     }
     
     func setupLayoutOnEditingProcess(dueDate: String) {
+        if dueDate != "" {
+            self.popSwitch.isOn = true
+            self.calendarView.isHidden = false
+        }
+        
+        // calendarVC로 미리 선택되어있던 duedate 데이터 전달
+        calendarDelegate?.sendDueDateToCalendarVC(dueDate: dueDate)
         
         self.topView.addSubview(titleLabel)
         self.topView.addSubview(popSwitch)
@@ -92,35 +103,6 @@ final class DueDateCell: UITableViewCell {
         self.calendarView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(sidePaddingSizeValue)
             $0.width.equalTo(351)
-            //            $0.height.equalTo(320)
-        }
-        self.verticalStackView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(sidePaddingSizeValue)
-        }
-    }
-    
-    func setupLayout() {
-        self.topView.addSubview(titleLabel)
-        self.topView.addSubview(popSwitch)
-        self.verticalStackView.addArrangedSubview(topView)
-        self.verticalStackView.addArrangedSubview(calendarView)
-        self.contentView.addSubview(verticalStackView)
-        self.titleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview()
-            $0.top.bottom.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.height.equalTo(24)
-            $0.width.equalTo(84)
-        }
-        self.popSwitch.snp.makeConstraints {
-            $0.top.right.bottom.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.height.equalTo(28)
-            $0.width.equalTo(55)
-        }
-        self.calendarView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.width.equalTo(351)
-            //            $0.height.equalTo(320)
         }
         self.verticalStackView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
