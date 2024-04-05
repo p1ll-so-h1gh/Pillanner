@@ -73,7 +73,7 @@ extension SignUpViewController {
             timerLabel.isHidden = false
             if availableGetCertNumberFlag == true {
                 // 가상번호 테스트용 코드 (에러수정 시 사용예정)==============================
-                //Auth.auth().settings?.isAppVerificationDisabledForTesting = true
+                Auth.auth().settings?.isAppVerificationDisabledForTesting = true
                 //=================================================================
                 PhoneAuthProvider.provider()
                     .verifyPhoneNumber(formatPhoneNumberForFirebase(phoneCertTextField.text!), uiDelegate: nil) { (verificationID, error) in
