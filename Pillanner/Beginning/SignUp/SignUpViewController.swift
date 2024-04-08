@@ -26,6 +26,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
     private let sidePaddingValue = 20
     private let topPaddingValue = 40
     private let buttonHeightValue = 35
+    private let paddingBetweenLabelAndTextField = 5
 
     private lazy var backButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(named: "leftmove")?.withRenderingMode(.alwaysOriginal).withTintColor(.black),
@@ -324,12 +325,12 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         idTextField.snp.makeConstraints({
-            $0.top.equalTo(idLabel.snp.bottom).offset(5)
+            $0.top.equalTo(idLabel.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(idCheckButton.snp.left).offset(-10)
         })
         idCheckButton.snp.makeConstraints({
-            $0.centerY.equalTo(idTextField.snp.centerY).offset(-5)
+            $0.centerY.equalTo(idTextField.snp.centerY).offset(-paddingBetweenLabelAndTextField)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
             $0.width.equalTo(100)
             $0.height.equalTo(buttonHeightValue)
@@ -348,7 +349,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         nameTextField.snp.makeConstraints({
-            $0.top.equalTo(nameLabel.snp.bottom).offset(5)
+            $0.top.equalTo(nameLabel.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
@@ -362,7 +363,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         passwordTextField.snp.makeConstraints({
-            $0.top.equalTo(passwordLabel.snp.bottom).offset(5)
+            $0.top.equalTo(passwordLabel.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
@@ -385,7 +386,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         passwordReTextField.snp.makeConstraints({
-            $0.top.equalTo(passwordReLabel.snp.bottom).offset(5)
+            $0.top.equalTo(passwordReLabel.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
@@ -408,7 +409,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         phoneCertTextField.snp.makeConstraints({
-            $0.top.equalTo(phoneCertLabel.snp.bottom).offset(5)
+            $0.top.equalTo(phoneCertLabel.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(getCertNumberButton.snp.left).offset(-10)
         })
