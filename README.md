@@ -13,6 +13,12 @@
 pillanner1322@gmail.com
 
 ---
+### **Used Techniques**
+![Pillanner_System_Architecture_Diagram](https://github.com/p1ll-so-h1gh/Pillanner/assets/121223990/5415bd4c-bab1-4373-bb47-928d5664b0c7)
+
+
+
+---
 ### Team p1ll-so-h1gh
 |이름|역할|기술스택|연락처|
 |---|---|-----|----|
