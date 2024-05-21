@@ -241,7 +241,6 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
         pillannerFlagImage.snp.makeConstraints{
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(0.18 * view.frame.height)
-//            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.height).multipliedBy(0.15)
         }
         idTextfield.snp.makeConstraints{
             $0.top.equalTo(pillannerFlagImage.snp.bottom).offset(paddingBetweenComponents)
@@ -262,8 +261,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
         }
         autoLoginLabel.snp.makeConstraints{
             $0.centerY.equalTo(autoLoginButton.snp.centerY)
-            $0.leading.equalTo(autoLoginButton.snp.trailing).offset(paddingBetweenComponents)
-//            $0.leading.equalTo(autoLoginButton.snp.trailing).offset(10)
+            $0.leading.equalTo(autoLoginButton.snp.trailing).offset(autoLoginButtonSize / 2)
         }
         loginButton.snp.makeConstraints{
             $0.top.equalTo(autoLoginLabel.snp.bottom).offset(paddingBetweenComponents)
