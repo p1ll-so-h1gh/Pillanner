@@ -151,7 +151,8 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, UNUs
     // MARK: - 셀 선택 알림 관련
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .sound, .badge])
+//        completionHandler([.alert, .sound, .badge]) // alert 가 iOS 14 이후로 deprecated되어 banner 타입으로 수정
+        completionHandler([.sound, .badge, .banner])
     }
 
     func showNotification(message: String) {

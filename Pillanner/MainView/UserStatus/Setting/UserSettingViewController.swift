@@ -38,6 +38,7 @@ enum SettingSection: CaseIterable {
 class UserSettingViewController: UIViewController {
     private let sidePaddingSizeValue = 20
     private var alarmStatus: Bool = false
+    
     //MARK: - Properties
     private let topView: UIView = {
         let view = UIView()

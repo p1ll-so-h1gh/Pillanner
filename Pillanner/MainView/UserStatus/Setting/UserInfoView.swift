@@ -140,7 +140,7 @@ class UserInfoView: UIViewController, UITextFieldDelegate {
         })
         withdrawalButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-20) // Adjust the offset as needed
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-20)
         }
     }
 }

@@ -15,6 +15,7 @@ import SnapKit
 final class PillAddMainViewController: UIViewController{
     
     private let sidePaddingSizeValue = 20
+    private let componentsInset = 10
     private let cornerRadiusValue: CGFloat = 13
     
     private var titleForAdd = String()
@@ -160,22 +161,25 @@ final class PillAddMainViewController: UIViewController{
         
         backButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(componentsInset)
         }
+        
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(componentsInset)
             $0.centerX.equalToSuperview()
         }
+        
         totalTableView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).inset(-sidePaddingSizeValue)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(addButtonView.snp.top).inset(-sidePaddingSizeValue)
         }
+        
         addButtonView.snp.makeConstraints {
             $0.width.equalTo(339)
             $0.height.equalTo(53)
             $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(componentsInset)
         }
     }
 }

@@ -135,10 +135,8 @@ class PillListCollectionViewCell: UICollectionViewCell {
             self.contentView.addSubview($0)
         }
         typeLabel.snp.makeConstraints {
-            $0.left.equalToSuperview().inset(6)
-            $0.right.equalToSuperview().inset(6)
-            $0.top.equalToSuperview().inset(3)
-            $0.bottom.equalToSuperview().inset(3)
+            $0.left.right.equalToSuperview().inset(6)
+            $0.top.bottom.equalToSuperview().inset(3)
         }
         typeLabelView.snp.makeConstraints {
             $0.left.equalToSuperview().inset(10)

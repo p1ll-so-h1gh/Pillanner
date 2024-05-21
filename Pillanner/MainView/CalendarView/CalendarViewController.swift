@@ -169,7 +169,6 @@ class CalendarViewController: UIViewController {
             formatter.locale = Locale(identifier: "ko-KR")
             return formatter
         }()
-        // 이중 for 문 없이 할 수 있는 방법이 있을까요
         // map, filter, reduce 로 간략하게 정리해볼 수도
         // reduce -> 반복문 돌리면서 append할 때 편리함
         for pill in listOfPills {
@@ -248,13 +247,6 @@ class CalendarViewController: UIViewController {
                 print("=====================================================================")
                 if pillDataExists {
                     let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
-                    // Firebase에서 가져온 데이터와 테이블 뷰의 데이터를 비교하여 선택 상태를 설정
-//                    if let index = listOfPills.firstIndex(where: { $0.title == pill.title && $0.intake == pill.intake && $0.dosage == pill.dosage }) {
-//                        print("index : ", index)
-//                        let updatedIndexPath = IndexPath(row: index, section: sectionIndex)
-//                        tableView.selectRow(at: updatedIndexPath, animated: false, scrollPosition: .none)
-////                        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-//                    }
                     tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
                 }
             }

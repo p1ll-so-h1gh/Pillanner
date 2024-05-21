@@ -209,10 +209,10 @@ extension SignUpViewController {
     }
     
     // 비밀번호 재입력 필드의 텍스트가 변경될 때마다 호출되는 메서드
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == passwordReTextField {
+    func TextField(_ TextField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if TextField == passwordReTextField {
             // 변경된 텍스트를 포함하여 비밀번호가 일치하는지 확인
-            let updatedString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
+            let updatedString = (TextField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
             let fullPassword = passwordTextField.text ?? ""
             let reenteredPassword = updatedString
             if fullPassword == reenteredPassword {
@@ -227,8 +227,8 @@ extension SignUpViewController {
                 availableSignUpFlag = false
             }
         }
-        if textField == passwordTextField {
-            let password = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
+        if TextField == passwordTextField {
+            let password = (TextField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
             if DataManager.shared.isValidPassword(password: password) {
                 passwordCheckLabel.text = "사용가능한 비밀번호입니다."
                 passwordCheckLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
@@ -257,34 +257,34 @@ extension SignUpViewController {
     }
     
     // 키보드 리턴 버튼 누를경우 키보드 숨김처리
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+    func TextFieldShouldReturn(_ TextField: UITextField) -> Bool {
+        TextField.resignFirstResponder()
         return true
     }
     
     // 텍스트필드 언더라인 활성화 메서드
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+    func TextFieldDidBeginEditing(_ TextField: UITextField) {
         UIView.animate(withDuration: 0.4) {
-            switch(textField) {
-            case self.idTextField : self.idTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.nameTextField : self.nameTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.passwordTextField : self.passwordTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.passwordReTextField : self.passwordReTextFieldUnderLine.setProgress(1.0, animated: true)
-            case self.phoneCertTextField : self.phoneCertTextFieldUnderLine.setProgress(1.0, animated: true)
+            switch(TextField) {
+            case self.idTextField : self.idTextFieldUnderline.setProgress(1.0, animated: true)
+            case self.nameTextField : self.nameTextFieldUnderline.setProgress(1.0, animated: true)
+            case self.passwordTextField : self.passwordTextFieldUnderline.setProgress(1.0, animated: true)
+            case self.passwordReTextField : self.passwordReTextFieldUnderline.setProgress(1.0, animated: true)
+            case self.phoneCertTextField : self.phoneCertTextFieldUnderline.setProgress(1.0, animated: true)
             default : break
             }
         }
     }
     
     // 텍스트필드 언더라인 비활성화 메서드
-    func textFieldDidEndEditing(_ textField: UITextField) {
+    func TextFieldDidEndEditing(_ TextField: UITextField) {
         UIView.animate(withDuration: 0.3) {
-            switch(textField) {
-            case self.idTextField : self.idTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.nameTextField : self.nameTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.passwordTextField : self.passwordTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.passwordReTextField : self.passwordReTextFieldUnderLine.setProgress(0.0, animated: true)
-            case self.phoneCertTextField : self.phoneCertTextFieldUnderLine.setProgress(0.0, animated: true)
+            switch(TextField) {
+            case self.idTextField : self.idTextFieldUnderline.setProgress(0.0, animated: true)
+            case self.nameTextField : self.nameTextFieldUnderline.setProgress(0.0, animated: true)
+            case self.passwordTextField : self.passwordTextFieldUnderline.setProgress(0.0, animated: true)
+            case self.passwordReTextField : self.passwordReTextFieldUnderline.setProgress(0.0, animated: true)
+            case self.phoneCertTextField : self.phoneCertTextFieldUnderline.setProgress(0.0, animated: true)
             default : break
             }
         }
