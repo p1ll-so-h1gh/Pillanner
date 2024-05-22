@@ -50,6 +50,7 @@ class IntakePillCell: UITableViewCell {
         }
     }
     
+    // 삭제 혹은 수정 기능을 사용할 수 있도록 만들어야 함
     @objc private func editButtonTapped() {
         // 구현 필요
     }

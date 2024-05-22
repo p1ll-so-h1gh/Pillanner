@@ -23,6 +23,8 @@ class IntakeAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     // 유저 입력을 저장할 변수
     var intake: String = ""
     
+    var savedIntake: [String] = []
+    
     private var timeSettingLabel: UILabel!
     private var selectedTimeLabel: UILabel!
     private var pickerContainerView: UIView!
@@ -41,11 +43,20 @@ class IntakeAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     let hours = Array(1...12).map { "\($0)" }
     let minutes = Array(0...59).map { String(format: "%02d", $0) }
     
+    init(savedIntake: [String]) {
+        self.savedIntake = savedIntake
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented.")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupUI()
-        self.navigationItem.title = "섭취횟수추가"
+        self.navigationItem.title = "복용 알람 추가"
         let textAttributes = [NSAttributedString.Key.font: FontLiteral.title3(style: .bold)]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
     }
@@ -63,7 +74,7 @@ class IntakeAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     
     private func setupSelectTimeButton() {
         selectTimeButton = UIButton(type: .system)
-        selectTimeButton.setTitle("섭취시간 선택", for: .normal)
+        selectTimeButton.setTitle("복용시간 선택", for: .normal)
         selectTimeButton.setTitleColor(.black, for: .normal)
         selectTimeButton.titleLabel?.font = FontLiteral.body(style: .regular)
         selectTimeButton.layer.borderWidth = 0
@@ -104,7 +115,7 @@ class IntakeAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
                 hour = 0
             }
 
-            let timeString = "\(hour):\(minute)"
+            let timeString = "\(hour):\(minute), (\(meridiem) \(hourString):\(minute))"
             self.intake = timeString
             selectedTimeDisplayLabel.text = timeString
         }
@@ -126,15 +137,35 @@ class IntakeAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         
         // 사용자 입력 데이터 처리
         let intakeData = self.intake
-        // delegate를 통해 데이터 전달 -> PillAdd 혹은 PillEditVC로 데이터 전달
-        delegate?.updateDataFromIntakeAddViewController(intake: intakeData)
-        // 현재 ViewController 닫기
-        navigationController?.popViewController(animated: true)
+        
+        // 추가하려는 알람의 시간이 중복되었을 때 알람을 추가할 수 없도록
+        if savedIntake.contains(intakeData) {
+            let duplicatedAlert: UIAlertController = {
+                let alert = UIAlertController(title: "알람 시간 중복", message: "이미 해당 시간에 알람이 설정되어 있습니다!", preferredStyle: .alert)
+                let editAction = UIAlertAction(title: "수정", style: .default)
+                alert.addAction(editAction)
+                return alert
+            }()
+            self.present(duplicatedAlert, animated: true)
+        } else if intakeData == "" {
+            let emptyAlert: UIAlertController = {
+                let alert = UIAlertController(title: "시간 입력 필요", message: "알람을 드릴 시간을 알려주세요!", preferredStyle: .alert)
+                let editAction = UIAlertAction(title: "확인", style: .default)
+                alert.addAction(editAction)
+                return alert
+            }()
+            self.present(emptyAlert, animated: true)
+        } else {
+            // delegate를 통해 데이터 전달 -> PillAdd 혹은 PillEditVC로 데이터 전달
+            delegate?.updateDataFromIntakeAddViewController(intake: intakeData)
+            // 현재 ViewController 닫기
+            navigationController?.popViewController(animated: true)
+        }
     }
     
     private func setupTimeSetting() {
         timeSettingLabel = UILabel()
-        timeSettingLabel.text = "섭취 시간을 설정하세요"
+        timeSettingLabel.text = "약을 복용하실 시간을 설정하세요"
         timeSettingLabel.font = FontLiteral.body(style: .bold)
         view.addSubview(timeSettingLabel)
         
