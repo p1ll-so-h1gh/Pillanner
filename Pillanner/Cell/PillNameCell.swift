@@ -8,19 +8,19 @@
 import UIKit
 import SnapKit
 
-protocol PillCellDelegate: AnyObject {
+protocol PillNameCellDelegate: AnyObject {
     func updatePillTitle(_ title: String)
 }
 
-final class PillCell: UITableViewCell {
+final class PillNameCell: UITableViewCell {
     
-    weak var delegate: PillCellDelegate?
+    weak var delegate: PillNameCellDelegate?
     private var onEditingProcess = false
     static let identifier = "PillCell"
     private let sidePaddingSizeValue = 20
     private var title = ""
     
-    private let pillnameLabel: UILabel = {
+    private let pillNameLabel: UILabel = {
         let label = UILabel()
         label.text = "제품명"
         label.font = FontLiteral.subheadline(style: .bold).withSize(18)
@@ -53,15 +53,15 @@ final class PillCell: UITableViewCell {
     func setupLayoutOnEditingProcess(title: String) {
         self.title = title
         self.pillNameTextField.text = title
-        self.contentView.addSubview(self.pillnameLabel)
+        self.contentView.addSubview(self.pillNameLabel)
         self.contentView.addSubview(self.pillNameTextField)
-        self.pillnameLabel.snp.makeConstraints {
+        self.pillNameLabel.snp.makeConstraints {
             $0.top.left.bottom.equalToSuperview().inset(sidePaddingSizeValue)
             $0.width.equalTo(50)
         }
         self.pillNameTextField.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(20)
-            $0.left.equalTo(self.pillnameLabel.snp.right).inset(-8)
+            $0.left.equalTo(self.pillNameLabel.snp.right).inset(-8)
             $0.trailing.equalToSuperview().inset(sidePaddingSizeValue)
         }
         delegate?.updatePillTitle(self.title)
