@@ -91,7 +91,7 @@
 		C4A55A052B999EEC0084AF16 /* SNSLogin_Kakao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A55A042B999EEC0084AF16 /* SNSLogin_Kakao.swift */; };
 		C4A55A072B99B9E40084AF16 /* SNSLogin_Apple.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A55A062B99B9E40084AF16 /* SNSLogin_Apple.swift */; };
 		CC16976F2B8DDA13008276B0 /* PillListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16976E2B8DDA12008276B0 /* PillListCollectionViewCell.swift */; };
-		CC16979A2B9021C0008276B0 /* PillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697992B9021C0008276B0 /* PillCell.swift */; };
+		CC16979A2B9021C0008276B0 /* PillNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1697992B9021C0008276B0 /* PillNameCell.swift */; };
 		CC16979C2B9021D2008276B0 /* IntakeDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16979B2B9021D2008276B0 /* IntakeDateCell.swift */; };
 		CC16979E2B9021F2008276B0 /* IntakeSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16979D2B9021F2008276B0 /* IntakeSettingCell.swift */; };
 		CC1697A02B90221B008276B0 /* PillTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC16979F2B90221B008276B0 /* PillTypeCell.swift */; };
@@ -153,7 +153,7 @@
 		C4A55A042B999EEC0084AF16 /* SNSLogin_Kakao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SNSLogin_Kakao.swift; sourceTree = "<group>"; };
 		C4A55A062B99B9E40084AF16 /* SNSLogin_Apple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SNSLogin_Apple.swift; sourceTree = "<group>"; };
 		CC16976E2B8DDA12008276B0 /* PillListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillListCollectionViewCell.swift; sourceTree = "<group>"; };
-		CC1697992B9021C0008276B0 /* PillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCell.swift; sourceTree = "<group>"; };
+		CC1697992B9021C0008276B0 /* PillNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillNameCell.swift; sourceTree = "<group>"; };
 		CC16979B2B9021D2008276B0 /* IntakeDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakeDateCell.swift; sourceTree = "<group>"; };
 		CC16979D2B9021F2008276B0 /* IntakeSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakeSettingCell.swift; sourceTree = "<group>"; };
 		CC16979F2B90221B008276B0 /* PillTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTypeCell.swift; sourceTree = "<group>"; };
@@ -444,7 +444,7 @@
 			isa = PBXGroup;
 			children = (
 				147505862BAEBBBB00A646AB /* ViewInCell */,
-				CC1697992B9021C0008276B0 /* PillCell.swift */,
+				CC1697992B9021C0008276B0 /* PillNameCell.swift */,
 				CCA6A7B82BB13EC700BC3800 /* AlarmCell.swift */,
 				CCA6A7BA2BB13EE800BC3800 /* IntakeNumberCell.swift */,
 				CC16979B2B9021D2008276B0 /* IntakeDateCell.swift */,
@@ -615,7 +615,7 @@
 				14F2CFB72B87080E007F354B /* CalendarViewController.swift in Sources */,
 				C45D904B2B95B03B00676CEA /* SignUpViewController.swift in Sources */,
 				C4346D8F2B8DA90D00110DEF /* UserData.swift in Sources */,
-				CC16979A2B9021C0008276B0 /* PillCell.swift in Sources */,
+				CC16979A2B9021C0008276B0 /* PillNameCell.swift in Sources */,
 				C40136A42B887D4500577C17 /* CAGradientLayer+Extension.swift in Sources */,
 				CC1697A02B90221B008276B0 /* PillTypeCell.swift in Sources */,
 				CC1697A32B90223D008276B0 /* DueDateCell.swift in Sources */,

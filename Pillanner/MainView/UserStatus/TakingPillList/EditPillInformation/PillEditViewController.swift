@@ -49,7 +49,7 @@ final class PillEditViewController: UIViewController {
     
     private let totalTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(PillCell.self, forCellReuseIdentifier: PillCell.identifier)
+        tableView.register(PillNameCell.self, forCellReuseIdentifier: PillNameCell.identifier)
         tableView.register(AlarmCell.self, forCellReuseIdentifier: AlarmCell.identifier)
         tableView.register(IntakeNumberCell.self, forCellReuseIdentifier: IntakeNumberCell.identifier)
         tableView.register(IntakeDateCell.self, forCellReuseIdentifier: IntakeDateCell.identifier)
@@ -146,7 +146,7 @@ final class PillEditViewController: UIViewController {
     
     // 키보드 리턴 버튼 누를경우 키보드 숨김처리
     func textFieldShouldReturn(_ textField: UITextField) {
-        if let pillCell = self.totalTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PillCell {
+        if let pillCell = self.totalTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PillNameCell {
             pillCell.hideKeyboard()
         }
     }
@@ -190,7 +190,7 @@ extension PillEditViewController: UITableViewDataSource, UITableViewDelegate {
         // 각 인덱스에 따라 다른 커스텀 셀 반환
         switch indexPath.row {
         case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PillCell", for: indexPath) as! PillCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PillCell", for: indexPath) as! PillNameCell
             cell.setupLayoutOnEditingProcess(title: self.oldPillDataForEdit.title)
             cell.delegate = self
             return cell
@@ -254,7 +254,7 @@ extension PillEditViewController: IntakeSettingDelegate {
     }
 }
 
-extension PillEditViewController:PillCellDelegate, AlarmCellDelegate,intakeNumberCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, IntakeAddDelegate {
+extension PillEditViewController:PillNameCellDelegate, AlarmCellDelegate,intakeNumberCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, IntakeAddDelegate {
     func updateAlarmStatus(status: Bool) {
         self.alarmStatusForEdit = status
         self.oldPillDataForEdit.alarmStatus = status

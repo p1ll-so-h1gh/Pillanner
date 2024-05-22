@@ -87,6 +87,7 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
         let textfield = UITextField()
         textfield.placeholder = "전화번호를 입력해주세요."
         textfield.font = FontLiteral.subheadline(style: .regular)
+        textfield.keyboardType = .numberPad
         return textfield
     }()
     
@@ -130,6 +131,7 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
         let textfield = UITextField()
         textfield.placeholder = "인증번호 6자리 입력"
         textfield.font = FontLiteral.subheadline(style: .regular)
+        textfield.keyboardType = .numberPad
         return textfield
     }()
     
