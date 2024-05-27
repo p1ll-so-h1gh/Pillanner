@@ -244,8 +244,9 @@ extension PillEditViewController: IntakeSettingDelegate {
     }
     
     func addIntake() {
-        let intakeAddVC = IntakeAddViewController(savedIntake: intakeForEdit)
+        let intakeAddVC = IntakeAddViewController()
         intakeAddVC.delegate = self
+        intakeAddVC.savedIntakeList = self.intakeForEdit
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(intakeAddVC, animated: true)
 //        let dosageNavVC = UINavigationController(rootViewController: dosageAddVC)

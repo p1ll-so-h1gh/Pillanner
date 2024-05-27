@@ -11,6 +11,8 @@ import SnapKit
 class IntakePillCell: UITableViewCell {
     private let sidePaddingValue = 6
     private let topPaddingValue = 10
+    private let buttonSize = 30
+    private var intake: String?
     static let identifier = "IntakePillCell"
     
     let timeLabel: UILabel = {
@@ -20,11 +22,24 @@ class IntakePillCell: UITableViewCell {
         return label
     }()
     
-    private let editButton: UIButton = {
+    lazy var editButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "dots"), for: .normal)
+        let edit = UIAction(title: "수정") { _ in
+            let intakeAddVC = IntakeAddViewController()
+            intakeAddVC.savedIntake = self.intake
+            // IntakeAddViewController로 이동하는 기능 추가 필요
+        }
+        let delete = UIAction(title: "삭제", attributes: .destructive) { _ in
+            //
+        }
+        let buttonMenus = UIMenu(children: [edit, delete])
+        button.menu = buttonMenus
+        button.showsMenuAsPrimaryAction = true
         return button
     }()
+    
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,6 +51,7 @@ class IntakePillCell: UITableViewCell {
     }
     
     func setupLayoutOnEditingProcess(intake: String) {
+        self.intake = intake
         self.timeLabel.text = "\(intake)"
         self.contentView.addSubview(timeLabel)
         self.contentView.addSubview(editButton)
@@ -45,6 +61,7 @@ class IntakePillCell: UITableViewCell {
             $0.left.equalToSuperview().inset(sidePaddingValue)
         }
         editButton.snp.makeConstraints {
+            $0.width.height.equalTo(buttonSize)
             $0.centerY.equalTo(timeLabel.snp.centerY)
             $0.right.equalToSuperview().inset(sidePaddingValue)
         }
