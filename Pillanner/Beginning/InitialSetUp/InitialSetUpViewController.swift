@@ -263,6 +263,7 @@ extension InitialSetUpViewController: IntakeSettingDelegate {
     func addIntake() {
         let intakeAddVC = IntakeAddViewController()
         intakeAddVC.delegate = self
+        intakeAddVC.savedIntakeList = intakeForAdd
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(intakeAddVC, animated: true)
     }
