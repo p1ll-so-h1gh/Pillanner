@@ -27,6 +27,8 @@ class IntakeAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     var savedIntakeList: [String]?
     // 알람 시간 수정을 위해 받을 데이터
     var savedIntake: String?
+    // IntakeAddViewController에 수정으로 접근했는지 분별하기 위한 플래그
+    var modifyFlag = false
     
     private var suggestionLabel: UILabel = {
         let label = UILabel()
@@ -42,7 +44,6 @@ class IntakeAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         var label = UILabel()
         label.text = ""
         label.font = FontLiteral.title3(style: .bold)
-//        label.isHidden = true
         label.textAlignment = .center
         return label
     }()
@@ -86,22 +87,22 @@ class IntakeAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         
         if let intakeData = savedIntake {
             self.intake = intakeData
+            self.modifyFlag = true
             print(intakeData)
         }
         if let intakeListData = savedIntakeList {
             self.savedIntakeList = intakeListData
             print(intakeListData)
         }
+        
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        
         setupViews()
-//        setupTimeSettingTapGesture()
     }
     
     private func setupViews() {
-        let buttonAndLabelSize = self.view.frame.height * 0.075
+        let buttonAndLabelSize = self.view.frame.height * 0.05
         let insetValue = self.view.frame.height * 0.02
         
         
@@ -192,7 +193,6 @@ class IntakeAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         }) { _ in
             self.timePickerView.isHidden = true
             self.confirmButton.isHidden = true
-//            self.selectedTimeLabel.isHidden = false
         }
     }
     
@@ -261,13 +261,6 @@ class IntakeAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             navigationController?.popViewController(animated: true)
         }
     }
-    
-    // suggestionLabel 눌러도 시간설정할 수 있도록 하는 제스처
-//    private func setupTimeSettingTapGesture() {
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(selectTimeButtonTapped))
-//        suggestionLabel.isUserInteractionEnabled = true
-//        suggestionLabel.addGestureRecognizer(tapGesture)
-//    }
     
     @objc(numberOfComponentsInPickerView:) func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 3

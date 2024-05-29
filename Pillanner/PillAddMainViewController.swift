@@ -88,7 +88,43 @@ final class PillAddMainViewController: UIViewController{
         navBackButton.tintColor = .black
         self.navigationItem.backBarButtonItem = navBackButton
         
+        NotificationCenter.default.addObserver(self, selector: #selector(intakeModifyButtonTapped(_:)), name: .intakeModifyButtonTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(intakeDeleteButtonTapped(_:)), name: .intakeDeleteButtonTapped, object: nil)
+        
         setupView()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // 복용 알람 수정, 삭제 버튼 터치 시
+    @objc func intakeModifyButtonTapped(_ notification: Notification) {
+        if let intake = notification.object as? String {
+            print(#function + "진입")
+            let intakeAddVC = IntakeAddViewController()
+            intakeAddVC.delegate = self
+            intakeAddVC.savedIntake = intake
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.pushViewController(intakeAddVC, animated: true)
+        }
+    }
+    
+    
+    @objc private func intakeDeleteButtonTapped(_ notification: Notification) {
+        if let intake = notification.object as? String {
+            let alert = UIAlertController(title: "알람 삭제", message: "해당 알람을 삭제하시겠습니까?", preferredStyle: .alert)
+            let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                for i in 0..<self.intakeForAdd.count {
+                    if self.intakeForAdd[i] == intake { self.intakeForAdd.remove(at: i) }
+                }
+                self.totalTableView.reloadData()
+            }
+            let reject = UIAlertAction(title: "취소", style: .default)
+            alert.addAction(delete)
+            alert.addAction(reject)
+            self.present(alert, animated: true)
+        }
     }
     
     // 추가버튼 눌렀을 떄, 알럿 및 화면 빠져나오기 기능 구현
@@ -243,10 +279,6 @@ extension PillAddMainViewController: UITableViewDataSource, UITableViewDelegate 
 }
 
 extension PillAddMainViewController: IntakeSettingDelegate {
-    func addIntakeWithData() {
-        // <#code#>
-    }
-    
     func addIntake() {
         let intakeAddVC = IntakeAddViewController()
         intakeAddVC.delegate = self
@@ -256,7 +288,29 @@ extension PillAddMainViewController: IntakeSettingDelegate {
     }
 }
 
-extension PillAddMainViewController: PillNameCellDelegate, AlarmCellDelegate,intakeNumberCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, IntakeAddDelegate {
+extension PillAddMainViewController: PillNameCellDelegate, AlarmCellDelegate,intakeNumberCellDelegate, IntakeDateCellDelegate, PillTypeCellDelegate ,DueDateCellDelegate, IntakeAddDelegate, IntakeAlarmDelegate {
+    func modifyIntakeAlarm(intake: String) {
+        print(#function + "진입")
+        let intakeAddVC = IntakeAddViewController()
+        intakeAddVC.delegate = self
+        intakeAddVC.savedIntake = intake
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.pushViewController(intakeAddVC, animated: true)
+    }
+    
+    func deleteIntakeAlarm(intake: String) {
+        let alert = UIAlertController(title: "알람 삭제", message: "해당 알람을 삭제하시겠습니까?", preferredStyle: .alert)
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            for i in 0..<self.intakeForAdd.count {
+                if self.intakeForAdd[i] == intake { self.intakeForAdd.remove(at: i) }
+            }
+            self.totalTableView.reloadData()
+        }
+        let reject = UIAlertAction(title: "취소", style: .default)
+        alert.addAction(delete)
+        alert.addAction(reject)
+        self.present(alert, animated: true)
+    }
     
     func updateUnit(unit: String) {
         self.dosageUnitForAdd = unit
