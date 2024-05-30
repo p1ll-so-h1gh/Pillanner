@@ -88,25 +88,30 @@ final class PillAddMainViewController: UIViewController{
         navBackButton.tintColor = .black
         self.navigationItem.backBarButtonItem = navBackButton
         
+        // 복용 알람 수정 삭제 옵저버 추가
         NotificationCenter.default.addObserver(self, selector: #selector(intakeModifyButtonTapped(_:)), name: .intakeModifyButtonTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(intakeDeleteButtonTapped(_:)), name: .intakeDeleteButtonTapped, object: nil)
         
         setupView()
     }
     
+    // 복용 알람 수정 삭제 옵저버 제거
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
     
     // 복용 알람 수정, 삭제 버튼 터치 시
-    @objc func intakeModifyButtonTapped(_ notification: Notification) {
+    @objc private func intakeModifyButtonTapped(_ notification: Notification) {
         if let intake = notification.object as? String {
             print(#function + "진입")
             let intakeAddVC = IntakeAddViewController()
             intakeAddVC.delegate = self
             intakeAddVC.savedIntake = intake
             for i in 0..<self.intakeForAdd.count {
-                if self.intakeForAdd[i] == intake { self.intakeForAdd.remove(at: i) }
+                if self.intakeForAdd[i] == intake { 
+                    self.intakeForAdd.remove(at: i)
+                    break
+                }
             }
             self.navigationController?.isNavigationBarHidden = false
             self.navigationController?.pushViewController(intakeAddVC, animated: true)
@@ -119,7 +124,10 @@ final class PillAddMainViewController: UIViewController{
             let alert = UIAlertController(title: "알람 삭제", message: "해당 알람을 삭제하시겠습니까?", preferredStyle: .alert)
             let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
                 for i in 0..<self.intakeForAdd.count {
-                    if self.intakeForAdd[i] == intake { self.intakeForAdd.remove(at: i) }
+                    if self.intakeForAdd[i] == intake {
+                        self.intakeForAdd.remove(at: i)
+                        break
+                    }
                 }
                 self.totalTableView.reloadData()
             }

@@ -108,7 +108,7 @@ class PillListCollectionViewCell: UICollectionViewCell {
                 }
             }
         }
-        let delete = UIAction(title: "삭제", state: .off) { _ in
+        let delete = UIAction(title: "삭제", attributes: .destructive) { _ in
             guard let pillName = self.nameLabel.text else { return }
             self.pillListViewDelegate?.deletePill(pillData: pillName)
         }
