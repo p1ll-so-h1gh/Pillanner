@@ -105,6 +105,9 @@ final class PillAddMainViewController: UIViewController{
             let intakeAddVC = IntakeAddViewController()
             intakeAddVC.delegate = self
             intakeAddVC.savedIntake = intake
+            for i in 0..<self.intakeForAdd.count {
+                if self.intakeForAdd[i] == intake { self.intakeForAdd.remove(at: i) }
+            }
             self.navigationController?.isNavigationBarHidden = false
             self.navigationController?.pushViewController(intakeAddVC, animated: true)
         }

@@ -50,7 +50,7 @@ class IntakePillCell: UITableViewCell {
     
     private func setupEditButton(intake: String) {
         let edit = UIAction(title: "수정") { _ in
-            print(#function)
+            print(#function, intake)
             self.delegate?.deleteIntakeAlarm(intake: intake)
             NotificationCenter.default.post(name: .intakeModifyButtonTapped, object: intake)
 //            if let intake = self.intake {
@@ -60,7 +60,7 @@ class IntakePillCell: UITableViewCell {
         }
         let delete = UIAction(title: "삭제", attributes: .destructive) { _ in
             self.delegate?.deleteIntakeAlarm(intake: intake)
-            print(#function)
+            print(#function, intake)
             NotificationCenter.default.post(name: .intakeDeleteButtonTapped, object: intake)
 //            if let intake = self.intake {
 //                print(#function)

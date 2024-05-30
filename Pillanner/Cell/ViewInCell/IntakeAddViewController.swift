@@ -27,7 +27,7 @@ class IntakeAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     var savedIntakeList: [String]?
     // 알람 시간 수정을 위해 받을 데이터
     var savedIntake: String?
-    // IntakeAddViewController에 수정으로 접근했는지 분별하기 위한 플래그
+    // IntakeAddViewController에 수정으로 접근했는지 분별하기 위한 플래그 -> 이거 해서 뭐할건데?? 구체화해야됨
     var modifyFlag = false
     
     private var suggestionLabel: UILabel = {
@@ -88,11 +88,12 @@ class IntakeAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         if let intakeData = savedIntake {
             self.intake = intakeData
             self.modifyFlag = true
-            print(intakeData)
+            self.selectedTimeLabel.text = intakeData
+            print("######", intakeData, modifyFlag)
         }
         if let intakeListData = savedIntakeList {
             self.savedIntakeList = intakeListData
-            print(intakeListData)
+            print("######", intakeListData)
         }
         
         super.viewDidLoad()
@@ -111,6 +112,7 @@ class IntakeAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         
         setupSaveButton()
+        setupBackButton()
         view.addSubview(suggestionLabel)
         view.addSubview(timeSelectionButton)
         view.addSubview(selectedTimeLabel)
@@ -163,6 +165,30 @@ class IntakeAddViewController: UIViewController, UIPickerViewDelegate, UIPickerV
                                               for: .normal)
         saveButtonItem.tintColor = UIColor.pointThemeColor
         self.navigationItem.rightBarButtonItem = saveButtonItem
+    }
+    
+    private func setupBackButton() {
+        let backButton = UIBarButtonItem(
+            image: UIImage(named: "backBtn"),
+            style: .plain,
+            target: self,
+            action: #selector(backButtonTapped)
+        )
+        self.navigationItem.leftBarButtonItem = backButton
+    }
+    
+    @objc private func backButtonTapped() {
+        print(#function)
+        if modifyFlag {
+            print(#function, modifyFlag)
+            if let savedIntake = self.savedIntake {
+                delegate?.updateDataFromIntakeAddViewController(intake: savedIntake)
+                navigationController?.popViewController(animated: true)
+            }
+        } else {
+            print(#function, modifyFlag)
+            navigationController?.popViewController(animated: true)
+        }
     }
     
     @objc private func selectTimeButtonTapped() {
