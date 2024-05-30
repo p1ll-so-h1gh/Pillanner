@@ -311,6 +311,7 @@ extension PillEditViewController:PillNameCellDelegate, AlarmCellDelegate,intakeN
         print(#function)
         self.intakeForEdit.append(intake)
         self.oldPillDataForEdit.intake.append(intake)
+        self.oldPillDataForEdit.intake = self.oldPillDataForEdit.intake.sorted()
         self.totalTableView.reloadData()
     }
     
@@ -343,6 +344,7 @@ extension PillEditViewController:PillNameCellDelegate, AlarmCellDelegate,intakeN
     func updateIntake(_ intake: String) {
         self.intakeForEdit.append(intake)
         self.oldPillDataForEdit.intake.append(intake)
+        self.oldPillDataForEdit.intake = self.oldPillDataForEdit.intake.sorted()
     }
     
     

@@ -333,6 +333,7 @@ extension PillAddMainViewController: PillNameCellDelegate, AlarmCellDelegate,int
     
     func updateDataFromIntakeAddViewController(intake: String) {
         self.intakeForAdd.append(intake)
+        self.intakeForAdd = self.intakeForAdd.sorted()
         self.totalTableView.reloadData()
     }
     
@@ -359,6 +360,7 @@ extension PillAddMainViewController: PillNameCellDelegate, AlarmCellDelegate,int
     
     func updateIntake(_ intake: String) {
         self.intakeForAdd.append(intake)
+        self.intakeForAdd = self.intakeForAdd.sorted()
     }
     
     func updateDueDateCellHeight() {

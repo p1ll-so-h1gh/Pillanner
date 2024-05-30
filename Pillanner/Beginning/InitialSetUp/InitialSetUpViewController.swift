@@ -323,6 +323,7 @@ extension InitialSetUpViewController: PillNameCellDelegate, AlarmCellDelegate,in
     
     func updateDataFromIntakeAddViewController(intake: String) {
         self.intakeForAdd.append(intake)
+        self.intakeForAdd = self.intakeForAdd.sorted()
         self.totalTableView.reloadData()
     }
     
@@ -349,6 +350,7 @@ extension InitialSetUpViewController: PillNameCellDelegate, AlarmCellDelegate,in
     
     func updateIntake(_ intake: String) {
         self.intakeForAdd.append(intake)
+        self.intakeForAdd = self.intakeForAdd.sorted()
     }
     
     func updateDueDateCellHeight() {
