@@ -17,7 +17,6 @@ import SnapKit
 
 protocol IntakeSettingDelegate: AnyObject {
     func addIntake()
-    func addIntakeWithData()
 }
 
 final class PillTableView: UITableView {
@@ -167,14 +166,12 @@ extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.goDosageAddVC()
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        self.goDosageAddVC()
+//    }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         tableView.invalidateIntrinsicContentSize()
         tableView.layoutIfNeeded()
     }
 }
-
-// 시간 옆에 꺾쇠말고 ...으로 바꾸기

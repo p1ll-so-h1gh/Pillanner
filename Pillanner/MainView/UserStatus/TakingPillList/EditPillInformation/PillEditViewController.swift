@@ -15,6 +15,7 @@ import SwiftUI
 final class PillEditViewController: UIViewController {
     
     private let sidePaddingSizeValue = 20
+    private let componentsInset = 10
     private let cornerRadiusValue: CGFloat = 13
     
     private var titleForEdit = String()
@@ -80,8 +81,8 @@ final class PillEditViewController: UIViewController {
     init(pill: Pill) {
         self.oldPillDataForEdit = pill
         self.originalPillTitle = pill.title
-        super.init(nibName: nil, bundle: nil)
         
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -101,7 +102,54 @@ final class PillEditViewController: UIViewController {
         navigationBackButton.tintColor = .black
         self.navigationItem.backBarButtonItem = navigationBackButton
         
+        // 복용 알람 수정 삭제 옵저버 추가
+        NotificationCenter.default.addObserver(self, selector: #selector(intakeModifyButtonTapped(_:)), name: .intakeModifyButtonTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(intakeDeleteButtonTapped(_:)), name: .intakeDeleteButtonTapped, object: nil)
+        
         setupView()
+    }
+    
+    // 복용 알람 수정 삭제 옵저버 제거
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // 복용 알람 수정, 삭제 버튼 터치 시
+    @objc private func intakeModifyButtonTapped(_ notification: Notification) {
+        if let intake = notification.object as? String {
+            print(#function + "진입")
+            let intakeAddVC = IntakeAddViewController()
+            intakeAddVC.delegate = self
+            intakeAddVC.savedIntake = intake
+            for i in 0..<self.oldPillDataForEdit.intake.count {
+                if self.oldPillDataForEdit.intake[i] == intake { 
+                    self.oldPillDataForEdit.intake.remove(at: i)
+                    break
+                }
+            }
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.pushViewController(intakeAddVC, animated: true)
+        }
+    }
+    
+    
+    @objc private func intakeDeleteButtonTapped(_ notification: Notification) {
+        if let intake = notification.object as? String {
+            let alert = UIAlertController(title: "알람 삭제", message: "해당 알람을 삭제하시겠습니까?", preferredStyle: .alert)
+            let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                for i in 0..<self.oldPillDataForEdit.intake.count {
+                    if self.oldPillDataForEdit.intake[i] == intake { 
+                        self.oldPillDataForEdit.intake.remove(at: i)
+                        break
+                    }
+                }
+                self.totalTableView.reloadData()
+            }
+            let reject = UIAlertAction(title: "취소", style: .default)
+            alert.addAction(delete)
+            alert.addAction(reject)
+            self.present(alert, animated: true)
+        }
     }
     
     @objc func dismissView() {
@@ -161,10 +209,10 @@ final class PillEditViewController: UIViewController {
         }
         backButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(sidePaddingSizeValue)
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(componentsInset)
         }
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(componentsInset)
             $0.centerX.equalToSuperview()
         }
         totalTableView.snp.makeConstraints {
@@ -239,19 +287,12 @@ extension PillEditViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension PillEditViewController: IntakeSettingDelegate {
-    func addIntakeWithData() {
-//        <#code#>
-    }
-    
     func addIntake() {
         let intakeAddVC = IntakeAddViewController()
         intakeAddVC.delegate = self
         intakeAddVC.savedIntakeList = self.intakeForEdit
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.pushViewController(intakeAddVC, animated: true)
-//        let dosageNavVC = UINavigationController(rootViewController: dosageAddVC)
-//        dosageNavVC.modalPresentationStyle = .fullScreen
-//        self.present(dosageNavVC, animated: true)
     }
 }
 
@@ -270,6 +311,7 @@ extension PillEditViewController:PillNameCellDelegate, AlarmCellDelegate,intakeN
         print(#function)
         self.intakeForEdit.append(intake)
         self.oldPillDataForEdit.intake.append(intake)
+        self.oldPillDataForEdit.intake = self.oldPillDataForEdit.intake.sorted()
         self.totalTableView.reloadData()
     }
     
@@ -301,6 +343,8 @@ extension PillEditViewController:PillNameCellDelegate, AlarmCellDelegate,intakeN
     
     func updateIntake(_ intake: String) {
         self.intakeForEdit.append(intake)
+        self.oldPillDataForEdit.intake.append(intake)
+        self.oldPillDataForEdit.intake = self.oldPillDataForEdit.intake.sorted()
     }
     
     
