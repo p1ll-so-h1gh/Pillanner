@@ -17,7 +17,7 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
     var selectedWeekdays = Set<Int>()
     var selectedWeekdaysInString = [String]()
     
-    let weekdays = ["월요일마다", "화요일마다", "수요일마다", "목요일마다", "금요일마다", "토요일마다", "일요일마다"]
+    let weekdays = ["월요일마다", "화요일마다", "수요일마다", "목요일마다", "금요일마다", "토요일마다", "일요일마다", "매일"]
     private var pageTitleLabel: UILabel!
     
     init(selectedWeekdaysInString: [String]) {
@@ -32,7 +32,7 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .primaryBackgroundColor
-        self.navigationItem.title = "반복"
+        self.navigationItem.title = "섭취 요일 선택"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: FontLiteral.title3(style: .bold)]
         presentSelectedWeekday(array: self.selectedWeekdaysInString)
         setupTableView()
@@ -63,6 +63,7 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
     
+    // 선택된 요일을 화면에 표시할 수 있도록 하는 함수
     func presentSelectedWeekday(array: [String]) {
         for selectedWeekday in array {
             if selectedWeekday == "Mon" {
@@ -88,7 +89,7 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60 // 셀 높이 설정
+        return self.view.frame.height * 0.08 // 셀 높이 설정
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -99,12 +100,22 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if self.selectedWeekdays.contains(indexPath.row) {
-            self.selectedWeekdays.remove(indexPath.row)
+        if indexPath.row == 7 {
+            if self.selectedWeekdays == [0, 1, 2, 3, 4, 5, 6] {
+                self.selectedWeekdays = []
+            } else {
+                self.selectedWeekdays = [0, 1, 2, 3, 4, 5, 6]
+            }
         } else {
-            self.selectedWeekdays.insert(indexPath.row)
+            if self.selectedWeekdays.contains(indexPath.row) {
+                self.selectedWeekdays.remove(indexPath.row)
+            } else {
+                self.selectedWeekdays.insert(indexPath.row)
+            }
         }
-        tableView.reloadRows(at: [indexPath], with: .fade)
+        print(self.selectedWeekdays)
+//        tableView.reloadRows(at: [indexPath], with: .fade)
+        tableView.reloadData()
     }
     
     // 로직 수정
@@ -138,10 +149,10 @@ class WeekdaySelectionViewController: UIViewController, UITableViewDelegate, UIT
 }
 
 class WeekdayTableViewCell: UITableViewCell {
-    
     let containerView = UIView()
     let weekdayLabel = UILabel()
     let paddingView = UIView()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupLayout()
@@ -158,8 +169,7 @@ class WeekdayTableViewCell: UITableViewCell {
             make.edges.equalToSuperview()
         }
     }
-    
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -185,12 +195,13 @@ class WeekdayTableViewCell: UITableViewCell {
     }
     
     func configure(with weekday: String, isSelected: Bool) {
+        weekdayLabel.textAlignment = .center
         weekdayLabel.text = weekday
         weekdayLabel.font = FontLiteral.subheadline(style: .regular)
-        
-        UIView.animate(withDuration: 0.3) {
-            self.containerView.backgroundColor = isSelected ? UIColor.pointThemeColor2 : .white
-        }
+        self.containerView.backgroundColor = isSelected ? UIColor.pointThemeColor2 : .white
+//        UIView.animate(withDuration: 0.3) {
+//            self.containerView.backgroundColor = isSelected ? UIColor.pointThemeColor2 : .white
+//        }
     }
 }
 
