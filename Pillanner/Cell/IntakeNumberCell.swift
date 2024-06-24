@@ -46,6 +46,7 @@ final class IntakeNumberCell: UITableViewCell {
         textfield.placeholder = "복용량 개수 입력"
         textfield.textAlignment = .center
         textfield.addTarget(self, action: #selector(textFieldDidChanged), for: .editingChanged)
+        textfield.keyboardType = .numberPad
         return textfield
     }()
     

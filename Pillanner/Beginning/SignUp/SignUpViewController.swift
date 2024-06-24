@@ -24,14 +24,29 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
     var availableSignUpFlag: Bool = false // 회원가입 가능 여부를 판별하는 변수. true : 가입 가능, false : 가입 불가능
     
     private let sidePaddingValue = 20
-    private let topPaddingValue = 40
+    private let paddingBetweenComponents = 40
     private let buttonHeightValue = 35
+    private let paddingBetweenLabelAndTextField = 5
 
     private lazy var backButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(named: "leftmove")?.withRenderingMode(.alwaysOriginal).withTintColor(.black),
-                                     style: .plain, target: self, action: #selector(dismissView))
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(dismissView)
+        )
         return button
     }()
+    
+    // moduled components
+    let textfieldUnderline: UIProgressView = {
+        let line = UIProgressView(progressViewStyle: .bar)
+        line.trackTintColor = .lightGray
+        line.progressTintColor = .systemBlue
+        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
+        return line
+    }()
+    
+    
 
     let idLabel: UILabel = {
         let label = UILabel()
@@ -47,7 +62,9 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
         return textfield
     }()
     
-    let idTextFieldUnderLine: UIProgressView = {
+//    lazy var idTextFieldUnderline = self.textfieldUnderline
+    
+    let idTextFieldUnderline: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
         line.progressTintColor = .systemBlue
@@ -84,7 +101,9 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
         return textfield
     }()
     
-    let nameTextFieldUnderLine: UIProgressView = {
+//    lazy var nameTextFieldUnderline = textfieldUnderline
+    
+    let nameTextFieldUnderline: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
         line.progressTintColor = .systemBlue
@@ -114,7 +133,9 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
         return button
     }()
     
-    let passwordTextFieldUnderLine: UIProgressView = {
+//    lazy var passwordTextFieldUnderline = textfieldUnderline
+
+    let passwordTextFieldUnderline: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
         line.progressTintColor = .systemBlue
@@ -149,7 +170,9 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
         return button
     }()
     
-    let passwordReTextFieldUnderLine: UIProgressView = {
+//    lazy var passwordReTextFieldUnderline = textfieldUnderline
+    
+    let passwordReTextFieldUnderline: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
         line.progressTintColor = .systemBlue
@@ -173,10 +196,13 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
         let textfield = UITextField()
         textfield.placeholder = "전화번호를 입력해주세요."
         textfield.font = FontLiteral.subheadline(style: .regular)
+        textfield.keyboardType = .numberPad
         return textfield
     }()
     
-    let phoneCertTextFieldUnderLine: UIProgressView = {
+//    lazy var phoneCertTextFieldUnderline = textfieldUnderline
+    
+    let phoneCertTextFieldUnderline: UIProgressView = {
         let line = UIProgressView(progressViewStyle: .bar)
         line.trackTintColor = .lightGray
         line.progressTintColor = .systemBlue
@@ -216,6 +242,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
         let textfield = UITextField()
         textfield.placeholder = "인증번호 6자리 입력"
         textfield.font = FontLiteral.subheadline(style: .regular)
+        textfield.keyboardType = .numberPad
         return textfield
     }()
     
@@ -282,28 +309,28 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
         view.addSubview(idLabel)
         view.addSubview(idTextField)
         view.addSubview(idCheckButton)
-        view.addSubview(idTextFieldUnderLine)
+        view.addSubview(idTextFieldUnderline)
         view.addSubview(idCheckLabel)
         
         view.addSubview(nameLabel)
         view.addSubview(nameTextField)
-        view.addSubview(nameTextFieldUnderLine)
+        view.addSubview(nameTextFieldUnderline)
         
         view.addSubview(passwordLabel)
         view.addSubview(passwordTextField)
         view.addSubview(passwordToggleButton)
-        view.addSubview(passwordTextFieldUnderLine)
+        view.addSubview(passwordTextFieldUnderline)
         view.addSubview(passwordCheckLabel)
         
         view.addSubview(passwordReLabel)
         view.addSubview(passwordReTextField)
         view.addSubview(passwordReToggleButton)
-        view.addSubview(passwordReTextFieldUnderLine)
+        view.addSubview(passwordReTextFieldUnderline)
         view.addSubview(passwordCorrectLabel)
         
         view.addSubview(phoneCertLabel)
         view.addSubview(phoneCertTextField)
-        view.addSubview(phoneCertTextFieldUnderLine)
+        view.addSubview(phoneCertTextFieldUnderline)
         view.addSubview(getCertNumberButton)
         view.addSubview(ifPhoneNumberIsEmptyLabel)
         
@@ -320,49 +347,49 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
     
     private func setUpConstraint() {
         idLabel.snp.makeConstraints({
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(topPaddingValue)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(paddingBetweenComponents)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         idTextField.snp.makeConstraints({
-            $0.top.equalTo(idLabel.snp.bottom).offset(5)
+            $0.top.equalTo(idLabel.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(idCheckButton.snp.left).offset(-10)
         })
         idCheckButton.snp.makeConstraints({
-            $0.centerY.equalTo(idTextField.snp.centerY).offset(-5)
+            $0.centerY.equalTo(idTextField.snp.centerY).offset(-paddingBetweenLabelAndTextField)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
             $0.width.equalTo(100)
             $0.height.equalTo(buttonHeightValue)
         })
-        idTextFieldUnderLine.snp.makeConstraints({
+        idTextFieldUnderline.snp.makeConstraints({
             $0.top.equalTo(idTextField.snp.bottom).offset(5)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.width.equalTo(idTextField.snp.width)
         })
         idCheckLabel.snp.makeConstraints({
-            $0.top.equalTo(idTextFieldUnderLine.snp.bottom).offset(1)
+            $0.top.equalTo(idTextFieldUnderline.snp.bottom).offset(1)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         nameLabel.snp.makeConstraints({
-            $0.top.equalTo(idTextField.snp.bottom).offset(topPaddingValue)
+            $0.top.equalTo(idTextField.snp.bottom).offset(paddingBetweenComponents)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         nameTextField.snp.makeConstraints({
-            $0.top.equalTo(nameLabel.snp.bottom).offset(5)
+            $0.top.equalTo(nameLabel.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
-        nameTextFieldUnderLine.snp.makeConstraints({
+        nameTextFieldUnderline.snp.makeConstraints({
             $0.top.equalTo(nameTextField.snp.bottom).offset(5)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
         passwordLabel.snp.makeConstraints({
-            $0.top.equalTo(nameTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
+            $0.top.equalTo(nameTextFieldUnderline.snp.bottom).offset(paddingBetweenComponents)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         passwordTextField.snp.makeConstraints({
-            $0.top.equalTo(passwordLabel.snp.bottom).offset(5)
+            $0.top.equalTo(passwordLabel.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
@@ -371,21 +398,21 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
             $0.width.height.equalTo(20)
         })
-        passwordTextFieldUnderLine.snp.makeConstraints({
+        passwordTextFieldUnderline.snp.makeConstraints({
             $0.top.equalTo(passwordTextField.snp.bottom).offset(5)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
         passwordCheckLabel.snp.makeConstraints({
-            $0.top.equalTo(passwordTextFieldUnderLine.snp.bottom).offset(1)
+            $0.top.equalTo(passwordTextFieldUnderline.snp.bottom).offset(1)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         passwordReLabel.snp.makeConstraints({
-            $0.top.equalTo(passwordTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
+            $0.top.equalTo(passwordTextFieldUnderline.snp.bottom).offset(paddingBetweenComponents)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         passwordReTextField.snp.makeConstraints({
-            $0.top.equalTo(passwordReLabel.snp.bottom).offset(5)
+            $0.top.equalTo(passwordReLabel.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
@@ -394,25 +421,25 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
             $0.width.height.equalTo(20)
         })
-        passwordReTextFieldUnderLine.snp.makeConstraints({
+        passwordReTextFieldUnderline.snp.makeConstraints({
             $0.top.equalTo(passwordReTextField.snp.bottom).offset(5)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
         passwordCorrectLabel.snp.makeConstraints({
-            $0.top.equalTo(passwordReTextFieldUnderLine.snp.bottom).offset(1)
+            $0.top.equalTo(passwordReTextFieldUnderline.snp.bottom).offset(1)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         phoneCertLabel.snp.makeConstraints({
-            $0.top.equalTo(passwordReTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
+            $0.top.equalTo(passwordReTextFieldUnderline.snp.bottom).offset(paddingBetweenComponents)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         phoneCertTextField.snp.makeConstraints({
-            $0.top.equalTo(phoneCertLabel.snp.bottom).offset(5)
+            $0.top.equalTo(phoneCertLabel.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(getCertNumberButton.snp.left).offset(-10)
         })
-        phoneCertTextFieldUnderLine.snp.makeConstraints({
+        phoneCertTextFieldUnderline.snp.makeConstraints({
             $0.top.equalTo(phoneCertTextField.snp.bottom).offset(5)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.width.equalTo(phoneCertTextField.snp.width)
@@ -424,11 +451,11 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
             $0.height.equalTo(buttonHeightValue)
         })
         ifPhoneNumberIsEmptyLabel.snp.makeConstraints({
-            $0.top.equalTo(phoneCertTextFieldUnderLine.snp.bottom).offset(1)
+            $0.top.equalTo(phoneCertTextFieldUnderline.snp.bottom).offset(1)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         certUIView.snp.makeConstraints({
-            $0.top.equalTo(phoneCertTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
+            $0.top.equalTo(phoneCertTextFieldUnderline.snp.bottom).offset(paddingBetweenComponents)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
@@ -459,3 +486,4 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
         })
     }
 }
+

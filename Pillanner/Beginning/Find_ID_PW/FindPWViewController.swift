@@ -15,7 +15,8 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
     var availableFindPWFlag: Bool = false // 번호인증이 완료 될 경우 true 값으로 전환.
     
     private let sidePaddingValue = 20
-    private let topPaddingValue = 40
+    private let paddingBetweenComponents = 40
+    private let paddingBetweenLabelAndTextField = 5
     
     private lazy var backButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "xmark")?.withRenderingMode(.alwaysOriginal).withTintColor(.black),
@@ -86,6 +87,7 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
         let textfield = UITextField()
         textfield.placeholder = "전화번호를 입력해주세요."
         textfield.font = FontLiteral.subheadline(style: .regular)
+        textfield.keyboardType = .numberPad
         return textfield
     }()
     
@@ -129,6 +131,7 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
         let textfield = UITextField()
         textfield.placeholder = "인증번호 6자리 입력"
         textfield.font = FontLiteral.subheadline(style: .regular)
+        textfield.keyboardType = .numberPad
         return textfield
     }()
     
@@ -211,46 +214,46 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
     private func setUpConstraint() {
         // 이름 입력부분
         nameLabel.snp.makeConstraints({
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(topPaddingValue)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(paddingBetweenComponents)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         nameTextField.snp.makeConstraints({
-            $0.top.equalTo(nameLabel.snp.bottom).offset(5)
+            $0.top.equalTo(nameLabel.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
         nameTextFieldUnderLine.snp.makeConstraints({
-            $0.top.equalTo(nameTextField.snp.bottom).offset(5)
+            $0.top.equalTo(nameTextField.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.width.equalTo(nameTextField.snp.width)
         })
         // 아이디 입력부분
         idLabel.snp.makeConstraints({
-            $0.top.equalTo(nameTextField.snp.bottom).offset(topPaddingValue)
+            $0.top.equalTo(nameTextField.snp.bottom).offset(paddingBetweenComponents)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         idTextField.snp.makeConstraints({
-            $0.top.equalTo(idLabel.snp.bottom).offset(5)
+            $0.top.equalTo(idLabel.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })
         idTextFieldUnderLine.snp.makeConstraints({
-            $0.top.equalTo(idTextField.snp.bottom).offset(5)
+            $0.top.equalTo(idTextField.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.width.equalTo(idTextField.snp.width)
         })
         // 휴대전화번호 인증부분
         phoneCertLabel.snp.makeConstraints({
-            $0.top.equalTo(idTextField.snp.bottom).offset(topPaddingValue)
+            $0.top.equalTo(idTextField.snp.bottom).offset(paddingBetweenComponents)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
         })
         phoneCertTextField.snp.makeConstraints({
-            $0.top.equalTo(phoneCertLabel.snp.bottom).offset(5)
+            $0.top.equalTo(phoneCertLabel.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(getCertNumberButton.snp.left).offset(-10)
         })
         phoneCertTextFieldUnderLine.snp.makeConstraints({
-            $0.top.equalTo(phoneCertTextField.snp.bottom).offset(5)
+            $0.top.equalTo(phoneCertTextField.snp.bottom).offset(paddingBetweenLabelAndTextField)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.width.equalTo(phoneCertTextField.snp.width)
         })
@@ -265,7 +268,7 @@ class FindPWViewController: UIViewController, UITextFieldDelegate {
         })
         // 인증번호 입력부분
         certUIView.snp.makeConstraints({
-            $0.top.equalTo(phoneCertTextFieldUnderLine.snp.bottom).offset(topPaddingValue)
+            $0.top.equalTo(phoneCertTextFieldUnderLine.snp.bottom).offset(paddingBetweenComponents)
             $0.left.equalTo(view.safeAreaLayoutGuide).offset(sidePaddingValue)
             $0.right.equalTo(view.safeAreaLayoutGuide).offset(-sidePaddingValue)
         })

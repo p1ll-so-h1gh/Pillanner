@@ -12,6 +12,9 @@ class CheckPillCell: UITableViewCell {
     var isSelectedCell: Bool = false
     private var pill: Pill?
     
+    private let horizontalPadding = 20.0
+    private let verticalPadding = 10.0
+    
     // MARK: - Properties
     
     private let pillImage: UIImageView = {
@@ -145,38 +148,38 @@ class CheckPillCell: UITableViewCell {
     private func setupConstraint() {
         pillImage.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(horizontalPadding)
             $0.width.height.equalTo(30)
         }
         
         nameLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview().offset(-13)
-            $0.leading.equalTo(pillImage.snp.trailing).offset(20)
+            $0.leading.equalTo(pillImage.snp.trailing).offset(horizontalPadding)
         }
         
         countDosageLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview().offset(13)
-            $0.leading.equalTo(pillImage.snp.trailing).offset(20)
+            $0.leading.equalTo(pillImage.snp.trailing).offset(horizontalPadding)
         }
         
         dosageLabel.snp.makeConstraints {
             $0.centerY.equalTo(countDosageLabel)
-            $0.leading.equalTo(countDosageLabel.snp.trailing).offset(10)
+            $0.leading.equalTo(countDosageLabel.snp.trailing).offset(horizontalPadding * 0.5)
         }
         
         takingTimeLabel.snp.makeConstraints {
             $0.centerY.equalTo(countDosageLabel)
-            $0.leading.equalTo(dosageLabel.snp.trailing).offset(15)
+            $0.leading.equalTo(dosageLabel.snp.trailing).offset(horizontalPadding * 0.75)
         }
         
         timeLabel.snp.makeConstraints {
             $0.centerY.equalTo(countDosageLabel)
-            $0.leading.equalTo(takingTimeLabel.snp.trailing).offset(10)
+            $0.leading.equalTo(takingTimeLabel.snp.trailing).offset(horizontalPadding * 0.5)
         }
         
         typeLabelView.snp.makeConstraints {
             $0.centerY.equalTo(nameLabel)
-            $0.leading.equalTo(nameLabel.snp.trailing).offset(15)
+            $0.leading.equalTo(nameLabel.snp.trailing).offset(horizontalPadding * 0.75)
             $0.width.equalTo(50)
             $0.height.equalTo(nameLabel)
         }
@@ -187,7 +190,7 @@ class CheckPillCell: UITableViewCell {
         
         checkmarkImage.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().offset(-30)
+            $0.trailing.equalToSuperview().offset(-horizontalPadding * 1.5)
             $0.width.height.equalTo(20)
         }
     }

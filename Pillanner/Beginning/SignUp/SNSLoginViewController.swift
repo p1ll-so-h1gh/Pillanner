@@ -9,12 +9,14 @@ import UIKit
 import SnapKit
 import FirebaseAuth
 
+
 class SNSLoginViewController: UIViewController, UITextFieldDelegate {
     
     lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
     
     private let sidePaddingValue = 20
     private let paddingBetweenComponents = 30
+    private let buttonHeight = 50
     
     //MARK: - UI Property 선언부
     private let pillannerFlagImage: UIImageView = {
@@ -88,11 +90,11 @@ class SNSLoginViewController: UIViewController, UITextFieldDelegate {
     private func setConstraints() {
         pillannerFlagImage.snp.makeConstraints{
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(150)
+            $0.top.equalToSuperview().offset(self.view.frame.height * 0.33)
         }
         setNameLabel.snp.makeConstraints{
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(pillannerFlagImage.snp.bottom).offset(30)
+            $0.top.equalTo(pillannerFlagImage.snp.bottom).offset(paddingBetweenComponents)
         }
         setNameTextField.snp.makeConstraints{
             $0.left.equalToSuperview().offset(sidePaddingValue)
@@ -102,8 +104,8 @@ class SNSLoginViewController: UIViewController, UITextFieldDelegate {
         setNameButton.snp.makeConstraints({
             $0.left.equalToSuperview().offset(sidePaddingValue)
             $0.right.equalToSuperview().offset(-sidePaddingValue)
-            $0.bottom.equalToSuperview().offset(-50)
-            $0.height.equalTo(50)
+            $0.bottom.equalToSuperview().offset(-self.view.frame.height * 0.1)
+            $0.height.equalTo(buttonHeight)
         })
     }
     

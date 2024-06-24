@@ -16,6 +16,12 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     var currentNonce: String?
     private let sidePaddingValue = 20
     private let paddingBetweenComponents = 30
+    private let stackSpacing = 20.0
+    private let borderlineThickness = 1.0
+    private let autoLoginButtonSize = 25
+    private let socialLoginButtonSize = 30
+    private let socialLoginButtonPaddingValue = 50
+    private let loginButtonHeight = 50
     
     lazy var gradientLayer = CAGradientLayer.dayBackgroundLayer(view: view)
     
@@ -121,7 +127,6 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     private let signInStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.spacing = 20.0
         return stack
     }()
     
@@ -156,7 +161,6 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     private let findStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.spacing = 20.0
         return stack
     }()
     
@@ -217,22 +221,26 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     }
     
     private func setUpSize() {
-        pillannerFlagImage.frame.size.width = self.view.frame.width * 0.4
-        pillannerFlagImage.frame.size.height = self.view.frame.height * 0.1
+//        pillannerFlagImage.frame.size.width = self.view.frame.width * 0.4
+//        pillannerFlagImage.frame.size.height = self.view.frame.height * 0.1
         idTextfield.frame.size.width = self.view.frame.width * 0.9
         idTextfield.frame.size.height = self.view.frame.height * 0.03
         idTextfield.layer.addBorder([.bottom], color: UIColor.lightGray, width: 1.0)
         pwdTextfield.frame.size.width = self.view.frame.width * 0.9
         pwdTextfield.frame.size.height = self.view.frame.height * 0.03
         pwdTextfield.layer.addBorder([.bottom], color: UIColor.lightGray, width: 1.0)
-        loginButton.frame.size.width = self.view.frame.width * 0.8
-        loginButton.frame.size.height = self.view.frame.height * 0.15
+//        loginButton.frame.size.width = self.view.frame.width * 0.8
+//        loginButton.frame.size.height = self.view.frame.height * 0.15
     }
     
     private func setConstraints() {
+        
+        signInStack.spacing = self.stackSpacing
+        findStack.spacing = self.stackSpacing
+        
         pillannerFlagImage.snp.makeConstraints{
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(150)
+            $0.top.equalToSuperview().offset(0.18 * view.frame.height)
         }
         idTextfield.snp.makeConstraints{
             $0.top.equalTo(pillannerFlagImage.snp.bottom).offset(paddingBetweenComponents)
@@ -247,40 +255,39 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             $0.centerX.equalTo(self.view.snp.centerX)
         }
         autoLoginButton.snp.makeConstraints{
-            $0.width.height.equalTo(25)
+            $0.width.height.equalTo(autoLoginButtonSize)
             $0.top.equalTo(pwdTextfield.snp.bottom).offset(paddingBetweenComponents)
             $0.leading.equalToSuperview().offset(sidePaddingValue)
         }
         autoLoginLabel.snp.makeConstraints{
             $0.centerY.equalTo(autoLoginButton.snp.centerY)
-            $0.leading.equalTo(autoLoginButton.snp.trailing).offset(paddingBetweenComponents)
-            $0.leading.equalTo(autoLoginButton.snp.trailing).offset(10)
+            $0.leading.equalTo(autoLoginButton.snp.trailing).offset(autoLoginButtonSize / 2)
         }
         loginButton.snp.makeConstraints{
             $0.top.equalTo(autoLoginLabel.snp.bottom).offset(paddingBetweenComponents)
             $0.centerX.equalToSuperview()
             $0.leading.equalToSuperview().offset(sidePaddingValue)
             $0.trailing.equalToSuperview().offset(-sidePaddingValue)
-            $0.height.equalTo(50)
+            $0.height.equalTo(loginButtonHeight)
         }
         socialLoginLabel.snp.makeConstraints{
             $0.top.equalTo(loginButton.snp.bottom).offset(paddingBetweenComponents)
             $0.centerX.equalToSuperview()
         }
         appleLoginButton.snp.makeConstraints{
-            $0.width.height.equalTo(30)
+            $0.width.height.equalTo(socialLoginButtonSize)
             $0.top.equalTo(socialLoginLabel.snp.bottom).offset(1.5 * Double(paddingBetweenComponents))
-            $0.trailing.equalTo(kakaoLoginButton.snp.leading).offset(-50)
+            $0.trailing.equalTo(kakaoLoginButton.snp.leading).offset(-socialLoginButtonPaddingValue)
         }
         kakaoLoginButton.snp.makeConstraints{
-            $0.width.height.equalTo(30)
+            $0.width.height.equalTo(socialLoginButtonSize)
             $0.top.equalTo(socialLoginLabel.snp.bottom).offset(1.5 * Double(paddingBetweenComponents))
             $0.centerX.equalToSuperview()
         }
         naverLoginButton.snp.makeConstraints{
-            $0.width.height.equalTo(30)
+            $0.width.height.equalTo(socialLoginButtonSize)
             $0.top.equalTo(socialLoginLabel.snp.bottom).offset(1.5 * Double(paddingBetweenComponents))
-            $0.leading.equalTo(kakaoLoginButton.snp.trailing).offset(50)
+            $0.leading.equalTo(kakaoLoginButton.snp.trailing).offset(socialLoginButtonPaddingValue)
         }
         signInStack.snp.makeConstraints{
             $0.top.equalTo(appleLoginButton.snp.bottom).offset(paddingBetweenComponents)

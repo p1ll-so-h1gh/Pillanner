@@ -169,7 +169,8 @@ extension FindPWViewController {
         self.certNumberTextField.text = ""
     }
     
-    // 아이디 찾기 버튼
+    // 비밀번호 찾기 버튼
+    // 비밀번호 찾았을 때, 바로 보여주는 방법보다는 새로운 비밀번호를 설정할 수 있도록 하는 편이 나을 듯
     @objc func findPWButtonTapped() {
         // 인증번호 확인 완료 시
         if availableFindPWFlag {
@@ -191,7 +192,7 @@ extension FindPWViewController {
                     snsAlert.addAction(okAction)
                     self.present(snsAlert, animated: true)
                 } else if userPW != "sns" && userName == self.nameTextField.text! {
-                    let pwAlert = UIAlertController(title: "ID 찾기", message: "회원님의 비밀번호는 [\(userPW)]입니다.", preferredStyle: .alert)
+                    let pwAlert = UIAlertController(title: "PW 찾기", message: "회원님의 비밀번호는 [\(userPW)]입니다.", preferredStyle: .alert)
                     let okAction = UIAlertAction(title: "확인", style: .default, handler: { _ in
                         self.dismissView()
                     })

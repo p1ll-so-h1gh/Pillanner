@@ -17,7 +17,6 @@ import SnapKit
 
 protocol IntakeSettingDelegate: AnyObject {
     func addIntake()
-    func addIntakeWithData()
 }
 
 final class PillTableView: UITableView {
@@ -86,7 +85,7 @@ final class IntakeSettingCell: UITableViewCell {
     
     private lazy var intakeAddButton: UIButton = {
         let button = UIButton()
-        button.setTitle("섭취 횟수 추가하기", for: .normal)
+        button.setTitle("복용 알람 추가하기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         button.frame = CGRect(x: 0, y: 0, width: 439, height: 45)
         button.addTarget(self, action: #selector(goDosageAddVC), for: .touchUpInside)
@@ -111,7 +110,7 @@ final class IntakeSettingCell: UITableViewCell {
     
     func setupLayoutOnEditingProcess(intake: [String]) {
         
-        self.infoLabel.text = "섭취횟수 \(intake.count)회"
+        self.infoLabel.text = "복용 횟수 \(intake.count)회"
         self.intake = intake
         
         self.contentView.addSubview(titleLabel)
@@ -167,14 +166,12 @@ extension IntakeSettingCell: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.goDosageAddVC()
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        self.goDosageAddVC()
+//    }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         tableView.invalidateIntrinsicContentSize()
         tableView.layoutIfNeeded()
     }
 }
-
-// 시간 옆에 꺾쇠말고 ...으로 바꾸기

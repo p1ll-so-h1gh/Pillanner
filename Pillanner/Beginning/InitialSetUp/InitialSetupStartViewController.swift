@@ -10,6 +10,7 @@ import SnapKit
 
 class InitialSetupStartViewController: UIViewController {
     var userNickName: String = ""
+    private let componentsInset = 20
     
     init(nickName: String) {
         super.init(nibName: nil, bundle: nil)
@@ -50,14 +51,16 @@ class InitialSetupStartViewController: UIViewController {
         characterImageView1.snp.makeConstraints { make in
             make.bottom.equalTo(view.snp.centerY).offset(50)
             make.left.equalTo(view).offset(20)
-            make.height.equalTo(225)
-            make.width.equalTo(200)
+//            make.height.equalTo(225)
+//            make.width.equalTo(200)
+            make.width.height.equalTo(self.view.frame.width * 0.4)
         }
         
         characterImageView2.snp.makeConstraints { make in
             make.top.equalTo(view.snp.centerY).offset(20)
             make.right.equalTo(view).offset(-20)
-            make.width.height.equalTo(250)
+//            make.width.height.equalTo(250)
+            make.width.height.equalTo(self.view.frame.width * 0.4)
         }
     }
     
@@ -77,13 +80,13 @@ class InitialSetupStartViewController: UIViewController {
         view.addSubview(descriptionLabel)
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(40)
-            make.left.right.equalTo(view).inset(20)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(self.view.frame.height * 0.1)
+            make.left.right.equalTo(view).inset(componentsInset)
         }
         
         descriptionLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(20)
-            make.left.right.equalTo(view).inset(20)
+            make.left.right.equalTo(view).inset(componentsInset)
         }
     }
     
@@ -98,8 +101,8 @@ class InitialSetupStartViewController: UIViewController {
         view.addSubview(startButton)
         
         startButton.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-40)
-            make.left.right.equalTo(view).inset(20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-self.view.frame.height * 0.1)
+            make.left.right.equalTo(view).inset(componentsInset)
             make.height.equalTo(50)
         }
     }
