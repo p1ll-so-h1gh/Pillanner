@@ -354,7 +354,7 @@ extension UserSettingViewController: UITableViewDataSource, UITableViewDelegate 
         case .appInfo:
             cell.titleLabel.text = "버전 정보"
             // MARK: - Version Info
-            cell.versionLabel.text = "1.0.3" // 예시 버전 정보
+            cell.versionLabel.text = "1.0.4" // 예시 버전 정보
             cell.pageButton.isHidden = true
         }
         return cell

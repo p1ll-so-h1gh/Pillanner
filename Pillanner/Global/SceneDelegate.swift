@@ -33,7 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let startVC = CustomLaunchScreenViewController()
         
         // 특정 뷰 테스트 코드
-//        let startVC = FindIDViewController()
+//        let startVC = SignUpViewController()
         
         window?.rootViewController = startVC
         window?.makeKeyAndVisible()

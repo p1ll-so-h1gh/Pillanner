@@ -62,15 +62,15 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
         return textfield
     }()
     
-    lazy var idTextFieldUnderline = self.textfieldUnderline
+//    lazy var idTextFieldUnderline = self.textfieldUnderline
     
-//    let idTextFieldUnderLine: UIProgressView = {
-//        let line = UIProgressView(progressViewStyle: .bar)
-//        line.trackTintColor = .lightGray
-//        line.progressTintColor = .systemBlue
-//        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
-//        return line
-//    }()
+    let idTextFieldUnderline: UIProgressView = {
+        let line = UIProgressView(progressViewStyle: .bar)
+        line.trackTintColor = .lightGray
+        line.progressTintColor = .systemBlue
+        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
+        return line
+    }()
     
     let idCheckButton: UIButton = {
         let button = UIButton(type: .system)
@@ -101,15 +101,15 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
         return textfield
     }()
     
-    lazy var nameTextFieldUnderline = textfieldUnderline
+//    lazy var nameTextFieldUnderline = textfieldUnderline
     
-//    let nameTextFieldUnderLine: UIProgressView = {
-//        let line = UIProgressView(progressViewStyle: .bar)
-//        line.trackTintColor = .lightGray
-//        line.progressTintColor = .systemBlue
-//        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
-//        return line
-//    }()
+    let nameTextFieldUnderline: UIProgressView = {
+        let line = UIProgressView(progressViewStyle: .bar)
+        line.trackTintColor = .lightGray
+        line.progressTintColor = .systemBlue
+        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
+        return line
+    }()
     
     let passwordLabel: UILabel = {
         let label = UILabel()
@@ -133,15 +133,15 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
         return button
     }()
     
-    lazy var passwordTextFieldUnderline = textfieldUnderline
+//    lazy var passwordTextFieldUnderline = textfieldUnderline
 
-//    let passwordTextFieldUnderLine: UIProgressView = {
-//        let line = UIProgressView(progressViewStyle: .bar)
-//        line.trackTintColor = .lightGray
-//        line.progressTintColor = .systemBlue
-//        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
-//        return line
-//    }()
+    let passwordTextFieldUnderline: UIProgressView = {
+        let line = UIProgressView(progressViewStyle: .bar)
+        line.trackTintColor = .lightGray
+        line.progressTintColor = .systemBlue
+        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
+        return line
+    }()
     
     let passwordCheckLabel: UILabel = {
         let label = UILabel()
@@ -170,15 +170,15 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
         return button
     }()
     
-    lazy var passwordReTextFieldUnderline = textfieldUnderline
+//    lazy var passwordReTextFieldUnderline = textfieldUnderline
     
-//    let passwordReTextFieldUnderLine: UIProgressView = {
-//        let line = UIProgressView(progressViewStyle: .bar)
-//        line.trackTintColor = .lightGray
-//        line.progressTintColor = .systemBlue
-//        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
-//        return line
-//    }()
+    let passwordReTextFieldUnderline: UIProgressView = {
+        let line = UIProgressView(progressViewStyle: .bar)
+        line.trackTintColor = .lightGray
+        line.progressTintColor = .systemBlue
+        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
+        return line
+    }()
     
     let passwordCorrectLabel: UILabel = {
         let label = UILabel()
@@ -200,15 +200,15 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, KeyboardEvent
         return textfield
     }()
     
-    lazy var phoneCertTextFieldUnderline = textfieldUnderline
+//    lazy var phoneCertTextFieldUnderline = textfieldUnderline
     
-//    let phoneCertTextFieldUnderLine: UIProgressView = {
-//        let line = UIProgressView(progressViewStyle: .bar)
-//        line.trackTintColor = .lightGray
-//        line.progressTintColor = .systemBlue
-//        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
-//        return line
-//    }()
+    let phoneCertTextFieldUnderline: UIProgressView = {
+        let line = UIProgressView(progressViewStyle: .bar)
+        line.trackTintColor = .lightGray
+        line.progressTintColor = .systemBlue
+        line.transform = CGAffineTransform(scaleX: 1.0, y: 0.5)
+        return line
+    }()
     
     let getCertNumberButton: UIButton = {
         let button = UIButton(type: .system)
